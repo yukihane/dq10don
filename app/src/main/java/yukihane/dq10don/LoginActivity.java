@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -27,6 +28,10 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        CookieManager.getInstance().removeAllCookie();
+
+        String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
+
         // トークンアプリがインストールされていなければ(intentを受け取れるアプリが存在しないなら)　ボタンをdisableに
         // 参考: https://developer.android.com/training/basics/intents/sending.html
         Intent otpIntent = createOtpIntent();
@@ -43,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new LoginView());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1");
+        webView.loadUrl(url);
     }
 
     private Intent createOtpIntent() {
@@ -79,7 +84,7 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            Log.d("methodcalled", "onPageFinished");
+            Log.d("methodcalled", "onPageFinished: " + url);
             super.onPageFinished(view, url);
         }
     }
