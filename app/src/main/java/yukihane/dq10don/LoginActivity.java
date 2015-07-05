@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
@@ -32,17 +34,6 @@ public class LoginActivity extends ActionBarActivity {
 
         String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
 
-        // トークンアプリがインストールされていなければ(intentを受け取れるアプリが存在しないなら)　ボタンをdisableに
-        // 参考: https://developer.android.com/training/basics/intents/sending.html
-        Intent otpIntent = createOtpIntent();
-
-        PackageManager packageManager = getPackageManager();
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(otpIntent, 0);
-        boolean isIntentSafe = activities.size() > 0;
-
-        Button button = (Button) findViewById(R.id.launchOtpButton);
-        button.setEnabled(isIntentSafe);
-
         webView = (WebView) findViewById(R.id.loginWebView);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
@@ -51,14 +42,44 @@ public class LoginActivity extends ActionBarActivity {
         webView.loadUrl(url);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // トークンアプリがインストールされていなければ(intentを受け取れるアプリが存在しないなら)　ボタンをdisableに
+        // 参考: https://developer.android.com/training/basics/intents/sending.html
+        Intent otpIntent = createOtpIntent();
+
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(otpIntent, 0);
+        boolean isIntentSafe = activities.size() > 0;
+
+        if (isIntentSafe) {
+            getMenuInflater().inflate(R.menu.menu_login, menu);
+            return true;
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_tokenapp) {
+            Intent intent = createOtpIntent();
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private Intent createOtpIntent() {
         Uri uri = Uri.parse("sqextoken://appviewotp");
         return new Intent(Intent.ACTION_VIEW, uri);
-    }
-
-    public void launchOtpApp(View view) {
-        Intent intent = createOtpIntent();
-        startActivity(intent);
     }
 
     private class LoginView extends WebViewClient {
