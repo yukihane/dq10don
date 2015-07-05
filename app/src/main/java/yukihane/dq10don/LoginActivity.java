@@ -3,20 +3,20 @@ package yukihane.dq10don;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -39,6 +39,7 @@ public class LoginActivity extends ActionBarActivity {
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new LoginView());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new LoginJsonParser(), "HTMLOUT");
         webView.loadUrl(url);
     }
 
@@ -85,29 +86,29 @@ public class LoginActivity extends ActionBarActivity {
     private class LoginView extends WebViewClient {
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d("methodcalled", "shouldOverrideUrlLoading");
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode,
-                                    String description, String failingUrl) {
-            Log.d("methodcalled", "onReceivedError");
-            super.onReceivedError(view, errorCode, description, failingUrl);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            Log.d("methodcalled", "onPageStarted");
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
         public void onPageFinished(WebView view, String url) {
-            Log.d("methodcalled", "onPageFinished: " + url);
+
+            if (url.startsWith("https://happy.dqx.jp/capi/login/securelogin/")) {
+                Log.d("methodcalled", "onPageFinished: " + url);
+                webView.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+
             super.onPageFinished(view, url);
         }
     }
 
+    private class LoginJsonParser {
+
+        private final Pattern pattern = Pattern.compile("\\{.+\\}");
+
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        public void processHTML(String html) {
+            Matcher matcher = pattern.matcher(html);
+            if (matcher.find()) {
+                String res = matcher.group();
+                Log.d("result", res);
+            }
+        }
+    }
 }
