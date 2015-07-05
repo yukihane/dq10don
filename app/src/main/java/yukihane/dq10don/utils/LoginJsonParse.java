@@ -5,28 +5,32 @@ import android.webkit.JavascriptInterface;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginJsonParse {
 
+    private static final String TAG = "LoginJsonParse";
     private static final Pattern PATTERN = Pattern.compile("\\{.+\\}");
 
+    private final Logger logger = LoggerFactory.getLogger(LoginJsonParse.class);
     private LoginAccountDto result;
 
     @JavascriptInterface
-    @SuppressWarnings("unused")
-    public void processHTML(String json) {
+    public void processHTML(String html) {
         try {
-            Matcher matcher = PATTERN.matcher(json);
+            Matcher matcher = PATTERN.matcher(html);
             if (matcher.find()) {
-                String res = matcher.group();
+                String jsonText = matcher.group();
                 ObjectMapper mapper = new ObjectMapper();
-                LoginAccountDto dto = mapper.readValue(json, LoginAccountDto.class);
+                result = mapper.readValue(jsonText, LoginAccountDto.class);
             }
         } catch (IOException e) {
-            Log.e("exception", "JSON parse failed.", e);
+            logger.error("parse error", e);
         }
     }
 
