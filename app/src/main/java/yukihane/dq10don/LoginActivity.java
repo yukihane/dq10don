@@ -10,13 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import yukihane.dq10don.utils.LoginJsonParse;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -39,7 +38,7 @@ public class LoginActivity extends ActionBarActivity {
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new LoginView());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new LoginJsonParser(), "HTMLOUT");
+        webView.addJavascriptInterface(new LoginJsonParse(), "HTMLOUT");
         webView.loadUrl(url);
     }
 
@@ -94,21 +93,6 @@ public class LoginActivity extends ActionBarActivity {
             }
 
             super.onPageFinished(view, url);
-        }
-    }
-
-    private class LoginJsonParser {
-
-        private final Pattern pattern = Pattern.compile("\\{.+\\}");
-
-        @JavascriptInterface
-        @SuppressWarnings("unused")
-        public void processHTML(String html) {
-            Matcher matcher = pattern.matcher(html);
-            if (matcher.find()) {
-                String res = matcher.group();
-                Log.d("result", res);
-            }
         }
     }
 }
