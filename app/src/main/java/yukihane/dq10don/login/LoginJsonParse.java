@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 public class LoginJsonParse {
 
-    private static final String TAG = "LoginJsonParse";
     private static final Pattern PATTERN = Pattern.compile("\\{.+\\}");
 
     private final Logger logger = LoggerFactory.getLogger(LoginJsonParse.class);
