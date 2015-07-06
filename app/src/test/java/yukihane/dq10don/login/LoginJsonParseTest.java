@@ -16,9 +16,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import yukihane.dq10don.login.LoginAccountDto;
-import yukihane.dq10don.login.LoginJsonParse;
-
 /**
  * Created by yuki on 15/07/05.
  */
@@ -30,7 +27,7 @@ public class LoginJsonParseTest {
     @BeforeClass
     public static void beforeClass() throws IOException, URISyntaxException {
 
-        URI file = LoginJsonParseTest.class.getClassLoader().getResource("oauth.json").toURI();
+        URI file = LoginJsonParseTest.class.getClassLoader().getResource("login_success.json").toURI();
 
         try (FileReader reader = new FileReader(new File(file))) {
             BufferedReader br = new BufferedReader(reader);
