@@ -21,27 +21,39 @@ import java.util.List;
  */
 public class LoginJsonParseTest {
 
-    private static String json;
+    private static String jsonSuccess;
+    private static String jsonFail = "{\"resultCode\":999}";
+    private static String jsonError = "<html><head></head><body>login error</body></html>";
 
+    /**
+     * ファイルの最初の1行を読み込みます.
+     *
+     * @param filename 読み込むファイル名
+     * @return 読み込んだ内容
+     */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    @BeforeClass
-    public static void beforeClass() throws IOException, URISyntaxException {
+    private static String readLine(String filename) throws URISyntaxException, IOException {
 
-        URI file = LoginJsonParseTest.class.getClassLoader().getResource("login_success.json").toURI();
+        URI file = LoginJsonParseTest.class.getClassLoader().getResource(filename).toURI();
 
         try (FileReader reader = new FileReader(new File(file))) {
             BufferedReader br = new BufferedReader(reader);
-            json = br.readLine();
+            return br.readLine();
         }
+    }
+
+    @BeforeClass
+    public static void beforeClass() throws IOException, URISyntaxException {
+        jsonSuccess = readLine("login_success.json");
     }
 
     /**
      * JSONが想定通りPOJOに変換されるかのテスト
      */
     @Test
-    public void testProcessHTML() throws Exception {
+    public void testLoginSuccess() throws Exception {
         LoginJsonParse parse = new LoginJsonParse();
-        parse.processHTML(json);
+        parse.processHTML(jsonSuccess);
         LoginAccountDto result = parse.getResult();
 
         assertEquals(1, result.getAccountType());
@@ -65,5 +77,25 @@ public class LoginJsonParseTest {
         assertEquals("ZZ777-777", c3.getSmileUniqueNo());
         assertEquals(6666666L, c3.getWebPcNo());
 
+    }
+
+    /**
+     * ログイン失敗した場合のjsonが帰ってきた場合のテストケース.
+     * 実際にどのようなものが帰ってくるかわからないので, resultCodeが非0であると想定しています.
+     */
+    @Test
+    public void testLoginFail() {
+        LoginJsonParse parse = new LoginJsonParse();
+        parse.processHTML(jsonFail);
+        LoginAccountDto result = parse.getResult();
+        assertEquals(999, result.getResultCode());
+    }
+
+    @Test
+    public void testLoginError() {
+        LoginJsonParse parse = new LoginJsonParse();
+        parse.processHTML(jsonError);
+        LoginAccountDto result = parse.getResult();
+        assertNull(result);
     }
 }
