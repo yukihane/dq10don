@@ -6,7 +6,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -18,8 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import yukihane.dq10don.login.LoginAccountDto;
-import yukihane.dq10don.login.LoginJsonParse;
+import yukihane.dq10don.login.JsonLogin;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -29,7 +27,7 @@ public class LoginActivity extends ActionBarActivity {
     private final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 
     private WebView webView;
-    private LoginJsonParse parser;
+    private JsonLogin parser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +39,8 @@ public class LoginActivity extends ActionBarActivity {
 
         String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
 
-        parser = new LoginJsonParse(dto -> {
-            if (dto != null) {
+        parser = new JsonLogin(res -> {
+            if (res != null) {
                 logger.info("login success");
             } else {
                 logger.error("login information read error.");
