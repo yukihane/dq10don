@@ -52,30 +52,31 @@ public class LoginJsonParseTest {
      */
     @Test
     public void testLoginSuccess() throws Exception {
-        LoginJsonParse parse = new LoginJsonParse();
+        LoginJsonParse parse = new LoginJsonParse(result -> {
+            assertEquals(1, result.getAccountType());
+            assertEquals("dummy_cisuserid", result.getCisuserid());
+            assertEquals(0, result.getResultCode());
+            assertEquals("sessionid_dummy", result.getSessionId());
+
+            List<CharacterDto> cList = result.getCharacterList();
+            assertEquals(3, cList.size());
+
+            CharacterDto c1 = cList.get(0);
+            assertEquals(c1.getCharacterName(), "キャラ名1");
+            assertTrue(c1.getIconUrl().startsWith("http"));
+            assertEquals(c1.getJob(), "レンジャー");
+
+            CharacterDto c2 = cList.get(1);
+            assertEquals(3, c2.getJobId());
+            assertEquals(56, c2.getLv());
+
+            CharacterDto c3 = cList.get(2);
+            assertEquals("ZZ777-777", c3.getSmileUniqueNo());
+            assertEquals(6666666L, c3.getWebPcNo());
+        });
+
         parse.processHTML(jsonSuccess);
-        LoginAccountDto result = parse.getResult();
 
-        assertEquals(1, result.getAccountType());
-        assertEquals("dummy_cisuserid", result.getCisuserid());
-        assertEquals(0, result.getResultCode());
-        assertEquals("sessionid_dummy", result.getSessionId());
-
-        List<CharacterDto> cList = result.getCharacterList();
-        assertEquals(3, cList.size());
-
-        CharacterDto c1 = cList.get(0);
-        assertEquals(c1.getCharacterName(), "キャラ名1");
-        assertTrue(c1.getIconUrl().startsWith("http"));
-        assertEquals(c1.getJob(), "レンジャー");
-
-        CharacterDto c2 = cList.get(1);
-        assertEquals(3, c2.getJobId());
-        assertEquals(56, c2.getLv());
-
-        CharacterDto c3 = cList.get(2);
-        assertEquals("ZZ777-777", c3.getSmileUniqueNo());
-        assertEquals(6666666L, c3.getWebPcNo());
 
     }
 
@@ -85,17 +86,13 @@ public class LoginJsonParseTest {
      */
     @Test
     public void testLoginFail() {
-        LoginJsonParse parse = new LoginJsonParse();
+        LoginJsonParse parse = new LoginJsonParse(result -> assertEquals(999, result.getResultCode()));
         parse.processHTML(jsonFail);
-        LoginAccountDto result = parse.getResult();
-        assertEquals(999, result.getResultCode());
     }
 
     @Test
     public void testLoginError() {
-        LoginJsonParse parse = new LoginJsonParse();
+        LoginJsonParse parse = new LoginJsonParse(result -> assertNull(result));
         parse.processHTML(jsonError);
-        LoginAccountDto result = parse.getResult();
-        assertNull(result);
     }
 }
