@@ -13,8 +13,12 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
+import yukihane.dq10don.login.LoginAccountDto;
 import yukihane.dq10don.login.LoginJsonParse;
 
 
@@ -22,7 +26,10 @@ public class LoginActivity extends ActionBarActivity {
 
     private static final String OAUTH_URL = "https://secure.square-enix.com/oauth/oa/";
 
+    private final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
+
     private WebView webView;
+    private LoginJsonParse parser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +41,21 @@ public class LoginActivity extends ActionBarActivity {
 
         String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
 
+        parser = new LoginJsonParse(dto -> {
+            if (dto != null) {
+                logger.info("login success");
+            } else {
+                logger.error("login information read error.");
+            }
+            finish();
+        });
+
         webView = (WebView) findViewById(R.id.loginWebView);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new LoginView());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new LoginJsonParse(), "HTMLOUT");
+        webView.addJavascriptInterface(parser, "HTMLOUT");
         webView.loadUrl(url);
     }
 
@@ -86,7 +102,7 @@ public class LoginActivity extends ActionBarActivity {
         public void onPageFinished(WebView view, String url) {
 
             if (url.startsWith("https://happy.dqx.jp/capi/login/securelogin/")) {
-                Log.d("methodcalled", "onPageFinished: " + url);
+                logger.debug("methodcalled", "onPageFinished: {}", url);
                 webView.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
             }
 
