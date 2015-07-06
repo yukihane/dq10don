@@ -29,6 +29,7 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // セッション情報が残っていると前回のログインを引き継いでしまうためログイン処理が行えない
         CookieManager.getInstance().removeAllCookie();
 
         String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
@@ -44,7 +45,7 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // トークンアプリがインストールされていなければ(intentを受け取れるアプリが存在しないなら)　ボタンをdisableに
+        // トークンアプリがインストールされていなければ(intentを受け取れるアプリが存在しないなら)ボタンをdisableに
         // 参考: https://developer.android.com/training/basics/intents/sending.html
         Intent otpIntent = createOtpIntent();
 
@@ -62,12 +63,9 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_tokenapp) {
             Intent intent = createOtpIntent();
             startActivity(intent);
