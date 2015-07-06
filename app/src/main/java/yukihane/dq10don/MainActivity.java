@@ -1,12 +1,25 @@
 package yukihane.dq10don;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import yukihane.dq10don.login.LoginAccountDto;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +47,29 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onLoginClick(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        logger.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
+
+        try {
+            if (data != null) {
+                String json = data.getStringExtra("result");
+                logger.info("LOGIN success: {}", json);
+                LoginAccountDto dto = LoginAccountDto.fromJson(json);
+            } else {
+                logger.error("LOGIN fail");
+            }
+        } catch (IOException e) {
+            logger.error("parse error", e);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
