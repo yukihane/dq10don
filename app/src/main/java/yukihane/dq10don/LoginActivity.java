@@ -42,8 +42,12 @@ public class LoginActivity extends ActionBarActivity {
         parser = new JsonLogin(res -> {
             if (res != null) {
                 logger.info("login success");
+                Intent intent = new Intent();
+                intent.putExtra("result", res);
+                setResult(RESULT_OK, intent);
             } else {
                 logger.error("login information read error.");
+                setResult(RESULT_OK);
             }
             finish();
         });

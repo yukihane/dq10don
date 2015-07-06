@@ -29,7 +29,6 @@ public class LoginAccountDtoTest {
     private static String jsonSuccess;
     private static String jsonFail = "{\"resultCode\":999}";
     private static String jsonError = "<html><head></head><body>login error</body></html>";
-    private ObjectMapper mapper;
 
     /**
      * ファイルの最初の1行を読み込みます.
@@ -53,17 +52,12 @@ public class LoginAccountDtoTest {
         jsonSuccess = readLine("login_success.json");
     }
 
-    @Before
-    public void before() {
-        mapper = new ObjectMapper();
-    }
-
     /**
      * JSONが想定通りPOJOに変換されるかのテスト
      */
     @Test
     public void testSuccess() throws Exception {
-        LoginAccountDto result = mapper.readValue(jsonSuccess, LoginAccountDto.class);
+        LoginAccountDto result = LoginAccountDto.fromJson(jsonSuccess);
 
         assertEquals(1, result.getAccountType());
         assertEquals("dummy_cisuserid", result.getCisuserid());
@@ -93,12 +87,12 @@ public class LoginAccountDtoTest {
      */
     @Test
     public void testFail() throws IOException {
-        LoginAccountDto result = mapper.readValue(jsonFail, LoginAccountDto.class);
+        LoginAccountDto result = LoginAccountDto.fromJson(jsonFail);
         assertEquals(999, result.getResultCode());
     }
 
     @Test(expected = IOException.class)
     public void testLoginError() throws IOException {
-        LoginAccountDto result = mapper.readValue(jsonError, LoginAccountDto.class);
+        LoginAccountDto result = LoginAccountDto.fromJson(jsonError);
     }
 }

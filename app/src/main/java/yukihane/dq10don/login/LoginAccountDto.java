@@ -1,5 +1,9 @@
 package yukihane.dq10don.login;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +19,11 @@ public class LoginAccountDto {
     private int resultCode;
     private String sessionId;
     private int slotSize;
+
+    public static LoginAccountDto fromJson(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, LoginAccountDto.class);
+    }
 
     public int getAccountType() {
         return accountType;
