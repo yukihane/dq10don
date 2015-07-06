@@ -1,6 +1,5 @@
-package yukihane.dq10don.utils;
+package yukihane.dq10don.login;
 
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

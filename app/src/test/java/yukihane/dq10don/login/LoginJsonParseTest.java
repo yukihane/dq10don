@@ -1,11 +1,9 @@
-package yukihane.dq10don.utils;
+package yukihane.dq10don.login;
 
 import static org.junit.Assert.*;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,10 +11,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+
+import yukihane.dq10don.login.LoginAccountDto;
+import yukihane.dq10don.login.LoginJsonParse;
 
 /**
  * Created by yuki on 15/07/05.

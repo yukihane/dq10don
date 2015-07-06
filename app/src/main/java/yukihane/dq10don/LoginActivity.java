@@ -15,7 +15,7 @@ import android.webkit.WebViewClient;
 
 import java.util.List;
 
-import yukihane.dq10don.utils.LoginJsonParse;
+import yukihane.dq10don.login.LoginJsonParse;
 
 
 public class LoginActivity extends ActionBarActivity {
