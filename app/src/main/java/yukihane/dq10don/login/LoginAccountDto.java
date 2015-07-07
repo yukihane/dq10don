@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.CharacterDto;
+import yukihane.dq10don.communication.dto.LoginCharacterDto;
 
 /**
  * Created by yuki on 15/07/05.
@@ -14,7 +14,7 @@ import yukihane.dq10don.communication.dto.CharacterDto;
 public class LoginAccountDto {
     private int accountType;
 
-    private List<CharacterDto> characterList = new ArrayList<>();
+    private List<LoginCharacterDto> characterList = new ArrayList<>();
 
     private String cisuserid;
     private int resultCode;
@@ -34,11 +34,11 @@ public class LoginAccountDto {
         this.accountType = accountType;
     }
 
-    public List<CharacterDto> getCharacterList() {
+    public List<LoginCharacterDto> getCharacterList() {
         return characterList;
     }
 
-    public void setCharacterList(List<CharacterDto> characterList) {
+    public void setCharacterList(List<LoginCharacterDto> characterList) {
         this.characterList = characterList;
     }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.CharacterDto;
+import yukihane.dq10don.communication.dto.LoginCharacterDto;
 import yukihane.dq10don.login.LoginAccountDto;
 
 /**
@@ -20,7 +20,7 @@ public class Account {
         this.sessionId = dto.getSessionId();
         this.characters = new ArrayList<>(dto.getCharacterList().size());
 
-        for(CharacterDto cdto : dto.getCharacterList()){
+        for(LoginCharacterDto cdto : dto.getCharacterList()){
             characters.add(Character.from(cdto));
         }
     }

@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.CharacterDto;
+import yukihane.dq10don.communication.dto.LoginCharacterDto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -62,19 +62,19 @@ public class LoginAccountDtoTest {
         assertEquals(0, result.getResultCode());
         assertEquals("sessionid_dummy", result.getSessionId());
 
-        List<CharacterDto> cList = result.getCharacterList();
+        List<LoginCharacterDto> cList = result.getCharacterList();
         assertEquals(3, cList.size());
 
-        CharacterDto c1 = cList.get(0);
+        LoginCharacterDto c1 = cList.get(0);
         assertEquals(c1.getCharacterName(), "キャラ名1");
         assertTrue(c1.getIconUrl().startsWith("http"));
         assertEquals(c1.getJob(), "レンジャー");
 
-        CharacterDto c2 = cList.get(1);
+        LoginCharacterDto c2 = cList.get(1);
         assertEquals(3, c2.getJobId());
         assertEquals(56, c2.getLv());
 
-        CharacterDto c3 = cList.get(2);
+        LoginCharacterDto c3 = cList.get(2);
         assertEquals("ZZ777-777", c3.getSmileUniqueNo());
         assertEquals(6666666L, c3.getWebPcNo());
     }
