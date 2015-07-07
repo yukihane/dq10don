@@ -45,7 +45,7 @@ public class LoginDtoTest {
 
     @BeforeClass
     public static void beforeClass() throws IOException, URISyntaxException {
-        jsonSuccess = readLine("login_success.json");
+        jsonSuccess = readLine("dummy_response/login_success.json");
     }
 
     /**
