@@ -1,5 +1,5 @@
 # 個人情報が含まれるファイル
-/app/src/test/resources/sessionId.txt
+/app/src/test/resources/real_session.json
 
 # Created by https://www.gitignore.io
 
