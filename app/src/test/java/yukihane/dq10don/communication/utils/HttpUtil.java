@@ -9,6 +9,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -24,6 +27,8 @@ public class HttpUtil {
 
     public static final String HEADER_SESSION = "X-Smile-3DS-SESSIONID";
     public static final String ENDPOINT = "https://happy.dqx.jp/capi";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtil.class);
 
     private final LoginDto loginInfo;
     private String sessionId;
@@ -70,7 +75,9 @@ public class HttpUtil {
             OkHttpClient client = new OkHttpClient();
             Response response = null;
             response = client.newCall(req).execute();
-            return response.body().string();
+            String body = response.body().string();
+            LOGGER.info("body: {}", body);
+            return body;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
