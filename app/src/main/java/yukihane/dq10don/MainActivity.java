@@ -51,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
 
     public void onLoginClick(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
+        // TODO ユーザーIDを設定する
+        intent.putExtra("userId", "");
         startActivityForResult(intent, 0);
     }
 
@@ -60,8 +62,9 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             if (data != null) {
+                String userId = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
-                logger.info("LOGIN success: {}", json);
+                logger.info("LOGIN success({}): {}", userId, json);
                 LoginAccountDto dto = LoginAccountDto.fromJson(json);
             } else {
                 logger.error("LOGIN fail");

@@ -3,6 +3,7 @@ package yukihane.dq10don;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import yukihane.dq10don.login.JsonLogin;
+import yukihane.dq10don.login.UserIdGetter;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -28,6 +30,20 @@ public class LoginActivity extends ActionBarActivity {
 
     private WebView webView;
     private JsonLogin parser;
+    private UserIdGetter userIdGetter;
+
+    /**
+     * 本Activityでログイン画面を表示する際に、初期情報として設定するユーザーID.
+     * この情報は、過去ログインした際の情報が保存されており, そこから取得されます.
+     */
+    private String userId;
+
+    /**
+     * 今回のログイン処理で入力したユーザーID.
+     * 正常にログインが完了した場合には正しいユーザーIDです.
+     * ログインが失敗するなど、正常に完了しなかった場合には正しいユーザーIDが設定されているとは限りません.
+     */
+    private String usedUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,7 @@ public class LoginActivity extends ActionBarActivity {
                 logger.info("login success");
                 Intent intent = new Intent();
                 intent.putExtra("result", res);
+                intent.putExtra("userId", usedUserId);
                 setResult(RESULT_OK, intent);
             } else {
                 logger.error("login information read error.");
@@ -52,12 +69,21 @@ public class LoginActivity extends ActionBarActivity {
             finish();
         });
 
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        if (userId == null) {
+            userId = "";
+        }
+
+        userIdGetter = new UserIdGetter(res -> usedUserId = res);
+
         webView = (WebView) findViewById(R.id.loginWebView);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new LoginView());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(parser, "HTMLOUT");
+        webView.addJavascriptInterface(userIdGetter, "UserIdGetter");
         webView.loadUrl(url);
     }
 
@@ -102,13 +128,25 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            logger.debug("onPageFinished: {}", url);
 
-            if (url.startsWith("https://happy.dqx.jp/capi/login/securelogin/")) {
-                logger.debug("methodcalled", "onPageFinished: {}", url);
+            if (url.split("\\?")[0].equals("https://secure.square-enix.com/oauth/oa/oauthlogin")) {
+                // ログイン初期画面描画時にはユーザIDを自動入力する
+                webView.loadUrl("javascript: (function() {document.getElementById('sqexid').value = '" + userId + "';})();");
+            } else if (url.startsWith("https://happy.dqx.jp/capi/login/securelogin/")) {
+                // ログイン成功した場合には戻ってきたJSONを処理する
                 webView.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
             }
 
             super.onPageFinished(view, url);
+        }
+
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            logger.debug("onPageStarted: {}", url);
+            if (url.startsWith("https://secure.square-enix.com/oauth/oa/oauthlogin.send")) {
+                // 画面で入力されたユーザーID(正しい値であるかはここではわからない)を保持する
+                webView.loadUrl("javascript:window.UserIdGetter.get('onPageStarted ' + document.getElementById('sqexid').value);");
+            }
         }
     }
 }
