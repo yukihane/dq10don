@@ -1,6 +1,5 @@
-package yukihane.dq10don.login;
+package yukihane.dq10don.communication.dto;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -10,19 +9,19 @@ import java.util.List;
 /**
  * Created by yuki on 15/07/05.
  */
-public class LoginAccountDto {
+public class LoginDto {
     private int accountType;
 
-    private List<CharacterDto> characterList = new ArrayList<>();
+    private List<LoginCharacterDto> characterList = new ArrayList<>();
 
     private String cisuserid;
     private int resultCode;
     private String sessionId;
     private int slotSize;
 
-    public static LoginAccountDto fromJson(String json) throws IOException {
+    public static LoginDto fromJson(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, LoginAccountDto.class);
+        return mapper.readValue(json, LoginDto.class);
     }
 
     public int getAccountType() {
@@ -33,11 +32,11 @@ public class LoginAccountDto {
         this.accountType = accountType;
     }
 
-    public List<CharacterDto> getCharacterList() {
+    public List<LoginCharacterDto> getCharacterList() {
         return characterList;
     }
 
-    public void setCharacterList(List<CharacterDto> characterList) {
+    public void setCharacterList(List<LoginCharacterDto> characterList) {
         this.characterList = characterList;
     }
 

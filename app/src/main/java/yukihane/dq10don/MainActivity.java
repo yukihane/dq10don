@@ -1,20 +1,18 @@
 package yukihane.dq10don;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import yukihane.dq10don.login.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginDto;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -65,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
                 String userId = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
                 logger.info("LOGIN success({}): {}", userId, json);
-                LoginAccountDto dto = LoginAccountDto.fromJson(json);
+                LoginDto dto = LoginDto.fromJson(json);
             } else {
                 logger.error("LOGIN fail");
             }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import yukihane.dq10don.login.CharacterDto;
-import yukihane.dq10don.login.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginCharacterDto;
+import yukihane.dq10don.communication.dto.LoginDto;
 
 /**
  * Created by yuki on 15/07/06.
@@ -16,16 +16,16 @@ public class Account {
 
     private List<Character> characters;
 
-    private Account(LoginAccountDto dto) {
+    private Account(LoginDto dto) {
         this.sessionId = dto.getSessionId();
         this.characters = new ArrayList<>(dto.getCharacterList().size());
 
-        for(CharacterDto cdto : dto.getCharacterList()){
+        for(LoginCharacterDto cdto : dto.getCharacterList()){
             characters.add(Character.from(cdto));
         }
     }
 
-    public static Account from(LoginAccountDto dto) {
+    public static Account from(LoginDto dto) {
         return new Account(dto);
     }
 
