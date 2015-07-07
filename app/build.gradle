@@ -35,7 +35,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
-    compile 'org.slf4j:slf4j-android:1.7.12'
+    // install https://github.com/yukihane/slf4j/tree/feat/logmouse/1.7.12 to local maven repository
+    compile 'com.github.yukihane.slf4j:logmouse:1.7.12'
     testCompile 'junit:junit:4.12'
     testCompile 'org.slf4j:slf4j-simple:1.7.12'
 }
