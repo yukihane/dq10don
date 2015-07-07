@@ -1,12 +1,10 @@
-package yukihane.dq10don.login;
+package yukihane.dq10don.communication.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
 
 /**
  * Created by yuki on 15/07/05.

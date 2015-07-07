@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import yukihane.dq10don.communication.dto.LoginAccountDto;
 import yukihane.dq10don.communication.dto.LoginCharacterDto;
 
 import static org.junit.Assert.assertEquals;

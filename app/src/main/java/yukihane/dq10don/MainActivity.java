@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import yukihane.dq10don.login.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginAccountDto;
 
 
 public class MainActivity extends ActionBarActivity {

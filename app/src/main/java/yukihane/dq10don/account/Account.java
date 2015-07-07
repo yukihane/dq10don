@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import yukihane.dq10don.communication.dto.LoginCharacterDto;
-import yukihane.dq10don.login.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginAccountDto;
 
 /**
  * Created by yuki on 15/07/06.
