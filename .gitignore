@@ -1,3 +1,6 @@
+# 個人情報が含まれるファイル
+/app/src/test/resources/sessionId.txt
+
 # Created by https://www.gitignore.io
 
 ### Java ###
