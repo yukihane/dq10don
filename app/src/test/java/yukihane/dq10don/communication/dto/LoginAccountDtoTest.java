@@ -1,4 +1,4 @@
-package yukihane.dq10don.login;
+package yukihane.dq10don.communication.dto;
 
 import android.annotation.TargetApi;
 import android.os.Build;
