@@ -1,4 +1,4 @@
-package yukihane.dq10don.login;
+package yukihane.dq10don.communication.dto;
 
 /**
  * Created by yuki on 15/07/05.

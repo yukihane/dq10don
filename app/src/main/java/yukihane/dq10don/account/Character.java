@@ -1,6 +1,6 @@
 package yukihane.dq10don.account;
 
-import yukihane.dq10don.login.CharacterDto;
+import yukihane.dq10don.communication.dto.CharacterDto;
 
 /**
  * Created by yuki on 15/07/06.

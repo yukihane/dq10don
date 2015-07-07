@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import yukihane.dq10don.communication.dto.CharacterDto;
+
 /**
  * Created by yuki on 15/07/05.
  */
