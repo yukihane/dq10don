@@ -96,7 +96,7 @@ public class HttpUtil {
         return get(ENDPOINT + "/login/characterselect/" + webPcNo + "/");
     }
 
-    public String getTobatsu() {
+    public String getTobatsuList() {
         return get(ENDPOINT + "/tobatsu/tobatsulist/");
     }
 }

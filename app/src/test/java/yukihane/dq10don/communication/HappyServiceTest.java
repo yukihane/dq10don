@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.TobatsuListDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -26,10 +27,6 @@ public class HappyServiceTest {
 
     @Test
     public void testGetTobatsu() throws Exception {
-        System.out.println("test executed");
-//        HttpUtil util = new HttpUtil();
-//        long webPcNo = util.getLoginInfo().getCharacterList().get(0).getWebPcNo();
-//        String res = util.get(ENDPOINT + "/login/characterselect/"+webPcNo+"/");
-//        System.out.println(res);
+        TobatsuListDto res = service.getTobatsuList();
     }
 }

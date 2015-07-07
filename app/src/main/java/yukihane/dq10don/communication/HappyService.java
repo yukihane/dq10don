@@ -2,8 +2,8 @@ package yukihane.dq10don.communication;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
-import yukihane.dq10don.account.Tobatsu;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.TobatsuListDto;
 
 /**
  * Created by yuki on 15/07/07.
@@ -13,5 +13,5 @@ public interface HappyService {
     CharaSelectDto characterSelect(@Path("webPcNo") long webPcNo);
 
     @GET("/tobatsu/tobatsulist")
-    Tobatsu getTobatsu();
+    TobatsuListDto getTobatsuList();
 }
