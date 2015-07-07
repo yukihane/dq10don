@@ -14,16 +14,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.LoginDto;
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by yuki on 15/07/05.
  */
-public class LoginAccountDtoTest {
+public class LoginDtoTest {
 
     private static String jsonSuccess;
     private static String jsonFail = "{\"resultCode\":999}";
@@ -38,7 +35,7 @@ public class LoginAccountDtoTest {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private static String readLine(String filename) throws URISyntaxException, IOException {
 
-        URI file = LoginAccountDtoTest.class.getClassLoader().getResource(filename).toURI();
+        URI file = LoginDtoTest.class.getClassLoader().getResource(filename).toURI();
 
         try (FileReader reader = new FileReader(new File(file))) {
             BufferedReader br = new BufferedReader(reader);
