@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginDto;
 import yukihane.dq10don.communication.dto.LoginCharacterDto;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +56,7 @@ public class LoginAccountDtoTest {
      */
     @Test
     public void testSuccess() throws Exception {
-        LoginAccountDto result = LoginAccountDto.fromJson(jsonSuccess);
+        LoginDto result = LoginDto.fromJson(jsonSuccess);
 
         assertEquals(1, result.getAccountType());
         assertEquals("dummy_cisuserid", result.getCisuserid());
@@ -86,12 +86,12 @@ public class LoginAccountDtoTest {
      */
     @Test
     public void testFail() throws IOException {
-        LoginAccountDto result = LoginAccountDto.fromJson(jsonFail);
+        LoginDto result = LoginDto.fromJson(jsonFail);
         assertEquals(999, result.getResultCode());
     }
 
     @Test(expected = IOException.class)
     public void testLoginError() throws IOException {
-        LoginAccountDto result = LoginAccountDto.fromJson(jsonError);
+        LoginDto result = LoginDto.fromJson(jsonError);
     }
 }

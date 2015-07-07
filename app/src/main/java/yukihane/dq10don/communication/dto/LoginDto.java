@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by yuki on 15/07/05.
  */
-public class LoginAccountDto {
+public class LoginDto {
     private int accountType;
 
     private List<LoginCharacterDto> characterList = new ArrayList<>();
@@ -19,9 +19,9 @@ public class LoginAccountDto {
     private String sessionId;
     private int slotSize;
 
-    public static LoginAccountDto fromJson(String json) throws IOException {
+    public static LoginDto fromJson(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, LoginAccountDto.class);
+        return mapper.readValue(json, LoginDto.class);
     }
 
     public int getAccountType() {

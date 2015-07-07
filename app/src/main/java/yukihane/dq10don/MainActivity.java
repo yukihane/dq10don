@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import yukihane.dq10don.communication.dto.LoginAccountDto;
+import yukihane.dq10don.communication.dto.LoginDto;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
                 String userId = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
                 logger.info("LOGIN success({}): {}", userId, json);
-                LoginAccountDto dto = LoginAccountDto.fromJson(json);
+                LoginDto dto = LoginDto.fromJson(json);
             } else {
                 logger.error("LOGIN fail");
             }
