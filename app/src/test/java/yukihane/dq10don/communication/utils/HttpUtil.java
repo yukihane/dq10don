@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
-import yukihane.dq10don.communication.dto.LoginDto;
+import yukihane.dq10don.communication.dto.login.LoginCharacterDto;
+import yukihane.dq10don.communication.dto.login.LoginDto;
 
 /**
  * Created by yuki on 15/07/07.

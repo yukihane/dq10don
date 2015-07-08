@@ -1,4 +1,4 @@
-package yukihane.dq10don.communication.dto;
+package yukihane.dq10don.communication.dto.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
