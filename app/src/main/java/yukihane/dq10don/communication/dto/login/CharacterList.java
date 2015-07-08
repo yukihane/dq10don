@@ -3,7 +3,7 @@ package yukihane.dq10don.communication.dto.login;
 /**
  * Created by yuki on 15/07/05.
  */
-public class LoginCharacterDto {
+public class CharacterList {
     private String characterName;
     private String iconUrl;
     private String job;

@@ -12,7 +12,7 @@ import java.util.List;
 public class LoginDto {
     private int accountType;
 
-    private List<LoginCharacterDto> characterList = new ArrayList<>();
+    private List<CharacterList> characterList = new ArrayList<>();
 
     private String cisuserid;
     private int resultCode;
@@ -32,11 +32,11 @@ public class LoginDto {
         this.accountType = accountType;
     }
 
-    public List<LoginCharacterDto> getCharacterList() {
+    public List<CharacterList> getCharacterList() {
         return characterList;
     }
 
-    public void setCharacterList(List<LoginCharacterDto> characterList) {
+    public void setCharacterList(List<CharacterList> characterList) {
         this.characterList = characterList;
     }
 
