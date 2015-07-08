@@ -1,19 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/accountNameView"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+      android:id="@+id/accountNameView"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1" />
 
     <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onLoginClick"
-        android:text="@string/loginButton" />
+      android:id="@+id/loginButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="onLoginClick"
+      android:text="@string/loginButton" />
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/charaNameView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 </LinearLayout>
