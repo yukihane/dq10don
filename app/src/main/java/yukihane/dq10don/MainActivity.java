@@ -7,12 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 import yukihane.dq10don.communication.dto.login.LoginDto;
+
+import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -63,7 +67,10 @@ public class MainActivity extends ActionBarActivity {
                 String userId = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
                 logger.info("LOGIN success({}): {}", userId, json);
-                LoginDto dto = LoginDto.fromJson(json);
+                LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
+                if(dto.getResultCode() != RESULTCODE_OK) {
+                    // TODO ログインが成功していない
+                }
             } else {
                 logger.error("LOGIN fail");
             }
