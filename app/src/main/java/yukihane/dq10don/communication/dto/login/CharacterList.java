@@ -214,4 +214,18 @@ public class CharacterList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "CharacterList{" +
+                "characterName='" + characterName + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", job='" + job + '\'' +
+                ", jobId=" + jobId +
+                ", lv=" + lv +
+                ", slotNo=" + slotNo +
+                ", smileUniqueNo='" + smileUniqueNo + '\'' +
+                ", webPcNo=" + webPcNo +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

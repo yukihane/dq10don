@@ -170,4 +170,16 @@ public class LoginDto {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "LoginDto{" +
+                "accountType=" + accountType +
+                ", characterList=" + characterList +
+                ", cisuserid='" + cisuserid + '\'' +
+                ", resultCode=" + resultCode +
+                ", sessionId='" + sessionId + '\'' +
+                ", slotSize=" + slotSize +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }
