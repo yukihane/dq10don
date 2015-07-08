@@ -1,6 +1,5 @@
 package yukihane.dq10don.communication.dto;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Before;
@@ -10,7 +9,9 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuListDto;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by yuki on 15/07/08.
