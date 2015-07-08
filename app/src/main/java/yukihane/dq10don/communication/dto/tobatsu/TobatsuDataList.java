@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "tobatsuList",
     "type"
 })
-public class AcceptedTobatsuDataList {
+public class TobatsuDataList {
 
     @JsonProperty("continentName")
     private String continentName;
@@ -149,7 +149,7 @@ public class AcceptedTobatsuDataList {
 
     @Override
     public String toString() {
-        return "AcceptedTobatsuDataList{" +
+        return "TobatsuDataList{" +
                 "continentName='" + continentName + '\'' +
                 ", countySize=" + countySize +
                 ", issuedDate='" + issuedDate + '\'' +
