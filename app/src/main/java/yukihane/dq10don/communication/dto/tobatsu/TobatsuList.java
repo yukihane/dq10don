@@ -260,4 +260,20 @@ public class TobatsuList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "TobatsuList{" +
+                "area='" + area + '\'' +
+                ", continentIconUrl='" + continentIconUrl + '\'' +
+                ", count=" + count +
+                ", isSpecial=" + isSpecial +
+                ", monsterName='" + monsterName + '\'' +
+                ", point=" + point +
+                ", questNo=" + questNo +
+                ", questStatus=" + questStatus +
+                ", tobatsuCrownUrl=" + tobatsuCrownUrl +
+                ", totalCount=" + totalCount +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

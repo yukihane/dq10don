@@ -8,6 +8,7 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by yuki on 15/07/07.
@@ -27,5 +28,7 @@ public class HappyServiceTest {
     @Test
     public void testGetTobatsu() throws Exception {
         TobatsuDto res = service.getTobatsuList();
+        assertNotNull(res);
+        System.out.println(res.toString());
     }
 }

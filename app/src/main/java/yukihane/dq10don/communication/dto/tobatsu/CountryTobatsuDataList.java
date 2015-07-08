@@ -147,4 +147,15 @@ public class CountryTobatsuDataList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "CountryTobatsuDataList{" +
+                "continentName='" + continentName + '\'' +
+                ", countySize=" + countySize +
+                ", issuedDate='" + issuedDate + '\'' +
+                ", tobatsuList=" + tobatsuList +
+                ", type=" + type +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

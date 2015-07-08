@@ -285,4 +285,21 @@ public class TobatsuDto {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "TobatsuDto{" +
+                "acceptedTobatsuDataList=" + acceptedTobatsuDataList +
+                ", countryTobatsuDataList=" + countryTobatsuDataList +
+                ", dailyClearCount=" + dailyClearCount +
+                ", isRealRendasia=" + isRealRendasia +
+                ", isTermDailyFlag=" + isTermDailyFlag +
+                ", isTermWeeklyFlag=" + isTermWeeklyFlag +
+                ", isTermWeeklyRealFlag=" + isTermWeeklyRealFlag +
+                ", rendasiaName='" + rendasiaName + '\'' +
+                ", resultCode=" + resultCode +
+                ", weeklyClearCount=" + weeklyClearCount +
+                ", weeklyRealClearCount=" + weeklyRealClearCount +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }
