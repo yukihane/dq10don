@@ -1,4 +1,4 @@
-package yukihane.dq10don.communication.dto;
+package yukihane.dq10don.communication.dto.tobatsu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuListDto;
 
 import static org.junit.Assert.assertNotNull;
 

@@ -3,7 +3,7 @@ package yukihane.dq10don.communication;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
-import yukihane.dq10don.communication.dto.TobatsuListDto;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuListDto;
 
 /**
  * Created by yuki on 15/07/07.

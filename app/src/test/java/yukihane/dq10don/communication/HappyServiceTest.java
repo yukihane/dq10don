@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import yukihane.dq10don.communication.dto.CharaSelectDto;
-import yukihane.dq10don.communication.dto.TobatsuListDto;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuListDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
 
 import static org.junit.Assert.assertEquals;
