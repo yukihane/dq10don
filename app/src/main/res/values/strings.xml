@@ -4,4 +4,5 @@
     <string name="loginButton">login</string>
     <string name="title_activity_login">アカウント登録</string>
     <string name="action_tokenapp">トークン起動</string>
+    <string name="updateButton">update</string>
 </resources>

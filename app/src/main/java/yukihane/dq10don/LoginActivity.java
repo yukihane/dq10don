@@ -145,7 +145,7 @@ public class LoginActivity extends ActionBarActivity {
             logger.debug("onPageStarted: {}", url);
             if (url.startsWith("https://secure.square-enix.com/oauth/oa/oauthlogin.send")) {
                 // 画面で入力されたユーザーID(正しい値であるかはここではわからない)を保持する
-                webView.loadUrl("javascript:window.UserIdGetter.get('onPageStarted ' + document.getElementById('sqexid').value);");
+                webView.loadUrl("javascript:window.UserIdGetter.get(document.getElementById('sqexid').value);");
             }
         }
     }

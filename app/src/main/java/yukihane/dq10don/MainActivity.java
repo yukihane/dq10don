@@ -1,28 +1,63 @@
 package yukihane.dq10don;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Iterator;
 
-import yukihane.dq10don.communication.dto.LoginDto;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.android.view.ViewObservable;
+import rx.schedulers.Schedulers;
+import yukihane.dq10don.account.Account;
+import yukihane.dq10don.account.Character;
+import yukihane.dq10don.communication.HappyService;
+import yukihane.dq10don.communication.HappyServiceFactory;
+import yukihane.dq10don.communication.dto.login.LoginDto;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuList;
+import yukihane.dq10don.view.TobatsuItem;
+import yukihane.dq10don.view.TobatsuViewAdapter;
+
+import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
+    /**
+     * このインスタンスが表示対象としているキャラクター
+     */
+    private Character character;
+    private TobatsuViewAdapter tobatsuViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tobatsuViewAdapter = new TobatsuViewAdapter(
+                (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        ListView countryListView = (ListView) findViewById(R.id.tobatsuListView);
+        countryListView.setAdapter(tobatsuViewAdapter);
     }
 
     @Override
@@ -60,10 +95,27 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             if (data != null) {
-                String userId = data.getStringExtra("userId");
+                String sqexid = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
-                logger.info("LOGIN success({}): {}", userId, json);
-                LoginDto dto = LoginDto.fromJson(json);
+                logger.info("LOGIN success({}): {}", sqexid, json);
+                LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
+                if (dto.getResultCode() != RESULTCODE_OK) {
+                    // TODO ログインが成功していない
+                    logger.error("login failed: {}", dto.getResultCode());
+                }
+                Account account = Account.from(dto, sqexid);
+
+                TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
+                sqexIdView.setText(account.getSqexid());
+
+                Iterator<Character> ite = account.getCharacters();
+                if (ite.hasNext()) {
+                    this.character = ite.next();
+                    TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
+                    charaNameView.setText(this.character.getCharacterName());
+
+                }
+
             } else {
                 logger.error("LOGIN fail");
             }
@@ -72,5 +124,70 @@ public class MainActivity extends ActionBarActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onUpdateClick(View view) {
+
+        Observable observable = Observable.create(new Observable.OnSubscribe<TobatsuDto>() {
+            @Override
+            public void call(Subscriber<? super TobatsuDto> subscriber) {
+                subscriber.onStart();
+                if (character == null) {
+                    logger.error("need login");
+                    subscriber.onError(new NullPointerException("need login"));
+                } else {
+                    String sessionId = character.getAccount().getSessionId();
+                    HappyService service = HappyServiceFactory.getService(sessionId);
+                    service.characterSelect(character.getWebPcNo());
+                    TobatsuDto res = service.getTobatsuList();
+                    subscriber.onNext(res);
+                }
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io());
+
+        ViewObservable.bindView(view, observable);
+
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuDto>() {
+            @Override
+            public void onCompleted() {
+                logger.info("onCompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                logger.error("onError", e);
+            }
+
+            @Override
+            public void onNext(TobatsuDto dto) {
+                logger.info("onNext");
+                logger.info("getAcceptedTobatsuDataList size: {}", dto.getAcceptedTobatsuDataList().size());
+                tobatsuViewAdapter.addItem(String.class, "じゅちゅーちゅー");
+                for (TobatsuDataList data : dto.getAcceptedTobatsuDataList()) {
+                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
+                    for (TobatsuList tl : data.getTobatsuList()) {
+                        logger.info("monster: {}", tl.getMonsterName());
+                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
+                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
+                        tobatsuViewAdapter.addItem(TobatsuItem.class, item);
+                    }
+                }
+
+                tobatsuViewAdapter.addItem(String.class, "リスト");
+                logger.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
+                for (TobatsuDataList data : dto.getCountryTobatsuDataList()) {
+                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
+                    for (TobatsuList tl : data.getTobatsuList()) {
+                        logger.info("monster: {}", tl.getMonsterName());
+                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
+                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
+                        tobatsuViewAdapter.addItem(TobatsuItem.class, item);
+                    }
+                }
+
+                tobatsuViewAdapter.notifyChanged();
+            }
+        });
     }
 }

@@ -1,4 +1,4 @@
-package yukihane.dq10don.communication.dto;
+package yukihane.dq10don.communication.dto.login;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -60,19 +60,19 @@ public class LoginDtoTest {
         assertEquals(0, result.getResultCode());
         assertEquals("sessionid_dummy", result.getSessionId());
 
-        List<LoginCharacterDto> cList = result.getCharacterList();
+        List<CharacterList> cList = result.getCharacterList();
         assertEquals(3, cList.size());
 
-        LoginCharacterDto c1 = cList.get(0);
+        CharacterList c1 = cList.get(0);
         assertEquals(c1.getCharacterName(), "キャラ名1");
         assertTrue(c1.getIconUrl().startsWith("http"));
         assertEquals(c1.getJob(), "レンジャー");
 
-        LoginCharacterDto c2 = cList.get(1);
+        CharacterList c2 = cList.get(1);
         assertEquals(3, c2.getJobId());
         assertEquals(56, c2.getLv());
 
-        LoginCharacterDto c3 = cList.get(2);
+        CharacterList c3 = cList.get(2);
         assertEquals("ZZ777-777", c3.getSmileUniqueNo());
         assertEquals(6666666L, c3.getWebPcNo());
     }

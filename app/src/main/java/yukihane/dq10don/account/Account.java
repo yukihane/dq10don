@@ -4,36 +4,39 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
-import yukihane.dq10don.communication.dto.LoginDto;
+import yukihane.dq10don.communication.dto.login.CharacterList;
+import yukihane.dq10don.communication.dto.login.LoginDto;
 
 /**
- * Created by yuki on 15/07/06.
+ * スクエニアカウントを表現するクラス.
  */
 public class Account {
 
-    private final String sessionId;
-
+    private String sqexid;
+    private String sessionId;
     private List<Character> characters;
 
-    private Account(LoginDto dto) {
-        this.sessionId = dto.getSessionId();
-        this.characters = new ArrayList<>(dto.getCharacterList().size());
-
-        for(LoginCharacterDto cdto : dto.getCharacterList()){
-            characters.add(Character.from(cdto));
+    public static Account from(LoginDto dto, String sqexid) {
+        Account obj = new Account();
+        obj.sqexid = sqexid;
+        obj.sessionId = dto.getSessionId();
+        obj.characters = new ArrayList<>(dto.getCharacterList().size());
+        for (CharacterList cl : dto.getCharacterList()) {
+            Character c = Character.from(obj, cl);
+            obj.characters.add(c);
         }
+        return obj;
     }
 
-    public static Account from(LoginDto dto) {
-        return new Account(dto);
-    }
-
-    public String getSessionId() {
-        return sessionId;
+    public String getSqexid() {
+        return sqexid;
     }
 
     public Iterator<Character> getCharacters() {
         return characters.iterator();
+    }
+
+    public String getSessionId() {
+        return sessionId;
     }
 }

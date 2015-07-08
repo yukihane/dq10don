@@ -1,31 +1,34 @@
 package yukihane.dq10don.account;
 
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
+import yukihane.dq10don.communication.dto.login.CharacterList;
 
 /**
- * Created by yuki on 15/07/06.
+ * Created by yuki on 15/07/08.
  */
 public class Character {
-    private final String characterName;
-    private final String smileUniqueNo;
-    private final long webPcNo;
-    private Tobatsu tobatsu;
 
-    private Character(LoginCharacterDto dto) {
-        characterName = dto.getCharacterName();
-        smileUniqueNo = dto.getSmileUniqueNo();
-        webPcNo = dto.getWebPcNo();
+    private Account account;
+    private String characterName;
+    private long webPcNo;
+
+    public static Character from(Account account, CharacterList dto) {
+        Character obj = new Character();
+        obj.account = account;
+        obj.characterName = dto.getCharacterName();
+        obj.webPcNo = dto.getWebPcNo();
+
+        return obj;
     }
 
-    public static Character from(LoginCharacterDto dto) {
-        return new Character(dto);
+    public String getCharacterName() {
+        return characterName;
     }
 
-    public Tobatsu getTobatsu() {
-        return tobatsu;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setTobatsu(Tobatsu tobatsu) {
-        this.tobatsu = tobatsu;
+    public long getWebPcNo() {
+        return webPcNo;
     }
 }

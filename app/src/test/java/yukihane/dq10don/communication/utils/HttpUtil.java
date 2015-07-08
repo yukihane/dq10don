@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import yukihane.dq10don.communication.dto.LoginCharacterDto;
-import yukihane.dq10don.communication.dto.LoginDto;
+import yukihane.dq10don.communication.dto.login.CharacterList;
+import yukihane.dq10don.communication.dto.login.LoginDto;
 
 /**
  * Created by yuki on 15/07/07.
@@ -87,7 +87,7 @@ public class HttpUtil {
         if (loginInfo == null) {
             throw new RuntimeException("ファイルからセッションを作成していない場合このメソッドは使用できません");
         }
-        LoginCharacterDto c = loginInfo.getCharacterList().get(characterListNo);
+        CharacterList c = loginInfo.getCharacterList().get(characterListNo);
         long webPcNo = c.getWebPcNo();
         return characterselect(webPcNo);
     }

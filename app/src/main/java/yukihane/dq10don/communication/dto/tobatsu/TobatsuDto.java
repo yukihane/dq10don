@@ -31,9 +31,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class TobatsuDto {
 
     @JsonProperty("acceptedTobatsuDataList")
-    private List<AcceptedTobatsuDataList> acceptedTobatsuDataList = new ArrayList<AcceptedTobatsuDataList>();
+    private List<TobatsuDataList> acceptedTobatsuDataList = new ArrayList<TobatsuDataList>();
     @JsonProperty("countryTobatsuDataList")
-    private List<CountryTobatsuDataList> countryTobatsuDataList = new ArrayList<CountryTobatsuDataList>();
+    private List<TobatsuDataList> countryTobatsuDataList = new ArrayList<TobatsuDataList>();
     @JsonProperty("dailyClearCount")
     private Integer dailyClearCount;
     @JsonProperty("isRealRendasia")
@@ -61,7 +61,7 @@ public class TobatsuDto {
      *     The acceptedTobatsuDataList
      */
     @JsonProperty("acceptedTobatsuDataList")
-    public List<AcceptedTobatsuDataList> getAcceptedTobatsuDataList() {
+    public List<TobatsuDataList> getAcceptedTobatsuDataList() {
         return acceptedTobatsuDataList;
     }
 
@@ -71,7 +71,7 @@ public class TobatsuDto {
      *     The acceptedTobatsuDataList
      */
     @JsonProperty("acceptedTobatsuDataList")
-    public void setAcceptedTobatsuDataList(List<AcceptedTobatsuDataList> acceptedTobatsuDataList) {
+    public void setAcceptedTobatsuDataList(List<TobatsuDataList> acceptedTobatsuDataList) {
         this.acceptedTobatsuDataList = acceptedTobatsuDataList;
     }
 
@@ -81,7 +81,7 @@ public class TobatsuDto {
      *     The countryTobatsuDataList
      */
     @JsonProperty("countryTobatsuDataList")
-    public List<CountryTobatsuDataList> getCountryTobatsuDataList() {
+    public List<TobatsuDataList> getCountryTobatsuDataList() {
         return countryTobatsuDataList;
     }
 
@@ -91,7 +91,7 @@ public class TobatsuDto {
      *     The countryTobatsuDataList
      */
     @JsonProperty("countryTobatsuDataList")
-    public void setCountryTobatsuDataList(List<CountryTobatsuDataList> countryTobatsuDataList) {
+    public void setCountryTobatsuDataList(List<TobatsuDataList> countryTobatsuDataList) {
         this.countryTobatsuDataList = countryTobatsuDataList;
     }
 
