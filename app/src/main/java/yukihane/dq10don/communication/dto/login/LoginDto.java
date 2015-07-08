@@ -1,75 +1,173 @@
+
 package yukihane.dq10don.communication.dto.login;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
- * Created by yuki on 15/07/05.
- */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+    "accountType",
+    "characterList",
+    "cisuserid",
+    "resultCode",
+    "sessionId",
+    "slotSize"
+})
 public class LoginDto {
-    private int accountType;
 
-    private List<CharacterList> characterList = new ArrayList<>();
-
+    @JsonProperty("accountType")
+    private Integer accountType;
+    @JsonProperty("characterList")
+    private List<CharacterList> characterList = new ArrayList<CharacterList>();
+    @JsonProperty("cisuserid")
     private String cisuserid;
-    private int resultCode;
+    @JsonProperty("resultCode")
+    private Integer resultCode;
+    @JsonProperty("sessionId")
     private String sessionId;
-    private int slotSize;
+    @JsonProperty("slotSize")
+    private Integer slotSize;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public static LoginDto fromJson(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, LoginDto.class);
-    }
-
-    public int getAccountType() {
+    /**
+     * 
+     * @return
+     *     The accountType
+     */
+    @JsonProperty("accountType")
+    public Integer getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(int accountType) {
+    /**
+     * 
+     * @param accountType
+     *     The accountType
+     */
+    @JsonProperty("accountType")
+    public void setAccountType(Integer accountType) {
         this.accountType = accountType;
     }
 
+    /**
+     * 
+     * @return
+     *     The characterList
+     */
+    @JsonProperty("characterList")
     public List<CharacterList> getCharacterList() {
         return characterList;
     }
 
+    /**
+     * 
+     * @param characterList
+     *     The characterList
+     */
+    @JsonProperty("characterList")
     public void setCharacterList(List<CharacterList> characterList) {
         this.characterList = characterList;
     }
 
-
+    /**
+     * 
+     * @return
+     *     The cisuserid
+     */
+    @JsonProperty("cisuserid")
     public String getCisuserid() {
         return cisuserid;
     }
 
+    /**
+     * 
+     * @param cisuserid
+     *     The cisuserid
+     */
+    @JsonProperty("cisuserid")
     public void setCisuserid(String cisuserid) {
         this.cisuserid = cisuserid;
     }
 
-    public int getResultCode() {
+    /**
+     * 
+     * @return
+     *     The resultCode
+     */
+    @JsonProperty("resultCode")
+    public Integer getResultCode() {
         return resultCode;
     }
 
-    public void setResultCode(int resultCode) {
+    /**
+     * 
+     * @param resultCode
+     *     The resultCode
+     */
+    @JsonProperty("resultCode")
+    public void setResultCode(Integer resultCode) {
         this.resultCode = resultCode;
     }
 
+    /**
+     * 
+     * @return
+     *     The sessionId
+     */
+    @JsonProperty("sessionId")
     public String getSessionId() {
         return sessionId;
     }
 
+    /**
+     * 
+     * @param sessionId
+     *     The sessionId
+     */
+    @JsonProperty("sessionId")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
-    public int getSlotSize() {
+    /**
+     * 
+     * @return
+     *     The slotSize
+     */
+    @JsonProperty("slotSize")
+    public Integer getSlotSize() {
         return slotSize;
     }
 
-    public void setSlotSize(int slotSize) {
+    /**
+     * 
+     * @param slotSize
+     *     The slotSize
+     */
+    @JsonProperty("slotSize")
+    public void setSlotSize(Integer slotSize) {
         this.slotSize = slotSize;
     }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
 }
