@@ -4,11 +4,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import yukihane.dq10don.communication.dto.CharaSelectDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuListDto;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
 
 import static org.junit.Assert.assertEquals;
-import static yukihane.dq10don.communication.utils.HttpUtil.ENDPOINT;
 
 /**
  * Created by yuki on 15/07/07.
@@ -27,6 +26,6 @@ public class HappyServiceTest {
 
     @Test
     public void testGetTobatsu() throws Exception {
-        TobatsuListDto res = service.getTobatsuList();
+        TobatsuDto res = service.getTobatsuList();
     }
 }

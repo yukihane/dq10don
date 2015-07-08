@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by yuki on 15/07/08.
  */
-public class TobatsuListDtoTest {
+public class TobatsuDtoTest {
 
     private static File file;
     private static File notPreparedFile;
@@ -22,8 +22,8 @@ public class TobatsuListDtoTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        file = new File(TobatsuListDtoTest.class.getClassLoader().getResource("dummy_response/tobatsulist.json").toURI());
-        notPreparedFile = new File(TobatsuListDtoTest.class.getClassLoader().getResource("dummy_response/tobatsulist_not_prepared.json").toURI());
+        file = new File(TobatsuDtoTest.class.getClassLoader().getResource("dummy_response/tobatsulist.json").toURI());
+        notPreparedFile = new File(TobatsuDtoTest.class.getClassLoader().getResource("dummy_response/tobatsulist_not_prepared.json").toURI());
     }
 
     @Before
@@ -33,7 +33,13 @@ public class TobatsuListDtoTest {
 
     @Test
     public void testCreate() throws IOException {
-        TobatsuListDto res = mapper.readValue(file, TobatsuListDto.class);
+        TobatsuDto res = mapper.readValue(file, TobatsuDto.class);
+        assertNotNull(res);
+    }
+
+    @Test
+    public void testNotPreparedCreate() throws IOException {
+        TobatsuDto res = mapper.readValue(notPreparedFile, TobatsuDto.class);
         assertNotNull(res);
     }
 }

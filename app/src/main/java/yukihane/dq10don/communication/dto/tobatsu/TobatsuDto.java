@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "weeklyClearCount",
     "weeklyRealClearCount"
 })
-public class TobatsuListDto {
+public class TobatsuDto {
 
     @JsonProperty("acceptedTobatsuDataList")
     private List<AcceptedTobatsuDataList> acceptedTobatsuDataList = new ArrayList<AcceptedTobatsuDataList>();
