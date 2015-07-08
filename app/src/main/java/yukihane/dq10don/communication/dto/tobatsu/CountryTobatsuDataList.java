@@ -31,7 +31,7 @@ public class CountryTobatsuDataList {
     @JsonProperty("issuedDate")
     private String issuedDate;
     @JsonProperty("tobatsuList")
-    private List<TobatsuList_> tobatsuList = new ArrayList<TobatsuList_>();
+    private List<TobatsuList> tobatsuList = new ArrayList<TobatsuList>();
     @JsonProperty("type")
     private Integer type;
     @JsonIgnore
@@ -103,7 +103,7 @@ public class CountryTobatsuDataList {
      *     The tobatsuList
      */
     @JsonProperty("tobatsuList")
-    public List<TobatsuList_> getTobatsuList() {
+    public List<TobatsuList> getTobatsuList() {
         return tobatsuList;
     }
 
@@ -113,7 +113,7 @@ public class CountryTobatsuDataList {
      *     The tobatsuList
      */
     @JsonProperty("tobatsuList")
-    public void setTobatsuList(List<TobatsuList_> tobatsuList) {
+    public void setTobatsuList(List<TobatsuList> tobatsuList) {
         this.tobatsuList = tobatsuList;
     }
 
