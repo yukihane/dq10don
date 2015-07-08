@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
                 String json = data.getStringExtra("result");
                 logger.info("LOGIN success({}): {}", sqexid, json);
                 LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
-                if(dto.getResultCode() != RESULTCODE_OK) {
+                if (dto.getResultCode() != RESULTCODE_OK) {
                     // TODO ログインが成功していない
                     logger.error("login failed: {}", dto.getResultCode());
                 }
@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
                 sqexIdView.setText(account.getSqexid());
 
                 Iterator<Character> ite = account.getCharacters();
-                if(ite.hasNext()) {
+                if (ite.hasNext()) {
                     Character c = ite.next();
                     TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
                     charaNameView.setText(c.getCharacterName());
@@ -110,5 +110,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onUpdateClick(View view) {
     }
 }
