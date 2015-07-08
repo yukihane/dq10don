@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.communication.dto.login.LoginDto;
+import yukihane.dq10don.view.TobatsuListAdapter;
 
 import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
@@ -27,10 +29,21 @@ public class MainActivity extends ActionBarActivity {
 
     private final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
+    private TobatsuListAdapter acceptedListAdapter;
+    private TobatsuListAdapter countryListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        acceptedListAdapter = new TobatsuListAdapter(this, R.layout.list_tobatsu);
+        ListView acceptedListView = (ListView) findViewById(R.id.tobatsuAcceptedList);
+        acceptedListView.setAdapter(acceptedListAdapter);
+
+        countryListAdapter = new TobatsuListAdapter(this, R.layout.list_tobatsu);
+        ListView countryListView = (ListView) findViewById(R.id.tobatsuList);
+        countryListView.setAdapter(countryListAdapter);
     }
 
     @Override
@@ -82,10 +95,11 @@ public class MainActivity extends ActionBarActivity {
                 sqexIdView.setText(account.getSqexid());
 
                 Iterator<Character> ite = account.getCharacters();
-                while(ite.hasNext()) {
+                if(ite.hasNext()) {
                     Character c = ite.next();
                     TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
                     charaNameView.setText(c.getCharacterName());
+
                 }
 
             } else {
