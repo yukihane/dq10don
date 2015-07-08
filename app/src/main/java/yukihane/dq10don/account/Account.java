@@ -13,14 +13,16 @@ import yukihane.dq10don.communication.dto.login.LoginDto;
 public class Account {
 
     private String sqexid;
+    private String sessionId;
     private List<Character> characters;
 
     public static Account from(LoginDto dto, String sqexid) {
         Account obj = new Account();
         obj.sqexid = sqexid;
+        obj.sessionId = dto.getSessionId();
         obj.characters = new ArrayList<>(dto.getCharacterList().size());
-        for(CharacterList cl : dto.getCharacterList()) {
-            Character c = Character.from(cl);
+        for (CharacterList cl : dto.getCharacterList()) {
+            Character c = Character.from(obj, cl);
             obj.characters.add(c);
         }
         return obj;
@@ -32,5 +34,9 @@ public class Account {
 
     public Iterator<Character> getCharacters() {
         return characters.iterator();
+    }
+
+    public String getSessionId() {
+        return sessionId;
     }
 }

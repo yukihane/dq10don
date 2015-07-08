@@ -1,71 +1,47 @@
-<ScrollView
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content">
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
   <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
-
-      <TextView
-        android:id="@+id/accountNameView"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="アカウント名" />
-
-      <TextView
-        android:id="@+id/charaNameView"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="キャラクタ名" />
-
-      <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onLoginClick"
-        android:text="@string/loginButton" />
-
-      <Button
-        android:id="@+id/updateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onUpdateClick"
-        android:text="@string/updateButton" />
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
-      android:layout_width="match_parent"
+      android:id="@+id/accountNameView"
+      android:layout_width="0px"
       android:layout_height="wrap_content"
-      android:background="@color/background_floating_material_dark"
-      android:text="受注中リスト" />
-
-    <ListView
-      android:id="@+id/tobatsuAcceptedList"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="#0000ff"></ListView>
-
+      android:layout_weight="1"
+      android:text="アカウント名"/>
 
     <TextView
-      android:layout_width="match_parent"
+      android:id="@+id/charaNameView"
+      android:layout_width="0px"
       android:layout_height="wrap_content"
-      android:background="@color/background_floating_material_dark"
-      android:text="大国リスト" />
+      android:layout_weight="1"
+      android:text="キャラクタ名"/>
 
-    <ListView
-      android:id="@+id/tobatsuList"
-      android:layout_width="match_parent"
+    <Button
+      android:id="@+id/loginButton"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:background="#0000ff"></ListView>
+      android:onClick="onLoginClick"
+      android:text="@string/loginButton"/>
 
+    <Button
+      android:id="@+id/updateButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="onUpdateClick"
+      android:text="@string/updateButton"/>
   </LinearLayout>
-</ScrollView>
+
+  <ListView
+    android:id="@+id/tobatsuListView"
+    android:layout_width="match_parent"
+    android:layout_height="0px"
+    android:layout_weight="1"
+    android:background="#0000ff"></ListView>
+</LinearLayout>

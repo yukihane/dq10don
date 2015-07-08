@@ -8,6 +8,12 @@ public class TobatsuItem {
     private String condition;
     private int point;
 
+    public TobatsuItem(String targetName, String condition, int point) {
+        this.targetName = targetName;
+        this.condition = condition;
+        this.point = point;
+    }
+
     public String getTargetName() {
         return targetName;
     }
