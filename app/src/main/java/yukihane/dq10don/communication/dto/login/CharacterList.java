@@ -40,7 +40,7 @@ public class CharacterList {
     @JsonProperty("smileUniqueNo")
     private String smileUniqueNo;
     @JsonProperty("webPcNo")
-    private Integer webPcNo;
+    private Long webPcNo;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -190,7 +190,7 @@ public class CharacterList {
      *     The webPcNo
      */
     @JsonProperty("webPcNo")
-    public Integer getWebPcNo() {
+    public Long getWebPcNo() {
         return webPcNo;
     }
 
@@ -200,7 +200,7 @@ public class CharacterList {
      *     The webPcNo
      */
     @JsonProperty("webPcNo")
-    public void setWebPcNo(Integer webPcNo) {
+    public void setWebPcNo(Long webPcNo) {
         this.webPcNo = webPcNo;
     }
 
