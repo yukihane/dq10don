@@ -12,11 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import rx.Observable;
@@ -49,6 +52,16 @@ public class MainActivity extends ActionBarActivity {
     private Character character;
     private TobatsuViewAdapter tobatsuViewAdapter;
 
+    private DbHelper m_dbHelper;
+
+
+    private DbHelper getDbHelper() {
+        if (m_dbHelper == null) {
+            m_dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
+        }
+        return m_dbHelper;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +93,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (m_dbHelper != null) {
+            OpenHelperManager.releaseHelper();
+            m_dbHelper = null;
+        }
     }
 
     public void onLoginClick(View view) {
