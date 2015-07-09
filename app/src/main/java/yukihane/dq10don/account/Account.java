@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import lombok.Getter;
 import yukihane.dq10don.communication.dto.login.CharacterList;
 import yukihane.dq10don.communication.dto.login.LoginDto;
 
@@ -12,8 +13,12 @@ import yukihane.dq10don.communication.dto.login.LoginDto;
  */
 public class Account {
 
+    @Getter
     private String sqexid;
+
+    @Getter
     private String sessionId;
+
     private List<Character> characters;
 
     public static Account from(LoginDto dto, String sqexid) {
@@ -28,15 +33,7 @@ public class Account {
         return obj;
     }
 
-    public String getSqexid() {
-        return sqexid;
-    }
-
     public Iterator<Character> getCharacters() {
         return characters.iterator();
-    }
-
-    public String getSessionId() {
-        return sessionId;
     }
 }
