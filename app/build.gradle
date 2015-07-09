@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -44,6 +45,8 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
     // install https://github.com/yukihane/slf4j/tree/feat/logmouse/1.7.12 to local maven repository
     compile 'com.github.yukihane.slf4j:logmouse:1.7.12'
+    provided "org.projectlombok:lombok:1.12.6"
+    apt "org.projectlombok:lombok:1.12.6"
     testCompile 'junit:junit:4.12'
     testCompile 'org.slf4j:slf4j-simple:1.7.12'
 }
