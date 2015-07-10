@@ -16,6 +16,9 @@ public class Character {
     @DatabaseField(id = true, canBeNull = false)
     private long webPcNo;
 
+    @DatabaseField(canBeNull = false)
+    private String smileUniqNo;
+
     @Getter
     @DatabaseField(foreign = true, canBeNull = false)
     private Account account;
@@ -29,7 +32,18 @@ public class Character {
         obj.account = account;
         obj.characterName = dto.getCharacterName();
         obj.webPcNo = dto.getWebPcNo();
+        obj.smileUniqNo = dto.getSmileUniqueNo();
 
         return obj;
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "webPcNo=" + webPcNo +
+                ", smileUniqNo='" + smileUniqNo + '\'' +
+                ", account=" + (account == null ? null : account.getSqexid()) +
+                ", characterName='" + characterName + '\'' +
+                '}';
     }
 }

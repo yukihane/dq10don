@@ -55,4 +55,13 @@ public class Account {
     public void setCharacters(List<Character> characters) {
         this.characters = new ArrayList<>(characters);
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "sqexid='" + sqexid + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", characters=" + characters +
+                '}';
+    }
 }
