@@ -81,6 +81,12 @@ public class MainActivity extends ActionBarActivity {
                 Account a = accounts.get(0);
                 TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
                 sqexIdView.setText(a.getSqexid());
+                Iterator<Character> ite = a.getCharacters();
+                if(ite.hasNext()) {
+                    this.character = ite.next();
+                    TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
+                    charaNameView.setText(this.character.getCharacterName());
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
