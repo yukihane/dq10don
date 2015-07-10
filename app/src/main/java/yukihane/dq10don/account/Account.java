@@ -3,6 +3,9 @@ package yukihane.dq10don.account;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,8 +19,9 @@ import yukihane.dq10don.communication.dto.login.LoginDto;
  * スクエニアカウントを表現するクラス.
  */
 @DatabaseTable
-@ToString(exclude = {"characters"})
 public class Account {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Account.class);
 
     @DatabaseField(id = true, canBeNull = false)
     @Getter
@@ -46,5 +50,9 @@ public class Account {
 
     public Iterator<Character> getCharacters() {
         return characters.iterator();
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = new ArrayList<>(characters);
     }
 }

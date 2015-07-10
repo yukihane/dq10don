@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,16 +7,18 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.SQLException;
 
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.account.Character;
 
-/**
- * Created by yuki on 15/07/10.
- */
 public class DbHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "ormlite.sample";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
+    private static final String DATABASE_NAME = "dq10don.db";
     private static final int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -25,9 +27,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
-        System.out.println("MyDatabaseHelper.onCreate()");
+        LOGGER.info("MyDatabaseHelper.onCreate()");
         try {
             TableUtils.createTable(connectionSource, Account.class);
+            TableUtils.createTable(connectionSource, Character.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -35,6 +38,6 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        System.out.println("MyDatabaseHelper.onUpgrade()");
+        LOGGER.info("MyDatabaseHelper.onUpgrade()");
     }
 }

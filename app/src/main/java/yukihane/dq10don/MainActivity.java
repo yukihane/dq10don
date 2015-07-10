@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -36,6 +36,8 @@ import yukihane.dq10don.communication.dto.login.LoginDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuList;
+import yukihane.dq10don.db.AccountDao;
+import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.view.TobatsuItem;
 import yukihane.dq10don.view.TobatsuViewAdapter;
 
@@ -71,6 +73,18 @@ public class MainActivity extends ActionBarActivity {
                 (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         ListView countryListView = (ListView) findViewById(R.id.tobatsuListView);
         countryListView.setAdapter(tobatsuViewAdapter);
+
+        try {
+            AccountDao dao = AccountDao.create(getDbHelper());
+            List<Account> accounts = dao.queryAll();
+            if(!accounts.isEmpty()) {
+                Account a = accounts.get(0);
+                TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
+                sqexIdView.setText(a.getSqexid());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -126,6 +140,12 @@ public class MainActivity extends ActionBarActivity {
                     logger.error("login failed: {}", dto.getResultCode());
                 }
                 Account account = Account.from(dto, sqexid);
+                try {
+                    AccountDao dao = AccountDao.create(getDbHelper());
+                    dao.persist(account);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
                 TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
                 sqexIdView.setText(account.getSqexid());
