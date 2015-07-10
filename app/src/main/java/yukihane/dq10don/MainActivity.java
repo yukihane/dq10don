@@ -77,6 +77,11 @@ public class MainActivity extends ActionBarActivity {
         try {
             AccountDao dao = AccountDao.create(getDbHelper());
             List<Account> accounts = dao.queryAll();
+
+            for(Account a : accounts) {
+                logger.info("db account: {}", a);
+            }
+
             if(!accounts.isEmpty()) {
                 Account a = accounts.get(0);
                 TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
@@ -86,7 +91,10 @@ public class MainActivity extends ActionBarActivity {
                     this.character = ite.next();
                     TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
                     charaNameView.setText(this.character.getCharacterName());
+                    logger.info("character's parent: {}", this.character.getAccount());
                 }
+            } else {
+                logger.info("no db accout");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,6 +193,8 @@ public class MainActivity extends ActionBarActivity {
                     subscriber.onError(new NullPointerException("need login"));
                 } else {
                     String sessionId = character.getAccount().getSessionId();
+                    logger.info("update target account: {}", character.getAccount());
+                    logger.info("update target character: {}", character);
                     HappyService service = HappyServiceFactory.getService(sessionId);
                     service.characterSelect(character.getWebPcNo());
                     TobatsuDto res = service.getTobatsuList();
