@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import lombok.Getter;
+import lombok.Setter;
 import yukihane.dq10don.communication.dto.login.CharacterList;
 
 /**
@@ -20,6 +21,7 @@ public class Character {
     private String smileUniqNo;
 
     @Getter
+    @Setter
     @DatabaseField(foreign = true, canBeNull = false)
     private Account account;
 

@@ -54,6 +54,9 @@ public class Account {
 
     public void setCharacters(List<Character> characters) {
         this.characters = new ArrayList<>(characters);
+        for(Character c: characters) {
+            c.setAccount(this);
+        }
     }
 
     @Override
