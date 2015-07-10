@@ -1,34 +1,51 @@
 package yukihane.dq10don.account;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import lombok.Getter;
+import lombok.Setter;
 import yukihane.dq10don.communication.dto.login.CharacterList;
 
 /**
- * Created by yuki on 15/07/08.
+ * キャラクターを表現するクラス.
  */
+@DatabaseTable
 public class Character {
 
-    private Account account;
-    private String characterName;
+    @Getter
+    @DatabaseField(id = true, canBeNull = false)
     private long webPcNo;
+
+    @DatabaseField(canBeNull = false)
+    private String smileUniqNo;
+
+    @Getter
+    @Setter
+    @DatabaseField(foreign = true, canBeNull = false)
+    private Account account;
+
+    @Getter
+    @DatabaseField(canBeNull = false)
+    private String characterName;
 
     public static Character from(Account account, CharacterList dto) {
         Character obj = new Character();
         obj.account = account;
         obj.characterName = dto.getCharacterName();
         obj.webPcNo = dto.getWebPcNo();
+        obj.smileUniqNo = dto.getSmileUniqueNo();
 
         return obj;
     }
 
-    public String getCharacterName() {
-        return characterName;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public long getWebPcNo() {
-        return webPcNo;
+    @Override
+    public String toString() {
+        return "Character{" +
+                "webPcNo=" + webPcNo +
+                ", smileUniqNo='" + smileUniqNo + '\'' +
+                ", account=" + (account == null ? null : account.getSqexid()) +
+                ", characterName='" + characterName + '\'' +
+                '}';
     }
 }
