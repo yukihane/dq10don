@@ -14,6 +14,7 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
         super.onCreate(savedInstanceState);
         presenter = new SqexidPresenter(this);
         setContentView(R.layout.activity_sqexid);
+        presenter.onCreate();
     }
 
     @Override
