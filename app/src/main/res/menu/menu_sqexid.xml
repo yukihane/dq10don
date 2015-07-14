@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="yukihane.dq10don.SqexidActivity">
     <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
+          android:title="@string/add"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>
