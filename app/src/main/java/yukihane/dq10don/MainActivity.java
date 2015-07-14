@@ -11,62 +11,31 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.android.view.ViewObservable;
-import rx.schedulers.Schedulers;
-import yukihane.dq10don.account.Account;
-import yukihane.dq10don.account.Character;
-import yukihane.dq10don.communication.HappyService;
-import yukihane.dq10don.communication.HappyServiceFactory;
-import yukihane.dq10don.communication.dto.login.LoginDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuList;
-import yukihane.dq10don.db.AccountDao;
-import yukihane.dq10don.db.DbHelper;
-import yukihane.dq10don.view.TobatsuItem;
+import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.view.TobatsuViewAdapter;
 
-import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MainPresenter.View {
 
     private final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
-    /**
-     * このインスタンスが表示対象としているキャラクター
-     */
-    private Character character;
+    private MainPresenter presenter;
+
     private TobatsuViewAdapter tobatsuViewAdapter;
-
-    private DbHelper m_dbHelper;
-
-
-    private DbHelper getDbHelper() {
-        if (m_dbHelper == null) {
-            m_dbHelper = OpenHelperManager.getHelper(this, DbHelper.class);
-        }
-        return m_dbHelper;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new MainPresenter(this, new DbHelperFactory(this));
+
         setContentView(R.layout.activity_main);
 
         tobatsuViewAdapter = new TobatsuViewAdapter(
@@ -74,31 +43,7 @@ public class MainActivity extends ActionBarActivity {
         ListView countryListView = (ListView) findViewById(R.id.tobatsuListView);
         countryListView.setAdapter(tobatsuViewAdapter);
 
-        try {
-            AccountDao dao = AccountDao.create(getDbHelper());
-            List<Account> accounts = dao.queryAll();
-
-            for(Account a : accounts) {
-                logger.info("db account: {}", a);
-            }
-
-            if(!accounts.isEmpty()) {
-                Account a = accounts.get(0);
-                TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
-                sqexIdView.setText(a.getSqexid());
-                Iterator<Character> ite = a.getCharacters();
-                if(ite.hasNext()) {
-                    this.character = ite.next();
-                    TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
-                    charaNameView.setText(this.character.getCharacterName());
-                    logger.info("character's parent: {}", this.character.getAccount());
-                }
-            } else {
-                logger.info("no db accout");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        presenter.onCreate();
     }
 
     @Override
@@ -126,10 +71,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (m_dbHelper != null) {
-            OpenHelperManager.releaseHelper();
-            m_dbHelper = null;
-        }
+        presenter.onDestroy();
     }
 
     public void onLoginClick(View view) {
@@ -143,109 +85,56 @@ public class MainActivity extends ActionBarActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         logger.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
 
-        try {
-            if (data != null) {
+        if (data == null) {
+            logger.error("LOGIN fail");
+        } else {
+            try {
                 String sqexid = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
                 logger.info("LOGIN success({}): {}", sqexid, json);
-                LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
-                if (dto.getResultCode() != RESULTCODE_OK) {
-                    // TODO ログインが成功していない
-                    logger.error("login failed: {}", dto.getResultCode());
-                }
-                Account account = Account.from(dto, sqexid);
-                try {
-                    AccountDao dao = AccountDao.create(getDbHelper());
-                    dao.persist(account);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
-                sqexIdView.setText(account.getSqexid());
-
-                Iterator<Character> ite = account.getCharacters();
-                if (ite.hasNext()) {
-                    this.character = ite.next();
-                    TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
-                    charaNameView.setText(this.character.getCharacterName());
-
-                }
-
-            } else {
-                logger.error("LOGIN fail");
+                presenter.onActivityResult(sqexid, json);
+            } catch (IOException e) {
+                logger.error("parse error", e);
             }
-        } catch (IOException e) {
-            logger.error("parse error", e);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onUpdateClick(View view) {
+        presenter.onUpdateClick();
+    }
 
-        Observable observable = Observable.create(new Observable.OnSubscribe<TobatsuDto>() {
-            @Override
-            public void call(Subscriber<? super TobatsuDto> subscriber) {
-                subscriber.onStart();
-                if (character == null) {
-                    logger.error("need login");
-                    subscriber.onError(new NullPointerException("need login"));
-                } else {
-                    String sessionId = character.getAccount().getSessionId();
-                    logger.info("update target account: {}", character.getAccount());
-                    logger.info("update target character: {}", character);
-                    HappyService service = HappyServiceFactory.getService(sessionId);
-                    service.characterSelect(character.getWebPcNo());
-                    TobatsuDto res = service.getTobatsuList();
-                    subscriber.onNext(res);
-                }
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.io());
+    @Override
+    public void setSqexid(String sqexid) {
+        TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
+        sqexIdView.setText(sqexid);
+    }
 
+    @Override
+    public void setCharacterName(String characterName) {
+        TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
+        charaNameView.setText(characterName);
+    }
+
+    @Override
+    public void bindToList(Observable observable) {
+        ListView view = (ListView) findViewById(R.id.tobatsuListView);
         ViewObservable.bindView(view, observable);
+    }
 
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuDto>() {
-            @Override
-            public void onCompleted() {
-                logger.info("onCompleted");
-            }
+    @Override
+    public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
+        tobatsuViewAdapter.addItem(String.class, "受注中");
+        for(TobatsuItem item : list.getAcceptings()) {
+            tobatsuViewAdapter.addItem(TobatsuItem.class, item);
+        }
 
-            @Override
-            public void onError(Throwable e) {
-                logger.error("onError", e);
-            }
+        tobatsuViewAdapter.addItem(String.class, "リスト");
+        for(TobatsuItem item : list.getListings()) {
+            tobatsuViewAdapter.addItem(TobatsuItem.class, item);
+        }
 
-            @Override
-            public void onNext(TobatsuDto dto) {
-                logger.info("onNext");
-                logger.info("getAcceptedTobatsuDataList size: {}", dto.getAcceptedTobatsuDataList().size());
-                tobatsuViewAdapter.addItem(String.class, "じゅちゅーちゅー");
-                for (TobatsuDataList data : dto.getAcceptedTobatsuDataList()) {
-                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
-                    for (TobatsuList tl : data.getTobatsuList()) {
-                        logger.info("monster: {}", tl.getMonsterName());
-                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
-                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
-                        tobatsuViewAdapter.addItem(TobatsuItem.class, item);
-                    }
-                }
-
-                tobatsuViewAdapter.addItem(String.class, "リスト");
-                logger.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
-                for (TobatsuDataList data : dto.getCountryTobatsuDataList()) {
-                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
-                    for (TobatsuList tl : data.getTobatsuList()) {
-                        logger.info("monster: {}", tl.getMonsterName());
-                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
-                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
-                        tobatsuViewAdapter.addItem(TobatsuItem.class, item);
-                    }
-                }
-
-                tobatsuViewAdapter.notifyChanged();
-            }
-        });
+        tobatsuViewAdapter.notifyChanged();
     }
 }
