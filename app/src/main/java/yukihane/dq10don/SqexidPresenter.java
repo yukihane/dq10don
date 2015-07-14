@@ -90,9 +90,20 @@ public class SqexidPresenter {
         OpenHelperManager.releaseHelper();
     }
 
-    public void onClickSqexid(String userId) {
+    public void onLogin(String userId) {
         String id = (userId != null) ? userId : "";
         view.showLogin(id);
+    }
+
+    public void onRemove(String userId) {
+
+        try {
+            AccountDao dao = AccountDao.create(dbHelper);
+            dao.deleteById(userId);
+            loadAccounts();
+        } catch (SQLException e) {
+            LOGGER.error("delete error", e);
+        }
     }
 
     public void onActivityResult(String sqexid, String json) {
@@ -113,6 +124,7 @@ public class SqexidPresenter {
             LOGGER.error("login account info persist error", e);
         }
     }
+
 
     public interface View {
         void bindToList(Observable observable);

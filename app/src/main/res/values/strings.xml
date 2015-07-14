@@ -6,4 +6,6 @@
     <string name="action_tokenapp">トークン起動</string>
     <string name="updateButton">update</string>
     <string name="add">追加</string>
+    <string name="relogin">再ログイン</string>
+    <string name="remove">削除</string>
 </resources>

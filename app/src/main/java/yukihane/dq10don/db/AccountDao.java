@@ -54,4 +54,8 @@ public class AccountDao {
         }
         return accounts;
     }
+
+    public void deleteById(String userId) throws SQLException {
+        accountDao.deleteById(userId);
+    }
 }

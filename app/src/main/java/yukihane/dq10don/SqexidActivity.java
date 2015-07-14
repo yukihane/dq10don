@@ -10,7 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,10 @@ import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
 
-public class SqexidActivity extends ActionBarActivity implements SqexidPresenter.View {
+public class SqexidActivity extends ActionBarActivity
+        implements SqexidPresenter.View, OpeDialog.Listener, RemoveConfirmDialog.Listener {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SqexidActivity.class);
 
     private SqexidPresenter presenter;
 
@@ -34,7 +39,10 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
                 (AdapterView<?> parent, View view, int position, long id) -> {
                     ListView lv = (ListView) parent;
                     String userId = (String) lv.getItemAtPosition(position);
-                    presenter.onClickSqexid(userId);
+//                    presenter.onClickSqexid(userId);
+                    OpeDialog df = new OpeDialog();
+                    df.setUserId(userId);
+                    df.show(getSupportFragmentManager(), "OpeDialog");
                 });
     }
 
@@ -54,6 +62,7 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.actionAddAccount) {
+            presenter.onLogin(null);
             return true;
         }
 
@@ -83,6 +92,7 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
     @Override
     public void showLogin(String userId) {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("userId", userId);
         startActivityForResult(intent, 0);
     }
 
@@ -101,11 +111,29 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
     }
 
     public void displayAccountStr(List<String> names) {
-        ArrayAdapter<String> adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
+        ArrayAdapter<String> adpt = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         getSqexidListView().setAdapter(adpt);
     }
 
     private ListView getSqexidListView() {
         return (ListView) findViewById(R.id.sqexidList);
+    }
+
+    @Override
+    public void onRelogin(String userId) {
+        presenter.onLogin(userId);
+    }
+
+    @Override
+    public void removeConfirm(String userId) {
+        RemoveConfirmDialog df = new RemoveConfirmDialog();
+        df.setUserId(userId);
+
+        df.show(getSupportFragmentManager(), "RemoveConfirmDialog");
+    }
+
+    @Override
+    public void onRemove(String userId) {
+        presenter.onRemove(userId);
     }
 }
