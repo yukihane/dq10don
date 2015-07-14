@@ -28,6 +28,8 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
 
     private final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 
+    private LoginPresenter presenter;
+
     private WebView webView;
     private JsonLogin parser;
     private UserIdGetter userIdGetter;
@@ -48,6 +50,7 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new LoginPresenter(this);
         setContentView(R.layout.activity_login);
 
         // セッション情報が残っていると前回のログインを引き継いでしまうためログイン処理が行えない
