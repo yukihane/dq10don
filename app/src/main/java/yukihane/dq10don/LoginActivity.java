@@ -22,7 +22,7 @@ import yukihane.dq10don.login.JsonLogin;
 import yukihane.dq10don.login.UserIdGetter;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity implements LoginPresenter.View {
 
     private static final String OAUTH_URL = "https://secure.square-enix.com/oauth/oa/";
 
