@@ -109,15 +109,19 @@ public class SqexidPresenter {
     public void onActivityResult(String sqexid, String json) {
 
         try {
-            LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
-            if (dto.getResultCode() != RESULTCODE_OK) {
-                // TODO ログインが成功していない
-                LOGGER.error("login failed: {}", dto.getResultCode());
-            }
-            Account account = Account.from(dto, sqexid);
+            if(sqexid != null && json != null) {
+                LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
+                if (dto.getResultCode() != RESULTCODE_OK) {
+                    // TODO ログインが成功していない
+                    LOGGER.error("login failed: {}", dto.getResultCode());
+                }
+                Account account = Account.from(dto, sqexid);
 
-            AccountDao dao = AccountDao.create(dbHelper);
-            dao.persist(account);
+                AccountDao dao = AccountDao.create(dbHelper);
+                dao.persist(account);
+            } else {
+                LOGGER.debug("ログイン処理を中断した");
+            }
 
             loadAccounts();
         } catch (IOException | SQLException e) {

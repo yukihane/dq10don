@@ -98,13 +98,16 @@ public class SqexidActivity extends ActionBarActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        final String sqexid;
+        final String json;
         if (data == null) {
-            presenter.onActivityResult(null, null);
+            sqexid = null;
+            json = null;
         } else {
-            String sqexid = data.getStringExtra("userId");
-            String json = data.getStringExtra("result");
-            presenter.onActivityResult(sqexid, json);
+            sqexid = data.getStringExtra("userId");
+            json = data.getStringExtra("result");
         }
+        presenter.onActivityResult(sqexid, json);
 
         super.onActivityResult(requestCode, resultCode, data);
     }
