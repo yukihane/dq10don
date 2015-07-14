@@ -11,7 +11,8 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import yukihane.dq10don.account.Account;
+import yukihane.dq10don.account.*;
+import yukihane.dq10don.account.Character;
 
 /**
  * Created by yuki on 15/07/14.
@@ -35,6 +36,10 @@ public class SqexidPresenter {
                 subscriber.onStart();
                 List<Account> results = new ArrayList<>();
                 // TODO DBロード
+                for (int i = 0; i < 10; i++) {
+                    Account a = new Account("sqexid" + i, "sessionid" + i, new ArrayList<Character>(0));
+                    results.add(a);
+                }
                 subscriber.onNext(results);
                 subscriber.onCompleted();
             }
