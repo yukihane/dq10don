@@ -1,8 +1,11 @@
 package yukihane.dq10don;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +16,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.*;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.db.AccountDao;
+import yukihane.dq10don.db.DbHelper;
+import yukihane.dq10don.db.DbHelperFactory;
 
 /**
  * Created by yuki on 15/07/14.
@@ -22,9 +28,11 @@ public class SqexidPresenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqexidPresenter.class);
 
     private final View view;
+    private final DbHelper dbHelper;
 
-    public SqexidPresenter(View view) {
+    public SqexidPresenter(View view, DbHelperFactory dbHFactory) {
         this.view = view;
+        this.dbHelper = dbHFactory.create();
     }
 
     public void onCreate() {
@@ -34,13 +42,15 @@ public class SqexidPresenter {
             @Override
             public void call(Subscriber<? super List<Account>> subscriber) {
                 subscriber.onStart();
-                List<Account> results = new ArrayList<>();
-                // TODO DBロード
-                for (int i = 0; i < 10; i++) {
-                    Account a = new Account("sqexid" + i, "sessionid" + i, new ArrayList<Character>(0));
-                    results.add(a);
+
+                try {
+                    AccountDao dao = AccountDao.create(dbHelper);
+                    List<Account> accounts = dao.queryAll();
+                    subscriber.onNext(accounts);
+                } catch (SQLException e) {
+                    LOGGER.error("load account error", e);
+                    subscriber.onError(e);
                 }
-                subscriber.onNext(results);
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io());
@@ -69,6 +79,10 @@ public class SqexidPresenter {
             }
         });
 
+    }
+
+    public void onDestroy() {
+        OpenHelperManager.releaseHelper();
     }
 
     public interface View {

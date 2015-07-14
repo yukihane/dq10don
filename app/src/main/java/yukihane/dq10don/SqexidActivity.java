@@ -13,6 +13,7 @@ import java.util.List;
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.db.DbHelperFactory;
 
 public class SqexidActivity extends ActionBarActivity implements SqexidPresenter.View {
 
@@ -21,7 +22,7 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SqexidPresenter(this);
+        presenter = new SqexidPresenter(this, new DbHelperFactory(this));
         setContentView(R.layout.activity_sqexid);
         presenter.onCreate();
     }
@@ -46,6 +47,12 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override
