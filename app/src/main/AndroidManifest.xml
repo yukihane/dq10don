@@ -25,7 +25,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="yukihane.dq10don.MainActivity"/>
+                android:value="yukihane.dq10don.SqexidActivity"/>
         </activity>
         <activity
             android:name=".SqexidActivity"
