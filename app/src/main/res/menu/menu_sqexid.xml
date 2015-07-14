@@ -5,5 +5,5 @@
     <item android:id="@+id/actionAddAccount"
           android:title="@string/add"
           android:orderInCategory="100"
-          app:showAsAction="never"/>
+          app:showAsAction="ifRoom"/>
 </menu>
