@@ -33,19 +33,23 @@ public class Account {
 
     private List<Character> characters;
 
+    // ORMライブラリで必要
     private Account() {
     }
 
+    public Account(String sqexid, String sessionId, List<Character> characters) {
+        this.sqexid = sqexid;
+        this.sessionId = sessionId;
+        setCharacters(characters);
+    }
+
     public static Account from(LoginDto dto, String sqexid) {
-        Account obj = new Account();
-        obj.sqexid = sqexid;
-        obj.sessionId = dto.getSessionId();
-        obj.characters = new ArrayList<>(dto.getCharacterList().size());
+        List<Character> characters = new ArrayList<>(dto.getCharacterList().size());
         for (CharacterList cl : dto.getCharacterList()) {
-            Character c = Character.from(obj, cl);
-            obj.characters.add(c);
+            Character c = Character.from(cl);
+            characters.add(c);
         }
-        return obj;
+        return new Account(sqexid, dto.getSessionId(), characters);
     }
 
     public Iterator<Character> getCharacters() {

@@ -29,14 +29,18 @@ public class Character {
     @DatabaseField(canBeNull = false)
     private String characterName;
 
-    public static Character from(Account account, CharacterList dto) {
-        Character obj = new Character();
-        obj.account = account;
-        obj.characterName = dto.getCharacterName();
-        obj.webPcNo = dto.getWebPcNo();
-        obj.smileUniqNo = dto.getSmileUniqueNo();
+    // ORMライブラリで必要
+    private Character() {
+    }
 
-        return obj;
+    public Character(String characterName, String smileUniqueNo, Long webPcNo) {
+        this.characterName = characterName;
+        this.smileUniqNo = smileUniqueNo;
+        this.webPcNo = webPcNo;
+    }
+
+    public static Character from(CharacterList dto) {
+        return new Character(dto.getCharacterName(), dto.getSmileUniqueNo(), dto.getWebPcNo());
     }
 
     @Override
