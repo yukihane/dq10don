@@ -5,4 +5,7 @@
     <string name="title_activity_login">アカウント登録</string>
     <string name="action_tokenapp">トークン起動</string>
     <string name="updateButton">update</string>
+    <string name="title_activity_sqexid">SqexidActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
