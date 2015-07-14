@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SqexidActivity extends ActionBarActivity {
+public class SqexidActivity extends ActionBarActivity implements SqexidPresenter.View {
+
+    private SqexidPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new SqexidPresenter(this);
         setContentView(R.layout.activity_sqexid);
     }
 
