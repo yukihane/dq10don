@@ -1,9 +1,18 @@
 package yukihane.dq10don;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
+import rx.android.view.ViewObservable;
+import yukihane.dq10don.account.Account;
 
 public class SqexidActivity extends ActionBarActivity implements SqexidPresenter.View {
 
@@ -37,5 +46,26 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void bindToList(Observable observable) {
+        ListView lv = (ListView) findViewById(R.id.sqexidList);
+        ViewObservable.bindView(lv, observable);
+    }
+
+    @Override
+    public void displayAccount(List<Account> accounts) {
+        List<String> names = new ArrayList<>(accounts.size());
+        for (Account a : accounts) {
+            names.add(a.getSqexid());
+        }
+        displayAccountStr(names);
+    }
+
+    public void displayAccountStr(List<String> names) {
+        ArrayAdapter<String> adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
+        ListView lv = (ListView) findViewById(R.id.sqexidList);
+        lv.setAdapter(adpt);
     }
 }
