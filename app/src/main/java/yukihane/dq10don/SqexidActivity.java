@@ -1,12 +1,16 @@
 package yukihane.dq10don;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +26,16 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SqexidPresenter(this, new DbHelperFactory(this));
         setContentView(R.layout.activity_sqexid);
+
+        presenter = new SqexidPresenter(this, new DbHelperFactory(this));
         presenter.onCreate();
+        getSqexidListView().setOnItemClickListener(
+                (AdapterView<?> parent, View view, int position, long id) -> {
+                    ListView lv = (ListView) parent;
+                    String userId = (String) lv.getItemAtPosition(position);
+                    presenter.onClickSqexid(userId);
+                });
     }
 
     @Override
@@ -57,8 +68,7 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
 
     @Override
     public void bindToList(Observable observable) {
-        ListView lv = (ListView) findViewById(R.id.sqexidList);
-        ViewObservable.bindView(lv, observable);
+        ViewObservable.bindView(getSqexidListView(), observable);
     }
 
     @Override
@@ -70,9 +80,32 @@ public class SqexidActivity extends ActionBarActivity implements SqexidPresenter
         displayAccountStr(names);
     }
 
+    @Override
+    public void showLogin(String userId) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data == null) {
+            presenter.onActivityResult(null, null);
+        } else {
+            String sqexid = data.getStringExtra("userId");
+            String json = data.getStringExtra("result");
+            presenter.onActivityResult(sqexid, json);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public void displayAccountStr(List<String> names) {
         ArrayAdapter<String> adpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
-        ListView lv = (ListView) findViewById(R.id.sqexidList);
-        lv.setAdapter(adpt);
+        getSqexidListView().setAdapter(adpt);
+    }
+
+    private ListView getSqexidListView() {
+        return (ListView) findViewById(R.id.sqexidList);
     }
 }

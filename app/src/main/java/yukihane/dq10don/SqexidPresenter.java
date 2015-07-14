@@ -1,10 +1,12 @@
 package yukihane.dq10don;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,12 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.*;
-import yukihane.dq10don.account.Character;
+import yukihane.dq10don.communication.dto.login.LoginDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+
+import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
 /**
  * Created by yuki on 15/07/14.
@@ -36,8 +40,10 @@ public class SqexidPresenter {
     }
 
     public void onCreate() {
-        // TODO DBのsqexアカウント情報を取得して表示
+        loadAccounts();
+    }
 
+    private void loadAccounts() {
         Observable observable = Observable.create(new Observable.OnSubscribe<List<Account>>() {
             @Override
             public void call(Subscriber<? super List<Account>> subscriber) {
@@ -78,16 +84,41 @@ public class SqexidPresenter {
                 results.addAll(list);
             }
         });
-
     }
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
     }
 
+    public void onClickSqexid(String userId) {
+        String id = (userId != null) ? userId : "";
+        view.showLogin(id);
+    }
+
+    public void onActivityResult(String sqexid, String json) {
+
+        try {
+            LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
+            if (dto.getResultCode() != RESULTCODE_OK) {
+                // TODO ログインが成功していない
+                LOGGER.error("login failed: {}", dto.getResultCode());
+            }
+            Account account = Account.from(dto, sqexid);
+
+            AccountDao dao = AccountDao.create(dbHelper);
+            dao.persist(account);
+
+            loadAccounts();
+        } catch (IOException | SQLException e) {
+            LOGGER.error("login account info persist error", e);
+        }
+    }
+
     public interface View {
         void bindToList(Observable observable);
 
         void displayAccount(List<Account> accounts);
+
+        void showLogin(String userId);
     }
 }
