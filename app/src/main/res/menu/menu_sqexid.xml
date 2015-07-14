@@ -2,7 +2,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="yukihane.dq10don.SqexidActivity">
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/actionAddAccount"
           android:title="@string/add"
           android:orderInCategory="100"
           app:showAsAction="never"/>
