@@ -100,46 +100,10 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
         WebView webView = (WebView) findViewById(R.id.loginWebView);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
-        webView.setWebViewClient(new LoginView(webView, userId));
+        webView.setWebViewClient(new LoginWebViewClient(webView, userId));
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(parser, "HTMLOUT");
         webView.addJavascriptInterface(userIdGetter, "UserIdGetter");
         webView.loadUrl(url);
-    }
-
-    private static class LoginView extends WebViewClient {
-
-        private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
-
-        private final WebView webView;
-        private final String userId;
-
-        public LoginView(WebView webView, String userId) {
-            this.webView = webView;
-            this.userId = userId;
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            logger.debug("onPageFinished: {}", url);
-
-            if (url.split("\\?")[0].equals("https://secure.square-enix.com/oauth/oa/oauthlogin")) {
-                // ログイン初期画面描画時にはユーザIDを自動入力する
-                webView.loadUrl("javascript: (function() {document.getElementById('sqexid').value = '" + userId + "';})();");
-            } else if (url.startsWith("https://happy.dqx.jp/capi/login/securelogin/")) {
-                // ログイン成功した場合には戻ってきたJSONを処理する
-                webView.loadUrl("javascript:window.HTMLOUT.processHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
-            }
-
-            super.onPageFinished(view, url);
-        }
-
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            logger.debug("onPageStarted: {}", url);
-            if (url.startsWith("https://secure.square-enix.com/oauth/oa/oauthlogin.send")) {
-                // 画面で入力されたユーザーID(正しい値であるかはここではわからない)を保持する
-                webView.loadUrl("javascript:window.UserIdGetter.get(document.getElementById('sqexid').value);");
-            }
-        }
     }
 }
