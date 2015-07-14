@@ -24,28 +24,9 @@ import yukihane.dq10don.login.UserIdGetter;
 
 public class LoginActivity extends ActionBarActivity implements LoginPresenter.View {
 
-    private static final String OAUTH_URL = "https://secure.square-enix.com/oauth/oa/";
-
     private final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 
     private LoginPresenter presenter;
-
-    private WebView webView;
-    private JsonLogin parser;
-    private UserIdGetter userIdGetter;
-
-    /**
-     * 本Activityでログイン画面を表示する際に、初期情報として設定するユーザーID.
-     * この情報は、過去ログインした際の情報が保存されており, そこから取得されます.
-     */
-    private String userId;
-
-    /**
-     * 今回のログイン処理で入力したユーザーID.
-     * 正常にログインが完了した場合には正しいユーザーIDです.
-     * ログインが失敗するなど、正常に完了しなかった場合には正しいユーザーIDが設定されているとは限りません.
-     */
-    private String usedUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,41 +34,10 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
         presenter = new LoginPresenter(this);
         setContentView(R.layout.activity_login);
 
-        // セッション情報が残っていると前回のログインを引き継いでしまうためログイン処理が行えない
-        CookieManager.getInstance().removeAllCookie();
-
-        String url = OAUTH_URL + "oauthauth?client_id=happy&redirect_uri=https%3A%2F%2Fhappy.dqx.jp%2Fcapi%2Flogin%2Fsecurelogin%2F&response_type=code&yl=1";
-
-        parser = new JsonLogin(res -> {
-            if (res != null) {
-                logger.info("login success");
-                Intent intent = new Intent();
-                intent.putExtra("result", res);
-                intent.putExtra("userId", usedUserId);
-                setResult(RESULT_OK, intent);
-            } else {
-                logger.error("login information read error.");
-                setResult(RESULT_OK);
-            }
-            finish();
-        });
-
         Intent intent = getIntent();
-        userId = intent.getStringExtra("userId");
-        if (userId == null) {
-            userId = "";
-        }
+        String userId = intent.getStringExtra("userId");
 
-        userIdGetter = new UserIdGetter(res -> usedUserId = res);
-
-        webView = (WebView) findViewById(R.id.loginWebView);
-        webView.setVerticalScrollBarEnabled(false);
-        webView.setHorizontalScrollBarEnabled(false);
-        webView.setWebViewClient(new LoginView());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(parser, "HTMLOUT");
-        webView.addJavascriptInterface(userIdGetter, "UserIdGetter");
-        webView.loadUrl(url);
+        presenter.onCreate(userId);
     }
 
     @Override
@@ -127,7 +77,47 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
         return new Intent(Intent.ACTION_VIEW, uri);
     }
 
-    private class LoginView extends WebViewClient {
+    @Override
+    public void loginSuccess(String res, String usedUserId) {
+        Intent intent = new Intent();
+        intent.putExtra("result", res);
+        intent.putExtra("userId", usedUserId);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void loginFail() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void initializeWebView(String url, String userId, JsonLogin parser, UserIdGetter userIdGetter) {
+        // セッション情報が残っていると前回のログインを引き継いでしまうためログイン処理が行えない
+        CookieManager.getInstance().removeAllCookie();
+
+        WebView webView = (WebView) findViewById(R.id.loginWebView);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setWebViewClient(new LoginView(webView, userId));
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(parser, "HTMLOUT");
+        webView.addJavascriptInterface(userIdGetter, "UserIdGetter");
+        webView.loadUrl(url);
+    }
+
+    private static class LoginView extends WebViewClient {
+
+        private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
+
+        private final WebView webView;
+        private final String userId;
+
+        public LoginView(WebView webView, String userId) {
+            this.webView = webView;
+            this.userId = userId;
+        }
 
         @Override
         public void onPageFinished(WebView view, String url) {
