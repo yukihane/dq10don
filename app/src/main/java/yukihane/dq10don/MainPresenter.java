@@ -65,11 +65,11 @@ public class MainPresenter {
 
             if (!accounts.isEmpty()) {
                 Account a = accounts.get(0);
-                view.setSqexid(a.getSqexid());
+//                view.setSqexid(a.getSqexid());
                 Iterator<Character> ite = a.getCharacters();
                 if (ite.hasNext()) {
                     this.character = ite.next();
-                    view.setCharacterName(this.character.getCharacterName());
+//                    view.setCharacterName(this.character.getCharacterName());
                     logger.info("character's parent: {}", this.character.getAccount());
                 }
             } else {
@@ -99,12 +99,12 @@ public class MainPresenter {
             e.printStackTrace();
         }
 
-        view.setSqexid(account.getSqexid());
+//        view.setSqexid(account.getSqexid());
 
         Iterator<Character> ite = account.getCharacters();
         if (ite.hasNext()) {
             this.character = ite.next();
-            view.setCharacterName(this.character.getCharacterName());
+//            view.setCharacterName(this.character.getCharacterName());
         }
     }
 
@@ -177,9 +177,6 @@ public class MainPresenter {
     }
 
     public interface View {
-        void setSqexid(String sqexid);
-
-        void setCharacterName(String characterName);
 
         void bindToList(Observable observable);
 

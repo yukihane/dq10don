@@ -3,6 +3,8 @@ package yukihane.dq10don;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +22,7 @@ import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.view.TobatsuFragmentAdapter;
 import yukihane.dq10don.view.TobatsuViewAdapter;
 
 
@@ -37,11 +40,14 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         presenter = new MainPresenter(this, new DbHelperFactory(this));
 
         setContentView(R.layout.activity_main);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.tobatsuListPager);
+        viewPager.setOffscreenPageLimit(3);
+        FragmentManager fm = getSupportFragmentManager();
 
-        tobatsuViewAdapter = new TobatsuViewAdapter(
-                (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-        ListView countryListView = (ListView) findViewById(R.id.tobatsuListView);
-        countryListView.setAdapter(tobatsuViewAdapter);
+        TobatsuFragmentAdapter adapter = new TobatsuFragmentAdapter(fm);
+
+        viewPager.setAdapter(adapter);
+
 
         presenter.onCreate();
     }
@@ -93,18 +99,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void setSqexid(String sqexid) {
-        TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
-        sqexIdView.setText(sqexid);
-    }
-
-    @Override
-    public void setCharacterName(String characterName) {
-        TextView charaNameView = (TextView) findViewById(R.id.charaNameView);
-        charaNameView.setText(characterName);
     }
 
     @Override
