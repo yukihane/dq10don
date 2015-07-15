@@ -41,11 +41,6 @@ public class MainPresenter {
     private final View view;
     private final DbHelper dbHelper;
 
-    /**
-     * このインスタンスが表示対象としているキャラクター
-     */
-    private Character character;
-
 
     public MainPresenter(View view, DbHelperFactory dbHFactory) {
         this.view = view;
@@ -63,18 +58,18 @@ public class MainPresenter {
                 logger.info("db account: {}", a);
             }
 
-            if (!accounts.isEmpty()) {
-                Account a = accounts.get(0);
-//                view.setSqexid(a.getSqexid());
-                Iterator<Character> ite = a.getCharacters();
-                if (ite.hasNext()) {
-                    this.character = ite.next();
-//                    view.setCharacterName(this.character.getCharacterName());
-                    logger.info("character's parent: {}", this.character.getAccount());
-                }
-            } else {
-                logger.info("no db accout");
-            }
+//            if (!accounts.isEmpty()) {
+//                Account a = accounts.get(0);
+////                view.setSqexid(a.getSqexid());
+//                Iterator<Character> ite = a.getCharacters();
+//                if (ite.hasNext()) {
+//                    this.character = ite.next();
+////                    view.setCharacterName(this.character.getCharacterName());
+//                    logger.info("character's parent: {}", this.character.getAccount());
+//                }
+//            } else {
+//                logger.info("no db accout");
+//            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,11 +96,11 @@ public class MainPresenter {
 
 //        view.setSqexid(account.getSqexid());
 
-        Iterator<Character> ite = account.getCharacters();
-        if (ite.hasNext()) {
-            this.character = ite.next();
-//            view.setCharacterName(this.character.getCharacterName());
-        }
+//        Iterator<Character> ite = account.getCharacters();
+//        if (ite.hasNext()) {
+//            this.character = ite.next();
+////            view.setCharacterName(this.character.getCharacterName());
+//        }
     }
 
     public interface View {
