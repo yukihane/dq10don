@@ -38,8 +38,7 @@ public class AccountDao {
         String stmt = builder.where().eq("account_id", account.getSqexid()).getStatement();
         LOGGER.info("delete stmt: {}", stmt);
 
-        for (Iterator<Character> ite = account.getCharacters();  ite.hasNext();) {
-            Character c = ite.next();
+        for (Character c : account.getCharacters()) {
             characterDao.createOrUpdate(c);
         }
     }
