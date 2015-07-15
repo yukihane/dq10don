@@ -21,7 +21,7 @@ import yukihane.dq10don.view.TobatsuFragmentAdapter;
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {
 
-    private final Logger logger = LoggerFactory.getLogger(MainActivity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainActivity.class);
 
     private MainPresenter presenter;
 
@@ -77,18 +77,18 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        logger.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
+        LOGGER.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
 
         if (data == null) {
-            logger.error("LOGIN fail");
+            LOGGER.error("LOGIN fail");
         } else {
             try {
                 String sqexid = data.getStringExtra("userId");
                 String json = data.getStringExtra("result");
-                logger.info("LOGIN success({}): {}", sqexid, json);
+                LOGGER.info("LOGIN success({}): {}", sqexid, json);
                 presenter.onActivityResult(sqexid, json);
             } catch (IOException e) {
-                logger.error("parse error", e);
+                LOGGER.error("parse error", e);
             }
         }
 
