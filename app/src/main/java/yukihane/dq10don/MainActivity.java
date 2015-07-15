@@ -75,13 +75,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         presenter.onDestroy();
     }
 
-    public void onLoginClick(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        // TODO ユーザーIDを設定する
-        intent.putExtra("userId", "");
-        startActivityForResult(intent, 0);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         logger.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
