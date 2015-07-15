@@ -22,20 +22,6 @@
       android:layout_height="wrap_content"
       android:layout_weight="1"
       android:text="キャラクタ名"/>
-
-    <Button
-      android:id="@+id/loginButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:onClick="onLoginClick"
-      android:text="@string/loginButton"/>
-
-    <Button
-      android:id="@+id/updateButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:onClick="onUpdateClick"
-      android:text="@string/updateButton"/>
   </LinearLayout>
 
   <ListView
