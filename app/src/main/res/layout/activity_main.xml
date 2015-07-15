@@ -1,33 +1,13 @@
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:orientation="vertical">
-
-  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-      android:id="@+id/accountNameView"
-      android:layout_width="0px"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:text="アカウント名"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tobatsuListPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
-    <TextView
-      android:id="@+id/charaNameView"
-      android:layout_width="0px"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:text="キャラクタ名"/>
-  </LinearLayout>
-
-  <ListView
-    android:id="@+id/tobatsuListView"
-    android:layout_width="match_parent"
-    android:layout_height="0px"
-    android:layout_weight="1"
-    android:background="#0000ff"></ListView>
 </LinearLayout>
