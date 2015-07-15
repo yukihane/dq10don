@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
+import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.view.TobatsuFragmentAdapter;
 
@@ -93,4 +95,8 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void setAccounts(List<Account> accounts) {
+        tobatsuAdapter.setAccounts(accounts);
+    }
 }

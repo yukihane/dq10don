@@ -8,23 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.account.Character;
-import yukihane.dq10don.account.TobatsuItem;
-import yukihane.dq10don.communication.HappyService;
-import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication.dto.login.LoginDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuList;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
@@ -53,25 +40,9 @@ public class MainPresenter {
         try {
             AccountDao dao = AccountDao.create(dbHelper);
             List<Account> accounts = dao.queryAll();
-
-            for (Account a : accounts) {
-                logger.info("db account: {}", a);
-            }
-
-//            if (!accounts.isEmpty()) {
-//                Account a = accounts.get(0);
-////                view.setSqexid(a.getSqexid());
-//                Iterator<Character> ite = a.getCharacters();
-//                if (ite.hasNext()) {
-//                    this.character = ite.next();
-////                    view.setCharacterName(this.character.getCharacterName());
-//                    logger.info("character's parent: {}", this.character.getAccount());
-//                }
-//            } else {
-//                logger.info("no db accout");
-//            }
+            view.setAccounts(accounts);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("account load error", e);
         }
     }
 
@@ -104,5 +75,6 @@ public class MainPresenter {
     }
 
     public interface View {
+        void setAccounts(List<Account> accounts);
     }
 }

@@ -18,6 +18,11 @@ import yukihane.dq10don.view.TobatsuViewAdapter;
  */
 public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
 
+    public static final String SQEXID = "sqexid";
+    public static final String CHARACTER_NAME = "characterName";
+    public static final String SMILE_UNIQ_NO = "smileUniqNo";
+
+
     TobatsuViewAdapter tobatsuViewAdapter;
     ListView tobatsuListView;
 
