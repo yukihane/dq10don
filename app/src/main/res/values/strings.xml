@@ -8,4 +8,5 @@
     <string name="add">追加</string>
     <string name="relogin">再ログイン</string>
     <string name="remove">削除</string>
+    <string name="reload">更新</string>
 </resources>
