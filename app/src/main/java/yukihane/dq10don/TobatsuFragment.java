@@ -14,12 +14,13 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.debug.DebugLogFragment;
 import yukihane.dq10don.view.TobatsuViewAdapter;
 
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
+public class TobatsuFragment extends DebugLogFragment implements TobatsuPresenter.View {
 
     public static final String SQEXID = "sqexid";
     public static final String CHARACTER_NAME = "characterName";
