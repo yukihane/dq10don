@@ -57,7 +57,10 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_sqexid) {
+        if (id == R.id.action_reload_tobatsu) {
+            presenter.onUpdateClick();
+            return true;
+        } else if (id == R.id.action_sqexid) {
             Intent intent = new Intent(this, SqexidActivity.class);
             startActivity(intent);
             return true;
@@ -99,10 +102,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void onUpdateClick(View view) {
-        presenter.onUpdateClick();
-    }
-
     @Override
     public void setSqexid(String sqexid) {
         TextView sqexIdView = (TextView) findViewById(R.id.accountNameView);
@@ -124,12 +123,12 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     @Override
     public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
         tobatsuViewAdapter.addItem(String.class, "受注中");
-        for(TobatsuItem item : list.getAcceptings()) {
+        for (TobatsuItem item : list.getAcceptings()) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
         }
 
         tobatsuViewAdapter.addItem(String.class, "リスト");
-        for(TobatsuItem item : list.getListings()) {
+        for (TobatsuItem item : list.getListings()) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
         }
 
