@@ -18,43 +18,43 @@ public abstract class DebugLogActionBarActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LOGGER.debug("onCreate called");
+        LOGGER.debug("onCreate called {}", toString());
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onStart() {
-        LOGGER.debug("onStart called");
+        LOGGER.debug("onStart called {}", toString());
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        LOGGER.debug("onResume called");
+        LOGGER.debug("onResume called {}", toString());
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        LOGGER.debug("onPause called");
+        LOGGER.debug("onPause called {}", toString());
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        LOGGER.debug("onStop called");
+        LOGGER.debug("onStop called {}", toString());
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        LOGGER.debug("onDestroy called");
+        LOGGER.debug("onDestroy called {} ", toString());
         super.onDestroy();
     }
 
     @Override
     protected void onRestart() {
-        LOGGER.debug("onDestroy called");
-        super.onDestroy();
+        LOGGER.debug("onRestart called {}", toString());
+        super.onRestart();
     }
 }
