@@ -1,29 +1,20 @@
 package yukihane.dq10don;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import rx.Observable;
-import rx.android.view.ViewObservable;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.view.TobatsuFragmentAdapter;
-import yukihane.dq10don.view.TobatsuViewAdapter;
 
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {
@@ -32,7 +23,7 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
     private MainPresenter presenter;
 
-    private TobatsuViewAdapter tobatsuViewAdapter;
+    private TobatsuFragmentAdapter tobatsuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +35,9 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();
 
-        TobatsuFragmentAdapter adapter = new TobatsuFragmentAdapter(fm);
+        tobatsuAdapter = new TobatsuFragmentAdapter(fm);
 
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(tobatsuAdapter);
 
 
         presenter.onCreate();
@@ -64,7 +55,8 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         int id = item.getItemId();
 
         if (id == R.id.action_reload_tobatsu) {
-            presenter.onUpdateClick();
+            // TODO フラグメントに更新要求を送る
+//            presenter.onUpdateClick();
             return true;
         } else if (id == R.id.action_sqexid) {
             Intent intent = new Intent(this, SqexidActivity.class);
@@ -101,24 +93,4 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void bindToList(Observable observable) {
-        ListView view = (ListView) findViewById(R.id.tobatsuListView);
-        ViewObservable.bindView(view, observable);
-    }
-
-    @Override
-    public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
-        tobatsuViewAdapter.addItem(String.class, "受注中");
-        for (TobatsuItem item : list.getAcceptings()) {
-            tobatsuViewAdapter.addItem(TobatsuItem.class, item);
-        }
-
-        tobatsuViewAdapter.addItem(String.class, "リスト");
-        for (TobatsuItem item : list.getListings()) {
-            tobatsuViewAdapter.addItem(TobatsuItem.class, item);
-        }
-
-        tobatsuViewAdapter.notifyChanged();
-    }
 }
