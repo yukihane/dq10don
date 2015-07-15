@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.TobatsuItem;
@@ -22,9 +25,10 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
     public static final String CHARACTER_NAME = "characterName";
     public static final String SMILE_UNIQ_NO = "smileUniqNo";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
 
-    TobatsuViewAdapter tobatsuViewAdapter;
-    ListView tobatsuListView;
+    private TobatsuViewAdapter tobatsuViewAdapter;
+    private ListView tobatsuListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
