@@ -12,9 +12,7 @@ import yukihane.dq10don.TobatsuFragment;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 
-import static yukihane.dq10don.TobatsuFragment.CHARACTER_NAME;
-import static yukihane.dq10don.TobatsuFragment.SMILE_UNIQ_NO;
-import static yukihane.dq10don.TobatsuFragment.SQEXID;
+import static yukihane.dq10don.TobatsuFragment.CHARACTER;
 
 public class TobatsuFragmentAdapter extends FragmentPagerAdapter {
 
@@ -35,10 +33,9 @@ public class TobatsuFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         TobatsuFragment fragment = new TobatsuFragment();
         Character c = characters.get(position);
+        CharacterDto cdto = CharacterDto.from(c);
         Bundle b = new Bundle();
-        b.putString(SQEXID, c.getAccount().getSqexid());
-        b.putString(CHARACTER_NAME, c.getCharacterName());
-        b.putString(SMILE_UNIQ_NO, c.getSmileUniqNo());
+        b.putParcelable(CHARACTER, cdto);
         fragment.setArguments(b);
         return fragment;
     }

@@ -22,9 +22,7 @@ import yukihane.dq10don.view.TobatsuViewAdapter;
  */
 public class TobatsuFragment extends DebugLogFragment implements TobatsuPresenter.View {
 
-    public static final String SQEXID = "sqexid";
-    public static final String CHARACTER_NAME = "characterName";
-    public static final String SMILE_UNIQ_NO = "smileUniqNo";
+    public static final String CHARACTER = "character";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
 
