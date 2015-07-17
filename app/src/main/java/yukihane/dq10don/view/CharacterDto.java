@@ -84,4 +84,15 @@ public class CharacterDto implements Parcelable {
         dest.writeString(smileUniqNo);
         dest.writeString(characterName);
     }
+
+    @Override
+    public String toString() {
+        return "CharacterDto{" +
+                "sqexid='" + sqexid + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", webPcNo=" + webPcNo +
+                ", smileUniqNo='" + smileUniqNo + '\'' +
+                ", characterName='" + characterName + '\'' +
+                '}';
+    }
 }
