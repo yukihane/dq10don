@@ -2,11 +2,11 @@ package yukihane.dq10don;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +54,12 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        presenter.onViewCreated();
+    }
+
+    @Override
     public void onDestroyView () {
         presenter.onDestroyView();
     }
@@ -71,6 +77,15 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
         }
 
         tobatsuViewAdapter.notifyChanged();
+    }
+
+    @Override
+    public void setHeader(String sqexid, String smileUniqNo) {
+        TextView sqexidView = (TextView) getView().findViewById(R.id.accountNameView);
+        sqexidView.setText(sqexid);
+
+        TextView smileUniqNoView = (TextView) getView().findViewById(R.id.smileUniqNoView);
+        smileUniqNoView.setText(smileUniqNo);
     }
 
 

@@ -37,7 +37,10 @@ public class TobatsuPresenter {
         this.view = view;
         this.dbHelper = dbHFactory.create();
         this.character = character;
+    }
 
+    public void onViewCreated() {
+        view.setHeader(character.getSqexid(), character.getSmileUniqNo());
     }
 
     public void onUpdateClick() {
@@ -102,7 +105,7 @@ public class TobatsuPresenter {
                     }
                 }
 
-                if(view != null) {
+                if (view != null) {
                     view.tobatsuListUpdate(list);
                 }
             }
@@ -113,9 +116,12 @@ public class TobatsuPresenter {
         view = null;
     }
 
+
     public interface View {
         void bindToList(Observable observable);
 
         void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list);
+
+        void setHeader(String sqexid, String smileUniqNo);
     }
 }
