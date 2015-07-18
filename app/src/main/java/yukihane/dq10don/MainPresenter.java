@@ -25,7 +25,7 @@ public class MainPresenter {
 
     private static final Logger logger = LoggerFactory.getLogger(MainPresenter.class);
 
-    private final View view;
+    private View view;
     private final DbHelper dbHelper;
 
 
@@ -48,6 +48,7 @@ public class MainPresenter {
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
+        view = null;
     }
 
     public void onActivityResult(String sqexid, String json) throws IOException {
@@ -64,14 +65,6 @@ public class MainPresenter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        view.setSqexid(account.getSqexid());
-
-//        Iterator<Character> ite = account.getCharacters();
-//        if (ite.hasNext()) {
-//            this.character = ite.next();
-////            view.setCharacterName(this.character.getCharacterName());
-//        }
     }
 
     public interface View {
