@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import lombok.Getter;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
-import yukihane.dq10don.tobatsu.model.CharacterDto;
+import yukihane.dq10don.tobatsu.presenter.CharacterDto;
 
 /**
  * Created by yuki on 15/07/17.

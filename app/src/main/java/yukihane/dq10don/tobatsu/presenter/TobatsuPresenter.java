@@ -15,7 +15,6 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.tobatsu.model.CharacterDto;
 
 /**
  * Created by yuki on 15/07/15.
