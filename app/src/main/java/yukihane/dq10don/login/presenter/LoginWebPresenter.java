@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.login.presenter;
 
 /**
  * Created by yuki on 15/07/14.

@@ -1,4 +1,4 @@
-package yukihane.dq10don.view;
+package yukihane.dq10don.tobatsu.view;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,21 +6,22 @@ import android.os.Parcelable;
 import lombok.Getter;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.tobatsu.presenter.CharacterDto;
 
 /**
  * Created by yuki on 15/07/17.
  */
-public class CharacterDto implements Parcelable {
+public class CharacterDtoImpl implements CharacterDto, Parcelable {
 
-    public static final Creator<CharacterDto> CREATOR = new Creator<CharacterDto>() {
+    public static final Creator<CharacterDtoImpl> CREATOR = new Creator<CharacterDtoImpl>() {
         @Override
-        public CharacterDto createFromParcel(Parcel in) {
-            return new CharacterDto(in);
+        public CharacterDtoImpl createFromParcel(Parcel in) {
+            return new CharacterDtoImpl(in);
         }
 
         @Override
-        public CharacterDto[] newArray(int size) {
-            return new CharacterDto[size];
+        public CharacterDtoImpl[] newArray(int size) {
+            return new CharacterDtoImpl[size];
         }
     };
 
@@ -35,7 +36,7 @@ public class CharacterDto implements Parcelable {
     @Getter
     private String characterName;
 
-    public CharacterDto(String sqexid, String sessionId, long webPcNo, String smileUniqNo, String characterName) {
+    public CharacterDtoImpl(String sqexid, String sessionId, long webPcNo, String smileUniqNo, String characterName) {
         this.sqexid = sqexid;
         this.sessionId = sessionId;
         this.webPcNo = webPcNo;
@@ -43,7 +44,7 @@ public class CharacterDto implements Parcelable {
         this.characterName = characterName;
     }
 
-    protected CharacterDto(Parcel in) {
+    protected CharacterDtoImpl(Parcel in) {
         sqexid = in.readString();
         sessionId = in.readString();
         webPcNo = in.readLong();
@@ -51,9 +52,9 @@ public class CharacterDto implements Parcelable {
         characterName = in.readString();
     }
 
-    public static CharacterDto from(Character c) {
+    public static CharacterDtoImpl from(Character c) {
         Account a = c.getAccount();
-        return new CharacterDto(a.getSqexid(), a.getSessionId(),
+        return new CharacterDtoImpl(a.getSqexid(), a.getSessionId(),
                 c.getWebPcNo(), c.getSmileUniqNo(), c.getCharacterName());
     }
 
@@ -87,7 +88,7 @@ public class CharacterDto implements Parcelable {
 
     @Override
     public String toString() {
-        return "CharacterDto{" +
+        return "CharacterDtoImpl{" +
                 "sqexid='" + sqexid + '\'' +
                 ", sessionId='" + sessionId + '\'' +
                 ", webPcNo=" + webPcNo +

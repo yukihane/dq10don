@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.sqexid.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;

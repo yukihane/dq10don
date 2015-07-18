@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.sqexid.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +10,8 @@ import android.support.v4.app.DialogFragment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import yukihane.dq10don.R;
 
 public class OpeDialog extends DialogFragment {
 

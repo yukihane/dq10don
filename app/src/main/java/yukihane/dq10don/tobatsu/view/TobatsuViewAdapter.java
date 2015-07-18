@@ -1,4 +1,4 @@
-package yukihane.dq10don.view;
+package yukihane.dq10don.tobatsu.view;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;

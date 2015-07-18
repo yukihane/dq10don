@@ -1,4 +1,4 @@
-package yukihane.dq10don.view;
+package yukihane.dq10don.tobatsu.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,11 +8,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import yukihane.dq10don.TobatsuFragment;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 
-import static yukihane.dq10don.TobatsuFragment.CHARACTER;
+import static yukihane.dq10don.tobatsu.view.TobatsuFragment.CHARACTER;
 
 public class TobatsuFragmentAdapter extends FragmentPagerAdapter {
 
@@ -33,7 +32,7 @@ public class TobatsuFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         TobatsuFragment fragment = new TobatsuFragment();
         Character c = characters.get(position);
-        CharacterDto cdto = CharacterDto.from(c);
+        CharacterDtoImpl cdto = CharacterDtoImpl.from(c);
         Bundle b = new Bundle();
         b.putParcelable(CHARACTER, cdto);
         fragment.setArguments(b);
