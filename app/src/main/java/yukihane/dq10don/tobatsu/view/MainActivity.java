@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import yukihane.dq10don.MainPresenter;
+import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
