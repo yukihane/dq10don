@@ -65,6 +65,7 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
 
     @Override
     public void onDestroyView () {
+        super.onDestroyView();
         presenter.onDestroyView();
     }
 
