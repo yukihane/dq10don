@@ -70,6 +70,12 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
+    @Override
     public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
         tobatsuViewAdapter.clearItems();
         tobatsuViewAdapter.addItem(String.class, "受注中");

@@ -1,5 +1,7 @@
 package yukihane.dq10don.tobatsu.presenter;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +25,13 @@ public class TobatsuPresenter {
 
     private static final Logger logger = LoggerFactory.getLogger(TobatsuPresenter.class);
 
-    private View view = null;
-    private final DbHelper dbHelper;
-
     /**
      * このインスタンスが表示対象としているキャラクター
      */
     private final CharacterDto character;
 
+    private View view = null;
+    private DbHelper dbHelper = null;
 
     public TobatsuPresenter(View view, DbHelperFactory dbHFactory, CharacterDto character) {
         this.view = view;
@@ -113,6 +114,11 @@ public class TobatsuPresenter {
 
     public void onDestroyView() {
         view = null;
+    }
+
+    public void onDestroy() {
+        OpenHelperManager.releaseHelper();
+        dbHelper = null;
     }
 
 
