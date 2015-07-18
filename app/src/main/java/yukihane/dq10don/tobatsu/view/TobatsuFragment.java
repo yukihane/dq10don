@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.tobatsu.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
 
 import rx.Observable;
 import rx.android.view.ViewObservable;
+import yukihane.dq10don.R;
+import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.DebugLogFragment;
-import yukihane.dq10don.view.CharacterDto;
-import yukihane.dq10don.view.TobatsuViewAdapter;
 
 /**
  * Created by yuki on 15/07/15.

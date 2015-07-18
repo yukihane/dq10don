@@ -16,7 +16,7 @@ import java.util.List;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.view.TobatsuFragmentAdapter;
+import yukihane.dq10don.tobatsu.view.TobatsuFragmentAdapter;
 
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {
