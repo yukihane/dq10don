@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.sqexid.presenter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;

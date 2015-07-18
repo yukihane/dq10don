@@ -16,6 +16,7 @@ import java.util.List;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.TobatsuFragmentAdapter;
 
 
