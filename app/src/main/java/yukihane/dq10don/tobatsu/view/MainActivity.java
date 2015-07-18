@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
     private MainPresenter presenter;
 
-    private TobatsuFragmentPageAdapter tobatsuAdapter;
+    private TobatsuFragmentPageAdapter pageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,9 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();
 
-        tobatsuAdapter = new TobatsuFragmentPageAdapter(fm);
+        pageAdapter = new TobatsuFragmentPageAdapter(fm);
 
-        viewPager.setAdapter(tobatsuAdapter);
+        viewPager.setAdapter(pageAdapter);
 
 
         presenter.onCreate();
@@ -99,6 +99,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
     @Override
     public void setAccounts(List<Account> accounts) {
-        tobatsuAdapter.setAccounts(accounts);
+        pageAdapter.setAccounts(accounts);
     }
 }
