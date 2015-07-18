@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import yukihane.dq10don.login.model.JsonLogin;
-import yukihane.dq10don.login.UserIdGetter;
+import yukihane.dq10don.login.model.UserIdGetter;
 
 /**
  * Created by yuki on 15/07/14.

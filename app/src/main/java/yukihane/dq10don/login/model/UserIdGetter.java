@@ -1,4 +1,4 @@
-package yukihane.dq10don.login;
+package yukihane.dq10don.login.model;
 
 import android.webkit.JavascriptInterface;
 

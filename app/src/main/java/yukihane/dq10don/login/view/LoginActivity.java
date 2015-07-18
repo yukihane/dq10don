@@ -20,7 +20,7 @@ import yukihane.dq10don.login.presenter.LoginPresenter;
 import yukihane.dq10don.LoginWebViewClient;
 import yukihane.dq10don.R;
 import yukihane.dq10don.login.model.JsonLogin;
-import yukihane.dq10don.login.UserIdGetter;
+import yukihane.dq10don.login.model.UserIdGetter;
 
 
 public class LoginActivity extends ActionBarActivity implements LoginPresenter.View {
