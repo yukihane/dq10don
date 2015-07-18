@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.DebugLogFragment;
+import yukihane.dq10don.view.CharacterDto;
 import yukihane.dq10don.view.TobatsuViewAdapter;
 
 /**
@@ -26,8 +28,14 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
 
+    private TobatsuPresenter presenter;
     private TobatsuViewAdapter tobatsuViewAdapter;
     private ListView tobatsuListView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -39,7 +47,15 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
         tobatsuListView = (ListView) view.findViewById(R.id.tobatsuListView);
         tobatsuListView.setAdapter(tobatsuViewAdapter);
 
+        CharacterDto character = getArguments().getParcelable(CHARACTER);
+        presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView () {
+        presenter.onDestroyView();
     }
 
     @Override
