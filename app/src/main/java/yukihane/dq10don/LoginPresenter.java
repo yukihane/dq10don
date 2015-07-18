@@ -1,11 +1,9 @@
 package yukihane.dq10don;
 
-import android.webkit.CookieManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yukihane.dq10don.login.JsonLogin;
+import yukihane.dq10don.login.model.JsonLogin;
 import yukihane.dq10don.login.UserIdGetter;
 
 /**

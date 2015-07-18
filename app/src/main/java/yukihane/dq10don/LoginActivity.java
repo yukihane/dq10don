@@ -3,7 +3,6 @@ package yukihane.dq10don;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,14 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import yukihane.dq10don.login.JsonLogin;
+import yukihane.dq10don.login.model.JsonLogin;
 import yukihane.dq10don.login.UserIdGetter;
 
 
