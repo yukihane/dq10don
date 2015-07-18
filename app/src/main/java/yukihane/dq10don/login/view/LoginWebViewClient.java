@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.login.view;
 
 
 import android.graphics.Bitmap;
