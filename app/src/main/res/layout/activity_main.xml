@@ -9,7 +9,6 @@
         android:id="@+id/tobatsuListStrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#333333"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"/>
 
