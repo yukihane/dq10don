@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import yukihane.dq10don.LoginPresenter;
+import yukihane.dq10don.login.presenter.LoginPresenter;
 import yukihane.dq10don.LoginWebViewClient;
 import yukihane.dq10don.R;
 import yukihane.dq10don.login.model.JsonLogin;

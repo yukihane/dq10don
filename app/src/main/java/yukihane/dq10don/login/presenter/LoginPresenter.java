@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.login.presenter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
