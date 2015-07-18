@@ -48,7 +48,7 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
         tobatsuListView = (ListView) view.findViewById(R.id.tobatsuListView);
         tobatsuListView.setAdapter(tobatsuViewAdapter);
 
-        CharacterDto character = getArguments().getParcelable(CHARACTER);
+        CharacterDtoImpl character = getArguments().getParcelable(CHARACTER);
         presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
 
         Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);

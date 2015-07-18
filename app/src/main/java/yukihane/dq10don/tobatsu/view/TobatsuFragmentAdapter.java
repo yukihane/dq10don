@@ -32,7 +32,7 @@ public class TobatsuFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         TobatsuFragment fragment = new TobatsuFragment();
         Character c = characters.get(position);
-        CharacterDto cdto = CharacterDto.from(c);
+        CharacterDtoImpl cdto = CharacterDtoImpl.from(c);
         Bundle b = new Bundle();
         b.putParcelable(CHARACTER, cdto);
         fragment.setArguments(b);
