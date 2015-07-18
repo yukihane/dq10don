@@ -1,4 +1,4 @@
-package yukihane.dq10don;
+package yukihane.dq10don.login.view;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import yukihane.dq10don.LoginPresenter;
+import yukihane.dq10don.LoginWebViewClient;
+import yukihane.dq10don.R;
 import yukihane.dq10don.login.model.JsonLogin;
 import yukihane.dq10don.login.UserIdGetter;
 

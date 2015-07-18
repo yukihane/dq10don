@@ -20,6 +20,7 @@ import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.login.view.LoginActivity;
 
 public class SqexidActivity extends ActionBarActivity
         implements SqexidPresenter.View, OpeDialog.Listener, RemoveConfirmDialog.Listener {

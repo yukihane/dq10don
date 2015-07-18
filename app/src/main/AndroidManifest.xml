@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.view.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".MainActivity">
             <meta-data
