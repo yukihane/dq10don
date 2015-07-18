@@ -91,7 +91,7 @@ public class TobatsuPresenter {
                         LOGGER.info("monster: {}", tl.getMonsterName());
                         TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
                                 tl.getArea() + "," + tl.getCount(), tl.getPoint());
-                        list.addListing(item);
+                        list.addListItem(item);
                     }
                 }
 
