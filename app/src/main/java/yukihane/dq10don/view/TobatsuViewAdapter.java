@@ -54,6 +54,11 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
         displayTargets.add(displayTarget);
     }
 
+    public void clearItems() {
+        types.clear();
+        displayTargets.clear();
+    }
+
     /**
      * Register an observer that is called when changes happen to the data used by this adapter.
      *

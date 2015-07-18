@@ -52,8 +52,8 @@ public class Account {
         return new Account(sqexid, dto.getSessionId(), characters);
     }
 
-    public Iterator<Character> getCharacters() {
-        return characters.iterator();
+    public List<Character> getCharacters() {
+        return new ArrayList<>(characters);
     }
 
     public void setCharacters(List<Character> characters) {

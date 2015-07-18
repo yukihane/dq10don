@@ -17,6 +17,7 @@ public class Character {
     @DatabaseField(id = true, canBeNull = false)
     private long webPcNo;
 
+    @Getter
     @DatabaseField(canBeNull = false)
     private String smileUniqNo;
 
