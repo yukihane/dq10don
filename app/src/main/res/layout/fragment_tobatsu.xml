@@ -22,6 +22,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ID"/>
+
+        <Button
+            android:id="@+id/updateTobatsuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reload"/>
     </LinearLayout>
 
     <ListView

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +50,9 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
 
         CharacterDto character = getArguments().getParcelable(CHARACTER);
         presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
+
+        Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);
+        updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
         return view;
     }
