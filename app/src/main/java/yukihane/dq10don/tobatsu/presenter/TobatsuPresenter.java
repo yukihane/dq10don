@@ -23,7 +23,7 @@ import yukihane.dq10don.db.DbHelperFactory;
  */
 public class TobatsuPresenter {
 
-    private static final Logger logger = LoggerFactory.getLogger(TobatsuPresenter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
 
     /**
      * このインスタンスが表示対象としているキャラクター
@@ -50,11 +50,11 @@ public class TobatsuPresenter {
             public void call(Subscriber<? super TobatsuDto> subscriber) {
                 subscriber.onStart();
                 if (character == null) {
-                    logger.error("need login");
+                    LOGGER.error("need login");
                     subscriber.onError(new NullPointerException("need login"));
                 } else {
                     String sessionId = character.getSessionId();
-                    logger.info("update target character: {}", character);
+                    LOGGER.info("update target character: {}", character);
                     HappyService service = HappyServiceFactory.getService(sessionId);
                     service.characterSelect(character.getWebPcNo());
                     TobatsuDto res = service.getTobatsuList();
@@ -72,33 +72,33 @@ public class TobatsuPresenter {
 
             @Override
             public void onCompleted() {
-                logger.info("onCompleted");
+                LOGGER.info("onCompleted");
             }
 
             @Override
             public void onError(Throwable e) {
-                logger.error("onError", e);
+                LOGGER.error("onError", e);
             }
 
             @Override
             public void onNext(TobatsuDto dto) {
-                logger.info("onNext");
-                logger.info("getAcceptedTobatsuDataList size: {}", dto.getAcceptedTobatsuDataList().size());
+                LOGGER.info("onNext");
+                LOGGER.info("getAcceptedTobatsuDataList size: {}", dto.getAcceptedTobatsuDataList().size());
                 for (TobatsuDataList data : dto.getAcceptedTobatsuDataList()) {
-                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
+                    LOGGER.info("getTobatsuList size: {}", data.getTobatsuList().size());
                     for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : data.getTobatsuList()) {
-                        logger.info("monster: {}", tl.getMonsterName());
+                        LOGGER.info("monster: {}", tl.getMonsterName());
                         TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
                                 tl.getArea() + "," + tl.getCount(), tl.getPoint());
                         list.addAccepting(item);
                     }
                 }
 
-                logger.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
+                LOGGER.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
                 for (TobatsuDataList data : dto.getCountryTobatsuDataList()) {
-                    logger.info("getTobatsuList size: {}", data.getTobatsuList().size());
+                    LOGGER.info("getTobatsuList size: {}", data.getTobatsuList().size());
                     for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : data.getTobatsuList()) {
-                        logger.info("monster: {}", tl.getMonsterName());
+                        LOGGER.info("monster: {}", tl.getMonsterName());
                         TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
                                 tl.getArea() + "," + tl.getCount(), tl.getPoint());
                         list.addListing(item);
