@@ -83,16 +83,6 @@ public class TobatsuPresenter {
             @Override
             public void onNext(TobatsuDto dto) {
                 LOGGER.info("onNext");
-                LOGGER.info("getAcceptedTobatsuDataList size: {}", dto.getAcceptedTobatsuDataList().size());
-                for (TobatsuDataList data : dto.getAcceptedTobatsuDataList()) {
-                    LOGGER.info("getTobatsuList size: {}", data.getTobatsuList().size());
-                    for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : data.getTobatsuList()) {
-                        LOGGER.info("monster: {}", tl.getMonsterName());
-                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
-                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
-                        list.addAccepting(item);
-                    }
-                }
 
                 LOGGER.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
                 for (TobatsuDataList data : dto.getCountryTobatsuDataList()) {

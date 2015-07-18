@@ -78,10 +78,6 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     @Override
     public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
         tobatsuViewAdapter.clearItems();
-        tobatsuViewAdapter.addItem(String.class, "受注中");
-        for (TobatsuItem item : list.getAcceptings()) {
-            tobatsuViewAdapter.addItem(TobatsuItem.class, item);
-        }
 
         tobatsuViewAdapter.addItem(String.class, "リスト");
         for (TobatsuItem item : list.getListings()) {
