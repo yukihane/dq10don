@@ -39,17 +39,29 @@ public class TobatsuServiceImpl implements TobatsuService {
         Map<Character, TobatsuList> result = new HashMap<>();
         for (Account account : accounts) {
             for (Character character : account.getCharacters()) {
-                TobatsuList dbList = getTobatsuListFromDB(character);
-                if (dbList != null) {
-                    result.put(character, dbList);
-                } else {
-                    // DBにない場合は取りに行く
-                    TobatsuList list = getTobatsuListFromServer(character);
-                    result.put(character, list);
-                }
+                TobatsuList tl = getTobatsuList(character);
+                result.put(character, tl);
             }
         }
         return result;
+    }
+
+    @Override
+    public TobatsuList getTobatsuList(long webPcNo) throws SQLException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+        return getTobatsuList(character);
+    }
+
+    private TobatsuList getTobatsuList(Character character) throws SQLException {
+        TobatsuList dbRes = getTobatsuListFromDB(character);
+        if(dbRes != null) {
+            LOGGER.debug("found on DB");
+            return dbRes;
+        }
+        // DBにない場合はサーバへ要求
+        LOGGER.debug("not found on DB");
+        return getTobatsuListFromServer(character);
     }
 
 
