@@ -48,13 +48,13 @@ public class TobatsuPresenter {
     public void onViewCreated() {
         view.setHeader(character.getSqexid(), character.getSmileUniqNo());
 
-        updateList();
+        updateList(false);
 
     }
 
 
     public void onUpdateClick() {
-        updateList();
+        updateList(true);
     }
 
     public void onDestroyView() {
@@ -66,7 +66,11 @@ public class TobatsuPresenter {
         dbHelper = null;
     }
 
-    private void updateList() {
+    /**
+     * @param forceUpdate false の場合, (DB上に)キャッシュが有ればそれを返します.
+     *                    trueのの場合, DBデータの有無にかかわらずサーバへリクエストします.
+     */
+    private void updateList(boolean forceUpdate) {
 
         Observable<TobatsuList> observable = Observable.create(new Observable.OnSubscribe<TobatsuList>() {
             @Override
@@ -75,8 +79,13 @@ public class TobatsuPresenter {
 
                 TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
                 try {
-                    TobatsuList tl = service.getTobatsuList(character.getWebPcNo());
-                    subscriber.onNext(tl);
+                    if (forceUpdate) {
+                        TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
+                        subscriber.onNext(tl);
+                    } else {
+                        TobatsuList tl = service.getTobatsuList(character.getWebPcNo());
+                        subscriber.onNext(tl);
+                    }
                 } catch (SQLException e) {
                     LOGGER.error("tobatsu list query error", e);
                     subscriber.onError(e);

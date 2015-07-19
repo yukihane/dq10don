@@ -16,4 +16,9 @@ public interface TobatsuService {
     Map<Character, TobatsuList> getTobatsuList() throws SQLException;
 
     TobatsuList getTobatsuList(long webPcNo) throws SQLException;
+
+    /**
+     * DB情報を見ずにサーバーから情報を取得します(強制更新).
+     */
+    TobatsuList getTobatsuListFromServer(long webPcNo) throws SQLException;
 }

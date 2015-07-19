@@ -53,6 +53,18 @@ public class TobatsuServiceImpl implements TobatsuService {
         return getTobatsuList(character);
     }
 
+    /**
+     * DB情報を見ずにサーバーから情報を取得します(強制更新).
+     *
+     * @param webPcNo
+     */
+    @Override
+    public TobatsuList getTobatsuListFromServer(long webPcNo) throws SQLException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+        return getTobatsuListFromServer(character);
+    }
+
     private TobatsuList getTobatsuList(Character character) throws SQLException {
         TobatsuList dbRes = getTobatsuListFromDB(character);
         if(dbRes != null) {
