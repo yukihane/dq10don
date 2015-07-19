@@ -2,6 +2,7 @@ package yukihane.dq10don.tobatsu.view;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,6 +166,8 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
             }
             String obj = (String) displayTargets.get(position);
             textView.setText(obj);
+
+            v.setBackgroundColor(Color.GRAY);
         } else if (TobatsuItem.class == type) {
             final TextView targetName;
             final TextView condition;
@@ -193,6 +196,12 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
 
             NumberFormat nf = NumberFormat.getNumberInstance();
             point.setText(nf.format(obj.getPoint()));
+
+            if(position % 2 == 0) {
+                v.setBackgroundColor(Color.LTGRAY);
+            } else {
+                v.setBackgroundColor(Color.WHITE);
+            }
         } else {
             throw new RuntimeException("unexcpected type: " + type);
         }
