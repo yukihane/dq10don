@@ -53,7 +53,7 @@ public class TobatsuListDao {
         String queryStr = getExtractQuery().append(";").toString();
 
         List<TobatsuList> lists = extract(queryStr);
-        for(TobatsuList tl : lists) {
+        for (TobatsuList tl : lists) {
             queryItems(tl);
         }
 
@@ -66,7 +66,7 @@ public class TobatsuListDao {
     public List<TobatsuList> queryLatest(Character character) throws SQLException {
         String queryStr = getExtractQuery().append("and B.character = ?;").toString();
         List<TobatsuList> lists = extract(queryStr, new String[]{Long.toString(character.getWebPcNo())});
-        for(TobatsuList tl : lists) {
+        for (TobatsuList tl : lists) {
             queryItems(tl);
         }
         return lists;
@@ -74,7 +74,7 @@ public class TobatsuListDao {
 
     private void queryItems(TobatsuList tl) throws SQLException {
         List<TobatsuItem> items = tobatsuItemDao.queryForEq("list", tl.getId());
-        for(TobatsuItem i : items) {
+        for (TobatsuItem i : items) {
             tl.addListItem(i);
         }
     }
@@ -96,11 +96,11 @@ public class TobatsuListDao {
 
     public void persist(TobatsuList obj) throws SQLException {
 
-        if(obj.getId() != null) {
+        if (obj.getId() != null) {
             tobatsuItemDao.delete(obj.getListItems());
         }
         tobatsuListDao.createOrUpdate(obj);
-        for(TobatsuItem ti : obj.getListItems()) {
+        for (TobatsuItem ti : obj.getListItems()) {
             tobatsuItemDao.create(ti);
         }
     }
