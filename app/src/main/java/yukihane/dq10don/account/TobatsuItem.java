@@ -35,4 +35,8 @@ public class TobatsuItem {
         this.condition = condition;
         this.point = point;
     }
+
+    public static TobatsuItem from(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl) {
+        return new TobatsuItem(tl.getMonsterName(), tl.getArea(), tl.getPoint());
+    }
 }
