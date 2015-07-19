@@ -75,6 +75,7 @@ public class TobatsuServiceImpl implements TobatsuService {
         HappyService service = HappyServiceFactory.getService(sessionId);
         service.characterSelect(character.getWebPcNo());
         TobatsuDto dto = service.getTobatsuList();
+        LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
