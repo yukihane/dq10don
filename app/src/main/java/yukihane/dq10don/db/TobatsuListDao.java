@@ -3,6 +3,9 @@ package yukihane.dq10don.db;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
+import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.slf4j.Logger;
@@ -79,7 +82,7 @@ public class TobatsuListDao {
         List<Object[]> results = rawResults.getResults();
 
         List<Object> ids = new ArrayList<>();
-        for(Object[] o : results) {
+        for (Object[] o : results) {
             ids.add(o[0]);
         }
 
@@ -93,12 +96,52 @@ public class TobatsuListDao {
 
     public void persist(TobatsuList obj) throws SQLException {
 
-        if (obj.getId() != null) {
-            tobatsuItemDao.delete(obj.getListItems());
+        LOGGER.debug("persist TobatsuList: {}", obj);
+
+        TobatsuList savedList = deleteItems(obj);
+        if (savedList != null) {
+            obj.setId(savedList.getId());
         }
+
         tobatsuListDao.createOrUpdate(obj);
         for (TobatsuItem ti : obj.getListItems()) {
             tobatsuItemDao.create(ti);
+        }
+    }
+
+    /**
+     * TobatsuList オブジェクトに紐づくTobatsuItemをDBから削除します.
+     * TobatsuList自体は削除しません.
+     *
+     * @param obj 処理対象とする TobatsuListオブジェクト.
+     * @return 指定されたオブジェクトの, DB永続化された情報.
+     * @throws SQLException
+     */
+    private TobatsuList deleteItems(TobatsuList obj) throws SQLException {
+        PreparedQuery<TobatsuList> query = tobatsuListDao.queryBuilder().where()
+                .eq("character_id", obj.getCharacter())
+                .and().eq("countySize", obj.getCountySize())
+                .and().eq("issuedDate", obj.getIssuedDate())
+                .prepare();
+        List<TobatsuList> saved = tobatsuListDao.query(query);
+
+        if (!saved.isEmpty()) {
+            // ユニークキーを指定しているので存在する場合は必ず1
+            assert saved.size() == 1;
+            TobatsuList res = saved.get(0);
+
+            DeleteBuilder<TobatsuItem, Long> builder = tobatsuItemDao.deleteBuilder();
+            builder.where().eq("list_id", res);
+            PreparedDelete<TobatsuItem> itemQuery = builder.prepare();
+            int delnum = tobatsuItemDao.delete(itemQuery);
+            LOGGER.debug("deleted item(s): {}", delnum);
+
+//            int dellistnum = tobatsuListDao.delete(res);
+//            LOGGER.debug("deleted list: {}", dellistnum);
+
+            return res;
+        } else {
+            return null;
         }
     }
 }

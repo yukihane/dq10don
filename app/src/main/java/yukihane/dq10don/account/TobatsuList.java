@@ -41,11 +41,13 @@ public class TobatsuList {
     private final List<TobatsuItem> listItems = new ArrayList<>();
 
     @DatabaseField(generatedId = true)
+    @Setter
     @Getter
     private Long id;
 
     @DatabaseField(foreign = true, uniqueCombo = true)
     @Setter
+    @Getter
     private Character character;
 
     @DatabaseField(uniqueCombo = true)
