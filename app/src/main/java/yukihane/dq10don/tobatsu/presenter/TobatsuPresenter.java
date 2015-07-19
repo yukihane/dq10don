@@ -69,13 +69,12 @@ public class TobatsuPresenter {
                 }
                 subscriber.onCompleted();
             }
-        });
+        }).subscribeOn(Schedulers.io());
 
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
 
         view.bindToList(observable);
 
-        observable.subscribe(new Observer<TobatsuList>() {
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuList>() {
             private TobatsuList tobatsuList;
 
             @Override
