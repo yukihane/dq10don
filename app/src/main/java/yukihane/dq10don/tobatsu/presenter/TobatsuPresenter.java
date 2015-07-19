@@ -48,6 +48,26 @@ public class TobatsuPresenter {
     public void onViewCreated() {
         view.setHeader(character.getSqexid(), character.getSmileUniqNo());
 
+        updateList();
+
+    }
+
+
+    public void onUpdateClick() {
+        updateList();
+    }
+
+    public void onDestroyView() {
+        view = null;
+    }
+
+    public void onDestroy() {
+        OpenHelperManager.releaseHelper();
+        dbHelper = null;
+    }
+
+    private void updateList() {
+
         Observable<TobatsuList> observable = Observable.create(new Observable.OnSubscribe<TobatsuList>() {
             @Override
             public void call(Subscriber<? super TobatsuList> subscriber) {
@@ -96,77 +116,7 @@ public class TobatsuPresenter {
                 this.tobatsuList = tobatsuList;
             }
         });
-
     }
-
-    public void onUpdateClick() {
-
-        Observable observable = Observable.create(new Observable.OnSubscribe<TobatsuDto>() {
-            @Override
-            public void call(Subscriber<? super TobatsuDto> subscriber) {
-                subscriber.onStart();
-                if (character == null) {
-                    LOGGER.error("need login");
-                    subscriber.onError(new NullPointerException("need login"));
-                } else {
-                    String sessionId = character.getSessionId();
-                    LOGGER.info("update target character: {}", character);
-                    HappyService service = HappyServiceFactory.getService(sessionId);
-                    service.characterSelect(character.getWebPcNo());
-                    TobatsuDto res = service.getTobatsuList();
-                    subscriber.onNext(res);
-                }
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.io());
-
-        view.bindToList(observable);
-
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuDto>() {
-
-            private final yukihane.dq10don.account.TobatsuList list = new yukihane.dq10don.account.TobatsuList();
-
-            @Override
-            public void onCompleted() {
-                LOGGER.info("onCompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                LOGGER.error("onError", e);
-            }
-
-            @Override
-            public void onNext(TobatsuDto dto) {
-                LOGGER.info("onNext");
-
-                LOGGER.info("getCountryTobatsuDataList size: {}", dto.getCountryTobatsuDataList().size());
-                for (TobatsuDataList data : dto.getCountryTobatsuDataList()) {
-                    LOGGER.info("getTobatsuList size: {}", data.getTobatsuList().size());
-                    for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : data.getTobatsuList()) {
-                        LOGGER.info("monster: {}", tl.getMonsterName());
-                        TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
-                                tl.getArea(), tl.getCount(), tl.getPoint());
-                        list.addListItem(item);
-                    }
-                }
-
-                if (view != null) {
-                    view.tobatsuListUpdate(list);
-                }
-            }
-        });
-    }
-
-    public void onDestroyView() {
-        view = null;
-    }
-
-    public void onDestroy() {
-        OpenHelperManager.releaseHelper();
-        dbHelper = null;
-    }
-
 
     public interface View {
         void bindToList(Observable observable);
