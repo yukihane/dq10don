@@ -80,7 +80,7 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
         tobatsuViewAdapter.clearItems();
 
         tobatsuViewAdapter.addItem(String.class, "リスト");
-        for (TobatsuItem item : list.getListings()) {
+        for (TobatsuItem item : list.getListItems()) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
         }
 

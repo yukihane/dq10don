@@ -1,28 +1,51 @@
 package yukihane.dq10don.account;
 
-/**
- * Created by yuki on 15/07/08.
- */
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@DatabaseTable
 public class TobatsuItem {
-    private String targetName;
-    private String condition;
+
+    @DatabaseField(generatedId = true)
+    private Long id;
+
+    @DatabaseField(foreign = true)
+    @Setter
+    private TobatsuList list;
+
+    @DatabaseField
+    @Getter
+    private String monsterName;
+
+    @DatabaseField
+    @Getter
+    private String area;
+
+    @DatabaseField
+    @Getter
+    private int count;
+
+
+    @DatabaseField
+    @Getter
     private int point;
 
-    public TobatsuItem(String targetName, String condition, int point) {
-        this.targetName = targetName;
-        this.condition = condition;
+    private TobatsuItem() {
+    }
+
+    public TobatsuItem(String monsterName, String area, int count, int point) {
+        this.monsterName = monsterName;
+        this.area = area;
+        this.count = count;
         this.point = point;
+
     }
 
-    public String getTargetName() {
-        return targetName;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public int getPoint() {
-        return point;
+    public static TobatsuItem from(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl) {
+        return new TobatsuItem(tl.getMonsterName(), tl.getArea(), tl.getCount(), tl.getPoint());
     }
 }
