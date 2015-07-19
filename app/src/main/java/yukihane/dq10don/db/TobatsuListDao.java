@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import yukihane.dq10don.account.*;
@@ -46,7 +47,7 @@ public class TobatsuListDao {
     }
 
     private void queryAndSetItems(TobatsuList tl) throws SQLException {
-        List<TobatsuItem> items = tobatsuItemDao.queryForEq("list", tl.getId());
+        List<TobatsuItem> items = tobatsuItemDao.queryForEq("list_id", tl.getId());
         for (TobatsuItem i : items) {
             tl.addListItem(i);
         }
@@ -77,7 +78,11 @@ public class TobatsuListDao {
         GenericRawResults<Object[]> rawResults = tobatsuListDao.queryRaw(queryStr, dataType, arguments);
         List<Object[]> results = rawResults.getResults();
 
-        Object[] ids = results.toArray();
+        List<Object> ids = new ArrayList<>();
+        for(Object[] o : results) {
+            ids.add(o[0]);
+        }
+
         LOGGER.debug("selected IDs: {}", ids);
 
         QueryBuilder<TobatsuList, Long> qb = tobatsuListDao.queryBuilder();
