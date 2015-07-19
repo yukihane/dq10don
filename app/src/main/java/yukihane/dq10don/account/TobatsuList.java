@@ -3,6 +3,9 @@ package yukihane.dq10don.account;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 @DatabaseTable
 public class TobatsuList {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuList.class);
 
     /**
      * 小国
@@ -66,6 +70,7 @@ public class TobatsuList {
         List<TobatsuDataList> tdls = dto.getCountryTobatsuDataList();
         for (TobatsuDataList tdl : tdls) {
             if (tdl.getCountySize() != countySize) {
+                LOGGER.debug("skip - name: {}, countySize: {}", tdl.getContinentName(), tdl.getCountySize());
                 continue;
             }
             TobatsuList result = new TobatsuList(tdl.getCountySize(), tdl.getIssuedDate());
