@@ -39,12 +39,12 @@ public class TobatsuServiceImpl implements TobatsuService {
         Map<Character, TobatsuList> result = new HashMap<>();
         for (Account account : accounts) {
             for (Character character : account.getCharacters()) {
-                TobatsuList dbList = getTobatsuList(character);
+                TobatsuList dbList = getTobatsuListFromDB(character);
                 if (dbList != null) {
                     result.put(character, dbList);
                 } else {
                     // DBにない場合は取りに行く
-                    TobatsuList list = getForceTobatsuList(character);
+                    TobatsuList list = getTobatsuListFromServer(character);
                     result.put(character, list);
                 }
             }
@@ -57,7 +57,7 @@ public class TobatsuServiceImpl implements TobatsuService {
      * DBを見ずに直接サーバーに情報をリクエストします.
      * 結果はDBに永続化します.
      */
-    private TobatsuList getForceTobatsuList(Character character) throws SQLException {
+    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException {
         String sessionId = character.getAccount().getSessionId();
         LOGGER.info("update target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);
@@ -71,7 +71,7 @@ public class TobatsuServiceImpl implements TobatsuService {
         return res;
     }
 
-    public TobatsuList getTobatsuList(Character character) throws SQLException {
+    private TobatsuList getTobatsuListFromDB(Character character) throws SQLException {
         List<TobatsuList> lists = TobatsuListDao.create(dbHelper).queryLatest(character);
         // 現状は大国の分のみ永続化するためリストは1種類だけ
         assert lists.size() == 0 || lists.size() == 1;
