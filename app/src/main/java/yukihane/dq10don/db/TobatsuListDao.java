@@ -36,12 +36,12 @@ public class TobatsuListDao {
         return new StringBuilder()
                 .append("select id from TobatsuList A ")
                 .append("inner join (")
-                .append("  select character, countrySize, max(issuedDate) as maxDate ")
+                .append("  select character_id, countySize, max(issuedDate) as maxDate ")
                 .append("  from TobatsuList ")
-                .append("  group by character, countrySize ")
+                .append("  group by character_id, countySize ")
                 .append(") B ")
-                .append("on A.character = B.character ")
-                .append("and A.countrySize = B.countrySize ")
+                .append("on A.character_id = B.character_id ")
+                .append("and A.countySize = B.countySize ")
                 .append("and A.issuedDate = B.maxDate ");
     }
 
@@ -49,7 +49,7 @@ public class TobatsuListDao {
      * 指定したキャラクターの最新討伐リストを取得します.
      */
     public List<TobatsuList> queryLatest(Character character) throws SQLException {
-        String queryStr = getExtractQuery().append("and B.character = ?;").toString();
+        String queryStr = getExtractQuery().append("and B.character_id = ?;").toString();
         List<TobatsuList> lists = extract(queryStr, new String[]{Long.toString(character.getWebPcNo())});
         for (TobatsuList tl : lists) {
             queryAndSetItems(tl);
