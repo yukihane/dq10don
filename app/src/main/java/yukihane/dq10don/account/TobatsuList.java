@@ -21,8 +21,6 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 @DatabaseTable
 public class TobatsuList {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuList.class);
-
     /**
      * 小国
      */
@@ -39,7 +37,7 @@ public class TobatsuList {
      * 真のレンダーシア
      */
     public static final int COUNTY_SIZE_REALRENDASIA = 4;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuList.class);
     private final List<TobatsuItem> listItems = new ArrayList<>();
 
     @DatabaseField(generatedId = true)
@@ -74,7 +72,7 @@ public class TobatsuList {
                 continue;
             }
             TobatsuList result = new TobatsuList(tdl.getCountySize(), tdl.getIssuedDate());
-            for(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : tdl.getTobatsuList()) {
+            for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : tdl.getTobatsuList()) {
                 TobatsuItem ti = TobatsuItem.from(tl);
                 result.addListItem(ti);
             }
@@ -93,4 +91,12 @@ public class TobatsuList {
         return new ArrayList<>(listItems);
     }
 
+    @Override
+    public String toString() {
+        return "TobatsuList{" +
+                "id=" + id +
+                ", countySize=" + countySize +
+                ", issuedDate='" + issuedDate + '\'' +
+                '}';
+    }
 }
