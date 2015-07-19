@@ -52,7 +52,12 @@ public class TobatsuListDao {
     public List<TobatsuList> queryALlLatest() throws SQLException {
         String queryStr = getExtractQuery().append(";").toString();
 
-        return extract(queryStr);
+        List<TobatsuList> lists = extract(queryStr);
+        for(TobatsuList tl : lists) {
+            queryItems(tl);
+        }
+
+        return lists;
     }
 
     /**
@@ -60,7 +65,18 @@ public class TobatsuListDao {
      */
     public List<TobatsuList> queryLatest(Character character) throws SQLException {
         String queryStr = getExtractQuery().append("and B.character = ?;").toString();
-        return extract(queryStr, new String[]{Long.toString(character.getWebPcNo())});
+        List<TobatsuList> lists = extract(queryStr, new String[]{Long.toString(character.getWebPcNo())});
+        for(TobatsuList tl : lists) {
+            queryItems(tl);
+        }
+        return lists;
+    }
+
+    private void queryItems(TobatsuList tl) throws SQLException {
+        List<TobatsuItem> items = tobatsuItemDao.queryForEq("list", tl.getId());
+        for(TobatsuItem i : items) {
+            tl.addListItem(i);
+        }
     }
 
     private List<TobatsuList> extract(String queryStr, String... arguments) throws SQLException {
