@@ -10,6 +10,7 @@ import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,7 +190,9 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
             TobatsuItem obj = (TobatsuItem) displayTargets.get(position);
             targetName.setText(obj.getMonsterName());
             condition.setText(obj.getArea() + ", " + obj.getCount());
-            point.setText(String.valueOf(obj.getPoint()));
+
+            NumberFormat nf = NumberFormat.getNumberInstance();
+            point.setText(nf.format(obj.getPoint()));
         } else {
             throw new RuntimeException("unexcpected type: " + type);
         }
