@@ -1,12 +1,16 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,5 +60,35 @@ public class AccountDao {
 
     public void deleteById(String userId) throws SQLException {
         accountDao.deleteById(userId);
+    }
+
+    /**
+     * キャラクターとその親であるアカウントを返します.
+     * {@link Account#getCharacters()}は、このキャラクターのみを返します.
+     */
+    public Character findCharacterByWebPcNo(long webPcNo) throws SQLException {
+        List<Character> c = characterDao.queryForEq("webPcNo", webPcNo);
+        if(c.isEmpty()) {
+            return null;
+        }
+        assert c.size() == 1;
+        Character character = c.get(0);
+
+        String queryStr = ""
+                +"select account_id from Character "
+                + "where webPcNo = ?";
+        String[] arguments = new String[]{Long.toString(webPcNo)};
+        DataType[] dataType = new DataType[]{DataType.STRING};
+        GenericRawResults<Object[]> rawResults = characterDao.queryRaw(queryStr, dataType, arguments);
+        List<Object[]> results = rawResults.getResults();
+
+        String sqexid = (String) results.get(0)[0];
+        Account account = accountDao.queryForId(sqexid);
+
+        List<Character> characters = new ArrayList<>(1);
+        characters.add(character);
+        account.setCharacters(characters);
+
+        return character;
     }
 }
