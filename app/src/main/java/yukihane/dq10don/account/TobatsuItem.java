@@ -10,7 +10,7 @@ import lombok.Setter;
 @DatabaseTable
 public class TobatsuItem {
 
-    @DatabaseField(id = true, generatedId = true)
+    @DatabaseField(generatedId = true)
     private Long id;
 
     @DatabaseField(foreign = true)

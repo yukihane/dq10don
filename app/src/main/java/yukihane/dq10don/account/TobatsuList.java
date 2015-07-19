@@ -38,7 +38,7 @@ public class TobatsuList {
 
     private final List<TobatsuItem> listItems = new ArrayList<>();
 
-    @DatabaseField(id = true, generatedId = true)
+    @DatabaseField(generatedId = true)
     @Getter
     private Long id;
 
