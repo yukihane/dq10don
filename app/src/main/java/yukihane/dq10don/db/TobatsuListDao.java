@@ -32,19 +32,6 @@ public class TobatsuListDao {
         return new TobatsuListDao(helper);
     }
 
-    private StringBuilder getExtractQuery() {
-        return new StringBuilder()
-                .append("select id from TobatsuList A ")
-                .append("inner join (")
-                .append("  select character_id, countySize, max(issuedDate) as maxDate ")
-                .append("  from TobatsuList ")
-                .append("  group by character_id, countySize ")
-                .append(") B ")
-                .append("on A.character_id = B.character_id ")
-                .append("and A.countySize = B.countySize ")
-                .append("and A.issuedDate = B.maxDate ");
-    }
-
     /**
      * 指定したキャラクターの最新討伐リストを取得します.
      */
@@ -65,6 +52,25 @@ public class TobatsuListDao {
         }
     }
 
+
+    private StringBuilder getExtractQuery() {
+        return new StringBuilder()
+                .append("select id from TobatsuList A ")
+                .append("inner join (")
+                .append("  select character_id, countySize, max(issuedDate) as maxDate ")
+                .append("  from TobatsuList ")
+                .append("  group by character_id, countySize ")
+                .append(") B ")
+                .append("on A.character_id = B.character_id ")
+                .append("and A.countySize = B.countySize ")
+                .append("and A.issuedDate = B.maxDate ");
+    }
+
+    /**
+     * {@link #getExtractQuery()} に準じたクエリでTobatsuListを取得します.
+     *
+     * @param queryStr {@link #getExtractQuery()} を基本として構築したクエリ.
+     */
     private List<TobatsuList> extract(String queryStr, String... arguments) throws SQLException {
 
         DataType[] dataType = new DataType[]{DataType.LONG};
