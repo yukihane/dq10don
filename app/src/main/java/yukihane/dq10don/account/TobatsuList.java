@@ -66,10 +66,12 @@ public class TobatsuList {
             if (tdl.getCountySize() != countySize) {
                 continue;
             }
-            result = new TobatsuList(tdl.getCountySize(), tdl.getIssuedDate());
+            TobatsuList result = new TobatsuList(tdl.getCountySize(), tdl.getIssuedDate());
             for(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : tdl.getTobatsuList()) {
-                TobatsuItem.from(tl);
+                TobatsuItem ti = TobatsuItem.from(tl);
+                result.addListItem(ti);
             }
+            return result;
         }
 
         throw new IllegalArgumentException("countySize is not found: " + countySize);
@@ -77,6 +79,7 @@ public class TobatsuList {
 
     public void addListItem(TobatsuItem item) {
         listItems.add(item);
+        item.setList(this);
     }
 
     public List<TobatsuItem> getListItems() {

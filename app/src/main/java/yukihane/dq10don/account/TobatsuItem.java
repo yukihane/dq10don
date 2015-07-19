@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @DatabaseTable
 public class TobatsuItem {
@@ -13,6 +14,7 @@ public class TobatsuItem {
     private Long id;
 
     @DatabaseField(foreign = true)
+    @Setter
     private TobatsuList list;
 
     @DatabaseField
