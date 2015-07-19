@@ -22,9 +22,11 @@ public class TobatsuListDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuListDao.class);
 
     private final Dao<TobatsuList, Long> tobatsuListDao;
+    private final Dao<TobatsuItem, Long> tobatsuItemDao;
 
     private TobatsuListDao(DbHelper helper) throws SQLException {
         this.tobatsuListDao = helper.getDao(TobatsuList.class);
+        this.tobatsuItemDao = helper.getDao(TobatsuItem.class);
     }
 
     public static TobatsuListDao create(DbHelper helper) throws SQLException {
@@ -74,5 +76,16 @@ public class TobatsuListDao {
         qb.where().in("id", ids);
         return tobatsuListDao.query(qb.prepare());
 
+    }
+
+    public void persist(TobatsuList obj) throws SQLException {
+
+        if(obj.getId() != null) {
+            tobatsuItemDao.delete(obj.getListItems());
+        }
+        tobatsuListDao.createOrUpdate(obj);
+        for(TobatsuItem ti : obj.getListItems()) {
+            tobatsuItemDao.create(ti);
+        }
     }
 }
