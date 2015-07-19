@@ -14,6 +14,8 @@ import java.sql.SQLException;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.account.TobatsuList;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
 
@@ -31,6 +33,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, Account.class);
             TableUtils.createTable(connectionSource, Character.class);
+            TableUtils.createTable(connectionSource, TobatsuList.class);
+            TableUtils.createTable(connectionSource, TobatsuItem.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
