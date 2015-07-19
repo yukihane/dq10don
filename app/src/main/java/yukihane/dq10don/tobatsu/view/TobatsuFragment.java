@@ -12,13 +12,18 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.DebugLogFragment;
+import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**
  * Created by yuki on 15/07/15.
@@ -79,7 +84,16 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
         tobatsuViewAdapter.clearItems();
 
-        tobatsuViewAdapter.addItem(String.class, "リスト");
+        long issuedDateNum = Long.parseLong(list.getIssuedDate());
+        Date issuedDate = new Date(issuedDateNum);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm", Locale.JAPAN);
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+
+        String issuedDateStr = sdf.format(issuedDate);
+
+        tobatsuViewAdapter.addItem(String.class, issuedDateStr);
+
         for (TobatsuItem item : list.getListItems()) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
         }
