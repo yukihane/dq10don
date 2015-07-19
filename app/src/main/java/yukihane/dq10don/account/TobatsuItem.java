@@ -23,7 +23,12 @@ public class TobatsuItem {
 
     @DatabaseField
     @Getter
-    private String condition;
+    private String area;
+
+    @DatabaseField
+    @Getter
+    private int count;
+
 
     @DatabaseField
     @Getter
@@ -32,13 +37,15 @@ public class TobatsuItem {
     private TobatsuItem() {
     }
 
-    public TobatsuItem(String monsterName, String condition, int point) {
+    public TobatsuItem(String monsterName, String area, int count, int point) {
         this.monsterName = monsterName;
-        this.condition = condition;
+        this.area = area;
+        this.count = count;
         this.point = point;
+
     }
 
     public static TobatsuItem from(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl) {
-        return new TobatsuItem(tl.getMonsterName(), tl.getArea(), tl.getPoint());
+        return new TobatsuItem(tl.getMonsterName(), tl.getArea(), tl.getCount(), tl.getPoint());
     }
 }

@@ -188,7 +188,7 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
             }
             TobatsuItem obj = (TobatsuItem) displayTargets.get(position);
             targetName.setText(obj.getMonsterName());
-            condition.setText(obj.getCondition());
+            condition.setText(obj.getArea() + ", " + obj.getCount());
             point.setText(String.valueOf(obj.getPoint()));
         } else {
             throw new RuntimeException("unexcpected type: " + type);

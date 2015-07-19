@@ -146,7 +146,7 @@ public class TobatsuPresenter {
                     for (yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : data.getTobatsuList()) {
                         LOGGER.info("monster: {}", tl.getMonsterName());
                         TobatsuItem item = new TobatsuItem(tl.getMonsterName(),
-                                tl.getArea() + "," + tl.getCount(), tl.getPoint());
+                                tl.getArea(), tl.getCount(), tl.getPoint());
                         list.addListItem(item);
                     }
                 }
