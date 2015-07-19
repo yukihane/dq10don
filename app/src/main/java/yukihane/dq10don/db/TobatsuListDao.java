@@ -4,7 +4,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,32 +46,19 @@ public class TobatsuListDao {
     }
 
     /**
-     * 全キャラクター分の最新討伐リストを取得します.
-     */
-    public List<TobatsuList> queryALlLatest() throws SQLException {
-        String queryStr = getExtractQuery().append(";").toString();
-
-        List<TobatsuList> lists = extract(queryStr);
-        for (TobatsuList tl : lists) {
-            queryItems(tl);
-        }
-
-        return lists;
-    }
-
-    /**
      * 指定したキャラクターの最新討伐リストを取得します.
      */
     public List<TobatsuList> queryLatest(Character character) throws SQLException {
         String queryStr = getExtractQuery().append("and B.character = ?;").toString();
         List<TobatsuList> lists = extract(queryStr, new String[]{Long.toString(character.getWebPcNo())});
         for (TobatsuList tl : lists) {
-            queryItems(tl);
+            queryAndSetItems(tl);
+            tl.setCharacter(character);
         }
         return lists;
     }
 
-    private void queryItems(TobatsuList tl) throws SQLException {
+    private void queryAndSetItems(TobatsuList tl) throws SQLException {
         List<TobatsuItem> items = tobatsuItemDao.queryForEq("list", tl.getId());
         for (TobatsuItem i : items) {
             tl.addListItem(i);

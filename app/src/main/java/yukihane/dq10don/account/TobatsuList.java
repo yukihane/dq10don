@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 
@@ -42,6 +43,7 @@ public class TobatsuList {
     private Long id;
 
     @DatabaseField(foreign = true, uniqueCombo = true)
+    @Setter
     private Character character;
 
     @DatabaseField(uniqueCombo = true)

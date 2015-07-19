@@ -45,6 +45,7 @@ public class TobatsuServiceImpl implements TobatsuService {
                 } else {
                     // DBにない場合は取りに行く
                     TobatsuList list = getForceTobatsuList(character);
+                    result.put(character, list);
                 }
             }
         }
@@ -54,6 +55,7 @@ public class TobatsuServiceImpl implements TobatsuService {
 
     /**
      * DBを見ずに直接サーバーに情報をリクエストします.
+     * 結果はDBに永続化します.
      */
     private TobatsuList getForceTobatsuList(Character character) throws SQLException {
         String sessionId = character.getAccount().getSessionId();
@@ -64,7 +66,9 @@ public class TobatsuServiceImpl implements TobatsuService {
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
+        res.setCharacter(character);
         TobatsuListDao.create(dbHelper).persist(res);
+        return res;
     }
 
     public TobatsuList getTobatsuList(Character character) throws SQLException {
