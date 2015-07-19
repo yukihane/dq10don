@@ -17,7 +17,7 @@ public class TobatsuItem {
 
     @DatabaseField
     @Getter
-    private String targetName;
+    private String monsterName;
 
     @DatabaseField
     @Getter
@@ -30,8 +30,8 @@ public class TobatsuItem {
     private TobatsuItem() {
     }
 
-    public TobatsuItem(String targetName, String condition, int point) {
-        this.targetName = targetName;
+    public TobatsuItem(String monsterName, String condition, int point) {
+        this.monsterName = monsterName;
         this.condition = condition;
         this.point = point;
     }
