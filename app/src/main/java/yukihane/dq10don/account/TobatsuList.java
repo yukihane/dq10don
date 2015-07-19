@@ -15,6 +15,24 @@ import lombok.Getter;
 @DatabaseTable
 public class TobatsuList {
 
+
+    /**
+     * 小国
+     */
+    public static final int COUNTY_SIZE_SHOUKOKU = 1;
+    /**
+     * 大国
+     */
+    public static final int COUNTY_SIZE_TAIKOKU = 2;
+    /**
+     * (偽の)レンダーシア
+     */
+    public static final int COUNTY_SIZE_WEEKLY = 3;
+    /**
+     * 真のレンダーシア
+     */
+    public static final int COUNTY_SIZE_REALRENDASIA = 4;
+
     private final List<TobatsuItem> listItems = new ArrayList<>();
 
     @DatabaseField(id = true, generatedId = true)
