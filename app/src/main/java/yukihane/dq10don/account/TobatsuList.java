@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
+import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 
 
 /**
@@ -36,6 +38,7 @@ public class TobatsuList {
     private final List<TobatsuItem> listItems = new ArrayList<>();
 
     @DatabaseField(id = true, generatedId = true)
+    @Getter
     private Long id;
 
     @DatabaseField(foreign = true, uniqueCombo = true)
@@ -50,6 +53,26 @@ public class TobatsuList {
     private String issuedDate;
 
     public TobatsuList() {
+    }
+
+    public TobatsuList(int countySize, String issuedDate) {
+        this.countySize = countySize;
+        this.issuedDate = issuedDate;
+    }
+
+    public static TobatsuList from(TobatsuDto dto, int countySize) {
+        List<TobatsuDataList> tdls = dto.getCountryTobatsuDataList();
+        for (TobatsuDataList tdl : tdls) {
+            if (tdl.getCountySize() != countySize) {
+                continue;
+            }
+            result = new TobatsuList(tdl.getCountySize(), tdl.getIssuedDate());
+            for(yukihane.dq10don.communication.dto.tobatsu.TobatsuList tl : tdl.getTobatsuList()) {
+                TobatsuItem.from(tl);
+            }
+        }
+
+        throw new IllegalArgumentException("countySize is not found: " + countySize);
     }
 
     public void addListItem(TobatsuItem item) {
