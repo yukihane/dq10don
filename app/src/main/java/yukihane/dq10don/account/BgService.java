@@ -4,6 +4,9 @@ package yukihane.dq10don.account;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
@@ -14,6 +17,8 @@ import lombok.Setter;
 
 @DatabaseTable
 public class BgService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BgService.class);
 
     /**
      * 最長で基準時刻(6:01)の5分後まで処理を遅らせます.
@@ -75,6 +80,7 @@ public class BgService {
         for (long i = 0; i < passing; i++) {
             res = rand.nextInt(MAX_DELAY);
         }
+        LOGGER.debug("delay is {}", res);
         return res;
     }
 
@@ -87,7 +93,9 @@ public class BgService {
         }
 
         long now = Calendar.getInstance().getTimeInMillis();
-        return (now - seed) / (24 * 60 * 60 * 1000) + 1;
+        long res = (now - seed) / (24 * 60 * 60 * 1000) + 1;
+        LOGGER.debug("passing is {}", res);
+        return res;
     }
 
 
