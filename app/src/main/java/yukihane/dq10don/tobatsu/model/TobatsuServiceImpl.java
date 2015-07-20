@@ -101,7 +101,11 @@ public class TobatsuServiceImpl implements TobatsuService {
         service.characterSelect(character.getWebPcNo());
         TobatsuDto dto = service.getTobatsuList();
         LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
-        // FIXME result code が 0以外の場合は, 処理を中断してユーザーにメッセージを送る
+        if (!Integer.valueOf(0).equals(dto.getResultCode())) {
+            throw new AppException("討伐リストリクエスト不成功 ("
+                    + character.getCharacterName() + ")",
+                    dto.getResultCode());
+        }
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
