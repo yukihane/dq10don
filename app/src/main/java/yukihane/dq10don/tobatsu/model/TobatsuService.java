@@ -13,12 +13,12 @@ import yukihane.dq10don.tobatsu.presenter.CharacterDto;
  * Created by yuki on 15/07/18.
  */
 public interface TobatsuService {
-    Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException;
+    Map<Character, TobatsuList> getTobatsuListsFromServer();
 
-    TobatsuList getTobatsuList(long webPcNo) throws SQLException;
+    TobatsuList getTobatsuList(long webPcNo);
 
     /**
      * DB情報を見ずにサーバーから情報を取得します(強制更新).
      */
-    TobatsuList getTobatsuListFromServer(long webPcNo) throws SQLException;
+    TobatsuList getTobatsuListFromServer(long webPcNo);
 }

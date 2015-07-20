@@ -5,8 +5,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Observer;
@@ -16,6 +14,7 @@ import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 
@@ -81,7 +80,7 @@ public class TobatsuPresenter {
                         TobatsuList tl = service.getTobatsuList(character.getWebPcNo());
                         subscriber.onNext(tl);
                     }
-                } catch (SQLException e) {
+                } catch (AppException e) {
                     LOGGER.error("tobatsu list query error", e);
                     subscriber.onError(e);
                 } catch (RetrofitError e) {
