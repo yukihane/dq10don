@@ -76,7 +76,7 @@ public class RoundService extends IntentService {
     }
 
     private void setNexAlarm() {
-        AlarmReceiver.setAlarm(this);
+        AlarmReceiver.setAlarmIfNotExist((Application) getApplication());
     }
 
     private void executeInternal(DbHelper dbHelper, Intent intent) {

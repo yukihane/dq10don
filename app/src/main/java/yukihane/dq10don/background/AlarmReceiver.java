@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 
+import yukihane.dq10don.Application;
+
 
 /**
  * https://developer.android.com/training/scheduling/alarms.html を参考に作成.
@@ -21,8 +23,13 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlarmReceiver.class);
 
-    public static void setAlarm(Context context) {
+    /**
+     *
+     * @param context アプリケーションコンテキスト.
+     */
+    public static void setAlarmIfNotExist(Application application) {
         LOGGER.info("setAlarm called");
+        Context context = application.getApplicationContext();
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
