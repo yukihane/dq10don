@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
@@ -31,6 +32,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         LOGGER.info("MyDatabaseHelper.onCreate()");
         try {
+            TableUtils.createTable(connectionSource, BgService.class);
             TableUtils.createTable(connectionSource, Account.class);
             TableUtils.createTable(connectionSource, Character.class);
             TableUtils.createTable(connectionSource, TobatsuList.class);
