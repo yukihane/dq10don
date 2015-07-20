@@ -32,14 +32,14 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public Map<Character, TobatsuList> getTobatsuList() throws SQLException {
+    public Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException {
 
         AccountDao accountDao = AccountDao.create(dbHelper);
         List<Account> accounts = accountDao.queryAll();
         Map<Character, TobatsuList> result = new HashMap<>();
         for (Account account : accounts) {
             for (Character character : account.getCharacters()) {
-                TobatsuList tl = getTobatsuList(character);
+                TobatsuList tl = getTobatsuListFromServer(character);
                 result.put(character, tl);
             }
         }
@@ -55,7 +55,7 @@ public class TobatsuServiceImpl implements TobatsuService {
 
     /**
      * DB情報を見ずにサーバーから情報を取得します(強制更新).
-     *
+     * 結果はDBに永続化します.
      * @param webPcNo
      */
     @Override
@@ -88,6 +88,7 @@ public class TobatsuServiceImpl implements TobatsuService {
         service.characterSelect(character.getWebPcNo());
         TobatsuDto dto = service.getTobatsuList();
         LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
+        // FIXME result code が 0以外の場合は, 処理を中断してユーザーにメッセージを送る
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
