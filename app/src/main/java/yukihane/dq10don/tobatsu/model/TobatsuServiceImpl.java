@@ -40,7 +40,13 @@ public class TobatsuServiceImpl implements TobatsuService {
             Map<Character, TobatsuList> result = new HashMap<>();
             for (Account account : accounts) {
                 for (Character character : account.getCharacters()) {
-                    TobatsuList tl = getTobatsuListFromServer(character);
+                    // TODO Rx で実装すると良い感じかも
+                    TobatsuList tl = null;
+                    try {
+                        tl = getTobatsuListFromServer(character);
+                    } catch (Exception e) {
+                        LOGGER.error("討伐リクエスト失敗" + character, e);
+                    }
                     result.put(character, tl);
                 }
             }
