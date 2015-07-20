@@ -5,11 +5,15 @@ package yukihane.dq10don.exception;
  */
 public class AppException extends RuntimeException {
 
+    private final Integer resultCode;
+
     /**
      * Constructs a new {@code RuntimeException} that includes the current stack
      * trace.
      */
     public AppException() {
+        super();
+        this.resultCode = null;
     }
 
     /**
@@ -19,7 +23,12 @@ public class AppException extends RuntimeException {
      * @param detailMessage the detail message for this exception.
      */
     public AppException(String detailMessage) {
+        this(detailMessage, (Integer) null);
+    }
+
+    public AppException(String detailMessage, Integer resultCode) {
         super(detailMessage);
+        this.resultCode = resultCode;
     }
 
     /**
@@ -31,6 +40,7 @@ public class AppException extends RuntimeException {
      */
     public AppException(String detailMessage, Throwable throwable) {
         super(detailMessage, throwable);
+        resultCode = null;
     }
 
     /**
@@ -41,5 +51,18 @@ public class AppException extends RuntimeException {
      */
     public AppException(Throwable throwable) {
         super(throwable);
+        this.resultCode = null;
+    }
+
+    @Override
+    public String getMessage() {
+        if (resultCode == null) {
+            return super.getMessage();
+        }
+        return getMessage() + " (" + resultCode + ")";
+    }
+
+    public Integer getResultCode() {
+        return resultCode;
     }
 }
