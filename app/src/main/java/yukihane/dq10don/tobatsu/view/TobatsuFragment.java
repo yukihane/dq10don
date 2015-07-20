@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.DebugLogFragment;
+import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**
@@ -39,7 +41,7 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     private ListView tobatsuListView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -63,13 +65,13 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onViewCreated();
     }
 
     @Override
-    public void onDestroyView () {
+    public void onDestroyView() {
         super.onDestroyView();
         presenter.onDestroyView();
     }
@@ -108,6 +110,12 @@ public class TobatsuFragment extends DebugLogFragment implements TobatsuPresente
 
         TextView smileUniqNoView = (TextView) getView().findViewById(R.id.smileUniqNoView);
         smileUniqNoView.setText(smileUniqNo);
+    }
+
+    @Override
+    public void showMessage(AppException ex) {
+        Toast.makeText(getActivity(), "処理は中断されました (" + ex.getResultCode() + ")"
+                , Toast.LENGTH_SHORT);
     }
 
 

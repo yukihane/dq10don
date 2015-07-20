@@ -17,6 +17,7 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.TobatsuListDao;
+import yukihane.dq10don.exception.AppException;
 
 /**
  * Created by yuki on 15/07/18.
@@ -32,42 +33,60 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public Map<Character, TobatsuList> getTobatsuList() throws SQLException {
-
-        AccountDao accountDao = AccountDao.create(dbHelper);
-        List<Account> accounts = accountDao.queryAll();
-        Map<Character, TobatsuList> result = new HashMap<>();
-        for (Account account : accounts) {
-            for (Character character : account.getCharacters()) {
-                TobatsuList tl = getTobatsuList(character);
-                result.put(character, tl);
+    public Map<Character, TobatsuList> getTobatsuListsFromServer() {
+        try {
+            AccountDao accountDao = AccountDao.create(dbHelper);
+            List<Account> accounts = accountDao.queryAll();
+            Map<Character, TobatsuList> result = new HashMap<>();
+            for (Account account : accounts) {
+                for (Character character : account.getCharacters()) {
+                    // TODO Rx で実装すると良い感じかも
+                    TobatsuList tl = null;
+                    try {
+                        tl = getTobatsuListFromServer(character);
+                    } catch (Exception e) {
+                        LOGGER.error("討伐リクエスト失敗" + character, e);
+                    }
+                    result.put(character, tl);
+                }
             }
+            return result;
+        } catch (SQLException e) {
+            throw new AppException(e);
         }
-        return result;
     }
 
     @Override
-    public TobatsuList getTobatsuList(long webPcNo) throws SQLException {
-        AccountDao accountDao = AccountDao.create(dbHelper);
-        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-        return getTobatsuList(character);
+    public TobatsuList getTobatsuList(long webPcNo) {
+        try {
+            AccountDao accountDao = AccountDao.create(dbHelper);
+            Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+            return getTobatsuList(character);
+        } catch (SQLException e) {
+            throw new AppException(e);
+        }
     }
 
     /**
      * DB情報を見ずにサーバーから情報を取得します(強制更新).
+     * 結果はDBに永続化します.
      *
      * @param webPcNo
      */
     @Override
-    public TobatsuList getTobatsuListFromServer(long webPcNo) throws SQLException {
-        AccountDao accountDao = AccountDao.create(dbHelper);
-        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-        return getTobatsuListFromServer(character);
+    public TobatsuList getTobatsuListFromServer(long webPcNo) {
+        try {
+            AccountDao accountDao = AccountDao.create(dbHelper);
+            Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+            return getTobatsuListFromServer(character);
+        } catch (SQLException e) {
+            throw new AppException(e);
+        }
     }
 
     private TobatsuList getTobatsuList(Character character) throws SQLException {
         TobatsuList dbRes = getTobatsuListFromDB(character);
-        if(dbRes != null) {
+        if (dbRes != null) {
             LOGGER.debug("found on DB");
             return dbRes;
         }
@@ -88,6 +107,11 @@ public class TobatsuServiceImpl implements TobatsuService {
         service.characterSelect(character.getWebPcNo());
         TobatsuDto dto = service.getTobatsuList();
         LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
+        if (!Integer.valueOf(0).equals(dto.getResultCode())) {
+            throw new AppException("討伐リストリクエスト不成功 ("
+                    + character.getCharacterName() + ")",
+                    dto.getResultCode());
+        }
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
