@@ -24,19 +24,20 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(AlarmReceiver.class);
 
     /**
-     *
      * @param context アプリケーションコンテキスト.
      */
-    public static void setAlarmIfNotExist(Application application) {
+    public static void setAlarm(Application application, long timeInMillis) {
         LOGGER.info("setAlarm called");
         Context context = application.getApplicationContext();
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
+
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 10);
+        cal.add(Calendar.SECOND, 30);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), alarmIntent);
+        LOGGER.info("Alarm set");
     }
 
     @Override
