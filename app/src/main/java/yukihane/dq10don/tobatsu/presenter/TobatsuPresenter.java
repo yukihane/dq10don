@@ -111,6 +111,10 @@ public class TobatsuPresenter {
             @Override
             public void onError(Throwable e) {
                 LOGGER.error("error occured", e);
+                if (e instanceof AppException) {
+                    AppException ex = (AppException) e;
+                    view.showMessage(ex);
+                }
             }
 
             @Override
@@ -127,5 +131,7 @@ public class TobatsuPresenter {
         void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list);
 
         void setHeader(String sqexid, String smileUniqNo);
+
+        void showMessage(AppException ex);
     }
 }
