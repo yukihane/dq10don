@@ -39,7 +39,7 @@
         android:value=".tobatsu.view.MainActivity"/>
     </activity>
 
-    <receiver android:name=".background.AlarmReceiver"></receiver>
+    <receiver android:name=".background.Alarm"></receiver>
     <receiver
       android:name=".background.AutoSetReceiver"
       android:enabled="false">

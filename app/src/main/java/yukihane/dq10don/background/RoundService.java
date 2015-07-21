@@ -74,14 +74,14 @@ public class RoundService extends IntentService {
             }
         }
 
-        AlarmReceiver.completeWakefulIntent(intent);
+        Alarm.completeWakefulIntent(intent);
 
     }
 
     private void setNexAlarm(DbHelper dbHelper) throws SQLException {
         BgServiceDao dao = BgServiceDao.create(dbHelper);
         BgService srv = dao.get();
-        AlarmReceiver.setAlarm(getApplication(), srv.getNextAlarmTime());
+        Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     private void executeInternal(DbHelper dbHelper, Intent intent) {

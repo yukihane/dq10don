@@ -11,18 +11,15 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
 import java.util.Date;
-
-import yukihane.dq10don.Application;
 
 
 /**
  * https://developer.android.com/training/scheduling/alarms.html を参考に作成.
  */
-public class AlarmReceiver extends WakefulBroadcastReceiver {
+public class Alarm extends WakefulBroadcastReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlarmReceiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Alarm.class);
 
     /**
      * @param context アプリケーションコンテキスト.
@@ -66,7 +63,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     }
 
     private static PendingIntent getPendingIntent(Context context) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
+        Intent intent = new Intent(context, Alarm.class);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 

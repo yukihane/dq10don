@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
@@ -31,7 +30,7 @@ public class AutoSetReceiver extends BroadcastReceiver {
             try {
                 dbHelper = new DbHelperFactory(context).create();
                 BgServiceDao dao = BgServiceDao.create(dbHelper);
-                AlarmReceiver.setAlarm(context.getApplicationContext(), dao.get().getNextAlarmTime());
+                Alarm.setAlarm(context.getApplicationContext(), dao.get().getNextAlarmTime());
             } catch (SQLException e) {
                 LOGGER.error("DB error", e);
             } finally {
