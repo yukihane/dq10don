@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import yukihane.dq10don.Application;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.AlarmReceiver;
@@ -106,11 +105,11 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
     @Override
     public void setAlarm(long time) {
-        AlarmReceiver.setAlarm((Application) getApplication(), time);
+        AlarmReceiver.setAlarm(getApplication(), time);
     }
 
     @Override
     public void cancelAlarm() {
-        AlarmReceiver.cancelAlarm((Application) getApplication());
+        AlarmReceiver.cancelAlarm(getApplication());
     }
 }

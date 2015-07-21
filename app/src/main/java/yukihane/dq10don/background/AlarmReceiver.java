@@ -11,6 +11,9 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import yukihane.dq10don.Application;
 
 
@@ -24,15 +27,15 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     /**
      * @param context アプリケーションコンテキスト.
      */
-    public static void setAlarm(Application application, long timeInMillis) {
+    public static void setAlarm(Context context, long timeInMillis) {
         LOGGER.info("setAlarm called");
-        Context context = application.getApplicationContext();
 
-        PendingIntent alarmIntent = getPendingIntent(application);
+        PendingIntent alarmIntent = getPendingIntent(context);
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmIntent);
-        LOGGER.info("Alarm set");
+        Date date = new Date(timeInMillis);
+        LOGGER.info("Alarm set {}", date);
 
         // 起動時にアラームをセットできるようにする
         ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
@@ -44,11 +47,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     }
 
-    public static void cancelAlarm(Application application) {
+    public static void cancelAlarm(Context context) {
         LOGGER.info("cancelAlarm called");
-        Context context = application.getApplicationContext();
 
-        PendingIntent alarmIntent = getPendingIntent(application);
+        PendingIntent alarmIntent = getPendingIntent(context);
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.cancel(alarmIntent);
         LOGGER.info("Alarm cancelled");
@@ -63,8 +65,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 PackageManager.DONT_KILL_APP);
     }
 
-    private static PendingIntent getPendingIntent(Application application) {
-        Context context = application.getApplicationContext();
+    private static PendingIntent getPendingIntent(Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }

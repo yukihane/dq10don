@@ -16,13 +16,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import yukihane.dq10don.Application;
-import yukihane.dq10don.account.*;
+import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 import yukihane.dq10don.tobatsu.view.MainActivity;
@@ -82,7 +81,7 @@ public class RoundService extends IntentService {
     private void setNexAlarm(DbHelper dbHelper) throws SQLException {
         BgServiceDao dao = BgServiceDao.create(dbHelper);
         BgService srv = dao.get();
-        AlarmReceiver.setAlarm((Application) getApplication(), srv.getNextAlarmTime());
+        AlarmReceiver.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     private void executeInternal(DbHelper dbHelper, Intent intent) {
