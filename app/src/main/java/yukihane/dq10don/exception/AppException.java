@@ -59,7 +59,7 @@ public class AppException extends RuntimeException {
         if (resultCode == null) {
             return super.getMessage();
         }
-        return getMessage() + " (" + resultCode + ")";
+        return super.getMessage() + " (" + resultCode + ")";
     }
 
     public Integer getResultCode() {
