@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -91,11 +92,12 @@ public class RoundService extends IntentService {
             } else if (!res.getRemains().isEmpty()) {
                 int retry = intent.getIntExtra(KEY_RETRY, 0);
                 if (retry < MAX_RETRY) {
-                    intent.putExtra(KEY_RETRY, retry + 1);
-                    intent.putExtra(KEY_POINT, res.getMaxPoint());
-                    intent.putExtra(KEY_TEXT, res.getText());
-                    intent.putStringArrayListExtra(KEY_WEBPCNO, res.getRemains());
-                    setRetryAlarm(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(KEY_RETRY, retry + 1);
+                    bundle.putInt(KEY_POINT, res.getMaxPoint());
+                    bundle.putString(KEY_TEXT, res.getText());
+                    bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
+                    setRetryAlarm(bundle);
                 } else {
                     sendNotification(res.getMaxPoint(), "取得に失敗したキャラクターがあります");
                 }
@@ -165,10 +167,10 @@ public class RoundService extends IntentService {
         Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
-    public void setRetryAlarm(Intent intent) {
+    public void setRetryAlarm(Bundle bundle) {
         long now = Calendar.getInstance().getTimeInMillis();
         int offset = (10 + new Random(now).nextInt(10)) * 1000;
-        Alarm.setAlarm(getApplication(), now + offset, intent);
+        Alarm.setAlarm(getApplication(), now + offset, bundle);
     }
 
     // Post a notification indicating whether a doodle was found.

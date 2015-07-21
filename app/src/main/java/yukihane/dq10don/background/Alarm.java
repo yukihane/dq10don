@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 import org.slf4j.Logger;
@@ -26,10 +27,10 @@ public class Alarm extends WakefulBroadcastReceiver {
     /**
      * @param context アプリケーションコンテキスト.
      */
-    public static void setAlarm(Context context, long timeInMillis, Intent intent) {
+    public static void setAlarm(Context context, long timeInMillis, Bundle bundle) {
         LOGGER.info("setAlarm called");
 
-        PendingIntent alarmIntent = getPendingIntent(context, intent);
+        PendingIntent alarmIntent = getPendingIntent(context, bundle);
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmIntent);
@@ -70,11 +71,13 @@ public class Alarm extends WakefulBroadcastReceiver {
                 PackageManager.DONT_KILL_APP);
     }
 
-    private static PendingIntent getPendingIntent(Context context, Intent intent) {
-        if (intent == null) {
-            intent = new Intent(context, Alarm.class);
+    private static PendingIntent getPendingIntent(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, Alarm.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
         }
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
