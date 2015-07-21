@@ -2,14 +2,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
-    <item
-        android:id="@+id/action_reload_tobatsu"
-        android:orderInCategory="100"
-        android:title="@string/reload"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_sqexid"
-        android:orderInCategory="101"
-        android:title="@string/title_activity_sqexid"
-        app:showAsAction="never"/>
+  <item
+    android:id="@+id/action_sqexid"
+    android:orderInCategory="101"
+    android:title="@string/title_activity_sqexid"
+    app:showAsAction="ifRoom"/>
 </menu>

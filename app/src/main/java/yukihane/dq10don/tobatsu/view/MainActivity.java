@@ -59,11 +59,7 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_reload_tobatsu) {
-            // TODO フラグメントに更新要求を送る
-//            presenter.onUpdateClick();
-            return true;
-        } else if (id == R.id.action_sqexid) {
+        if (id == R.id.action_sqexid) {
             Intent intent = new Intent(this, SqexidActivity.class);
             startActivity(intent);
             return true;
