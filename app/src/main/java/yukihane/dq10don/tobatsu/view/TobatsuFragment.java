@@ -2,6 +2,7 @@ package yukihane.dq10don.tobatsu.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +24,13 @@ import rx.android.view.ViewObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.debug.DebugLogFragment;
 import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuFragment extends DebugLogFragment implements TobatsuPresenter.View {
+public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
 
     public static final String CHARACTER = "character";
 
