@@ -43,14 +43,25 @@
     <receiver
       android:name=".background.AutoSetReceiver"
       android:enabled="false">
-      <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->
-      <action android:name="android.intent.action.BOOT_COMPLETED"/>
-      <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-      <!-- 時刻を直接指定して実行するので時間変更系は気にしなくても良いはず
-            <action android:name="android.intent.action.DATE_CHANGED"/>
-            <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
-            <action android:name="android.intent.action.TIME_SET"/>
-      -->
+      <intent-filter>
+        <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        <!-- 時刻を直接指定して実行するので時間変更系は気にしなくても良いはず
+              <action android:name="android.intent.action.DATE_CHANGED"/>
+              <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+              <action android:name="android.intent.action.TIME_SET"/>
+        -->
+      </intent-filter>
+      <intent-filter>
+        <!--
+        参考: https://chris.orr.me.uk/android-ssp-data-intent-filter/
+        sspはAndroid4.4からみたいなのでちゃんと動作するか検証が必要
+        -->
+        <data
+          android:scheme="package"
+          android:ssp="yukihane.dq10don"/>
+        <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+      </intent-filter>
     </receiver>
 
     <service android:name=".background.RoundService"/>
