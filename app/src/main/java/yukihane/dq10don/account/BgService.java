@@ -47,7 +47,7 @@ public class BgService {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.JAPAN);
         int h = cal.get(Calendar.HOUR_OF_DAY);
         int m = cal.get(Calendar.MINUTE);
-        if (h >= 6 || (h >= 5 && m >= 55)) {
+        if (h >= 6 || (h == 5 && m >= 55)) {
             // 5:55 以降なら今日は実行しない(翌日に実行する).
             cal.add(Calendar.DATE, 1);
         }
