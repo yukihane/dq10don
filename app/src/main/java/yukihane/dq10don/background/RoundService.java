@@ -19,6 +19,7 @@ import java.util.Map;
 import yukihane.dq10don.Application;
 import yukihane.dq10don.account.*;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.AppException;
@@ -63,6 +64,10 @@ public class RoundService extends IntentService {
         try {
             dbHelper = new DbHelperFactory(this).create();
             executeInternal(dbHelper, intent);
+            setNexAlarm(dbHelper);
+            LOGGER.debug("end process");
+        } catch (SQLException e) {
+            LOGGER.error("DB error", e);
         } finally {
             if (dbHelper != null) {
                 OpenHelperManager.releaseHelper();
@@ -70,13 +75,14 @@ public class RoundService extends IntentService {
             }
         }
 
-        setNexAlarm();
         AlarmReceiver.completeWakefulIntent(intent);
 
     }
 
-    private void setNexAlarm() {
-        AlarmReceiver.setAlarmIfNotExist((Application) getApplication());
+    private void setNexAlarm(DbHelper dbHelper) throws SQLException {
+        BgServiceDao dao = BgServiceDao.create(dbHelper);
+        BgService srv = dao.get();
+        AlarmReceiver.setAlarm((Application) getApplication(), srv.getNextAlarmTime());
     }
 
     private void executeInternal(DbHelper dbHelper, Intent intent) {
