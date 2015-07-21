@@ -101,6 +101,8 @@ public class RoundService extends IntentService {
                 } else {
                     sendNotification(res.getMaxPoint(), "取得に失敗したキャラクターがあります");
                 }
+            } else {
+                LOGGER.info("取得対象がありません");
             }
             LOGGER.debug("end process");
         } catch (SQLException e) {
