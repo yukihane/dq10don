@@ -57,6 +57,14 @@ public class RoundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        try {
+            exec(intent);
+        } finally {
+            Alarm.completeWakefulIntent(intent);
+        }
+    }
+
+    private void exec(Intent intent) {
         LOGGER.info("onHandleIntent called");
 
         DbHelper dbHelper = null;
@@ -73,15 +81,6 @@ public class RoundService extends IntentService {
                 dbHelper = null;
             }
         }
-
-        Alarm.completeWakefulIntent(intent);
-
-    }
-
-    private void setNexAlarm(DbHelper dbHelper) throws SQLException {
-        BgServiceDao dao = BgServiceDao.create(dbHelper);
-        BgService srv = dao.get();
-        Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     private void executeInternal(DbHelper dbHelper, Intent intent) {
@@ -89,6 +88,8 @@ public class RoundService extends IntentService {
         ArrayList<CharSequence> webPcNos = intent.getCharSequenceArrayListExtra(KEY_WEBPCNO);
 
         if (webPcNos == null) {
+            // webPcNosが設定されていない場合は, 初回要求であり、
+            // 全キャラクター分の討伐リストを取得する
             Map<Character, TobatsuList> lists = service.getTobatsuListsFromServer();
             sendNotification("上");
         } else {
@@ -98,6 +99,12 @@ public class RoundService extends IntentService {
             }
             sendNotification("下");
         }
+    }
+
+    private void setNexAlarm(DbHelper dbHelper) throws SQLException {
+        BgServiceDao dao = BgServiceDao.create(dbHelper);
+        BgService srv = dao.get();
+        Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     // Post a notification indicating whether a doodle was found.
