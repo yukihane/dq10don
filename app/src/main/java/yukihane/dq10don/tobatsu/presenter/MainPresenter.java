@@ -54,6 +54,7 @@ public class MainPresenter {
         BgServiceDao bgDao = BgServiceDao.create(dbHelper);
         if (!bgDao.exists()) {
             // 初回起動時ならいつでも設定
+            LOGGER.info("first time launch");
             view.setAlarm(bgDao.get().getNextAlarmTime());
         } else {
             // きわどい時刻(5:50-6:59)でなければ再設定する
@@ -65,8 +66,10 @@ public class MainPresenter {
             int m = cal.get(Calendar.MINUTE);
             if (h == 6 || (h == 5 && m >= 50)) {
                 // きわどい時間なのでアラーム再セットしない
+                LOGGER.info("not reset alarm");
                 return;
             }
+            LOGGER.debug("reset alarm");
             view.cancelAlarm();
             view.setAlarm(bgDao.get().getNextAlarmTime());
 
