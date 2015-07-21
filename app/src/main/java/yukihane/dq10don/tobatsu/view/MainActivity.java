@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.background.Alarm;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
+import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {
@@ -100,5 +101,15 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     @Override
     public void setAccounts(List<Account> accounts) {
         pageAdapter.setAccounts(accounts);
+    }
+
+    @Override
+    public void setAlarm(long time) {
+        Alarm.setAlarm(getApplication(), time);
+    }
+
+    @Override
+    public void cancelAlarm() {
+        Alarm.cancelAlarm(getApplication());
     }
 }
