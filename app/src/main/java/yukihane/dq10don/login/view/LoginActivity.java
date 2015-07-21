@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 
 import org.slf4j.Logger;
@@ -37,7 +38,21 @@ public class LoginActivity extends ActionBarActivity implements LoginPresenter.V
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
 
+        CookieSyncManager.createInstance(this);
+
         presenter.onCreate(userId);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CookieSyncManager.getInstance().startSync();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CookieSyncManager.getInstance().stopSync();
     }
 
     @Override
