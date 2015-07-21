@@ -1,6 +1,7 @@
 package yukihane.dq10don.background;
 
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,13 +22,14 @@ public class Alarm extends WakefulBroadcastReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Alarm.class);
 
+
     /**
      * @param context アプリケーションコンテキスト.
      */
-    public static void setAlarm(Context context, long timeInMillis) {
+    public static void setAlarm(Context context, long timeInMillis, Intent intent) {
         LOGGER.info("setAlarm called");
 
-        PendingIntent alarmIntent = getPendingIntent(context);
+        PendingIntent alarmIntent = getPendingIntent(context, intent);
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmIntent);
@@ -41,13 +43,19 @@ public class Alarm extends WakefulBroadcastReceiver {
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+    }
 
+    /**
+     * @param context アプリケーションコンテキスト.
+     */
+    public static void setAlarm(Context context, long timeInMillis) {
+        setAlarm(context, timeInMillis, null);
     }
 
     public static void cancelAlarm(Context context) {
         LOGGER.info("cancelAlarm called");
 
-        PendingIntent alarmIntent = getPendingIntent(context);
+        PendingIntent alarmIntent = getPendingIntent(context, null);
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.cancel(alarmIntent);
         LOGGER.info("Alarm cancelled");
@@ -62,8 +70,10 @@ public class Alarm extends WakefulBroadcastReceiver {
                 PackageManager.DONT_KILL_APP);
     }
 
-    private static PendingIntent getPendingIntent(Context context) {
-        Intent intent = new Intent(context, Alarm.class);
+    private static PendingIntent getPendingIntent(Context context, Intent intent) {
+        if (intent == null) {
+            intent = new Intent(context, Alarm.class);
+        }
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
@@ -75,4 +85,5 @@ public class Alarm extends WakefulBroadcastReceiver {
 
         startWakefulService(context, intent);
     }
+
 }
