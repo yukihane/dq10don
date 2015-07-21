@@ -27,7 +27,7 @@ import static yukihane.dq10don.Utils.RESULTCODE_OK;
  */
 public class MainPresenter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainPresenter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainPresenter.class);
     private final DbHelper dbHelper;
     private View view;
 
@@ -46,7 +46,7 @@ public class MainPresenter {
             List<Account> accounts = dao.queryAll();
             view.setAccounts(accounts);
         } catch (SQLException e) {
-            logger.error("account load error", e);
+            LOGGER.error("account load error", e);
         }
     }
 
@@ -83,7 +83,7 @@ public class MainPresenter {
         LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
         if (dto.getResultCode() != RESULTCODE_OK) {
             // TODO ログインが成功していない
-            logger.error("login failed: {}", dto.getResultCode());
+            LOGGER.error("login failed: {}", dto.getResultCode());
         }
         Account account = Account.from(dto, sqexid);
         try {
