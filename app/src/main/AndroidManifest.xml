@@ -39,6 +39,19 @@
     </activity>
 
     <receiver android:name=".background.AlarmReceiver"></receiver>
+    <receiver
+      android:name=".background.AutoSetReceiver"
+      android:enabled="false">
+      <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->
+      <action android:name="android.intent.action.BOOT_COMPLETED"/>
+      <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+      <!-- 時刻を直接指定して実行するので時間変更系は気にしなくても良いはず
+            <action android:name="android.intent.action.DATE_CHANGED"/>
+            <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            <action android:name="android.intent.action.TIME_SET"/>
+      -->
+    </receiver>
+
     <service android:name=".background.RoundService"/>
   </application>
 
