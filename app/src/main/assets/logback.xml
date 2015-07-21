@@ -5,7 +5,7 @@
     <!-- active log file -->
     <file>${LOG_DIR}/log.txt</file>
     <encoder>
-      <pattern>%logger{35} - %msg%n</pattern>
+      <pattern>[%d] %logger{35} - %msg%n</pattern>
     </encoder>
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
