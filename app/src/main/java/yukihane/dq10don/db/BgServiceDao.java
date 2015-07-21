@@ -30,6 +30,19 @@ public class BgServiceDao {
         bgServiceDao.create(bgService);
     }
 
+    /**
+     * レコードが存在するかどうかを返します(起動処理時, これは初回起動かどうかの判別のみに用います).
+     * @return レコードが存在していればtrue.
+     * @throws SQLException
+     */
+    public boolean exists() throws SQLException {
+        List<BgService> list = bgServiceDao.queryForAll();
+        if (list.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     public BgService get() throws SQLException {
         List<BgService> list = bgServiceDao.queryForAll();
         final BgService bg;
