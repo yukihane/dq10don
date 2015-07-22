@@ -108,7 +108,7 @@ public class TobatsuServiceImpl implements TobatsuService {
         TobatsuDto dto = service.getTobatsuList();
         LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
         if (!Integer.valueOf(0).equals(dto.getResultCode())) {
-            throw new AppException("討伐リストリクエスト不成功 ("
+            throw new AppException("討伐リストリクエストresultCodeが0でない ("
                     + character.getCharacterName() + ")",
                     dto.getResultCode());
         }
