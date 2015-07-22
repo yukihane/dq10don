@@ -1,10 +1,13 @@
 <resources>
-    <string name="app_name">DQ丼</string>
-    <string name="title_activity_sqexid">ID管理</string>
-    <string name="title_activity_login">アカウント登録</string>
-    <string name="action_tokenapp">トークン起動</string>
-    <string name="add">追加</string>
-    <string name="relogin">再ログイン</string>
-    <string name="remove">削除</string>
-    <string name="reload">更新</string>
+  <string name="app_name">DQ丼</string>
+  <string name="title_activity_sqexid">ID管理</string>
+  <string name="title_activity_login">アカウント登録</string>
+  <string name="action_tokenapp">トークン起動</string>
+  <string name="add">追加</string>
+  <string name="relogin">再ログイン</string>
+  <string name="remove">削除</string>
+  <string name="reload">更新</string>
+  <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
+  <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
+  <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
 </resources>
