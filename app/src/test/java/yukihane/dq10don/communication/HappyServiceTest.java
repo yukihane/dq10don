@@ -6,6 +6,7 @@ import org.junit.Test;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
+import yukihane.dq10don.exception.HappyServiceException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,7 +19,7 @@ public class HappyServiceTest {
     private static HappyService service;
 
     @BeforeClass
-    public static void beforeClass() {
+    public static void beforeClass() throws HappyServiceException {
         HttpUtil util = new HttpUtil();
         service = HappyServiceFactory.getService(util.getSessionId());
         CharaSelectDto sel = service.characterSelect(util.getLoginInfo().getCharacterList().get(0).getWebPcNo());
