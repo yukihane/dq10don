@@ -14,4 +14,8 @@
   <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
   <string name="text_confirm_delete_account">%1$sを削除します</string>
+  <string name="happy_106">ログイン中は処理できません</string>
+  <string name="happy_12009">モーモンバザーを設置していません</string>
+  <string name="happy_22001">しばらくしてから再実行してください</string>
+  <string name="happy_unknown">エラーが発生しました(%1$d)</string>
 </resources>
