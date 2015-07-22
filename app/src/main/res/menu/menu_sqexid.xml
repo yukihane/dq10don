@@ -2,8 +2,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="yukihane.dq10don.sqexid.view.SqexidActivity">
-    <item android:id="@+id/actionAddAccount"
-          android:title="@string/add"
-          android:orderInCategory="100"
-          app:showAsAction="ifRoom"/>
+  <item
+    android:id="@+id/actionAddAccount"
+    android:icon="@drawable/ic_menu_add"
+    android:orderInCategory="100"
+    android:title="@string/add"
+    app:showAsAction="withText|ifRoom"/>
 </menu>

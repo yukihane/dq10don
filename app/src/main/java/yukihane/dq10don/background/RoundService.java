@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -55,8 +56,9 @@ public class RoundService extends IntentService {
         super("yukihane.dq10don.background.RoundService");
     }
 
-    private static String getText(TobatsuItem item) {
-        return item.getMonsterName() + "[" + item.getCount() + "匹]" + "@" + item.getArea();
+    private String getText(TobatsuItem item) {
+        return getString(R.string.text_notification,
+                item.getMonsterName(), item.getCount(), item.getArea());
     }
 
     @Override
@@ -100,7 +102,8 @@ public class RoundService extends IntentService {
                     bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
                     setRetryAlarm(bundle);
                 } else {
-                    sendNotification(res.getMaxPoint(), "取得に失敗したキャラクターがあります");
+                    sendNotification(res.getMaxPoint(),
+                            getString(R.string.text_notification_error));
                 }
             } else {
                 LOGGER.info("取得対象がありません");
@@ -178,7 +181,8 @@ public class RoundService extends IntentService {
 
     // Post a notification indicating whether a doodle was found.
     private void sendNotification(int maxPoint, String msg) {
-        String title = "" + maxPoint + "Pの討伐依頼があります";
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        String title = getString(R.string.text_notification_header, nf.format(maxPoint));
 
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);

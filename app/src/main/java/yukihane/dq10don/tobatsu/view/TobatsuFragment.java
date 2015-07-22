@@ -114,7 +114,8 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
 
     @Override
     public void showMessage(AppException ex) {
-        Toast.makeText(getActivity(), "処理は中断されました (" + ex.getResultCode() + ")"
+        int resCode = (ex.getResultCode() != null) ? ex.getResultCode() : -1;
+        Toast.makeText(getActivity(), getString(R.string.process_canceled, resCode)
                 , Toast.LENGTH_SHORT);
     }
 
