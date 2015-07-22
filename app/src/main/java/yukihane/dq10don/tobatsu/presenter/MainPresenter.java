@@ -34,15 +34,26 @@ public class MainPresenter {
     }
 
     public void onCreate() {
-
         try {
             setAlarmIfNeeded();
+        } catch (SQLException e) {
+            LOGGER.error("alarm set error", e);
+        }
+    }
+
+    public void onStart() {
+        try {
             AccountDao dao = AccountDao.create(dbHelper);
             List<Account> accounts = dao.queryAll();
             view.setAccounts(accounts);
         } catch (SQLException e) {
             LOGGER.error("account load error", e);
         }
+    }
+
+    public void onDestroy() {
+        OpenHelperManager.releaseHelper();
+        view = null;
     }
 
     private void setAlarmIfNeeded() throws SQLException {
@@ -69,11 +80,6 @@ public class MainPresenter {
             view.setAlarm(bgDao.get().getNextAlarmTime());
 
         }
-    }
-
-    public void onDestroy() {
-        OpenHelperManager.releaseHelper();
-        view = null;
     }
 
     public interface View {
