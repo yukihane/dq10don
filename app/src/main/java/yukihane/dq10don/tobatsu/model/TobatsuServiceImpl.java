@@ -17,7 +17,7 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.TobatsuListDao;
-import yukihane.dq10don.exception.AppException;
+import yukihane.dq10don.exception.HappyServiceException;
 
 /**
  * Created by yuki on 15/07/18.
@@ -33,38 +33,30 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public Map<Character, TobatsuList> getTobatsuListsFromServer() throws AppException {
-        try {
-            AccountDao accountDao = AccountDao.create(dbHelper);
-            List<Account> accounts = accountDao.queryAll();
-            Map<Character, TobatsuList> result = new HashMap<>();
-            for (Account account : accounts) {
-                for (Character character : account.getCharacters()) {
-                    // TODO Rx で実装すると良い感じかも
-                    TobatsuList tl = null;
-                    try {
-                        tl = getTobatsuListFromServer(character);
-                    } catch (Exception e) {
-                        LOGGER.error("討伐リクエスト失敗" + character, e);
-                    }
-                    result.put(character, tl);
+    public Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        List<Account> accounts = accountDao.queryAll();
+        Map<Character, TobatsuList> result = new HashMap<>();
+        for (Account account : accounts) {
+            for (Character character : account.getCharacters()) {
+                // TODO Rx で実装すると良い感じかも
+                TobatsuList tl = null;
+                try {
+                    tl = getTobatsuListFromServer(character);
+                } catch (Exception e) {
+                    LOGGER.error("討伐リクエスト失敗" + character, e);
                 }
+                result.put(character, tl);
             }
-            return result;
-        } catch (SQLException e) {
-            throw new AppException(e);
         }
+        return result;
     }
 
     @Override
-    public TobatsuList getTobatsuList(long webPcNo) throws AppException {
-        try {
-            AccountDao accountDao = AccountDao.create(dbHelper);
-            Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-            return getTobatsuList(character);
-        } catch (SQLException e) {
-            throw new AppException(e);
-        }
+    public TobatsuList getTobatsuList(long webPcNo) throws HappyServiceException, SQLException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+        return getTobatsuList(character);
     }
 
     /**
@@ -74,17 +66,13 @@ public class TobatsuServiceImpl implements TobatsuService {
      * @param webPcNo
      */
     @Override
-    public TobatsuList getTobatsuListFromServer(long webPcNo) throws AppException {
-        try {
-            AccountDao accountDao = AccountDao.create(dbHelper);
-            Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-            return getTobatsuListFromServer(character);
-        } catch (SQLException e) {
-            throw new AppException(e);
-        }
+    public TobatsuList getTobatsuListFromServer(long webPcNo) throws HappyServiceException, SQLException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+        return getTobatsuListFromServer(character);
     }
 
-    private TobatsuList getTobatsuList(Character character) throws SQLException, AppException {
+    private TobatsuList getTobatsuList(Character character) throws SQLException, HappyServiceException {
         TobatsuList dbRes = getTobatsuListFromDB(character);
         if (dbRes != null) {
             LOGGER.debug("found on DB");
@@ -100,18 +88,12 @@ public class TobatsuServiceImpl implements TobatsuService {
      * DBを見ずに直接サーバーに情報をリクエストします.
      * 結果はDBに永続化します.
      */
-    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, AppException {
+    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, HappyServiceException {
         String sessionId = character.getAccount().getSessionId();
         LOGGER.info("update target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);
         service.characterSelect(character.getWebPcNo());
         TobatsuDto dto = service.getTobatsuList();
-        LOGGER.info("TOBATSU LIST REQUEST result code: {}", dto.getResultCode());
-        if (!Integer.valueOf(0).equals(dto.getResultCode())) {
-            throw new AppException("討伐リストリクエストresultCodeが0でない ("
-                    + character.getCharacterName() + ")",
-                    dto.getResultCode());
-        }
 
         // 現状は大国のみを対象とする
         TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
