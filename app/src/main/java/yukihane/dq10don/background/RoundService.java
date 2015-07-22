@@ -32,7 +32,6 @@ import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 import yukihane.dq10don.tobatsu.view.MainActivity;
@@ -161,7 +160,7 @@ public class RoundService extends IntentService {
                             text = getText(ti);
                         }
                     }
-                } catch (AppException e) {
+                } catch (Exception e) {
                     remains.add(no);
                     LOGGER.error("TobatsuList request error: ", e);
                 }
