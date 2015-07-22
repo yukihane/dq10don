@@ -7,7 +7,10 @@
   <string name="relogin">再ログイン</string>
   <string name="remove">削除</string>
   <string name="reload">更新</string>
+  <string name="yes">はい</string>
+  <string name="cancel">キャンセル</string>
   <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
   <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
+  <string name="text_confirm_delete_account">%1$sを削除します</string>
 </resources>

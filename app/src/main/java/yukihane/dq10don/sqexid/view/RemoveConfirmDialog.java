@@ -11,6 +11,8 @@ import android.support.v4.app.DialogFragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yukihane.dq10don.R;
+
 public class RemoveConfirmDialog extends DialogFragment {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveConfirmDialog.class);
@@ -38,11 +40,11 @@ public class RemoveConfirmDialog extends DialogFragment {
         String userId = getArguments().getString("userId");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(userId + " を削除します")
-                .setPositiveButton("はい", (DialogInterface dialog, int id) -> {
+        builder.setMessage(getString(R.string.text_confirm_delete_account, userId))
+                .setPositiveButton(R.string.yes, (DialogInterface dialog, int id) -> {
                     listener.onRemove(userId);
                 })
-                .setNegativeButton("キャンセル", (DialogInterface dialog, int id) -> {
+                .setNegativeButton(R.string.cancel, (DialogInterface dialog, int id) -> {
                 });
         return builder.create();
     }
