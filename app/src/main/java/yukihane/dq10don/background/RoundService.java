@@ -128,23 +128,27 @@ public class RoundService extends IntentService {
         int maxPoint = intent.getIntExtra(KEY_POINT, 0);
         String text = intent.getStringExtra(KEY_TEXT);
         if (webPcNos == null) {
-            // webPcNosが設定されていない場合は, 初回要求であり、
-            // 全キャラクター分の討伐リストを取得する
-            Map<Character, TobatsuList> lists = service.getTobatsuListsFromServer();
+            try {
+                // webPcNosが設定されていない場合は, 初回要求であり、
+                // 全キャラクター分の討伐リストを取得する
+                Map<Character, TobatsuList> lists = service.getTobatsuListsFromServer();
 
-            Set<Character> cs = lists.keySet();
-            for (Character c : cs) {
-                TobatsuList l = lists.get(c);
-                if (l == null) {
-                    remains.add(Long.toString(c.getWebPcNo()));
-                } else {
-                    for (TobatsuItem i : l.getListItems()) {
-                        if (i.getPoint() > maxPoint) {
-                            maxPoint = i.getPoint();
-                            text = getText(i);
+                Set<Character> cs = lists.keySet();
+                for (Character c : cs) {
+                    TobatsuList l = lists.get(c);
+                    if (l == null) {
+                        remains.add(Long.toString(c.getWebPcNo()));
+                    } else {
+                        for (TobatsuItem i : l.getListItems()) {
+                            if (i.getPoint() > maxPoint) {
+                                maxPoint = i.getPoint();
+                                text = getText(i);
+                            }
                         }
                     }
                 }
+            } catch (Exception e) {
+                LOGGER.error("初回要求で失敗したため何も行われません", e);
             }
         } else {
             for (String no : webPcNos) {
