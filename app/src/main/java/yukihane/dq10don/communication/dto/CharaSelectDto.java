@@ -23,4 +23,12 @@ public class CharaSelectDto {
     public void setResultCode(int resultCode) {
         this.resultCode = resultCode;
     }
+
+    @Override
+    public String toString() {
+        return "CharaSelectDto{" +
+                "encWebPcNo='" + encWebPcNo + '\'' +
+                ", resultCode=" + resultCode +
+                '}';
+    }
 }
