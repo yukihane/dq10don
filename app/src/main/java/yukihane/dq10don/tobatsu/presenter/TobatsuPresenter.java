@@ -12,11 +12,11 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
+import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 
@@ -94,7 +94,7 @@ public class TobatsuPresenter {
                 }
                 subscriber.onCompleted();
             }
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(DonSchedulers.happyServer());
 
 
         view.bindToList(observable);
