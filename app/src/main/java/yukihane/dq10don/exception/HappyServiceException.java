@@ -5,31 +5,19 @@ package yukihane.dq10don.exception;
  */
 public class HappyServiceException extends Exception {
 
-    private final Integer resultCode;
-
-    /**
-     * Constructs a new {@code RuntimeException} that includes the current stack
-     * trace.
-     */
-    public HappyServiceException() {
-        super();
-        this.resultCode = null;
-    }
+    private final int resultCode;
 
     public HappyServiceException(int resultCode) {
         super();
         this.resultCode = resultCode;
     }
 
-    @Override
-    public String getMessage() {
-        if (resultCode == null) {
-            return super.getMessage();
-        }
-        return super.getMessage() + " (" + resultCode + ")";
+    public int getResultCode() {
+        return resultCode;
     }
 
-    public Integer getResultCode() {
-        return resultCode;
+    @Override
+    public String getMessage() {
+        return "Happy Service Error Return CODE: " + resultCode;
     }
 }
