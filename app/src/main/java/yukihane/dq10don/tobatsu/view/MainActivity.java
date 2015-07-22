@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 import yukihane.dq10don.R;
@@ -72,26 +71,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LOGGER.debug("requestCode: {}, resultCode: {}, intent: {}", requestCode, resultCode, data != null);
-
-        if (data == null) {
-            LOGGER.error("LOGIN fail");
-        } else {
-            try {
-                String sqexid = data.getStringExtra("userId");
-                String json = data.getStringExtra("result");
-                LOGGER.info("LOGIN success({}): {}", sqexid, json);
-                presenter.onActivityResult(sqexid, json);
-            } catch (IOException e) {
-                LOGGER.error("parse error", e);
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

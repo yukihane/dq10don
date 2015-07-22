@@ -1,12 +1,10 @@
 package yukihane.dq10don.tobatsu.presenter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
@@ -14,13 +12,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.communication.dto.login.LoginDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-
-import static yukihane.dq10don.Utils.RESULTCODE_OK;
 
 /**
  * Created by yuki on 15/07/13.
@@ -79,22 +74,6 @@ public class MainPresenter {
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         view = null;
-    }
-
-    public void onActivityResult(String sqexid, String json) throws IOException {
-
-        LoginDto dto = new ObjectMapper().readValue(json, LoginDto.class);
-        if (dto.getResultCode() != RESULTCODE_OK) {
-            // TODO ログインが成功していない
-            LOGGER.error("login failed: {}", dto.getResultCode());
-        }
-        Account account = Account.from(dto, sqexid);
-        try {
-            AccountDao dao = AccountDao.create(dbHelper);
-            dao.persist(account);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public interface View {
