@@ -95,7 +95,10 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
 
         String issuedDateStr = sdf.format(issuedDate);
 
-        tobatsuViewAdapter.addItem(String.class, issuedDateStr);
+        // 本当はリスト内にString.classデータとして表示するものだが,
+        // 現状大国の1種類しか表示しないのでヘッダ部に出力する(見えやすいように)
+        TextView issuedDateView = (TextView) getView().findViewById(R.id.issuedDateView);
+        issuedDateView.setText(issuedDateStr);
 
         for (TobatsuItem item : list.getListItems()) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
