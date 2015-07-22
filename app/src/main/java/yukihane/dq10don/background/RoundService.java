@@ -23,6 +23,7 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
+import yukihane.dq10don.R;
 import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
@@ -187,7 +188,7 @@ public class RoundService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
