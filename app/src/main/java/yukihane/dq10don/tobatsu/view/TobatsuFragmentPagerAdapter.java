@@ -13,12 +13,12 @@ import yukihane.dq10don.account.Character;
 
 import static yukihane.dq10don.tobatsu.view.TobatsuFragment.CHARACTER;
 
-public class TobatsuFragmentPageAdapter extends FragmentPagerAdapter {
+public class TobatsuFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final FragmentManager fragmentManager;
     private final List<Character> characters = new ArrayList<>();
 
-    public TobatsuFragmentPageAdapter(FragmentManager fm) {
+    public TobatsuFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
         this.fragmentManager = fm;
     }
