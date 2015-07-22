@@ -3,7 +3,7 @@ package yukihane.dq10don.exception;
 /**
  * Created by yuki on 15/07/20.
  */
-public class AppException extends RuntimeException {
+public class AppException extends Exception {
 
     private final Integer resultCode;
 
