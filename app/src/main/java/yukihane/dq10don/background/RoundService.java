@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -178,7 +179,8 @@ public class RoundService extends IntentService {
 
     // Post a notification indicating whether a doodle was found.
     private void sendNotification(int maxPoint, String msg) {
-        String title = "" + maxPoint + "Pの討伐依頼があります";
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        String title = nf.format(maxPoint) + "P の討伐依頼があります";
 
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
