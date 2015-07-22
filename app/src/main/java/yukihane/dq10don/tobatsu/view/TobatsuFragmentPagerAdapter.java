@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,8 @@ import yukihane.dq10don.account.Character;
 import static yukihane.dq10don.tobatsu.view.TobatsuFragment.CHARACTER;
 
 public class TobatsuFragmentPagerAdapter extends FragmentPagerAdapter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragmentPagerAdapter.class);
 
     private final List<Character> characters = new ArrayList<>();
 
@@ -55,6 +60,12 @@ public class TobatsuFragmentPagerAdapter extends FragmentPagerAdapter {
             // ページを削除した後, サイズより大きい位置の要求が来る
             return "";
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        LOGGER.debug("getItemPosition called");
+        return POSITION_NONE;
     }
 
     public void setAccounts(List<Account> accounts) {
