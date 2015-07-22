@@ -9,9 +9,12 @@
   <string name="reload">更新</string>
   <string name="yes">はい</string>
   <string name="cancel">キャンセル</string>
-  <string name="process_canceled">処理は中断されました(%1$d)</string>
   <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
   <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
   <string name="text_confirm_delete_account">%1$sを削除します</string>
+  <string name="happy_106">ログイン中は処理できません</string>
+  <string name="happy_12009">モーモンバザーを設置していません</string>
+  <string name="happy_22001">しばらくしてから再実行してください</string>
+  <string name="happy_unknown">エラーが発生しました(%1$d)</string>
 </resources>
