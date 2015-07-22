@@ -31,6 +31,7 @@ public class HappyServiceFactory {
 
         RestAdapter adapter = builder.build();
 
-        return adapter.create(HappyService.class);
+        HappyService service = adapter.create(HappyService.class);
+        return new HappyServiceWrapper(service);
     }
 }
