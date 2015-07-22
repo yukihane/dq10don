@@ -17,6 +17,12 @@
     </rollingPolicy>
   </appender>
 
+  <appender name="LOGCAT" class="ch.qos.logback.classic.android.LogcatAppender">
+    <encoder>
+      <pattern>[%d] %logger{35} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
   <root level="TRACE">
     <appender-ref ref="FILE"/>
   </root>
