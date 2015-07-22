@@ -33,7 +33,7 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public Map<Character, TobatsuList> getTobatsuListsFromServer() {
+    public Map<Character, TobatsuList> getTobatsuListsFromServer() throws AppException {
         try {
             AccountDao accountDao = AccountDao.create(dbHelper);
             List<Account> accounts = accountDao.queryAll();
@@ -57,7 +57,7 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public TobatsuList getTobatsuList(long webPcNo) {
+    public TobatsuList getTobatsuList(long webPcNo) throws AppException {
         try {
             AccountDao accountDao = AccountDao.create(dbHelper);
             Character character = accountDao.findCharacterByWebPcNo(webPcNo);
@@ -74,7 +74,7 @@ public class TobatsuServiceImpl implements TobatsuService {
      * @param webPcNo
      */
     @Override
-    public TobatsuList getTobatsuListFromServer(long webPcNo) {
+    public TobatsuList getTobatsuListFromServer(long webPcNo) throws AppException {
         try {
             AccountDao accountDao = AccountDao.create(dbHelper);
             Character character = accountDao.findCharacterByWebPcNo(webPcNo);
@@ -84,7 +84,7 @@ public class TobatsuServiceImpl implements TobatsuService {
         }
     }
 
-    private TobatsuList getTobatsuList(Character character) throws SQLException {
+    private TobatsuList getTobatsuList(Character character) throws SQLException, AppException {
         TobatsuList dbRes = getTobatsuListFromDB(character);
         if (dbRes != null) {
             LOGGER.debug("found on DB");
@@ -100,7 +100,7 @@ public class TobatsuServiceImpl implements TobatsuService {
      * DBを見ずに直接サーバーに情報をリクエストします.
      * 結果はDBに永続化します.
      */
-    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException {
+    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, AppException {
         String sessionId = character.getAccount().getSessionId();
         LOGGER.info("update target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);
