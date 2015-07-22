@@ -47,9 +47,14 @@ public class TobatsuFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Character c = characters.get(position);
-        String name = c.getCharacterName();
-        return name;
+        if (characters.size() > position) {
+            Character c = characters.get(position);
+            String name = c.getCharacterName();
+            return name;
+        } else {
+            // ページを削除した後, サイズより大きい位置の要求が来る
+            return "";
+        }
     }
 
     public void setAccounts(List<Account> accounts) {
