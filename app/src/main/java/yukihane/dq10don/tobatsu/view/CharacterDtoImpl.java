@@ -28,17 +28,14 @@ public class CharacterDtoImpl implements CharacterDto, Parcelable {
     @Getter
     private String sqexid;
     @Getter
-    private String sessionId;
-    @Getter
     private long webPcNo;
     @Getter
     private String smileUniqNo;
     @Getter
     private String characterName;
 
-    public CharacterDtoImpl(String sqexid, String sessionId, long webPcNo, String smileUniqNo, String characterName) {
+    public CharacterDtoImpl(String sqexid, long webPcNo, String smileUniqNo, String characterName) {
         this.sqexid = sqexid;
-        this.sessionId = sessionId;
         this.webPcNo = webPcNo;
         this.smileUniqNo = smileUniqNo;
         this.characterName = characterName;
@@ -46,7 +43,6 @@ public class CharacterDtoImpl implements CharacterDto, Parcelable {
 
     protected CharacterDtoImpl(Parcel in) {
         sqexid = in.readString();
-        sessionId = in.readString();
         webPcNo = in.readLong();
         smileUniqNo = in.readString();
         characterName = in.readString();
@@ -54,7 +50,7 @@ public class CharacterDtoImpl implements CharacterDto, Parcelable {
 
     public static CharacterDtoImpl from(Character c) {
         Account a = c.getAccount();
-        return new CharacterDtoImpl(a.getSqexid(), a.getSessionId(),
+        return new CharacterDtoImpl(a.getSqexid(),
                 c.getWebPcNo(), c.getSmileUniqNo(), c.getCharacterName());
     }
 
@@ -80,7 +76,6 @@ public class CharacterDtoImpl implements CharacterDto, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(sqexid);
-        dest.writeString(sessionId);
         dest.writeLong(webPcNo);
         dest.writeString(smileUniqNo);
         dest.writeString(characterName);
@@ -90,7 +85,6 @@ public class CharacterDtoImpl implements CharacterDto, Parcelable {
     public String toString() {
         return "CharacterDtoImpl{" +
                 "sqexid='" + sqexid + '\'' +
-                ", sessionId='" + sessionId + '\'' +
                 ", webPcNo=" + webPcNo +
                 ", smileUniqNo='" + smileUniqNo + '\'' +
                 ", characterName='" + characterName + '\'' +
