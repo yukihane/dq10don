@@ -5,7 +5,7 @@
     <!-- active log file -->
     <file>${LOG_DIR}/log.txt</file>
     <encoder>
-      <pattern>[%d] %logger{35} - %msg%n</pattern>
+      <pattern>[%d][%t] %logger{35} - %msg%n</pattern>
     </encoder>
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -19,7 +19,7 @@
 
   <appender name="LOGCAT" class="ch.qos.logback.classic.android.LogcatAppender">
     <encoder>
-      <pattern>[%d] %logger{35} - %msg%n</pattern>
+      <pattern>[%d][%t] %logger{35} - %msg%n</pattern>
     </encoder>
   </appender>
 
