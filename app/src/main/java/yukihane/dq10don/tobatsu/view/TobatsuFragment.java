@@ -22,6 +22,7 @@ import java.util.TimeZone;
 import rx.Observable;
 import rx.android.view.ViewObservable;
 import yukihane.dq10don.R;
+import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
@@ -114,9 +115,8 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
 
     @Override
     public void showMessage(HappyServiceException ex) {
-        int resCode = (ex.getResultCode() != null) ? ex.getResultCode() : -1;
-        Toast.makeText(getActivity(), getString(R.string.process_canceled, resCode)
-                , Toast.LENGTH_SHORT);
+        String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex.getResultCode());
+        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG);
     }
 
 
