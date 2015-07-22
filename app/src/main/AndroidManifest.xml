@@ -25,7 +25,7 @@
     <activity
       android:name=".login.view.LoginActivity"
       android:label="@string/title_activity_login"
-      android:parentActivityName=".tobatsu.view.MainActivity">
+      android:parentActivityName=".sqexid.view.SqexidActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".sqexid.view.SqexidActivity"/>
