@@ -19,6 +19,7 @@
   <string name="happy_106">ログイン中は処理できません</string>
   <string name="happy_12009">モーモンバザーを設置していません</string>
   <string name="happy_22001">しばらくしてから再実行してください</string>
+  <string name="happy_22002">討伐受注不可キャラです</string>
   <string name="happy_unknown">エラーが発生しました(%1$d)</string>
   <string name="http_401">再ログインが必要です</string>
   <string name="http_other">ネットワークエラー(%1$s)</string>

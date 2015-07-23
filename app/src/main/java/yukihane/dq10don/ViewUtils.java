@@ -30,6 +30,9 @@ public class ViewUtils {
                         return context.getString(R.string.happy_12009);
                     case 22001:
                         return context.getString(R.string.happy_22001);
+                    case 22002:
+                        // 討伐が受けられるようになるクエストをこなしていない
+                        return context.getString(R.string.happy_22002);
                     default:
                         return context.getString(R.string.happy_unknown, resultCode);
                 }
