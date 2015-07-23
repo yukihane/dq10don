@@ -36,8 +36,9 @@ public class MainPresenter {
     public void onCreate() {
         try {
             setAlarmIfNeeded();
+            showWelcomeDialogIfNeeded();
         } catch (SQLException e) {
-            LOGGER.error("alarm set error", e);
+            LOGGER.error("initial process error", e);
         }
     }
 
@@ -82,11 +83,21 @@ public class MainPresenter {
         }
     }
 
+
+    private void showWelcomeDialogIfNeeded() throws SQLException {
+        AccountDao dao = AccountDao.create(dbHelper);
+        if (!dao.exists()) {
+            view.showWelcomeDialog();
+        }
+    }
+
     public interface View {
         void setAccounts(List<Account> accounts);
 
         void setAlarm(long time);
 
         void cancelAlarm();
+
+        void showWelcomeDialog();
     }
 }

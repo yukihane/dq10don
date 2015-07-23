@@ -100,4 +100,9 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     public void cancelAlarm() {
         Alarm.cancelAlarm(getApplication());
     }
+
+    @Override
+    public void showWelcomeDialog() {
+        new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
+    }
 }

@@ -68,14 +68,14 @@ public class AccountDao {
      */
     public Character findCharacterByWebPcNo(long webPcNo) throws SQLException {
         List<Character> c = characterDao.queryForEq("webPcNo", webPcNo);
-        if(c.isEmpty()) {
+        if (c.isEmpty()) {
             return null;
         }
         assert c.size() == 1;
         Character character = c.get(0);
 
         String queryStr = ""
-                +"select account_id from Character "
+                + "select account_id from Character "
                 + "where webPcNo = ?";
         String[] arguments = new String[]{Long.toString(webPcNo)};
         DataType[] dataType = new DataType[]{DataType.STRING};
@@ -90,5 +90,12 @@ public class AccountDao {
         account.setCharacters(characters);
 
         return character;
+    }
+
+    /**
+     * 1レコードも存在しなければfalse.
+     */
+    public boolean exists() throws SQLException {
+        return 0 < accountDao.countOf();
     }
 }
