@@ -85,12 +85,6 @@ public class TobatsuPresenter {
                 } catch (HappyServiceException | SQLException e) {
                     LOGGER.error("tobatsu list query error", e);
                     subscriber.onError(e);
-                } catch (RetrofitError e) {
-                    LOGGER.error("retrofit error: url: {}, message: {}, type: {}, body: {}",
-                            e.getUrl(), e.getMessage(), e.getSuccessType(), e.getBody());
-
-                    LOGGER.error("", e);
-                    subscriber.onError(e);
                 }
                 subscriber.onCompleted();
             }
@@ -116,6 +110,8 @@ public class TobatsuPresenter {
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
+                } else {
+                    view.showMessage(null);
                 }
             }
 
