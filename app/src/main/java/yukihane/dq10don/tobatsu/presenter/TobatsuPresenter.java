@@ -98,7 +98,6 @@ public class TobatsuPresenter {
 
             @Override
             public void onCompleted() {
-                LOGGER.debug("onCompleted");
                 if (tobatsuList != null) {
                     view.tobatsuListUpdate(tobatsuList);
                 }
@@ -106,7 +105,6 @@ public class TobatsuPresenter {
 
             @Override
             public void onError(Throwable e) {
-                LOGGER.error("error occured", e);
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
@@ -117,7 +115,6 @@ public class TobatsuPresenter {
 
             @Override
             public void onNext(TobatsuList tobatsuList) {
-                LOGGER.debug("onNext");
                 this.tobatsuList = tobatsuList;
             }
         });
