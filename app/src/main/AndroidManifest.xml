@@ -11,12 +11,18 @@
     android:name=".Application"
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
+    android:label="@string/app_formal_name"
     android:theme="@style/AppTheme">
     <activity
       android:name=".tobatsu.view.MainActivity"
       android:label="@string/app_name">
-      <intent-filter>
+      <!--
+      本来はこのintent-filterのlabelがラウンチャー(ホーム)にアプリ名として表示されるはずだが
+      API Level21以降は不具合で activity の label がアプリ名として表示される。
+      そのため、activity と intent-filterのlabelは同じものにしておくのが無難
+      https://code.google.com/p/android/issues/detail?id=179153
+       -->
+      <intent-filter android:label="@string/app_name">
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
