@@ -4,7 +4,6 @@
       tools:context="yukihane.dq10don.sqexid.view.SqexidActivity">
   <item
     android:id="@+id/actionAddAccount"
-    android:icon="@drawable/ic_menu_add"
     android:orderInCategory="100"
     android:title="@string/add"
     app:showAsAction="withText|ifRoom"/>
