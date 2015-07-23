@@ -104,6 +104,7 @@ public class TobatsuPresenter {
 
             @Override
             public void onError(Throwable e) {
+                LOGGER.error("onError", e);
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
