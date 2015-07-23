@@ -1,8 +1,6 @@
 package yukihane.dq10don.communication;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import retrofit.RetrofitError;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
@@ -13,8 +11,6 @@ import yukihane.dq10don.exception.HappyServiceException;
  */
 public class HappyServiceWrapper implements HappyService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HappyServiceWrapper.class);
-
     private final HappyService service;
 
     HappyServiceWrapper(HappyService service) {
@@ -23,21 +19,27 @@ public class HappyServiceWrapper implements HappyService {
 
     @Override
     public CharaSelectDto characterSelect(@Path("webPcNo") long webPcNo) throws HappyServiceException {
-        CharaSelectDto res = service.characterSelect(webPcNo);
-        if (res.getResultCode() != 0) {
-            LOGGER.error("characterSelect returns not zero: {}", res.getResultCode());
-            throw new HappyServiceException(res.getResultCode());
+        try {
+            CharaSelectDto res = service.characterSelect(webPcNo);
+            if (res.getResultCode() != 0) {
+                throw new HappyServiceException(res.getResultCode());
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("characterSelect error webPcNo: " + webPcNo, e);
         }
-        return res;
     }
 
     @Override
     public TobatsuDto getTobatsuList() throws HappyServiceException {
-        TobatsuDto res = service.getTobatsuList();
-        if (res.getResultCode() != 0) {
-            LOGGER.error("getTobatsuList returns not zero: {}", res.getResultCode());
-            throw new HappyServiceException(res.getResultCode());
+        try {
+            TobatsuDto res = service.getTobatsuList();
+            if (res.getResultCode() != 0) {
+                throw new HappyServiceException(res.getResultCode());
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("getTobatsuList error", e);
         }
-        return res;
     }
 }
