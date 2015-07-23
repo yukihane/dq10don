@@ -46,7 +46,7 @@ public class RoundService extends IntentService {
     public static final String KEY_POINT = "tobatsu_point";
     public static final String KEY_TEXT = "tobatsu_text";
     public static final String KEY_RETRY = "tobatsu_retry";
-    public static final int NOTIFICATION_ID = 1;
+    public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoundService.class);
@@ -202,7 +202,7 @@ public class RoundService extends IntentService {
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(TOBATSU_NOTIFICATION_ID, mBuilder.build());
     }
 
     private static class Result {

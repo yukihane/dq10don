@@ -1,5 +1,7 @@
 package yukihane.dq10don.tobatsu.view;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,7 @@ import java.util.List;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.Alarm;
+import yukihane.dq10don.background.RoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
@@ -45,6 +48,10 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
 
         presenter.onCreate();
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(RoundService.TOBATSU_NOTIFICATION_ID);
+
     }
 
     @Override
