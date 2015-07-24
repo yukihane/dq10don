@@ -43,13 +43,13 @@ public class TobatsuPresenter {
     public void onViewCreated() {
         view.setHeader(character.getSqexid(), character.getSmileUniqNo());
 
-        updateList(false);
+        updateList(true);
 
     }
 
 
     public void onUpdateClick() {
-        updateList(true);
+        updateList(false);
     }
 
     public void onDestroyView() {
@@ -62,10 +62,10 @@ public class TobatsuPresenter {
     }
 
     /**
-     * @param forceUpdate false の場合, (DB上に)キャッシュが有ればそれを返します.
-     *                    trueのの場合, DBデータの有無にかかわらずサーバへリクエストします.
+     * @param useCache true の場合, (DB上に)キャッシュが有ればそれを返します.
+     *                    false の場合, DBデータの有無にかかわらずサーバへリクエストします.
      */
-    private void updateList(boolean forceUpdate) {
+    private void updateList(boolean useCache) {
 
         Observable<TobatsuList> observable = Observable.create(new Observable.OnSubscribe<TobatsuList>() {
             @Override
@@ -74,7 +74,7 @@ public class TobatsuPresenter {
 
                 TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
                 try {
-                    if (forceUpdate) {
+                    if (!useCache) {
                         TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
                         subscriber.onNext(tl);
                     } else {
