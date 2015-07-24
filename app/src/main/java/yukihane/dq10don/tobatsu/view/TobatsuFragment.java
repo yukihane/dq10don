@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import rx.Observable;
-import rx.android.view.ViewObservable;
+import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.account.TobatsuItem;
@@ -124,9 +124,8 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
         Toast.makeText(getView().getContext(), text, Toast.LENGTH_LONG).show();
     }
 
-
     @Override
-    public void bindToList(Observable observable) {
-        ViewObservable.bindView(tobatsuListView, observable);
+    public void bind(Observable<?> observable) {
+        AppObservable.bindSupportFragment(this, observable);
     }
 }

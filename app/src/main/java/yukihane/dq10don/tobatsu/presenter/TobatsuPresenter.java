@@ -90,7 +90,7 @@ public class TobatsuPresenter {
         }).subscribeOn(DonSchedulers.happyServer());
 
 
-        view.bindToList(observable);
+        view.bind(observable);
 
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuList>() {
             private TobatsuList tobatsuList;
@@ -120,7 +120,7 @@ public class TobatsuPresenter {
     }
 
     public interface View {
-        void bindToList(Observable observable);
+        void bind(Observable<?> observable);
 
         void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list);
 
