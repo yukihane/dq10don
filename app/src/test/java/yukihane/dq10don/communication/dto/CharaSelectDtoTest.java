@@ -1,8 +1,5 @@
 package yukihane.dq10don.communication.dto;
 
-import static org.junit.Assert.*;
-
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Before;
@@ -11,9 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import static org.junit.Assert.*;
 

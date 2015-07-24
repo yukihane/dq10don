@@ -16,7 +16,7 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import yukihane.dq10don.account.*;
+import yukihane.dq10don.account.Account;
 import yukihane.dq10don.communication.dto.login.LoginDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
@@ -69,7 +69,6 @@ public class SqexidPresenter {
 
             @Override
             public void onCompleted() {
-                LOGGER.info("onCompleted");
                 view.displayAccount(results);
             }
 
@@ -80,7 +79,6 @@ public class SqexidPresenter {
 
             @Override
             public void onNext(List<Account> list) {
-                LOGGER.info("onNext");
                 results.addAll(list);
             }
         });
@@ -120,7 +118,7 @@ public class SqexidPresenter {
                 AccountDao dao = AccountDao.create(dbHelper);
                 dao.persist(account);
             } else {
-                LOGGER.debug("ログイン処理を中断した");
+                LOGGER.debug("cancelled login process");
             }
 
             loadAccounts();

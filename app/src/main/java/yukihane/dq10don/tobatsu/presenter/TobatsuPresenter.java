@@ -7,16 +7,15 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
-import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 
@@ -105,6 +104,7 @@ public class TobatsuPresenter {
 
             @Override
             public void onError(Throwable e) {
+                LOGGER.error("onError", e);
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);

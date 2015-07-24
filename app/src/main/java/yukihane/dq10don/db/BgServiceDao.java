@@ -1,7 +1,6 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;

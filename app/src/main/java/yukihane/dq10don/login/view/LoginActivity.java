@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import yukihane.dq10don.login.presenter.LoginPresenter;
 import yukihane.dq10don.R;
 import yukihane.dq10don.login.model.JsonLogin;
 import yukihane.dq10don.login.model.UserIdGetter;
+import yukihane.dq10don.login.presenter.LoginPresenter;
 
 
 public class LoginActivity extends ActionBarActivity implements LoginPresenter.View {

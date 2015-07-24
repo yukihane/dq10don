@@ -1,7 +1,6 @@
 package yukihane.dq10don.background;
 
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;

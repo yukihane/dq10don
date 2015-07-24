@@ -64,7 +64,6 @@ public class TobatsuFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        LOGGER.debug("getItemPosition called");
         return POSITION_NONE;
     }
 
