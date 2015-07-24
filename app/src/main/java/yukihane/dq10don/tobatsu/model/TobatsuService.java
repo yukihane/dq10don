@@ -13,10 +13,13 @@ import yukihane.dq10don.exception.HappyServiceException;
 public interface TobatsuService {
     Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException;
 
-    TobatsuList getTobatsuList(long webPcNo) throws HappyServiceException, SQLException;
+    /**
+     * DBから情報を取得します.
+     */
+    TobatsuList getTobatsuListFromDB(long webPcNo) throws SQLException;
 
     /**
-     * DB情報を見ずにサーバーから情報を取得します(強制更新).
+     * サーバーから情報を取得します.
      */
     TobatsuList getTobatsuListFromServer(long webPcNo) throws HappyServiceException, SQLException;
 }

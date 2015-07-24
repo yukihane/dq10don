@@ -53,10 +53,10 @@ public class TobatsuServiceImpl implements TobatsuService {
     }
 
     @Override
-    public TobatsuList getTobatsuList(long webPcNo) throws HappyServiceException, SQLException {
+    public TobatsuList getTobatsuListFromDB(long webPcNo) throws SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-        return getTobatsuList(character);
+        return getTobatsuListFromDB(character);
     }
 
     /**
@@ -72,17 +72,16 @@ public class TobatsuServiceImpl implements TobatsuService {
         return getTobatsuListFromServer(character);
     }
 
-    private TobatsuList getTobatsuList(Character character) throws SQLException, HappyServiceException {
-        TobatsuList dbRes = getTobatsuListFromDB(character);
-        if (dbRes != null) {
-            LOGGER.debug("found on DB");
-            return dbRes;
-        }
-        // DBにない場合はサーバへ要求
-        LOGGER.debug("not found on DB");
-        return getTobatsuListFromServer(character);
-    }
 
+    private TobatsuList getTobatsuListFromDB(Character character) throws SQLException {
+        List<TobatsuList> lists = TobatsuListDao.create(dbHelper).queryLatest(character);
+        // 現状は大国の分のみ永続化するためリストは1種類だけ
+        assert lists.size() == 0 || lists.size() == 1;
+        if (lists.isEmpty()) {
+            return null;
+        }
+        return lists.get(0);
+    }
 
     /**
      * DBを見ずに直接サーバーに情報をリクエストします.
@@ -100,15 +99,5 @@ public class TobatsuServiceImpl implements TobatsuService {
         res.setCharacter(character);
         TobatsuListDao.create(dbHelper).persist(res);
         return res;
-    }
-
-    private TobatsuList getTobatsuListFromDB(Character character) throws SQLException {
-        List<TobatsuList> lists = TobatsuListDao.create(dbHelper).queryLatest(character);
-        // 現状は大国の分のみ永続化するためリストは1種類だけ
-        assert lists.size() == 0 || lists.size() == 1;
-        if (lists.isEmpty()) {
-            return null;
-        }
-        return lists.get(0);
     }
 }
