@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -15,6 +13,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.AccountDao;
@@ -30,7 +33,6 @@ public class MainPresenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainPresenter.class);
     private final DbHelper dbHelper;
     private View view;
-
 
     public MainPresenter(View view, DbHelperFactory dbHFactory) {
         this.view = view;
@@ -88,7 +90,6 @@ public class MainPresenter {
         }
     }
 
-
     private void showWelcomeDialogIfNeeded() throws SQLException {
         AccountDao dao = AccountDao.create(dbHelper);
         if (!dao.exists()) {
@@ -98,22 +99,54 @@ public class MainPresenter {
 
     public void exportLog(File fromDir, File toDir) {
 
-        // TODO 本当は非同期でやったほうがいい
-        File[] logfiles = fromDir.listFiles((File dir, String filename) -> {
-            if (filename.endsWith("log") || filename.endsWith("log.txt")) {
-                return true;
-            }
-            return false;
-        });
-        LOGGER.info("export log file(s): from:{} to:{}", logfiles, toDir);
+        Observable<Void> observable = Observable.create(new Observable.OnSubscribe<Void>() {
 
-        for (File f : logfiles) {
-            try {
-                Utils.copy(f, toDir);
-            } catch (IOException e) {
-                LOGGER.error("file copy failed", e);
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                subscriber.onStart();
+
+                File[] logfiles = fromDir.listFiles((File dir, String filename) -> {
+                    if (filename.endsWith("log") || filename.endsWith("log.txt")) {
+                        return true;
+                    }
+                    return false;
+                });
+                LOGGER.info("export log file(s): from:{} to:{}", logfiles, toDir);
+
+                for (File f : logfiles) {
+                    try {
+                        Utils.copy(f, toDir);
+                    } catch (IOException e) {
+                        LOGGER.error("file copy failed", e);
+                    }
+                }
+
+                LOGGER.info("completed export log file(s)");
+                subscriber.onCompleted();
             }
-        }
+        }).subscribeOn(Schedulers.io());
+
+
+        view.bind(observable);
+
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Void>() {
+            @Override
+            public void onCompleted() {
+                view.showMessage(Message.COMPLETED_EXPORTFILE);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Void aVoid) {
+            }
+        });
+    }
+
+    public enum Message {
+        COMPLETED_EXPORTFILE;
     }
 
     public interface View {
@@ -124,5 +157,9 @@ public class MainPresenter {
         void cancelAlarm();
 
         void showWelcomeDialog();
+
+        void bind(Observable<?> observable);
+
+        void showMessage(Message completedFilecopy);
     }
 }

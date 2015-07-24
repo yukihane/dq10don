@@ -25,4 +25,5 @@
   <string name="http_401">再ログインが必要です</string>
   <string name="http_other">ネットワークエラー(%1$s)</string>
   <string name="text_welcome">ようこそ！メニューから\nID管理 -> 追加\nを選択し、ログインすれば\n処理が始まります</string>
+  <string name="completed_exportfile">エクスポート完了しました</string>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
+import rx.Observable;
+import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.Alarm;
@@ -111,5 +114,25 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     @Override
     public void showWelcomeDialog() {
         new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
+    }
+
+    @Override
+    public void bind(Observable<?> observable) {
+        AppObservable.bindActivity(this, observable);
+    }
+
+    @Override
+    public void showMessage(MainPresenter.Message message) {
+        final String text;
+        switch (message) {
+            case COMPLETED_EXPORTFILE:
+                text = getString(R.string.completed_exportfile);
+                break;
+            default:
+                LOGGER.error("message is not defined: {}", message);
+                return;
+        }
+
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
