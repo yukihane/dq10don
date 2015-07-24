@@ -30,7 +30,7 @@ public class Account {
      * 次回以降の自動処理では, このフラグを見て予めエラーとなることがわかるため,
      * 処理をスキップすることができる.
      */
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     @Setter
     @Getter
     private boolean invalid;

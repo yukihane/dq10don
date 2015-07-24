@@ -32,7 +32,7 @@ public class Character {
     private String characterName;
 
     @Setter
-    @DatabaseField
+    @DatabaseField(canBeNull =  false)
     private int lastTobatsuResultCode;
 
     // ORMライブラリで必要
