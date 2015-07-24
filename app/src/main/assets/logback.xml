@@ -3,14 +3,14 @@
 
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <!-- active log file -->
-    <file>${LOG_DIR}/log.txt</file>
+    <file>${LOG_DIR}/dq10don.log.txt</file>
     <encoder>
       <pattern>[%d][%t] %logger{35} - %msg%n</pattern>
     </encoder>
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover period -->
-      <fileNamePattern>${LOG_DIR}/log.%d.txt</fileNamePattern>
+      <fileNamePattern>${LOG_DIR}/dq10don.%d.log.txt</fileNamePattern>
 
       <!-- keep 7 days' worth of history -->
       <maxHistory>7</maxHistory>
