@@ -11,12 +11,22 @@ import yukihane.dq10don.exception.HappyServiceException;
  * Created by yuki on 15/07/18.
  */
 public interface TobatsuService {
-    Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException;
-
-    TobatsuList getTobatsuList(long webPcNo) throws HappyServiceException, SQLException;
 
     /**
-     * DB情報を見ずにサーバーから情報を取得します(強制更新).
+     * 全キャラクターの討伐情報をサーバから取得します.
+     * ただしinvalidなキャラクターはサーバーにリクエストを行わず失敗したとみなし処理します.
+     */
+    Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException;
+
+    /**
+     * DBから情報を取得します.
+     */
+    TobatsuList getTobatsuListFromDB(long webPcNo) throws SQLException;
+
+    /**
+     * サーバーから情報を取得します.
+     * このメソッドの内部ではキャラクター/アカウントがinvalid可動化は判別しないので,
+     * 必要があれば呼び出す前に判定を行ってください.
      */
     TobatsuList getTobatsuListFromServer(long webPcNo) throws HappyServiceException, SQLException;
 }

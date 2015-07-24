@@ -12,7 +12,9 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import yukihane.dq10don.DonSchedulers;
+import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
@@ -43,13 +45,13 @@ public class TobatsuPresenter {
     public void onViewCreated() {
         view.setHeader(character.getSqexid(), character.getSmileUniqNo());
 
-        updateList(false);
+        updateList(true, true);
 
     }
 
 
     public void onUpdateClick() {
-        updateList(true);
+        updateList(false, false);
     }
 
     public void onDestroyView() {
@@ -62,10 +64,12 @@ public class TobatsuPresenter {
     }
 
     /**
-     * @param forceUpdate false の場合, (DB上に)キャッシュが有ればそれを返します.
-     *                    trueのの場合, DBデータの有無にかかわらずサーバへリクエストします.
+     * @param useCache       true の場合, (DB上に)キャッシュが有ればそれを返します.
+     *                       false の場合, DBデータの有無にかかわらずサーバへリクエストします.
+     * @param useInvalidFlag 対象キャラクターのinvalid状況にかかわらず,
+     *                       (必要に応じて)サーバーリクエストを行うならfalse.
      */
-    private void updateList(boolean forceUpdate) {
+    private void updateList(boolean useCache, boolean useInvalidFlag) {
 
         Observable<TobatsuList> observable = Observable.create(new Observable.OnSubscribe<TobatsuList>() {
             @Override
@@ -74,13 +78,25 @@ public class TobatsuPresenter {
 
                 TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
                 try {
-                    if (forceUpdate) {
-                        TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
-                        subscriber.onNext(tl);
-                    } else {
-                        TobatsuList tl = service.getTobatsuList(character.getWebPcNo());
-                        subscriber.onNext(tl);
+                    if (useCache) {
+                        TobatsuList tl = service.getTobatsuListFromDB(character.getWebPcNo());
+                        if (tl != null) {
+                            subscriber.onNext(tl);
+                            subscriber.onCompleted();
+                            return;
+                        }
                     }
+
+                    if (useInvalidFlag) {
+                        AccountDao dao = AccountDao.create(dbHelper);
+                        Character c = dao.findCharacterByWebPcNo(character.getWebPcNo());
+                        if (c.isTobatsuInvalid()) {
+                            return;
+                        }
+                    }
+
+                    TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
+                    subscriber.onNext(tl);
                 } catch (HappyServiceException | SQLException e) {
                     LOGGER.error("tobatsu list query error", e);
                     subscriber.onError(e);
