@@ -61,18 +61,6 @@ public class RoundService extends IntentService {
     }
 
     @Override
-    public void onCreate() {
-        LOGGER.debug("RoundService#onCreate called");
-        super.onCreate();
-    }
-
-    @Override
-    public void onDestroy() {
-        LOGGER.debug("RoundService#onDestroy called");
-        super.onDestroy();
-    }
-
-    @Override
     protected void onHandleIntent(Intent intent) {
         try {
             exec(intent);
@@ -82,7 +70,6 @@ public class RoundService extends IntentService {
     }
 
     private void exec(Intent intent) {
-        LOGGER.info("onHandleIntent called");
 
         DbHelper dbHelper = null;
         try {

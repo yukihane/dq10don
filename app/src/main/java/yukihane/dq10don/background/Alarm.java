@@ -27,7 +27,6 @@ public class Alarm extends WakefulBroadcastReceiver {
      * @param context アプリケーションコンテキスト.
      */
     public static void setAlarm(Context context, long timeInMillis, Bundle bundle) {
-        LOGGER.info("setAlarm called");
 
         PendingIntent alarmIntent = getPendingIntent(context, bundle);
 
@@ -53,7 +52,6 @@ public class Alarm extends WakefulBroadcastReceiver {
     }
 
     public static void cancelAlarm(Context context) {
-        LOGGER.info("cancelAlarm called");
 
         PendingIntent alarmIntent = getPendingIntent(context, null);
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -81,7 +79,7 @@ public class Alarm extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        LOGGER.info("onReceive called");
+        LOGGER.debug("onReceive called");
         ComponentName component = new ComponentName(context, RoundService.class);
         intent.setComponent(component);
 
