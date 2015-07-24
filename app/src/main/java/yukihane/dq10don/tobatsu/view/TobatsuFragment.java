@@ -119,9 +119,13 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
     @Override
     public void showMessage(HappyServiceException ex) {
         String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex);
+        showMessage(text);
+    }
 
-        LOGGER.error(text);
-        Toast.makeText(getView().getContext(), text, Toast.LENGTH_LONG).show();
+    @Override
+    public void showMessage(String message) {
+        LOGGER.error(message);
+        Toast.makeText(getView().getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

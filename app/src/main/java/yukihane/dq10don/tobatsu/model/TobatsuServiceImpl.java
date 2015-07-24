@@ -19,6 +19,7 @@ import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.TobatsuListDao;
+import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.exception.HappyServiceException;
 
 /**
@@ -72,7 +73,7 @@ public class TobatsuServiceImpl implements TobatsuService {
      * @param webPcNo
      */
     @Override
-    public TobatsuList getTobatsuListFromServer(long webPcNo) throws HappyServiceException, SQLException {
+    public TobatsuList getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
         return getTobatsuListFromServer(character);
@@ -93,7 +94,7 @@ public class TobatsuServiceImpl implements TobatsuService {
      * DBを見ずに直接サーバーに情報をリクエストします.
      * 結果はDBに永続化します.
      */
-    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, HappyServiceException {
+    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, AppException {
         try {
             String sessionId = character.getAccount().getSessionId();
             LOGGER.info("update target character: {}", character);

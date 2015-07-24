@@ -5,6 +5,7 @@ import java.util.Map;
 
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.exception.HappyServiceException;
 
 /**
@@ -28,5 +29,5 @@ public interface TobatsuService {
      * このメソッドの内部ではキャラクター/アカウントがinvalid可動化は判別しないので,
      * 必要があれば呼び出す前に判定を行ってください.
      */
-    TobatsuList getTobatsuListFromServer(long webPcNo) throws HappyServiceException, SQLException;
+    TobatsuList getTobatsuListFromServer(long webPcNo) throws AppException, SQLException;
 }

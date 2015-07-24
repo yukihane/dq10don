@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
+import yukihane.dq10don.exception.AppException;
 
 
 /**
@@ -66,7 +67,7 @@ public class TobatsuList {
         this.issuedDate = issuedDate;
     }
 
-    public static TobatsuList from(TobatsuDto dto, int countySize) {
+    public static TobatsuList from(TobatsuDto dto, int countySize) throws AppException {
         List<TobatsuDataList> tdls = dto.getCountryTobatsuDataList();
         for (TobatsuDataList tdl : tdls) {
             if (tdl.getCountySize() != countySize) {
@@ -81,7 +82,9 @@ public class TobatsuList {
             return result;
         }
 
-        throw new IllegalArgumentException("countySize is not found: " + countySize);
+        // TODO 表示するメッセージについてはちゃんと設計すべき
+        // クリア済みの場合にはリストは存在しませんのでこの例外が出ます.
+        throw new AppException("報告済みです");
     }
 
     public void addListItem(TobatsuItem item) {

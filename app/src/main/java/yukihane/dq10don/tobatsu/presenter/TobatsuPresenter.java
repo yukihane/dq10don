@@ -17,6 +17,7 @@ import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
@@ -97,8 +98,7 @@ public class TobatsuPresenter {
 
                     TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
                     subscriber.onNext(tl);
-                } catch (HappyServiceException | SQLException e) {
-                    LOGGER.error("tobatsu list query error", e);
+                } catch (AppException | SQLException e) {
                     subscriber.onError(e);
                 }
                 subscriber.onCompleted();
@@ -120,11 +120,15 @@ public class TobatsuPresenter {
 
             @Override
             public void onError(Throwable e) {
+                LOGGER.error("tobatsu list query error", e);
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
+                } else if (e instanceof AppException) {
+                    // TODO getMessage()じゃなくてもっとちゃんとしたい
+                    view.showMessage(e.getMessage());
                 } else {
-                    view.showMessage(null);
+                    view.showMessage((HappyServiceException) null);
                 }
             }
 
@@ -143,5 +147,7 @@ public class TobatsuPresenter {
         void setHeader(String sqexid, String smileUniqNo);
 
         void showMessage(HappyServiceException ex);
+
+        void showMessage(String message);
     }
 }
