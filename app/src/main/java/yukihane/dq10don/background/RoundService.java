@@ -29,6 +29,7 @@ import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
@@ -140,11 +141,17 @@ public class RoundService extends IntentService {
             for (String no : webPcNos) {
                 long webPcNo = Long.parseLong(no);
                 try {
-                    TobatsuList list = service.getTobatsuListFromServer(webPcNo);
-                    for (TobatsuItem ti : list.getListItems()) {
-                        if (ti.getPoint() > maxPoint) {
-                            maxPoint = ti.getPoint();
-                            text = getText(ti);
+                    AccountDao accountDao = AccountDao.create(dbHelper);
+                    Character c = accountDao.findCharacterByWebPcNo(webPcNo);
+                    if (c.isTobatsuInvalid()) {
+                        remains.add(no);
+                    } else {
+                        TobatsuList list = service.getTobatsuListFromServer(webPcNo);
+                        for (TobatsuItem ti : list.getListItems()) {
+                            if (ti.getPoint() > maxPoint) {
+                                maxPoint = ti.getPoint();
+                                text = getText(ti);
+                            }
                         }
                     }
                 } catch (Exception e) {
