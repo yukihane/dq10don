@@ -5,6 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import lombok.Getter;
 import lombok.Setter;
+import yukihane.dq10don.communication.HappyServiceResultCode;
 import yukihane.dq10don.communication.dto.login.CharacterList;
 
 /**
@@ -30,6 +31,10 @@ public class Character {
     @DatabaseField(canBeNull = false)
     private String characterName;
 
+    @Setter
+    @DatabaseField
+    private int lastTobatsuResultCode;
+
     // ORMライブラリで必要
     private Character() {
     }
@@ -42,6 +47,19 @@ public class Character {
 
     public static Character from(CharacterList dto) {
         return new Character(dto.getCharacterName(), dto.getSmileUniqueNo(), dto.getWebPcNo());
+    }
+
+    /**
+     * 討伐リクエストがエラーとなることが分かっていればtrue.
+     */
+    public boolean isTobatsuInvalid() {
+        if (lastTobatsuResultCode == HappyServiceResultCode.TOBATSUQUEST_NEVER_ACCEPTED) {
+            return true;
+        }
+        if (account != null && account.isInvalid()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
