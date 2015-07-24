@@ -43,10 +43,14 @@ public class TobatsuServiceImpl implements TobatsuService {
             for (Character character : account.getCharacters()) {
                 // TODO Rx で実装すると良い感じかも
                 TobatsuList tl = null;
-                try {
-                    tl = getTobatsuListFromServer(character);
-                } catch (Exception e) {
-                    LOGGER.error("討伐リクエスト失敗" + character, e);
+                if (character.isTobatsuInvalid()) {
+                    LOGGER.info("invalid user skipped: {}", character);
+                } else {
+                    try {
+                        tl = getTobatsuListFromServer(character);
+                    } catch (Exception e) {
+                        LOGGER.error("討伐リクエスト失敗" + character, e);
+                    }
                 }
                 result.put(character, tl);
             }
