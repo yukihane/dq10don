@@ -2,6 +2,7 @@
   <property name="LOG_DIR" value="/data/data/yukihane.dq10don/files/"/>
 
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <lazy>true</lazy>
     <!-- active log file -->
     <file>${LOG_DIR}/dq10don.log.txt</file>
     <encoder>
