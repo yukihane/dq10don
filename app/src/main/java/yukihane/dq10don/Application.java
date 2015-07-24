@@ -1,7 +1,9 @@
 package yukihane.dq10don;
 
+import com.crashlytics.android.Crashlytics;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import io.fabric.sdk.android.Fabric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ public class Application extends android.app.Application {
     public void onCreate() {
         LOGGER.debug("onCreate called");
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         dbHelper = new DbHelperFactory(this);
     }
 
