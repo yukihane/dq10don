@@ -101,6 +101,15 @@ public class TobatsuServiceImpl implements TobatsuService {
             service.characterSelect(character.getWebPcNo());
             TobatsuDto dto = service.getTobatsuList();
 
+            AccountDao dao = AccountDao.create(dbHelper);
+            character.setLastTobatsuResultCode(dto.getResultCode());
+            dao.persist(character);
+
+            Account account = character.getAccount();
+            account.setInvalid(false);
+            dao.updateAccountOnly(account);
+
+
             // 現状は大国のみを対象とする
             TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
             res.setCharacter(character);
