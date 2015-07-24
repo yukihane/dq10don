@@ -10,7 +10,7 @@ import retrofit.RetrofitError;
  * {@link yukihane.dq10don.exception.HappyServiceException.Type#HTTP} の場合,
  * {@link #getCause()} によってRetrofitErrorが取得できますのでそれで判別します.
  */
-public class HappyServiceException extends Exception {
+public class HappyServiceException extends AppException {
 
     private final Type type;
 
