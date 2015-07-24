@@ -1,5 +1,8 @@
 package yukihane.dq10don.communication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import retrofit.RetrofitError;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
@@ -11,6 +14,8 @@ import yukihane.dq10don.exception.HappyServiceException;
  */
 public class HappyServiceWrapper implements HappyService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HappyServiceWrapper.class);
+
     private final HappyService service;
 
     HappyServiceWrapper(HappyService service) {
@@ -20,8 +25,10 @@ public class HappyServiceWrapper implements HappyService {
     @Override
     public CharaSelectDto characterSelect(@Path("webPcNo") long webPcNo) throws HappyServiceException {
         try {
+            LOGGER.info("HappyService characterSelect webPcNo: {}", webPcNo);
             CharaSelectDto res = service.characterSelect(webPcNo);
             if (res.getResultCode() != 0) {
+                LOGGER.error("HappyService characterSelect error webPcNo: {}, resultCode: {}", webPcNo, res.getResultCode());
                 throw new HappyServiceException(res.getResultCode());
             }
             return res;
@@ -33,8 +40,10 @@ public class HappyServiceWrapper implements HappyService {
     @Override
     public TobatsuDto getTobatsuList() throws HappyServiceException {
         try {
+            LOGGER.info("HappyService getTobatsuList");
             TobatsuDto res = service.getTobatsuList();
             if (res.getResultCode() != 0) {
+                LOGGER.error("HappyService getTobatsuList error resultCode: {}", res.getResultCode());
                 throw new HappyServiceException(res.getResultCode());
             }
             return res;
