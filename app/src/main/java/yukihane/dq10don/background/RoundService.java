@@ -78,7 +78,6 @@ public class RoundService extends IntentService {
             Result res = executeInternal(dbHelper, intent);
             if (res.getRemains().isEmpty() && res.getMaxPoint() > 0) {
                 sendNotification(res.getMaxPoint(), res.getText());
-                setNextDateAlarm(dbHelper);
             } else if (!res.getRemains().isEmpty()) {
                 int retry = intent.getIntExtra(KEY_RETRY, 0);
                 if (retry < MAX_RETRY) {
@@ -88,6 +87,7 @@ public class RoundService extends IntentService {
                     bundle.putString(KEY_TEXT, res.getText());
                     bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
                     setRetryAlarm(bundle);
+                    return;
                 } else {
                     sendNotification(res.getMaxPoint(),
                             getString(R.string.text_notification_error));
@@ -96,6 +96,7 @@ public class RoundService extends IntentService {
                 LOGGER.info("取得対象がありません");
             }
             LOGGER.debug("end process");
+            setNextDateAlarm(dbHelper);
         } catch (SQLException e) {
             LOGGER.error("DB error", e);
         } finally {
