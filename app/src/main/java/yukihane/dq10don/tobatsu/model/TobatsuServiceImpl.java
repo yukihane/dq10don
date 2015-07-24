@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.RetrofitError;
+import retrofit.client.Response;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuList;
@@ -118,8 +118,9 @@ public class TobatsuServiceImpl implements TobatsuService {
             return res;
         } catch (HappyServiceException e) {
             if (e.getType() == HappyServiceException.Type.HTTP) {
-                RetrofitError ex = e.getCause();
-                if (ex.getResponse().getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                // ネットワーク未接続の場合は response が null
+                Response response = e.getCause().getResponse();
+                if (response != null && response.getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     Account account = character.getAccount();
                     account.setInvalid(true);
                     AccountDao dao = AccountDao.create(dbHelper);
