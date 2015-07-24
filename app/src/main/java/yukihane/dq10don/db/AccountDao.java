@@ -45,6 +45,19 @@ public class AccountDao {
         }
     }
 
+    /**
+     * 配下のCharacterを気にせずにaccountのフィールドだけを更新する場合に使用します.
+     *
+     * @param account 更新対象. 配下のcharacterは更新されません.
+     */
+    public void updateAccountOnly(Account account) throws SQLException {
+        accountDao.update(account);
+    }
+
+    public void persist(Character character) throws SQLException {
+        characterDao.createOrUpdate(character);
+    }
+
     public List<Account> queryAll() throws SQLException {
         List<Account> accounts = accountDao.queryForAll();
         LOGGER.info("accounts: {}", accounts.size());
