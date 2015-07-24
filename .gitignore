@@ -1,5 +1,6 @@
 # 個人情報が含まれるファイル
 /app/src/test/resources/real_session.json
+/app/fabric.properties
 
 # Created by https://www.gitignore.io
 
