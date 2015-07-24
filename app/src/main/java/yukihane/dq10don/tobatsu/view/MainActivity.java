@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 
 import yukihane.dq10don.R;
@@ -74,6 +76,11 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         if (id == R.id.action_sqexid) {
             Intent intent = new Intent(this, SqexidActivity.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.action_exportlog) {
+            File fromDir = getFilesDir();
+            File toDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            presenter.exportLog(fromDir, toDir);
             return true;
         }
 

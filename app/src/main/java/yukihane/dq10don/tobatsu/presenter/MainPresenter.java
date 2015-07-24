@@ -5,12 +5,17 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
@@ -88,6 +93,26 @@ public class MainPresenter {
         AccountDao dao = AccountDao.create(dbHelper);
         if (!dao.exists()) {
             view.showWelcomeDialog();
+        }
+    }
+
+    public void exportLog(File fromDir, File toDir) {
+
+        // TODO 本当は非同期でやったほうがいい
+        File[] logfiles = fromDir.listFiles((File dir, String filename) -> {
+            if (filename.endsWith("log") || filename.endsWith("log.txt")) {
+                return true;
+            }
+            return false;
+        });
+        LOGGER.info("export log file(s): from:{} to:{}", logfiles, toDir);
+
+        for (File f : logfiles) {
+            try {
+                Utils.copy(f, toDir);
+            } catch (IOException e) {
+                LOGGER.error("file copy failed", e);
+            }
         }
     }
 
