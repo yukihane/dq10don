@@ -47,6 +47,7 @@ public class RoundService extends IntentService {
     public static final String KEY_POINT = "tobatsu_point";
     public static final String KEY_TEXT = "tobatsu_text";
     public static final String KEY_RETRY = "tobatsu_retry";
+    public static final String KEY_EXISTS_INVALID = "tobatsu_invalid";
     public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
@@ -76,24 +77,27 @@ public class RoundService extends IntentService {
         try {
             dbHelper = new DbHelperFactory(this).create();
             Result res = executeInternal(dbHelper, intent);
-            if (res.getRemains().isEmpty() && res.getMaxPoint() > 0) {
+            final int retry = intent.getIntExtra(KEY_RETRY, 0);
+            if (!res.getRemains().isEmpty() && retry < MAX_RETRY) {
+                // リトライ回数の上限に達しておらず、かつ未取得のものがある場合
+                // リトライを行う
+                Bundle bundle = new Bundle();
+                bundle.putInt(KEY_RETRY, retry + 1);
+                bundle.putInt(KEY_POINT, res.getMaxPoint());
+                bundle.putString(KEY_TEXT, res.getText());
+                bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
+                setRetryAlarm(bundle);
+                return;
+            } else if (res.getRemains().isEmpty() && res.getMaxPoint() > 0 && !res.existsInvalid) {
+                // 全要求が全て正常終了している
                 sendNotification(res.getMaxPoint(), res.getText());
-            } else if (!res.getRemains().isEmpty()) {
-                int retry = intent.getIntExtra(KEY_RETRY, 0);
-                if (retry < MAX_RETRY) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(KEY_RETRY, retry + 1);
-                    bundle.putInt(KEY_POINT, res.getMaxPoint());
-                    bundle.putString(KEY_TEXT, res.getText());
-                    bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
-                    setRetryAlarm(bundle);
-                    return;
+            } else {
+                if (res.getRemains().isEmpty() && !res.existsInvalid) {
+                    LOGGER.info("取得対象がありません");
                 } else {
                     sendNotification(res.getMaxPoint(),
                             getString(R.string.text_notification_error));
                 }
-            } else {
-                LOGGER.info("取得対象がありません");
             }
             LOGGER.debug("end process");
             setNextDateAlarm(dbHelper);
@@ -115,6 +119,7 @@ public class RoundService extends IntentService {
 
         int maxPoint = intent.getIntExtra(KEY_POINT, 0);
         String text = intent.getStringExtra(KEY_TEXT);
+        boolean existsInvalid = intent.getBooleanExtra(KEY_EXISTS_INVALID, false);
         if (webPcNos == null) {
             try {
                 // webPcNosが設定されていない場合は, 初回要求であり、
@@ -125,7 +130,11 @@ public class RoundService extends IntentService {
                 for (Character c : cs) {
                     TobatsuList l = lists.get(c);
                     if (l == null) {
-                        remains.add(Long.toString(c.getWebPcNo()));
+                        if (c.isTobatsuInvalid()) {
+                            existsInvalid = true;
+                        } else {
+                            remains.add(Long.toString(c.getWebPcNo()));
+                        }
                     } else {
                         for (TobatsuItem i : l.getListItems()) {
                             if (i.getPoint() > maxPoint) {
@@ -141,28 +150,29 @@ public class RoundService extends IntentService {
         } else {
             for (String no : webPcNos) {
                 long webPcNo = Long.parseLong(no);
+                Character c = null;
                 try {
                     AccountDao accountDao = AccountDao.create(dbHelper);
-                    Character c = accountDao.findCharacterByWebPcNo(webPcNo);
-                    if (c.isTobatsuInvalid()) {
-                        remains.add(no);
-                    } else {
-                        TobatsuList list = service.getTobatsuListFromServer(webPcNo);
-                        for (TobatsuItem ti : list.getListItems()) {
-                            if (ti.getPoint() > maxPoint) {
-                                maxPoint = ti.getPoint();
-                                text = getText(ti);
-                            }
+                    c = accountDao.findCharacterByWebPcNo(webPcNo);
+                    TobatsuList list = service.getTobatsuListFromServer(webPcNo);
+                    for (TobatsuItem ti : list.getListItems()) {
+                        if (ti.getPoint() > maxPoint) {
+                            maxPoint = ti.getPoint();
+                            text = getText(ti);
                         }
                     }
                 } catch (Exception e) {
-                    remains.add(no);
+                    if (c != null && c.isTobatsuInvalid()) {
+                        existsInvalid = true;
+                    } else {
+                        remains.add(no);
+                    }
                     LOGGER.error("TobatsuList request error: ", e);
                 }
             }
         }
 
-        return new Result(maxPoint, text, remains);
+        return new Result(maxPoint, text, remains, existsInvalid);
     }
 
     private void setNextDateAlarm(DbHelper dbHelper) throws SQLException {
@@ -173,7 +183,7 @@ public class RoundService extends IntentService {
 
     public void setRetryAlarm(Bundle bundle) {
         long now = Calendar.getInstance().getTimeInMillis();
-        int offset = (10 + new Random(now).nextInt(10)) * 1000;
+        int offset = (10 + new Random(now).nextInt(15)) * 1000;
         Alarm.setAlarm(getApplication(), now + offset, bundle);
     }
 
@@ -212,10 +222,15 @@ public class RoundService extends IntentService {
         @Setter
         private String text;
 
-        Result(int maxPoint, String text, List<String> remains) {
+        @Getter
+        @Setter
+        private boolean existsInvalid;
+
+        Result(int maxPoint, String text, List<String> remains, boolean existsInvalid) {
             this.maxPoint = maxPoint;
             this.text = text;
             this.remains = new ArrayList<>(remains);
+            this.existsInvalid = existsInvalid;
         }
 
         public void addWebPcNo(String webPcNo) {
