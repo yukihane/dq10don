@@ -3,11 +3,13 @@ package yukihane.dq10don.tobatsu.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit.RetrofitError;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuList;
@@ -88,16 +90,32 @@ public class TobatsuServiceImpl implements TobatsuService {
      * 結果はDBに永続化します.
      */
     private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, HappyServiceException {
-        String sessionId = character.getAccount().getSessionId();
-        LOGGER.info("update target character: {}", character);
-        HappyService service = HappyServiceFactory.getService(sessionId);
-        service.characterSelect(character.getWebPcNo());
-        TobatsuDto dto = service.getTobatsuList();
+        try {
+            String sessionId = character.getAccount().getSessionId();
+            LOGGER.info("update target character: {}", character);
+            HappyService service = HappyServiceFactory.getService(sessionId);
+            service.characterSelect(character.getWebPcNo());
+            TobatsuDto dto = service.getTobatsuList();
 
-        // 現状は大国のみを対象とする
-        TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
-        res.setCharacter(character);
-        TobatsuListDao.create(dbHelper).persist(res);
-        return res;
+            // 現状は大国のみを対象とする
+            TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
+            res.setCharacter(character);
+            TobatsuListDao.create(dbHelper).persist(res);
+            return res;
+        } catch (HappyServiceException e) {
+            if (e.getType() == HappyServiceException.Type.HTTP) {
+                RetrofitError ex = e.getCause();
+                if (ex.getResponse().getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    Account account = character.getAccount();
+                    account.setInvalid(true);
+                    AccountDao dao = AccountDao.create(dbHelper);
+                    dao.updateAccountOnly(account);
+                }
+            } else if (e.getType() == HappyServiceException.Type.SERVERSIDE) {
+                character.setLastTobatsuResultCode(e.getResultCode());
+                AccountDao.create(dbHelper).persist(character);
+            }
+            throw e;
+        }
     }
 }
