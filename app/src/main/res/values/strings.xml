@@ -1,0 +1,29 @@
+<resources>
+  <string name="app_name">日替丼</string>
+  <string name="app_formal_name">日替丼 for DQX</string>
+  <string name="title_activity_sqexid">ID管理</string>
+  <string name="title_activity_login">アカウント登録</string>
+  <string name="action_exportlog">ログをエクスポート</string>
+  <string name="action_tokenapp">トークン起動</string>
+  <string name="add">追加</string>
+  <string name="relogin">再ログイン</string>
+  <string name="remove">削除</string>
+  <string name="reload">更新</string>
+  <string name="ok">OK</string>
+  <string name="yes">はい</string>
+  <string name="cancel">キャンセル</string>
+  <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
+  <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
+  <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
+  <string name="text_confirm_delete_account">%1$sを削除します</string>
+  <string name="text_error">エラーが発生しました</string>
+  <string name="happy_106">ログイン中は処理できません</string>
+  <string name="happy_12009">モーモンバザーを設置していません</string>
+  <string name="happy_22001">しばらくしてから再実行してください</string>
+  <string name="happy_22002">討伐受注不可キャラです</string>
+  <string name="happy_unknown">エラーが発生しました(%1$d)</string>
+  <string name="http_401">再ログインが必要です</string>
+  <string name="http_other">ネットワークエラー(%1$s)</string>
+  <string name="text_welcome">ようこそ！メニューから\nID管理 -> 追加\nを選択し、ログインすれば\n処理が始まります</string>
+  <string name="completed_exportfile">エクスポート完了しました</string>
+</resources>

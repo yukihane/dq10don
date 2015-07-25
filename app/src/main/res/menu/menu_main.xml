@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+  <item
+    android:id="@+id/action_sqexid"
+    android:orderInCategory="101"
+    android:title="@string/title_activity_sqexid"
+    app:showAsAction="ifRoom"/>
+  <item
+    android:id="@+id/action_exportlog"
+    android:orderInCategory="102"
+    android:title="@string/action_exportlog"
+    app:showAsAction="never"/>
+</menu>
