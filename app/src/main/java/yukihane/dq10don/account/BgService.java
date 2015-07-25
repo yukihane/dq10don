@@ -29,6 +29,10 @@ public class BgService {
     @DatabaseField(generatedId = true)
     private Long id;
 
+    /**
+     * 最後に{@link #reset()} を呼んだ時刻が設定されます.
+     * これは乱数生成のseedとして用いられます.
+     */
     @DatabaseField
     @Setter
     @Getter
@@ -49,6 +53,7 @@ public class BgService {
         int m = cal.get(Calendar.MINUTE);
         if (h >= 6 || (h == 5 && m >= 55)) {
             // 5:55 以降なら今日は実行しない(翌日に実行する).
+            LOGGER.info("Alarm set next date");
             cal.add(Calendar.DATE, 1);
         }
 
@@ -94,7 +99,7 @@ public class BgService {
 
         long now = Calendar.getInstance().getTimeInMillis();
         long res = (now - seed) / (24 * 60 * 60 * 1000) + 1;
-        LOGGER.debug("passing is {}", res);
+        LOGGER.debug("passing is {}, now:{}, last reset:{}", res, now, seed);
         return res;
     }
 

@@ -87,7 +87,8 @@ public class TobatsuListDao {
             ids.add(o[0]);
         }
 
-        LOGGER.debug("selected IDs: {}", ids);
+        LOGGER.debug("selected IDs: {} by query:{}, dataType:{}, arguments:{}",
+                ids, queryStr, dataType, arguments);
 
         QueryBuilder<TobatsuList, Long> qb = tobatsuListDao.queryBuilder();
         qb.where().in("id", ids);

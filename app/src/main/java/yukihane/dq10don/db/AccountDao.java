@@ -60,11 +60,11 @@ public class AccountDao {
 
     public List<Account> queryAll() throws SQLException {
         List<Account> accounts = accountDao.queryForAll();
-        LOGGER.info("accounts: {}", accounts.size());
+        LOGGER.debug("queryAll: account size: {}", accounts.size());
         for (Account a : accounts) {
             List<Character> c = characterDao.queryForEq("account_id", a.getSqexid());
             a.setCharacters(c);
-            LOGGER.info("characters: {}", c.size());
+            LOGGER.debug("queryAll: character size: {}", c.size());
         }
         return accounts;
     }
