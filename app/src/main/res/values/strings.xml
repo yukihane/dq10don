@@ -10,6 +10,7 @@
   <string name="relogin">再ログイン</string>
   <string name="remove">削除</string>
   <string name="reload">更新</string>
+  <string name="execute">実行</string>
   <string name="ok">OK</string>
   <string name="yes">はい</string>
   <string name="cancel">キャンセル</string>
@@ -18,6 +19,7 @@
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
   <string name="text_confirm_delete_account">%1$sを削除します</string>
   <string name="text_error">エラーが発生しました</string>
+  <string name="text_output_debug_logs">デバッグログを出力</string>
   <string name="happy_106">ログイン中は処理できません</string>
   <string name="happy_12009">モーモンバザーを設置していません</string>
   <string name="happy_22001">しばらくしてから再実行してください</string>
