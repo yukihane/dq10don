@@ -39,7 +39,6 @@ public class DebugActivity extends ActionBarActivity implements DebugPresenter.V
 
         presenter = new DebugPresenter(this);
         presenter.onCreate();
-        presenter.onCreateView();
     }
 
 
