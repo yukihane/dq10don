@@ -77,6 +77,11 @@
       android:name=".debug.view.DebugActivity"
       android:label="@string/title_activity_debug">
     </activity>
+
+    <activity
+      android:name=".twitter.view.TwitterAuthActivity"
+      android:label="@string/title_activity_twitter_auth">
+    </activity>
   </application>
 
 </manifest>
