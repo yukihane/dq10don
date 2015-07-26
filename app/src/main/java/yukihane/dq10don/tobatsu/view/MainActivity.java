@@ -23,6 +23,7 @@ import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
+import yukihane.dq10don.twitter.view.TwitterAuthActivity;
 
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {
@@ -74,6 +75,10 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
 
         if (id == R.id.action_sqexid) {
             Intent intent = new Intent(this, SqexidActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_twitter_auth) {
+            Intent intent = new Intent(this, TwitterAuthActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_debug) {
