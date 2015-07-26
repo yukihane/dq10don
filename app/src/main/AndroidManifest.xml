@@ -72,6 +72,11 @@
     </receiver>
 
     <service android:name=".background.RoundService"/>
+
+    <activity
+      android:name=".debug.view.DebugActivity"
+      android:label="@string/title_activity_debug">
+    </activity>
   </application>
 
 </manifest>

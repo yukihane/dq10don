@@ -3,6 +3,7 @@
   <string name="app_formal_name">日替丼 for DQX</string>
   <string name="title_activity_sqexid">ID管理</string>
   <string name="title_activity_login">アカウント登録</string>
+  <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
   <string name="add">追加</string>
