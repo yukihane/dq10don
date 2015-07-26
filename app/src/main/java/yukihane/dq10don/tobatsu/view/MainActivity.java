@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         viewPager.setAdapter(pagerAdapter);
 
 
-        presenter.onCreate();
+        presenter.onCreate(savedInstanceState == null);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(RoundService.TOBATSU_NOTIFICATION_ID);

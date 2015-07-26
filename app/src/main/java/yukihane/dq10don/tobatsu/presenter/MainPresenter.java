@@ -32,10 +32,13 @@ public class MainPresenter {
 
     }
 
-    public void onCreate() {
+    /**
+     * @param firstBoot (Activityが復元されたのではなく)起動された場合にtrue.
+     */
+    public void onCreate(boolean boot) {
         try {
             setAlarmIfNeeded();
-            showWelcomeDialogIfNeeded();
+            showWelcomeDialogIfNeeded(boot);
         } catch (SQLException e) {
             LOGGER.error("initial process error", e);
         }
@@ -82,7 +85,11 @@ public class MainPresenter {
         }
     }
 
-    private void showWelcomeDialogIfNeeded() throws SQLException {
+    private void showWelcomeDialogIfNeeded(boolean boot) throws SQLException {
+        if (!boot) {
+            return;
+        }
+
         AccountDao dao = AccountDao.create(dbHelper);
         if (!dao.exists()) {
             view.showWelcomeDialog();
