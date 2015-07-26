@@ -25,6 +25,7 @@ import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.Alarm;
 import yukihane.dq10don.background.RoundService;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 
@@ -80,10 +81,12 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
             Intent intent = new Intent(this, SqexidActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_exportlog) {
-            File fromDir = getFilesDir();
-            File toDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            presenter.exportLog(fromDir, toDir);
+        } else if (id == R.id.action_debug) {
+            Intent intent = new Intent(this, DebugActivity.class);
+            startActivity(intent);
+//            File fromDir = getFilesDir();
+//            File toDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//            presenter.exportLog(fromDir, toDir);
             return true;
         }
 
