@@ -22,6 +22,9 @@ import yukihane.dq10don.settings.presenter.CharaSelectPresenter;
 import yukihane.dq10don.settings.presenter.CheckableCharacter;
 import yukihane.dq10don.twitter.view.PrefUtils;
 
+/**
+ * Tweet対象を全員でなく特定のキャラクタ分のみに絞るときの設定アクティビティ.
+ */
 public class CharaSelectActivity extends ActionBarActivity implements CharaSelectPresenter.View {
 
     private CharaSelectPresenter presenter;
@@ -29,9 +32,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
     private CheckableCharacter[] planets;
     private ArrayAdapter<CheckableCharacter> listAdapter;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +39,8 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
         presenter = new CharaSelectPresenter(this, new DbHelperFactory(this), new PrefUtils(this));
 
-        // Find the ListView resource.
         ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
 
-        // When item is tapped, toggle checked properties of CheckBox and Planet.
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item,
