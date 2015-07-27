@@ -29,7 +29,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
     private CharaSelectPresenter presenter;
 
-    private CheckableCharacter[] planets;
     private ArrayAdapter<CheckableCharacter> listAdapter;
 
     @Override
@@ -56,10 +55,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
     }
 
-    public Object onRetainCustomNonConfigurationInstance() {
-        return planets;
-    }
-
     @Override
     public void bind(Observable<?> observable) {
         AppObservable.bindActivity(this, observable);
@@ -73,9 +68,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
         mainListView.setAdapter(listAdapter);
     }
 
-    /**
-     * Holds child views for one row.
-     */
     private static class PlanetViewHolder {
         private CheckBox checkBox;
         private TextView textView;
