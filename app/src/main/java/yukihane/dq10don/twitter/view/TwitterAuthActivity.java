@@ -17,11 +17,11 @@ import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.twitter.presenter.TwitterAuthPresenter;
 
-import static yukihane.dq10don.twitter.Constants.PREF_NAME;
-import static yukihane.dq10don.twitter.Constants.SCREEN_NAME;
-import static yukihane.dq10don.twitter.Constants.TOKEN;
-import static yukihane.dq10don.twitter.Constants.TOKEN_SECRET;
-import static yukihane.dq10don.twitter.Constants.USER_ID;
+import static yukihane.dq10don.twitter.PrefUtils.PREF_NAME;
+import static yukihane.dq10don.twitter.PrefUtils.SCREEN_NAME;
+import static yukihane.dq10don.twitter.PrefUtils.TOKEN;
+import static yukihane.dq10don.twitter.PrefUtils.TOKEN_SECRET;
+import static yukihane.dq10don.twitter.PrefUtils.USER_ID;
 
 public class TwitterAuthActivity extends ActionBarActivity implements TwitterAuthPresenter.View {
 
