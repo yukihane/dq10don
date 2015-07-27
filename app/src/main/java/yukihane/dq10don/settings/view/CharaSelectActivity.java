@@ -48,6 +48,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                 planet.toggleChecked();
                 PlanetViewHolder viewHolder = (PlanetViewHolder) item.getTag();
                 viewHolder.getCheckBox().setChecked(planet.isChecked());
+                presenter.onCheckChange(position, planet.isChecked());
             }
         });
 
@@ -63,7 +64,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
     @Override
     public void setData(List<CheckableCharacter> checkableCharacters) {
         // Set our custom array adapter as the ListView's adapter.
-        listAdapter = new PlanetArrayAdapter(this, checkableCharacters);
+        listAdapter = new PlanetArrayAdapter(this, checkableCharacters, presenter);
         ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
         mainListView.setAdapter(listAdapter);
     }
@@ -102,12 +103,15 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
      */
     private static class PlanetArrayAdapter extends ArrayAdapter<CheckableCharacter> {
 
+        private final CharaSelectPresenter presenter;
         private LayoutInflater inflater;
 
-        public PlanetArrayAdapter(Context context, List<CheckableCharacter> planetList) {
+        public PlanetArrayAdapter(Context context, List<CheckableCharacter> planetList,
+                                  CharaSelectPresenter presenter) {
             super(context, R.layout.list_tobatsu_tweet_character, R.id.tobatsuTweetCharacterView, planetList);
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context);
+            this.presenter = presenter;
         }
 
         @Override
@@ -137,6 +141,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                         CheckBox cb = (CheckBox) v;
                         CheckableCharacter planet = (CheckableCharacter) cb.getTag();
                         planet.setChecked(cb.isChecked());
+                        presenter.onCheckChange(position, cb.isChecked());
                     }
                 });
             }

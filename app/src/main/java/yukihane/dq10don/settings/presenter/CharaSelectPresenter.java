@@ -72,6 +72,9 @@ public class CharaSelectPresenter {
         });
     }
 
+    public void onCheckChange(int position, boolean checked) {
+    }
+
     public interface View {
         void bind(Observable<?> observable);
 
