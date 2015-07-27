@@ -239,9 +239,11 @@ public class RoundService extends IntentService {
 
         try {
             String maxPoint = NumberFormat.getNumberInstance().format(maxItem.getPoint());
-            twitter.updateStatus("本日の最高額討伐依頼は " + maxPoint + "P / "
-                    + maxItem.getMonsterName() + " / " + maxItem.getArea() + " / "
-                    + maxItem.getCount() + "匹 です");
+            twitter.updateStatus("#本日の最高額討伐依頼 #dq10\n"
+                    + maxPoint + " P\n"
+                    + maxItem.getArea() + " "
+                    + maxItem.getMonsterName() + " "
+                    + maxItem.getCount() + "匹");
         } catch (TwitterException e) {
             LOGGER.error("tweet failed", e);
         }
