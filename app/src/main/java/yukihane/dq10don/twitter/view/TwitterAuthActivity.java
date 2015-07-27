@@ -1,7 +1,6 @@
 package yukihane.dq10don.twitter.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,12 +15,6 @@ import rx.Observable;
 import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.twitter.presenter.TwitterAuthPresenter;
-
-import static yukihane.dq10don.twitter.PrefUtils.PREF_NAME;
-import static yukihane.dq10don.twitter.PrefUtils.SCREEN_NAME;
-import static yukihane.dq10don.twitter.PrefUtils.TOKEN;
-import static yukihane.dq10don.twitter.PrefUtils.TOKEN_SECRET;
-import static yukihane.dq10don.twitter.PrefUtils.USER_ID;
 
 public class TwitterAuthActivity extends ActionBarActivity implements TwitterAuthPresenter.View {
 
@@ -85,13 +78,7 @@ public class TwitterAuthActivity extends ActionBarActivity implements TwitterAut
 
     @Override
     public void storeAuthInfo(long userId, String screenName, String token, String tokenSecret) {
-        SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor edit = sp.edit();
-        edit.putLong(USER_ID, userId);
-        edit.putString(SCREEN_NAME, screenName);
-        edit.putString(TOKEN, token);
-        edit.putString(TOKEN_SECRET, tokenSecret);
-        edit.commit();
+        new PrefUtils(this).storeAuthInfo(userId, screenName, token, tokenSecret);
     }
 
     @Override
