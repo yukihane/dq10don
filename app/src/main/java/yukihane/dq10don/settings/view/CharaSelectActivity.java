@@ -12,21 +12,22 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import rx.Observable;
+import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.settings.presenter.CharaSelectPresenter;
+import yukihane.dq10don.settings.presenter.CheckableCharacter;
 import yukihane.dq10don.twitter.view.PrefUtils;
 
 public class CharaSelectActivity extends ActionBarActivity implements CharaSelectPresenter.View {
 
     private CharaSelectPresenter presenter;
 
-    private Planet[] planets;
-    private ArrayAdapter<Planet> listAdapter;
+    private CheckableCharacter[] planets;
+    private ArrayAdapter<CheckableCharacter> listAdapter;
 
     /**
      * Called when the activity is first created.
@@ -46,80 +47,32 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
             @Override
             public void onItemClick(AdapterView<?> parent, View item,
                                     int position, long id) {
-                Planet planet = listAdapter.getItem(position);
+                CheckableCharacter planet = listAdapter.getItem(position);
                 planet.toggleChecked();
                 PlanetViewHolder viewHolder = (PlanetViewHolder) item.getTag();
                 viewHolder.getCheckBox().setChecked(planet.isChecked());
             }
         });
 
+        presenter.onCreate();
 
-        // Create and populate planets.
-        planets = (Planet[]) getLastCustomNonConfigurationInstance();
-        if (planets == null) {
-            planets = new Planet[]{
-                    new Planet("Mercury"), new Planet("Venus"), new Planet("Earth"),
-                    new Planet("Mars"), new Planet("Jupiter"), new Planet("Saturn"),
-                    new Planet("Uranus"), new Planet("Neptune"), new Planet("Ceres"),
-                    new Planet("Pluto"), new Planet("Haumea"), new Planet("Makemake"),
-                    new Planet("Eris"), new Planet("Epsilon Eridani"), new Planet("Gliese 876 b"),
-                    new Planet("HD 209458 b")
-            };
-        }
-        ArrayList<Planet> planetList = new ArrayList<Planet>();
-        planetList.addAll(Arrays.asList(planets));
-
-        // Set our custom array adapter as the ListView's adapter.
-        listAdapter = new PlanetArrayAdapter(this, planetList);
-        mainListView.setAdapter(listAdapter);
     }
 
     public Object onRetainCustomNonConfigurationInstance() {
         return planets;
     }
 
-    /**
-     * Holds planet data.
-     */
-    private static class Planet {
-        private String name = "";
-        private boolean checked = false;
+    @Override
+    public void bind(Observable<?> observable) {
+        AppObservable.bindActivity(this, observable);
+    }
 
-        public Planet() {
-        }
-
-        public Planet(String name) {
-            this.name = name;
-        }
-
-        public Planet(String name, boolean checked) {
-            this.name = name;
-            this.checked = checked;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public boolean isChecked() {
-            return checked;
-        }
-
-        public void setChecked(boolean checked) {
-            this.checked = checked;
-        }
-
-        public String toString() {
-            return name;
-        }
-
-        public void toggleChecked() {
-            checked = !checked;
-        }
+    @Override
+    public void setData(List<CheckableCharacter> checkableCharacters) {
+        // Set our custom array adapter as the ListView's adapter.
+        listAdapter = new PlanetArrayAdapter(this, checkableCharacters);
+        ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
+        mainListView.setAdapter(listAdapter);
     }
 
     /**
@@ -157,11 +110,11 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
     /**
      * Custom adapter for displaying an array of Planet objects.
      */
-    private static class PlanetArrayAdapter extends ArrayAdapter<Planet> {
+    private static class PlanetArrayAdapter extends ArrayAdapter<CheckableCharacter> {
 
         private LayoutInflater inflater;
 
-        public PlanetArrayAdapter(Context context, List<Planet> planetList) {
+        public PlanetArrayAdapter(Context context, List<CheckableCharacter> planetList) {
             super(context, R.layout.list_tobatsu_tweet_character, R.id.rowTextView, planetList);
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context);
@@ -170,7 +123,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Planet to display
-            Planet planet = this.getItem(position);
+            CheckableCharacter planet = this.getItem(position);
 
             // The child views in each row.
             CheckBox checkBox;
@@ -192,7 +145,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
-                        Planet planet = (Planet) cb.getTag();
+                        CheckableCharacter planet = (CheckableCharacter) cb.getTag();
                         planet.setChecked(cb.isChecked());
                     }
                 });
@@ -211,7 +164,8 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
             // Display planet data
             checkBox.setChecked(planet.isChecked());
-            textView.setText(planet.getName());
+            String name = planet.getCharacterName() + " (" + planet.getSmileUniqNo() + ")";
+            textView.setText(name);
 
             return convertView;
         }

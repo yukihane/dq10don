@@ -10,7 +10,6 @@ import yukihane.dq10don.account.Character;
  */
 public class CheckableCharacter {
 
-    @Getter
     private final Character character;
 
     @Getter
@@ -20,5 +19,17 @@ public class CheckableCharacter {
     public CheckableCharacter(Character character, boolean checked) {
         this.character = character;
         this.checked = checked;
+    }
+
+    public String getSmileUniqNo() {
+        return character.getSmileUniqNo();
+    }
+
+    public String getCharacterName() {
+        return character.getCharacterName();
+    }
+
+    public void toggleChecked() {
+        checked = !checked;
     }
 }
