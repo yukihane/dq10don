@@ -29,6 +29,7 @@ public class CharaSelectPresenter {
     private DbHelper dbHelper;
     private PrefUtils prefUtils;
     private View view;
+    private ArrayList<CheckableCharacter> checkableCharacters;
 
     public CharaSelectPresenter(View view, DbHelperFactory dbHelperFactory, PrefUtils prefUtils) {
         this.view = view;
@@ -57,9 +58,10 @@ public class CharaSelectPresenter {
             @Override
             public void call(List<Character> characters) {
                 Collection<Long> checked = prefUtils.getTobatsuTweetCharacters();
-                List<CheckableCharacter> checkableCharacters = new ArrayList<>(characters.size());
+                checkableCharacters = new ArrayList<>(characters.size());
                 for (Character c : characters) {
-                    CheckableCharacter cc = new CheckableCharacter(c, checked.contains(c.getWebPcNo()));
+                    long webPcNo = c.getWebPcNo();
+                    CheckableCharacter cc = new CheckableCharacter(c, checked.contains(webPcNo));
                     checkableCharacters.add(cc);
                 }
 
@@ -80,6 +82,18 @@ public class CharaSelectPresenter {
     }
 
     public void onCheckChange(int position, boolean checked) {
+        CheckableCharacter changed = checkableCharacters.get(position);
+        changed.setChecked(checked);
+
+        List<Long> checkedNos = new ArrayList<>();
+        for (CheckableCharacter c : checkableCharacters) {
+            if (c.isChecked()) {
+                checkedNos.add(c.getWebPcNo());
+            }
+        }
+        prefUtils.setTobatsuTweetCharacters(checkedNos);
+        LOGGER.debug("check status changed: {} to {} ({})",
+                changed.getCharacterName(), checked, checkedNos.size());
     }
 
     public interface View {

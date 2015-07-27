@@ -81,8 +81,8 @@ public final class PrefUtils {
         return res;
     }
 
-    public void setTobatsuTweetCharacters(Collection<Long> characters) {
-        List<Long> list = new ArrayList<>(characters);
+    public void setTobatsuTweetCharacters(Collection<Long> webPcNos) {
+        List<Long> list = new ArrayList<>(webPcNos);
         String str = Utils.join(",", list);
         getPrefs().edit().putString(TOBATSU_TWEET_CHARACTERS, str).commit();
     }

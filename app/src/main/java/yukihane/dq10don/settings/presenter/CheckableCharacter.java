@@ -13,7 +13,6 @@ public class CheckableCharacter {
     private final Character character;
 
     @Getter
-    @Setter
     private boolean checked;
 
     public CheckableCharacter(Character character, boolean checked) {
@@ -27,5 +26,13 @@ public class CheckableCharacter {
 
     public String getCharacterName() {
         return character.getCharacterName();
+    }
+
+    public long getWebPcNo() {
+        return character.getWebPcNo();
+    }
+
+    void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
