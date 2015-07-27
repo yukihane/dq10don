@@ -71,7 +71,11 @@ public final class PrefUtils {
         String[] strIds = str.split(",");
         Set<Long> res = new HashSet<>(strIds.length);
         for (String strId : strIds) {
-            // TODO 空の場合は？
+            if (strId.isEmpty()) {
+                // 未設定の場合はから文字列が来るのでスキップ
+                // (breakしてもいいが)
+                continue;
+            }
             res.add(Long.parseLong(strId));
         }
         return res;
