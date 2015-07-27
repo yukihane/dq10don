@@ -54,6 +54,12 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
+    @Override
     public void bind(Observable<?> observable) {
         AppObservable.bindActivity(this, observable);
     }

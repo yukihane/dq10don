@@ -1,6 +1,7 @@
 package yukihane.dq10don.settings.presenter;
 
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import org.slf4j.Logger;
@@ -70,6 +71,12 @@ public class CharaSelectPresenter {
                 LOGGER.error("character load error", throwable);
             }
         });
+    }
+
+    public void onDestroy() {
+        OpenHelperManager.releaseHelper();
+        dbHelper = null;
+        view = null;
     }
 
     public void onCheckChange(int position, boolean checked) {
