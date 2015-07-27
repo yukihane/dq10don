@@ -40,16 +40,13 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
         ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
 
-        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View item,
-                                    int position, long id) {
-                CheckableCharacter planet = listAdapter.getItem(position);
-                planet.toggleChecked();
-                PlanetViewHolder viewHolder = (PlanetViewHolder) item.getTag();
-                viewHolder.getCheckBox().setChecked(planet.isChecked());
-                presenter.onCheckChange(position, planet.isChecked());
-            }
+        mainListView.setOnItemClickListener((AdapterView<?> parent, View item,
+                                             int position, long id) -> {
+            CheckableCharacter planet = listAdapter.getItem(position);
+            planet.toggleChecked();
+            PlanetViewHolder viewHolder = (PlanetViewHolder) item.getTag();
+            viewHolder.getCheckBox().setChecked(planet.isChecked());
+            presenter.onCheckChange(position, planet.isChecked());
         });
 
         presenter.onCreate();
