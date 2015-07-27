@@ -128,6 +128,12 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        // TODO 適切な実装
+        return true;
+    }
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
