@@ -42,11 +42,11 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
         mainListView.setOnItemClickListener((AdapterView<?> parent, View item,
                                              int position, long id) -> {
-            CheckableCharacter planet = listAdapter.getItem(position);
-            planet.toggleChecked();
-            PlanetViewHolder viewHolder = (PlanetViewHolder) item.getTag();
-            viewHolder.getCheckBox().setChecked(planet.isChecked());
-            presenter.onCheckChange(position, planet.isChecked());
+            CheckableCharacter character = listAdapter.getItem(position);
+            character.toggleChecked();
+            CharacterViewHolder viewHolder = (CharacterViewHolder) item.getTag();
+            viewHolder.getCheckBox().setChecked(character.isChecked());
+            presenter.onCheckChange(position, character.isChecked());
         });
 
         presenter.onCreate();
@@ -61,19 +61,19 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
     @Override
     public void setData(List<CheckableCharacter> checkableCharacters) {
         // Set our custom array adapter as the ListView's adapter.
-        listAdapter = new PlanetArrayAdapter(this, checkableCharacters, presenter);
+        listAdapter = new CharacterArrayAdapter(this, checkableCharacters, presenter);
         ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
         mainListView.setAdapter(listAdapter);
     }
 
-    private static class PlanetViewHolder {
+    private static class CharacterViewHolder {
         private CheckBox checkBox;
         private TextView textView;
 
-        public PlanetViewHolder() {
+        public CharacterViewHolder() {
         }
 
-        public PlanetViewHolder(TextView textView, CheckBox checkBox) {
+        public CharacterViewHolder(TextView textView, CheckBox checkBox) {
             this.checkBox = checkBox;
             this.textView = textView;
         }
@@ -95,17 +95,14 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
         }
     }
 
-    /**
-     * Custom adapter for displaying an array of Planet objects.
-     */
-    private static class PlanetArrayAdapter extends ArrayAdapter<CheckableCharacter> {
+    private static class CharacterArrayAdapter extends ArrayAdapter<CheckableCharacter> {
 
         private final CharaSelectPresenter presenter;
         private LayoutInflater inflater;
 
-        public PlanetArrayAdapter(Context context, List<CheckableCharacter> planetList,
-                                  CharaSelectPresenter presenter) {
-            super(context, R.layout.list_tobatsu_tweet_character, R.id.tobatsuTweetCharacterView, planetList);
+        public CharacterArrayAdapter(Context context, List<CheckableCharacter> list,
+                                     CharaSelectPresenter presenter) {
+            super(context, R.layout.list_tobatsu_tweet_character, R.id.tobatsuTweetCharacterView, list);
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context);
             this.presenter = presenter;
@@ -113,8 +110,8 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // Planet to display
-            CheckableCharacter planet = this.getItem(position);
+
+            CheckableCharacter character = this.getItem(position);
 
             // The child views in each row.
             CheckBox checkBox;
@@ -130,14 +127,13 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
 
                 // Optimization: Tag the row with it's child views, so we don't have to
                 // call findViewById() later when we reuse the row.
-                convertView.setTag(new PlanetViewHolder(textView, checkBox));
+                convertView.setTag(new CharacterViewHolder(textView, checkBox));
 
-                // If CheckBox is toggled, update the planet it is tagged with.
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
-                        CheckableCharacter planet = (CheckableCharacter) cb.getTag();
-                        planet.setChecked(cb.isChecked());
+                        CheckableCharacter character = (CheckableCharacter) cb.getTag();
+                        character.setChecked(cb.isChecked());
                         presenter.onCheckChange(position, cb.isChecked());
                     }
                 });
@@ -145,18 +141,15 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
             // Reuse existing row view
             else {
                 // Because we use a ViewHolder, we avoid having to call findViewById().
-                PlanetViewHolder viewHolder = (PlanetViewHolder) convertView.getTag();
+                CharacterViewHolder viewHolder = (CharacterViewHolder) convertView.getTag();
                 checkBox = viewHolder.getCheckBox();
                 textView = viewHolder.getTextView();
             }
 
-            // Tag the CheckBox with the Planet it is displaying, so that we can
-            // access the planet in onClick() when the CheckBox is toggled.
-            checkBox.setTag(planet);
+            checkBox.setTag(character);
 
-            // Display planet data
-            checkBox.setChecked(planet.isChecked());
-            String name = planet.getCharacterName() + " (" + planet.getSmileUniqNo() + ")";
+            checkBox.setChecked(character.isChecked());
+            String name = character.getCharacterName() + " (" + character.getSmileUniqNo() + ")";
             textView.setText(name);
 
             return convertView;
