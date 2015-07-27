@@ -45,6 +45,7 @@ public class TwitterAuthPresenter {
                     // リクエストトークンの作成
                     try {
                         Twitter twitter = TwitterFactory.getSingleton();
+                        twitter.setOAuthAccessToken(null);
                         RequestToken requestToken = twitter.getOAuthRequestToken();
                         subscriber.onNext(requestToken);
                         subscriber.onCompleted();
