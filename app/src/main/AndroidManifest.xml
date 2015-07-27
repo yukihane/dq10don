@@ -82,6 +82,12 @@
       android:name=".twitter.view.TwitterAuthActivity"
       android:label="@string/title_activity_twitter_auth">
     </activity>
+
+    <activity
+      android:name=".settings.view.SettingsActivity"
+      android:label="@string/title_activity_settings">
+    </activity>
+
   </application>
 
 </manifest>
