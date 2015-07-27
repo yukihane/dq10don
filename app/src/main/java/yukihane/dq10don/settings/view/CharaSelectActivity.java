@@ -115,7 +115,7 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
         private LayoutInflater inflater;
 
         public PlanetArrayAdapter(Context context, List<CheckableCharacter> planetList) {
-            super(context, R.layout.list_tobatsu_tweet_character, R.id.rowTextView, planetList);
+            super(context, R.layout.list_tobatsu_tweet_character, R.id.tobatsuTweetCharacterView, planetList);
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context);
         }
@@ -134,8 +134,8 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                 convertView = inflater.inflate(R.layout.list_tobatsu_tweet_character, null);
 
                 // Find the child views.
-                textView = (TextView) convertView.findViewById(R.id.rowTextView);
-                checkBox = (CheckBox) convertView.findViewById(R.id.CheckBox01);
+                textView = (TextView) convertView.findViewById(R.id.tobatsuTweetCharacterView);
+                checkBox = (CheckBox) convertView.findViewById(R.id.tobatsuTweetableCheck);
 
                 // Optimization: Tag the row with it's child views, so we don't have to
                 // call findViewById() later when we reuse the row.
