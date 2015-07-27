@@ -28,8 +28,4 @@ public class CheckableCharacter {
     public String getCharacterName() {
         return character.getCharacterName();
     }
-
-    public void toggleChecked() {
-        checked = !checked;
-    }
 }

@@ -43,10 +43,9 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
         mainListView.setOnItemClickListener((AdapterView<?> parent, View item,
                                              int position, long id) -> {
             CheckableCharacter character = listAdapter.getItem(position);
-            character.toggleChecked();
+            presenter.onCheckChange(position, !character.isChecked());
             CharacterViewHolder viewHolder = (CharacterViewHolder) item.getTag();
             viewHolder.getCheckBox().setChecked(character.isChecked());
-            presenter.onCheckChange(position, character.isChecked());
         });
 
         presenter.onCreate();
@@ -138,8 +137,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
-                        CheckableCharacter character = (CheckableCharacter) cb.getTag();
-                        character.setChecked(cb.isChecked());
                         presenter.onCheckChange(position, cb.isChecked());
                     }
                 });
@@ -151,8 +148,6 @@ public class CharaSelectActivity extends ActionBarActivity implements CharaSelec
                 checkBox = viewHolder.getCheckBox();
                 textView = viewHolder.getTextView();
             }
-
-            checkBox.setTag(character);
 
             checkBox.setChecked(character.isChecked());
             String name = character.getCharacterName() + " (" + character.getSmileUniqNo() + ")";
