@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:title="Twitter認証">
+    <PreferenceScreen android:title="認証処理へ">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:targetClass="yukihane.dq10don.twitter.view.TwitterAuthActivity"
+        android:targetPackage="yukihane.dq10don"/>
+    </PreferenceScreen>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Twitter連携設定">
+    <CheckBoxPreference
+      android:defaultValue="true"
+      android:key="notifications_new_message"
+      android:title="最高額討伐依頼を自動tweet"/>
+    <ListPreference
+      android:defaultValue="-1"
+      android:entries="@array/pref_example_list_titles"
+      android:entryValues="@array/pref_example_list_values"
+      android:negativeButtonText="@null"
+      android:positiveButtonText="@null"
+      android:title="tweet対象"/>
+
+  </PreferenceCategory>
+
+</PreferenceScreen>
