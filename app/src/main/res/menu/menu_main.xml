@@ -13,11 +13,6 @@
     android:title="@string/title_activity_settings"
     app:showAsAction="ifRoom"/>
   <item
-    android:id="@+id/action_twitter_auth"
-    android:orderInCategory="103"
-    android:title="@string/title_activity_twitter_auth"
-    app:showAsAction="ifRoom"/>
-  <item
     android:id="@+id/action_debug"
     android:orderInCategory="104"
     android:title="@string/title_activity_debug"

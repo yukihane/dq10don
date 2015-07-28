@@ -22,7 +22,6 @@ import yukihane.dq10don.background.RoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
-import yukihane.dq10don.settings.view.TwitterAuthActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 
@@ -80,10 +79,6 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_twitter_auth) {
-            Intent intent = new Intent(this, TwitterAuthActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_debug) {
