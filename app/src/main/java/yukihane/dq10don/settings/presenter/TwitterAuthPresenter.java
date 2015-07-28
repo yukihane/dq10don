@@ -63,6 +63,7 @@ public class TwitterAuthPresenter {
             view.goAuthorization(uri);
         }, throwable -> {
             LOGGER.error("oauth token request failed", throwable);
+            view.showMessage(Message.GET_PIN_FAILED);
         });
 
     }
@@ -105,7 +106,7 @@ public class TwitterAuthPresenter {
     }
 
     public enum Message {
-        INVALID_PIN, AUTH_FAILED;
+        GET_PIN_FAILED, INVALID_PIN, AUTH_FAILED;
     }
 
     public interface View {

@@ -31,6 +31,7 @@
   <string name="text_all_target_summary">登録されている全キャラの中の最高額をtweetします。</string>
   <string name="text_not_all_target_summary">「対象キャラクター」で指定されたキャラクターのみを対象にします。</string>
   <string name="text_target_characters">対象キャラクター</string>
+  <string name="text_get_pin_failed">PINコードが取得できませんでした</string>
   <string name="text_empty_pin">PINコードを入力してください</string>
   <string name="text_auth_failed">認証失敗しました</string>
   <string name="happy_106">ログイン中は処理できません</string>

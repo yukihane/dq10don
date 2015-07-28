@@ -63,6 +63,9 @@ public class TwitterAuthActivity extends ActionBarActivity implements TwitterAut
     public void showMessage(TwitterAuthPresenter.Message message) {
         final String text;
         switch (message) {
+            case GET_PIN_FAILED:
+                text = getString(R.string.text_get_pin_failed);
+                break;
             case INVALID_PIN:
                 text = getString(R.string.text_empty_pin);
                 break;
