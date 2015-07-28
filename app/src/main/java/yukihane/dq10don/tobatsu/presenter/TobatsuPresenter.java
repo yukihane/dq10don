@@ -43,8 +43,13 @@ public class TobatsuPresenter {
         this.character = character;
     }
 
+    public void onCreate() {
+    }
+
     public void onViewCreated() {
-        view.setHeader(character.getSqexid(), character.getSmileUniqNo());
+        String sqexid = character.getSqexid();
+        String smileUniqNo = character.getSmileUniqNo();
+        view.setHeader(sqexid, smileUniqNo);
 
         updateList(true, true);
 
@@ -55,13 +60,10 @@ public class TobatsuPresenter {
         updateList(false, false);
     }
 
-    public void onDestroyView() {
-        view = null;
-    }
-
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         dbHelper = null;
+        view = null;
     }
 
     /**
