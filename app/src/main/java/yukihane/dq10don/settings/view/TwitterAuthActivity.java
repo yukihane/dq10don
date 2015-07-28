@@ -64,16 +64,16 @@ public class TwitterAuthActivity extends ActionBarActivity implements TwitterAut
         final String text;
         switch (message) {
             case INVALID_PIN:
-                text = getString(R.string.err_invalid_pin);
+                text = getString(R.string.text_empty_pin);
                 break;
             case AUTH_FAILED:
-                text = getString(R.string.err_failed_auth);
+                text = getString(R.string.text_auth_failed);
                 break;
             default:
                 throw new IllegalArgumentException("メッセージが実装されていません: " + message);
         }
 
-        Toast.makeText(this, text, Toast.LENGTH_LONG);
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     @Override
