@@ -25,6 +25,10 @@
   <string name="text_output_debug_logs">デバッグログを出力</string>
   <string name="text_verify_access_twitter">Twitter認証を行います</string>
   <string name="text_pincode">ブラウザで表示されたPINコードを入力してください</string>
+  <string name="text_target_is_all">全キャラを対象とする</string>
+  <string name="text_all_target_summary">登録されている全キャラの中の最高額をtweetします。</string>
+  <string name="text_not_all_target_summary">「対象キャラクター」で指定されたキャラクターのみを対象にします。</string>
+  <string name="text_target_characters">対象キャラクター</string>
   <string name="happy_106">ログイン中は処理できません</string>
   <string name="happy_12009">モーモンバザーを設置していません</string>
   <string name="happy_22001">しばらくしてから再実行してください</string>
@@ -38,4 +42,8 @@
   <string name="auth">認証</string>
   <string name="err_invalid_pin">不正なPIN</string>
   <string name="err_failed_auth">認証失敗</string>
+  <string name="pref_cat_twitter_auth">Twitter認証</string>
+  <string name="pref_cat_twitter_linkage">Twitter連携</string>
+  <string name="tweet_tobatsu">最高額討伐依頼を自動ツイート</string>
+  <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
 </resources>
