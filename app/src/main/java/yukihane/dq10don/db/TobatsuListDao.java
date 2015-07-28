@@ -149,7 +149,7 @@ public class TobatsuListDao {
         }
     }
 
-    public TobatsuItem max(String issuedDate, List<Long> webPcNos) throws SQLException {
+    public TobatsuItem max(String issuedDate, Collection<Long> webPcNos) throws SQLException {
         if (webPcNos != null && webPcNos.isEmpty()) {
             return null;
         }

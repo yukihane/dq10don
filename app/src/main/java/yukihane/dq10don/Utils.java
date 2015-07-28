@@ -2,12 +2,11 @@ package yukihane.dq10don;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by yuki on 15/07/08.
@@ -53,7 +52,7 @@ public class Utils {
         }
     }
 
-    public static String join(String separator, List<?> list) {
+    public static String join(String separator, Collection<?> list) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (Object i : list) {

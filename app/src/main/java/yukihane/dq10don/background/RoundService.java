@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -222,20 +223,38 @@ public class RoundService extends IntentService {
     }
 
     private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {
-        if (res.getMaxPoint() <= 0 || res.getIssuedDate() == null) {
-            return;
-        }
+        PrefUtils prefUtils = new PrefUtils(this);
 
         AccessToken accessToken = getAccessToken();
         if (accessToken == null) {
             return;
+        }
+        if (!prefUtils.getTweetTobatsu()) {
+            // tweetしない設定になっている
+            return;
+        }
+        if (res.getMaxPoint() <= 0 || res.getIssuedDate() == null) {
+            // 今回取得できていない
+            LOGGER.info("no tweet for tobatsu request error");
+            return;
+        }
+
+        final Collection<Long> charas;
+        if (prefUtils.isTweetTobatsuAllChara()) {
+            charas = null;
+        } else {
+            charas = prefUtils.getTobatsuTweetCharacters();
+            if (charas.isEmpty()) {
+                // 1人もtweet対象になっていない
+                return;
+            }
         }
 
         Twitter twitter = TwitterFactory.getSingleton();
         twitter.setOAuthAccessToken(accessToken);
 
         TobatsuListDao dao = TobatsuListDao.create(dbHelper);
-        TobatsuItem maxItem = dao.max(res.getIssuedDate(), null);
+        TobatsuItem maxItem = dao.max(res.getIssuedDate(), charas);
 
         try {
             String maxPoint = NumberFormat.getNumberInstance().format(maxItem.getPoint());
@@ -244,6 +263,7 @@ public class RoundService extends IntentService {
                     + maxItem.getArea() + " "
                     + maxItem.getMonsterName() + " "
                     + maxItem.getCount() + "匹");
+            LOGGER.debug("tweet succeeded");
         } catch (TwitterException e) {
             LOGGER.error("tweet failed", e);
         }

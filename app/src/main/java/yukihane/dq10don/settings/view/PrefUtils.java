@@ -31,6 +31,10 @@ public final class PrefUtils {
 
     public static final String TOBATSU_TWEET_CHARACTERS = "tobatsu.characters";
 
+    // pref_twitter.xml で定義されている, 自動保存される値のキー
+    public static final String TWEET_TOBATSU = "tweet_tobatsu";
+    public static final String TWEET_ALL_CHAR = "tweet_tobatsu_all_characters";
+
     private static final long DEF_LONG = -1L;
     private static final String DEF_STRING = "";
 
@@ -85,6 +89,14 @@ public final class PrefUtils {
         List<Long> list = new ArrayList<>(webPcNos);
         String str = Utils.join(",", list);
         getPrefs().edit().putString(TOBATSU_TWEET_CHARACTERS, str).commit();
+    }
+
+    public boolean getTweetTobatsu() {
+        return getPrefs().getBoolean(TWEET_TOBATSU, true);
+    }
+
+    public boolean isTweetTobatsuAllChara() {
+        return getPrefs().getBoolean(TWEET_ALL_CHAR, true);
     }
 
     private SharedPreferences getPrefs() {
