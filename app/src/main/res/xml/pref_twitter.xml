@@ -15,14 +15,18 @@
     <CheckBoxPreference
       android:defaultValue="true"
       android:key="tweet_tobatsu"
-      android:title="最高額討伐依頼を自動tweet"/>
+      android:title="最高額討伐依頼を自動tweet"
+      android:disableDependentsState="false"/>
     <CheckBoxPreference
       android:defaultValue="true"
       android:key="tweet_tobatsu_all_characters"
-      android:title="全キャラを対象とする"/>
+      android:title="全キャラを対象とする"
+      android:dependency="tweet_tobatsu"
+      android:disableDependentsState="true"/>
 
     <PreferenceScreen
-      android:title="対象キャラクター">
+      android:title="対象キャラクター"
+      android:dependency="tweet_tobatsu_all_characters">
       <intent
         android:action="android.intent.action.VIEW"
         android:targetClass="yukihane.dq10don.settings.view.CharaSelectActivity"
