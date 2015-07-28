@@ -44,6 +44,10 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CharacterDtoImpl character = getArguments().getParcelable(CHARACTER);
+        presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
+        presenter.onCreate();
     }
 
     @Override
@@ -56,9 +60,6 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
         tobatsuListView = (ListView) view.findViewById(R.id.tobatsuListView);
         tobatsuListView.setAdapter(tobatsuViewAdapter);
 
-        CharacterDtoImpl character = getArguments().getParcelable(CHARACTER);
-        presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
-
         Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
@@ -69,12 +70,6 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onViewCreated();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDestroyView();
     }
 
     @Override
