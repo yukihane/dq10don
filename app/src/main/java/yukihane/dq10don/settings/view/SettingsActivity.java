@@ -18,6 +18,7 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.twitter.view.PrefUtils;
 
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // http://stackoverflow.com/questions/5169532/
+        PreferenceManager prefMgr = getPreferenceManager();
+        prefMgr.setSharedPreferencesName(PrefUtils.PREF_NAME);
+        prefMgr.setSharedPreferencesMode(MODE_PRIVATE);
+
         addPreferencesFromResource(R.xml.pref_twitter);
     }
 }
