@@ -62,7 +62,7 @@ public class TwitterAuthPresenter {
             Uri uri = Uri.parse(url);
             view.goAuthorization(uri);
         }, throwable -> {
-            LOGGER.error("", throwable);
+            LOGGER.error("oauth token request failed", throwable);
         });
 
     }
@@ -98,7 +98,7 @@ public class TwitterAuthPresenter {
             view.closeActivity();
 
         }, throwable -> {
-            LOGGER.error("", throwable);
+            LOGGER.error("access token requestfailed", throwable);
             view.showMessage(Message.AUTH_FAILED);
             return;
         });
