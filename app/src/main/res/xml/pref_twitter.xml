@@ -24,7 +24,6 @@
       android:dependency="tweet_tobatsu"
       android:disableDependentsState="true"
       android:key="tweet_tobatsu_all_characters"
-      android:summaryOff="@string/text_not_all_target_summary"
       android:title="@string/text_target_is_all"/>
 
     <PreferenceScreen

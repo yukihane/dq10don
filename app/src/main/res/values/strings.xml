@@ -29,7 +29,6 @@
   <string name="text_after_auth">認証が成功すれば自動で前の画面に戻ります</string>
   <string name="text_target_is_all">全キャラを対象とする</string>
   <string name="text_all_target_summary">登録されている全キャラの中の最高額をtweetします。</string>
-  <string name="text_not_all_target_summary">「対象キャラクター」で指定されたキャラクターのみを対象にします。</string>
   <string name="text_target_characters">対象キャラクター</string>
   <string name="text_get_pin_failed">PINコードが取得できませんでした</string>
   <string name="text_empty_pin">PINコードを入力してください</string>
