@@ -6,7 +6,7 @@
       android:title="認証処理へ">
       <intent
         android:action="android.intent.action.VIEW"
-        android:targetClass="yukihane.dq10don.twitter.view.TwitterAuthActivity"
+        android:targetClass="yukihane.dq10don.settings.view.TwitterAuthActivity"
         android:targetPackage="yukihane.dq10don"/>
     </PreferenceScreen>
   </PreferenceCategory>

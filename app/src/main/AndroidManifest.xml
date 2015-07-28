@@ -79,7 +79,7 @@
     </activity>
 
     <activity
-      android:name=".twitter.view.TwitterAuthActivity"
+      android:name=".settings.view.TwitterAuthActivity"
       android:label="@string/title_activity_twitter_auth">
     </activity>
 

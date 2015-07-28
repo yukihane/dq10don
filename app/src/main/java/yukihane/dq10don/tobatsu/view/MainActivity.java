@@ -22,9 +22,9 @@ import yukihane.dq10don.background.RoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
+import yukihane.dq10don.settings.view.TwitterAuthActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
-import yukihane.dq10don.twitter.view.TwitterAuthActivity;
 
 
 public class MainActivity extends ActionBarActivity implements MainPresenter.View {

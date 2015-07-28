@@ -20,7 +20,6 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.settings.presenter.CharaSelectPresenter;
 import yukihane.dq10don.settings.presenter.CheckableCharacter;
-import yukihane.dq10don.twitter.view.PrefUtils;
 
 /**
  * Tweet対象を全員でなく特定のキャラクタ分のみに絞るときの設定アクティビティ.

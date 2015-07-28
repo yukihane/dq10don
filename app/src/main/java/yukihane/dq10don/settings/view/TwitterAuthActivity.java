@@ -1,4 +1,4 @@
-package yukihane.dq10don.twitter.view;
+package yukihane.dq10don.settings.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.twitter.presenter.TwitterAuthPresenter;
+import yukihane.dq10don.settings.presenter.TwitterAuthPresenter;
 
 public class TwitterAuthActivity extends ActionBarActivity implements TwitterAuthPresenter.View {
 

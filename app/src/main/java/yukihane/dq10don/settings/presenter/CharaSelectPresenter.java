@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.twitter.view.PrefUtils;
+import yukihane.dq10don.settings.view.PrefUtils;
 
 public class CharaSelectPresenter {
 

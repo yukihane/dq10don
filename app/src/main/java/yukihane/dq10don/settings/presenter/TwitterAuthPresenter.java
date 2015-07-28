@@ -1,4 +1,4 @@
-package yukihane.dq10don.twitter.presenter;
+package yukihane.dq10don.settings.presenter;
 
 import android.net.Uri;
 

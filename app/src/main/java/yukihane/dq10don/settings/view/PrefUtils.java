@@ -1,4 +1,4 @@
-package yukihane.dq10don.twitter.view;
+package yukihane.dq10don.settings.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
