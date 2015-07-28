@@ -77,6 +77,22 @@
       android:name=".debug.view.DebugActivity"
       android:label="@string/title_activity_debug">
     </activity>
+
+    <activity
+      android:name=".settings.view.TwitterAuthActivity"
+      android:label="@string/title_activity_twitter_auth">
+    </activity>
+
+    <activity
+      android:name=".settings.view.SettingsActivity"
+      android:label="@string/title_activity_settings">
+    </activity>
+
+    <activity
+      android:name=".settings.view.CharaSelectActivity"
+      android:label="@string/title_activity_chara_select">
+    </activity>
+
   </application>
 
 </manifest>

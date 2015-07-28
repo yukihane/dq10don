@@ -13,8 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
@@ -145,5 +147,57 @@ public class TobatsuListDao {
         } else {
             return null;
         }
+    }
+
+    public TobatsuItem max(String issuedDate, Collection<Long> webPcNos) throws SQLException {
+        if (webPcNos != null && webPcNos.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder listQBuilder = new StringBuilder()
+                .append("select id ")
+                .append("from tobatsuList ")
+                .append("where issuedDate = ? ");
+        if (webPcNos != null) {
+            listQBuilder.append("and character_id in (");
+            listQBuilder.append(Utils.join(", ", webPcNos));
+            listQBuilder.append(")");
+        }
+        listQBuilder.append(";");
+        String listQueryStr = listQBuilder.toString();
+
+        DataType[] dataType = new DataType[]{DataType.LONG};
+        GenericRawResults<Object[]> listQueryResults = tobatsuListDao.queryRaw(listQueryStr, dataType, new String[]{issuedDate});
+        List<Object[]> results = listQueryResults.getResults();
+        List<Long> listIds = new ArrayList<>();
+        for (Object[] o : results) {
+            listIds.add((Long) o[0]);
+        }
+        if (listIds.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder itemQBuilder = new StringBuilder()
+                .append("select id ")
+                .append("from tobatsuItem A ")
+                .append("inner join( ")
+                .append("  select max(point) maxPoint ")
+                .append("  from tobatsuItem ")
+                .append("  where list_id in (").append(Utils.join(", ", listIds)).append(") ")
+                .append(") B ")
+                .append("on A.point = B.maxPoint ")
+                .append("where list_id in (").append(Utils.join(", ", listIds)).append(") ");
+        String itemQueryStr = itemQBuilder.toString();
+        DataType[] itemIdType = new DataType[]{DataType.LONG};
+        GenericRawResults<Object[]> itemQueryResults = tobatsuItemDao.queryRaw(itemQueryStr, itemIdType, new String[0]);
+        List<Object[]> itemResults = itemQueryResults.getResults();
+        List<Long> itemIds = new ArrayList<>();
+        for (Object[] o : itemResults) {
+            itemIds.add((Long) o[0]);
+        }
+        if (itemIds.isEmpty()) {
+            return null;
+        }
+        return tobatsuItemDao.queryForId(itemIds.get(0));
     }
 }

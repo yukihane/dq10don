@@ -25,6 +25,7 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
     }
 
@@ -43,6 +44,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
     compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
     // install https://github.com/yukihane/slf4j/tree/feat/logmouse/1.7.12 to local maven repository
     compile 'com.github.yukihane.slf4j:logmouse:0.0.1-SNAPSHOT'
     provided "org.projectlombok:lombok:1.12.6"
