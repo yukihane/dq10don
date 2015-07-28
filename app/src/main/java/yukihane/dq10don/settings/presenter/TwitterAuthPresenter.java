@@ -1,4 +1,4 @@
-package yukihane.dq10don.twitter.presenter;
+package yukihane.dq10don.settings.presenter;
 
 import android.net.Uri;
 
@@ -62,7 +62,8 @@ public class TwitterAuthPresenter {
             Uri uri = Uri.parse(url);
             view.goAuthorization(uri);
         }, throwable -> {
-            LOGGER.error("", throwable);
+            LOGGER.error("oauth token request failed", throwable);
+            view.showMessage(Message.GET_PIN_FAILED);
         });
 
     }
@@ -98,14 +99,14 @@ public class TwitterAuthPresenter {
             view.closeActivity();
 
         }, throwable -> {
-            LOGGER.error("", throwable);
+            LOGGER.error("access token requestfailed", throwable);
             view.showMessage(Message.AUTH_FAILED);
             return;
         });
     }
 
     public enum Message {
-        INVALID_PIN, AUTH_FAILED;
+        GET_PIN_FAILED, INVALID_PIN, AUTH_FAILED;
     }
 
     public interface View {

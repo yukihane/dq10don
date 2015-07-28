@@ -38,10 +38,10 @@ import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.db.TobatsuListDao;
+import yukihane.dq10don.settings.view.PrefUtils;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 import yukihane.dq10don.tobatsu.view.MainActivity;
-import yukihane.dq10don.twitter.view.PrefUtils;
 
 /**
  * 登録されているアカウントの討伐情報をサーバーへリクエストし、DBを更新します.

@@ -1,7 +1,15 @@
-package yukihane.dq10don.twitter.view;
+package yukihane.dq10don.settings.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import yukihane.dq10don.Utils;
 
 /**
  * Twitter投稿に関する設定を保存するPreferences操作クラス.
@@ -20,6 +28,8 @@ public final class PrefUtils {
     public static final String SCREEN_NAME = "accessToken.screenName";
     public static final String TOKEN = "accessToken.token";
     public static final String TOKEN_SECRET = "accessToken.tokenSecret";
+
+    public static final String TOBATSU_TWEET_CHARACTERS = "tobatsu.characters";
 
     private static final long DEF_LONG = -1L;
     private static final String DEF_STRING = "";
@@ -54,6 +64,27 @@ public final class PrefUtils {
 
     public String getTokenSecret() {
         return getPrefs().getString(TOKEN_SECRET, DEF_STRING);
+    }
+
+    public Collection<Long> getTobatsuTweetCharacters() {
+        String str = getPrefs().getString(TOBATSU_TWEET_CHARACTERS, "");
+        String[] strIds = str.split(",");
+        Set<Long> res = new HashSet<>(strIds.length);
+        for (String strId : strIds) {
+            if (strId.isEmpty()) {
+                // 未設定の場合はから文字列が来るのでスキップ
+                // (breakしてもいいが)
+                continue;
+            }
+            res.add(Long.parseLong(strId));
+        }
+        return res;
+    }
+
+    public void setTobatsuTweetCharacters(Collection<Long> webPcNos) {
+        List<Long> list = new ArrayList<>(webPcNos);
+        String str = Utils.join(",", list);
+        getPrefs().edit().putString(TOBATSU_TWEET_CHARACTERS, str).commit();
     }
 
     private SharedPreferences getPrefs() {

@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:title="@string/pref_cat_twitter_auth">
+    <PreferenceScreen
+      android:title="@string/title_activity_twitter_auth">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:targetClass="yukihane.dq10don.settings.view.TwitterAuthActivity"
+        android:targetPackage="yukihane.dq10don"/>
+    </PreferenceScreen>
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:title="@string/pref_cat_twitter_linkage">
+    <CheckBoxPreference
+      android:defaultValue="true"
+      android:disableDependentsState="false"
+      android:key="tweet_tobatsu"
+      android:summaryOn="@string/tweet_tobatsu_summary"
+      android:title="@string/tweet_tobatsu"/>
+    <CheckBoxPreference
+      android:defaultValue="true"
+      android:dependency="tweet_tobatsu"
+      android:disableDependentsState="true"
+      android:key="tweet_tobatsu_all_characters"
+      android:title="@string/text_target_is_all"/>
+
+    <PreferenceScreen
+      android:dependency="tweet_tobatsu_all_characters"
+      android:title="@string/text_target_characters">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:targetClass="yukihane.dq10don.settings.view.CharaSelectActivity"
+        android:targetPackage="yukihane.dq10don"/>
+    </PreferenceScreen>
+
+  </PreferenceCategory>
+
+</PreferenceScreen>

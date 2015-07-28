@@ -1,4 +1,4 @@
-package yukihane.dq10don.twitter.view;
+package yukihane.dq10don.settings.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.twitter.presenter.TwitterAuthPresenter;
+import yukihane.dq10don.settings.presenter.TwitterAuthPresenter;
 
 public class TwitterAuthActivity extends ActionBarActivity implements TwitterAuthPresenter.View {
 
@@ -63,17 +63,20 @@ public class TwitterAuthActivity extends ActionBarActivity implements TwitterAut
     public void showMessage(TwitterAuthPresenter.Message message) {
         final String text;
         switch (message) {
+            case GET_PIN_FAILED:
+                text = getString(R.string.text_get_pin_failed);
+                break;
             case INVALID_PIN:
-                text = getString(R.string.err_invalid_pin);
+                text = getString(R.string.text_empty_pin);
                 break;
             case AUTH_FAILED:
-                text = getString(R.string.err_failed_auth);
+                text = getString(R.string.text_auth_failed);
                 break;
             default:
                 throw new IllegalArgumentException("メッセージが実装されていません: " + message);
         }
 
-        Toast.makeText(this, text, Toast.LENGTH_LONG);
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
     @Override

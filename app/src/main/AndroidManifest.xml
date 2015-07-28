@@ -79,9 +79,20 @@
     </activity>
 
     <activity
-      android:name=".twitter.view.TwitterAuthActivity"
+      android:name=".settings.view.TwitterAuthActivity"
       android:label="@string/title_activity_twitter_auth">
     </activity>
+
+    <activity
+      android:name=".settings.view.SettingsActivity"
+      android:label="@string/title_activity_settings">
+    </activity>
+
+    <activity
+      android:name=".settings.view.CharaSelectActivity"
+      android:label="@string/title_activity_chara_select">
+    </activity>
+
   </application>
 
 </manifest>
