@@ -20,6 +20,7 @@ import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
@@ -27,7 +28,9 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewAdapter> implements TobatsuPresenter.View {
+public class TobatsuFragment
+        extends BaseFragment<TobatsuList, TobatsuPresenter, TobatsuViewAdapter>
+        implements TobatsuPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
 
@@ -42,7 +45,7 @@ public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewA
     }
 
     @Override
-    public void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list) {
+    protected void addDisplayItems(TobatsuViewAdapter tobatsuViewAdapter, TobatsuList list) {
         tobatsuViewAdapter.clearItems();
 
         long issuedDateNum = Long.parseLong(list.getIssuedDate());

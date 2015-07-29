@@ -11,4 +11,8 @@ public interface BasePresenter {
     void onViewCreated();
 
     void onDestroy();
+
+    interface View<T> {
+        void tobatsuListUpdate(T list);
+    }
 }

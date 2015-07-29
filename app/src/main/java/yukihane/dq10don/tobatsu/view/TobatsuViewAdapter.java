@@ -21,7 +21,7 @@ import yukihane.dq10don.account.TobatsuItem;
 /**
  * Created by yuki on 15/07/08.
  */
-public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
+public class TobatsuViewAdapter implements BaseViewAdapter {
 
     private static final Class<?> DISPLAYABLE_TYPES[] = {String.class, TobatsuItem.class};
     private final DataSetObservable mDataSetObservable = new DataSetObservable();
@@ -35,6 +35,7 @@ public class TobatsuViewAdapter implements ListAdapter, SpinnerAdapter {
         displayTargets = new ArrayList<>();
     }
 
+    @Override
     public void addItem(Class<?> type, Object displayTarget) {
         if (type != displayTarget.getClass()) {
             throw new IllegalArgumentException("difference error type: "
