@@ -46,7 +46,7 @@
         android:value=".tobatsu.view.MainActivity"/>
     </activity>
 
-    <receiver android:name=".background.Alarm"></receiver>
+    <receiver android:name=".background.Alarm"/>
     <receiver
       android:name=".background.AutoSetReceiver"
       android:enabled="false">
@@ -92,7 +92,10 @@
       android:name=".settings.view.CharaSelectActivity"
       android:label="@string/title_activity_chara_select">
     </activity>
-
+    <activity
+      android:name=".bosscard.view.BossCardActivity"
+      android:label="@string/title_activity_boss_card">
+    </activity>
   </application>
 
 </manifest>
