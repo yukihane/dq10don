@@ -9,21 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-
+import rx.Observable;
+import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.tobatsu.presenter.BasePresenter;
 
 public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseViewAdapter>
@@ -88,6 +84,23 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
     @Override
     public void tobatsuListUpdate(T list) {
         addDisplayItems(tobatsuViewAdapter, list);
+    }
+
+    @Override
+    public void showMessage(HappyServiceException ex) {
+        String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex);
+        showMessage(text);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        LOGGER.error(message);
+        Toast.makeText(getView().getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void bind(Observable<?> observable) {
+        AppObservable.bindSupportFragment(this, observable);
     }
 
     protected abstract void addDisplayItems(A viewAdapter, T list);

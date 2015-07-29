@@ -3,8 +3,6 @@ package yukihane.dq10don.tobatsu.view;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 
-import yukihane.dq10don.account.TobatsuItem;
-
 /**
  * Created by yuki on 15/07/29.
  */

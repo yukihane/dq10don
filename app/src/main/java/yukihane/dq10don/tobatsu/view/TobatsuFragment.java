@@ -2,7 +2,6 @@ package yukihane.dq10don.tobatsu.view;
 
 import android.view.LayoutInflater;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +14,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import rx.Observable;
-import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.HappyServiceException;
+import yukihane.dq10don.tobatsu.presenter.BasePresenter;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**
@@ -30,7 +26,7 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
  */
 public class TobatsuFragment
         extends BaseFragment<TobatsuList, TobatsuPresenter, TobatsuViewAdapter>
-        implements TobatsuPresenter.View {
+        implements BasePresenter.View<TobatsuList> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
 
@@ -72,22 +68,5 @@ public class TobatsuFragment
         }
 
         tobatsuViewAdapter.notifyChanged();
-    }
-
-    @Override
-    public void showMessage(HappyServiceException ex) {
-        String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex);
-        showMessage(text);
-    }
-
-    @Override
-    public void showMessage(String message) {
-        LOGGER.error(message);
-        Toast.makeText(getView().getContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void bind(Observable<?> observable) {
-        AppObservable.bindSupportFragment(this, observable);
     }
 }
