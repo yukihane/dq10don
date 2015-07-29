@@ -13,6 +13,9 @@ public interface BasePresenter {
     void onDestroy();
 
     interface View<T> {
+
+        void setHeader(String sqexid, String smileUniqNo);
+
         void tobatsuListUpdate(T list);
     }
 }

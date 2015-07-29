@@ -75,15 +75,6 @@ public class TobatsuFragment
     }
 
     @Override
-    public void setHeader(String sqexid, String smileUniqNo) {
-        TextView sqexidView = (TextView) getView().findViewById(R.id.accountNameView);
-        sqexidView.setText(sqexid);
-
-        TextView smileUniqNoView = (TextView) getView().findViewById(R.id.smileUniqNoView);
-        smileUniqNoView.setText(smileUniqNo);
-    }
-
-    @Override
     public void showMessage(HappyServiceException ex) {
         String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex);
         showMessage(text);

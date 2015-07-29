@@ -139,12 +139,8 @@ public class TobatsuPresenter implements BasePresenter {
         });
     }
 
-    public interface View {
+    public interface View extends BasePresenter.View<yukihane.dq10don.account.TobatsuList> {
         void bind(Observable<?> observable);
-
-        void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list);
-
-        void setHeader(String sqexid, String smileUniqNo);
 
         void showMessage(HappyServiceException ex);
 

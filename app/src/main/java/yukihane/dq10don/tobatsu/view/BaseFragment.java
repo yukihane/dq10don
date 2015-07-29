@@ -75,6 +75,16 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
         presenter.onDestroy();
     }
 
+
+    @Override
+    public void setHeader(String sqexid, String smileUniqNo) {
+        TextView sqexidView = (TextView) getView().findViewById(R.id.accountNameView);
+        sqexidView.setText(sqexid);
+
+        TextView smileUniqNoView = (TextView) getView().findViewById(R.id.smileUniqNoView);
+        smileUniqNoView.setText(smileUniqNo);
+    }
+
     @Override
     public void tobatsuListUpdate(T list) {
         addDisplayItems(tobatsuViewAdapter, list);
