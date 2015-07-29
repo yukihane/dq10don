@@ -1,13 +1,6 @@
 package yukihane.dq10don.tobatsu.view;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,12 +39,6 @@ public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewA
     @Override
     protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
         return new TobatsuPresenter(this, dbHelperFactory, character);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
     }
 
     @Override

@@ -59,6 +59,12 @@ public abstract class BaseFragment<P extends BasePresenter, A extends ListAdapte
         presenter.onViewCreated();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
 
     protected abstract A newViewAdapter(LayoutInflater inflater);
 

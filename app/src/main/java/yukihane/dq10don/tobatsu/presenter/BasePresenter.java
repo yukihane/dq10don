@@ -9,4 +9,6 @@ public interface BasePresenter {
     void onUpdateClick();
 
     void onViewCreated();
+
+    void onDestroy();
 }
