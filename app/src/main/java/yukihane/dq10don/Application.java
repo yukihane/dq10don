@@ -1,6 +1,10 @@
 package yukihane.dq10don;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+
+import io.fabric.sdk.android.Fabric;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +26,12 @@ public class Application extends android.app.Application {
     public void onCreate() {
         LOGGER.debug("onCreate called");
         super.onCreate();
+
+        // http://stackoverflow.com/a/30489601
+        CrashlyticsCore core = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG).build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
+
         dbHelper = new DbHelperFactory(this);
     }
 

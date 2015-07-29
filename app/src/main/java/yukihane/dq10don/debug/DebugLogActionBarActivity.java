@@ -13,7 +13,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * onHogehoge系のメソッドにログ出力を仕込んだ{@link ActionBarActivity}です.
+ * onHogehoge系のメソッドにログ出力を仕込んだ{@link AppCompatActivity}です.
  * 開発途上でのみ使用されることを想定しており, 正式リリースでは除去されるべきです.
  */
-public abstract class DebugLogActionBarActivity extends ActionBarActivity {
+public abstract class DebugLogActionBarActivity extends AppCompatActivity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DebugLogActionBarActivity.class);
 

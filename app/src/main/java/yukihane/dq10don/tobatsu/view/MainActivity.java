@@ -4,32 +4,29 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.List;
 
-import rx.Observable;
-import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.Alarm;
 import yukihane.dq10don.background.RoundService;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.debug.view.DebugActivity;
+import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.MainPresenter;
 
 
-public class MainActivity extends ActionBarActivity implements MainPresenter.View {
+public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainActivity.class);
 
@@ -52,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
         viewPager.setAdapter(pagerAdapter);
 
 
-        presenter.onCreate();
+        presenter.onCreate(savedInstanceState == null);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(RoundService.TOBATSU_NOTIFICATION_ID);
@@ -80,10 +77,13 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
             Intent intent = new Intent(this, SqexidActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_exportlog) {
-            File fromDir = getFilesDir();
-            File toDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            presenter.exportLog(fromDir, toDir);
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_debug) {
+            Intent intent = new Intent(this, DebugActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -114,25 +114,5 @@ public class MainActivity extends ActionBarActivity implements MainPresenter.Vie
     @Override
     public void showWelcomeDialog() {
         new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
-    }
-
-    @Override
-    public void bind(Observable<?> observable) {
-        AppObservable.bindActivity(this, observable);
-    }
-
-    @Override
-    public void showMessage(MainPresenter.Message message) {
-        final String text;
-        switch (message) {
-            case COMPLETED_EXPORTFILE:
-                text = getString(R.string.completed_exportfile);
-                break;
-            default:
-                LOGGER.error("message is not defined: {}", message);
-                return;
-        }
-
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

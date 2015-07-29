@@ -1,6 +1,7 @@
 # 個人情報が含まれるファイル
 /app/src/test/resources/real_session.json
 /app/fabric.properties
+/app/src/main/resources/twitter4j.properties
 
 # Created by https://www.gitignore.io
 

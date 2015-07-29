@@ -15,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -95,7 +98,13 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
         TextView issuedDateView = (TextView) getView().findViewById(R.id.issuedDateView);
         issuedDateView.setText(issuedDateStr);
 
-        for (TobatsuItem item : list.getListItems()) {
+        // ポイントが大きい物順に並び替え
+        List<TobatsuItem> items = new ArrayList<>(list.getListItems());
+        Collections.sort(items, (TobatsuItem lhs, TobatsuItem rhs) -> {
+            return rhs.getPoint() - lhs.getPoint();
+        });
+
+        for (TobatsuItem item : items) {
             tobatsuViewAdapter.addItem(TobatsuItem.class, item);
         }
 

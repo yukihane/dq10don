@@ -2,7 +2,7 @@ package yukihane.dq10don.sqexid.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +24,7 @@ import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.login.view.LoginActivity;
 import yukihane.dq10don.sqexid.presenter.SqexidPresenter;
 
-public class SqexidActivity extends ActionBarActivity
+public class SqexidActivity extends AppCompatActivity
         implements SqexidPresenter.View, OpeDialog.Listener, RemoveConfirmDialog.Listener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SqexidActivity.class);

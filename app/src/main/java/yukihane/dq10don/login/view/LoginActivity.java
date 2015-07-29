@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -23,7 +23,7 @@ import yukihane.dq10don.login.model.UserIdGetter;
 import yukihane.dq10don.login.presenter.LoginPresenter;
 
 
-public class LoginActivity extends ActionBarActivity implements LoginPresenter.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
     private final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 

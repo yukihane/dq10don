@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:gravity="center"
+  android:orientation="vertical">
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/text_confirm_correct_time"/>
+
+  <TextView
+    android:layout_marginTop="30sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/text_verify_access_twitter"/>
+
+  <Button
+    android:id="@+id/authTwetterButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/get_pin"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:gravity="center"
+    android:text="@string/text_input_pincode"/>
+
+  <EditText
+    android:id="@+id/et_input_pin"
+    android:layout_width="250dip"
+    android:layout_height="wrap_content"
+    android:hint="@string/pincode"/>
+
+  <Button
+    android:id="@+id/sendPinButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/auth"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:gravity="center"
+    android:text="@string/text_after_auth"/>
+
+</LinearLayout>

@@ -74,37 +74,35 @@ public class TobatsuPresenter {
      */
     private void updateList(boolean useCache, boolean useInvalidFlag) {
 
-        Observable<TobatsuList> observable = Observable.create(new Observable.OnSubscribe<TobatsuList>() {
-            @Override
-            public void call(Subscriber<? super TobatsuList> subscriber) {
-                subscriber.onStart();
+        Observable<TobatsuList> observable
+                = Observable.create((Subscriber<? super TobatsuList> subscriber) -> {
+            subscriber.onStart();
 
-                TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
-                try {
-                    if (useCache) {
-                        TobatsuList tl = service.getTobatsuListFromDB(character.getWebPcNo());
-                        if (tl != null) {
-                            subscriber.onNext(tl);
-                            subscriber.onCompleted();
-                            return;
-                        }
+            TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
+            try {
+                if (useCache) {
+                    TobatsuList tl = service.getTobatsuListFromDB(character.getWebPcNo());
+                    if (tl != null) {
+                        subscriber.onNext(tl);
+                        subscriber.onCompleted();
+                        return;
                     }
-
-                    if (useInvalidFlag) {
-                        AccountDao dao = AccountDao.create(dbHelper);
-                        Character c = dao.findCharacterByWebPcNo(character.getWebPcNo());
-                        if (c.isTobatsuInvalid()) {
-                            return;
-                        }
-                    }
-
-                    TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
-                    subscriber.onNext(tl);
-                } catch (AppException | SQLException e) {
-                    subscriber.onError(e);
                 }
-                subscriber.onCompleted();
+
+                if (useInvalidFlag) {
+                    AccountDao dao = AccountDao.create(dbHelper);
+                    Character c = dao.findCharacterByWebPcNo(character.getWebPcNo());
+                    if (c.isTobatsuInvalid()) {
+                        return;
+                    }
+                }
+
+                TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
+                subscriber.onNext(tl);
+            } catch (AppException | SQLException e) {
+                subscriber.onError(e);
             }
+            subscriber.onCompleted();
         }).subscribeOn(DonSchedulers.happyServer());
 
 
@@ -114,10 +112,8 @@ public class TobatsuPresenter {
             private TobatsuList tobatsuList;
 
             @Override
-            public void onCompleted() {
-                if (tobatsuList != null) {
-                    view.tobatsuListUpdate(tobatsuList);
-                }
+            public void onNext(TobatsuList tobatsuList) {
+                this.tobatsuList = tobatsuList;
             }
 
             @Override
@@ -135,8 +131,10 @@ public class TobatsuPresenter {
             }
 
             @Override
-            public void onNext(TobatsuList tobatsuList) {
-                this.tobatsuList = tobatsuList;
+            public void onCompleted() {
+                if (tobatsuList != null) {
+                    view.tobatsuListUpdate(tobatsuList);
+                }
             }
         });
     }

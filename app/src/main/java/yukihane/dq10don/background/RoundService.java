@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -24,6 +25,10 @@ import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
@@ -33,6 +38,8 @@ import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.db.TobatsuListDao;
+import yukihane.dq10don.settings.view.PrefUtils;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 import yukihane.dq10don.tobatsu.view.MainActivity;
@@ -48,6 +55,7 @@ public class RoundService extends IntentService {
     public static final String KEY_TEXT = "tobatsu_text";
     public static final String KEY_RETRY = "tobatsu_retry";
     public static final String KEY_EXISTS_INVALID = "tobatsu_invalid";
+    public static final String KEY_ISSUED_DATE = "tobatsu_issued_date";
     public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
@@ -101,6 +109,7 @@ public class RoundService extends IntentService {
             }
             LOGGER.debug("end process");
             setNextDateAlarm(dbHelper);
+            sendTwitterIfNeeded(dbHelper, res);
         } catch (SQLException e) {
             LOGGER.error("DB error", e);
         } finally {
@@ -119,6 +128,7 @@ public class RoundService extends IntentService {
 
         int maxPoint = intent.getIntExtra(KEY_POINT, 0);
         String text = intent.getStringExtra(KEY_TEXT);
+        String issuedDate = intent.getStringExtra(KEY_ISSUED_DATE);
         boolean existsInvalid = intent.getBooleanExtra(KEY_EXISTS_INVALID, false);
         if (webPcNos == null) {
             try {
@@ -140,6 +150,7 @@ public class RoundService extends IntentService {
                             if (i.getPoint() > maxPoint) {
                                 maxPoint = i.getPoint();
                                 text = getText(i);
+                                issuedDate = l.getIssuedDate();
                             }
                         }
                     }
@@ -154,11 +165,12 @@ public class RoundService extends IntentService {
                 try {
                     AccountDao accountDao = AccountDao.create(dbHelper);
                     c = accountDao.findCharacterByWebPcNo(webPcNo);
-                    TobatsuList list = service.getTobatsuListFromServer(webPcNo);
-                    for (TobatsuItem ti : list.getListItems()) {
+                    TobatsuList l = service.getTobatsuListFromServer(webPcNo);
+                    for (TobatsuItem ti : l.getListItems()) {
                         if (ti.getPoint() > maxPoint) {
                             maxPoint = ti.getPoint();
                             text = getText(ti);
+                            issuedDate = l.getIssuedDate();
                         }
                     }
                 } catch (Exception e) {
@@ -172,7 +184,7 @@ public class RoundService extends IntentService {
             }
         }
 
-        return new Result(maxPoint, text, remains, existsInvalid);
+        return new Result(maxPoint, text, issuedDate, remains, existsInvalid);
     }
 
     private void setNextDateAlarm(DbHelper dbHelper) throws SQLException {
@@ -210,6 +222,64 @@ public class RoundService extends IntentService {
         mNotificationManager.notify(TOBATSU_NOTIFICATION_ID, mBuilder.build());
     }
 
+    private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {
+        PrefUtils prefUtils = new PrefUtils(this);
+
+        AccessToken accessToken = getAccessToken();
+        if (accessToken == null) {
+            return;
+        }
+        if (!prefUtils.getTweetTobatsu()) {
+            // tweetしない設定になっている
+            return;
+        }
+        if (res.getMaxPoint() <= 0 || res.getIssuedDate() == null) {
+            // 今回取得できていない
+            LOGGER.info("no tweet for tobatsu request error");
+            return;
+        }
+
+        final Collection<Long> charas;
+        if (prefUtils.isTweetTobatsuAllChara()) {
+            charas = null;
+        } else {
+            charas = prefUtils.getTobatsuTweetCharacters();
+            if (charas.isEmpty()) {
+                // 1人もtweet対象になっていない
+                return;
+            }
+        }
+
+        Twitter twitter = TwitterFactory.getSingleton();
+        twitter.setOAuthAccessToken(accessToken);
+
+        TobatsuListDao dao = TobatsuListDao.create(dbHelper);
+        TobatsuItem maxItem = dao.max(res.getIssuedDate(), charas);
+
+        try {
+            String maxPoint = NumberFormat.getNumberInstance().format(maxItem.getPoint());
+            twitter.updateStatus("#本日の最高額討伐依頼 #dq10\n"
+                    + maxPoint + " P\n"
+                    + maxItem.getArea() + " "
+                    + maxItem.getMonsterName() + " "
+                    + maxItem.getCount() + "匹");
+            LOGGER.debug("tweet succeeded");
+        } catch (TwitterException e) {
+            LOGGER.error("tweet failed", e);
+        }
+    }
+
+    public AccessToken getAccessToken() {
+        PrefUtils pu = new PrefUtils(this);
+        long userId = pu.getUserId();
+        String token = pu.getToken();
+        String tokenSecret = pu.getTokenSecret();
+        if (userId < 0 || token.isEmpty() || tokenSecret.isEmpty()) {
+            return null;
+        }
+        return new AccessToken(token, tokenSecret, userId);
+    }
+
     private static class Result {
 
         private final List<String> remains;
@@ -224,11 +294,16 @@ public class RoundService extends IntentService {
 
         @Getter
         @Setter
+        private String issuedDate;
+
+        @Getter
+        @Setter
         private boolean existsInvalid;
 
-        Result(int maxPoint, String text, List<String> remains, boolean existsInvalid) {
+        Result(int maxPoint, String text, String issuedDate, List<String> remains, boolean existsInvalid) {
             this.maxPoint = maxPoint;
             this.text = text;
+            this.issuedDate = issuedDate;
             this.remains = new ArrayList<>(remains);
             this.existsInvalid = existsInvalid;
         }
