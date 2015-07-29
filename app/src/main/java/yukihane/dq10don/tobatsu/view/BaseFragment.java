@@ -16,13 +16,12 @@ import org.slf4j.LoggerFactory;
 import yukihane.dq10don.R;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.tobatsu.presenter.BasePresenter;
-import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 public abstract class BaseFragment<P extends BasePresenter, A extends ListAdapter> extends Fragment {
 
     public static final String CHARACTER = "character";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseFragment.class);
 
     private P presenter;
     private A tobatsuViewAdapter;
@@ -53,6 +52,13 @@ public abstract class BaseFragment<P extends BasePresenter, A extends ListAdapte
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.onViewCreated();
+    }
+
 
     protected abstract A newViewAdapter(LayoutInflater inflater);
 

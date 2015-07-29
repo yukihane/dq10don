@@ -7,4 +7,6 @@ public interface BasePresenter {
     void onCreate();
 
     void onUpdateClick();
+
+    void onViewCreated();
 }

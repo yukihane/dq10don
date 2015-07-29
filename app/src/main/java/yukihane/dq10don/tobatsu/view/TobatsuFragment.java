@@ -36,6 +36,8 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
  */
 public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewAdapter> implements TobatsuPresenter.View {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
+
     @Override
     protected TobatsuViewAdapter newViewAdapter(LayoutInflater inflater) {
         return new TobatsuViewAdapter(inflater);
@@ -44,12 +46,6 @@ public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewA
     @Override
     protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
         return new TobatsuPresenter(this, dbHelperFactory, character);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.onViewCreated();
     }
 
     @Override
