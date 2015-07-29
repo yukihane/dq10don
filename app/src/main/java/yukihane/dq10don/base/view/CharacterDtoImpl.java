@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.view;
+package yukihane.dq10don.base.view;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import lombok.Getter;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
-import yukihane.dq10don.tobatsu.presenter.CharacterDto;
+import yukihane.dq10don.base.presenter.CharacterDto;
 
 /**
  * Created by yuki on 15/07/17.
