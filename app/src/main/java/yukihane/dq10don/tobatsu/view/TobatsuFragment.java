@@ -17,8 +17,10 @@ import java.util.TimeZone;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.base.view.BaseFragment;
+import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.tobatsu.presenter.BasePresenter;
+import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**

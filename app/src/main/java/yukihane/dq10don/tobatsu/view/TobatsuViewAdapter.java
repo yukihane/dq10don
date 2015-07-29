@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -17,6 +15,7 @@ import java.util.List;
 
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
+import yukihane.dq10don.base.view.BaseViewAdapter;
 
 /**
  * Created by yuki on 15/07/08.

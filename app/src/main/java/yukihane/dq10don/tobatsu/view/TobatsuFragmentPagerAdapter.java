@@ -13,6 +13,7 @@ import java.util.List;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.base.view.CharacterDtoImpl;
 
 import static yukihane.dq10don.tobatsu.view.TobatsuFragment.CHARACTER;
 

@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.view;
+package yukihane.dq10don.base.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +20,7 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.HappyServiceException;
-import yukihane.dq10don.tobatsu.presenter.BasePresenter;
+import yukihane.dq10don.base.presenter.BasePresenter;
 
 public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseViewAdapter>
         extends Fragment implements BasePresenter.View<T> {

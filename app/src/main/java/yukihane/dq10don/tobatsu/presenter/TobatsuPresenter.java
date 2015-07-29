@@ -14,6 +14,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.base.presenter.BasePresenter;
+import yukihane.dq10don.base.presenter.CharacterDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;

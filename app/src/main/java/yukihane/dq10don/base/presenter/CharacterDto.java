@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.presenter;
+package yukihane.dq10don.base.presenter;
 
 public interface CharacterDto {
     String getSqexid();

@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.presenter;
+package yukihane.dq10don.base.presenter;
 
 import rx.Observable;
 import yukihane.dq10don.exception.HappyServiceException;

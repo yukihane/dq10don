@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.view;
+package yukihane.dq10don.base.view;
 
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
