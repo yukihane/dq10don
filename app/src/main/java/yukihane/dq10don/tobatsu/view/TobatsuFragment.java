@@ -37,24 +37,13 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewAdapter> implements TobatsuPresenter.View {
 
     @Override
-    protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new TobatsuPresenter(this, dbHelperFactory, character);
+    protected TobatsuViewAdapter newViewAdapter(LayoutInflater inflater) {
+        return new TobatsuViewAdapter(inflater);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_tobatsu, container, false);
-
-        tobatsuViewAdapter = new TobatsuViewAdapter(inflater);
-        tobatsuListView = (ListView) view.findViewById(R.id.tobatsuListView);
-        tobatsuListView.setAdapter(tobatsuViewAdapter);
-
-        Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);
-        updateButton.setOnClickListener(v -> presenter.onUpdateClick());
-
-        return view;
+    protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
+        return new TobatsuPresenter(this, dbHelperFactory, character);
     }
 
     @Override

@@ -25,7 +25,7 @@ import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuPresenter {
+public class TobatsuPresenter implements BasePresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
 
