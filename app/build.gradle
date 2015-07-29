@@ -60,10 +60,11 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'org.twitter4j:twitter4j-core:4.0.4'
-    // install https://github.com/yukihane/slf4j/tree/feat/logmouse/1.7.12 to local maven repository
-    compile 'com.github.yukihane.slf4j:logmouse:0.0.1-SNAPSHOT'
     provided "org.projectlombok:lombok:1.12.6"
     apt "org.projectlombok:lombok:1.12.6"
+    compile 'com.github.tony19:logback-android-core:1.1.1-4'
+    compile 'com.github.tony19:logback-android-classic:1.1.1-4'
+    compile 'org.slf4j:slf4j-api:1.7.12'
     testCompile 'junit:junit:4.12'
     testCompile 'org.slf4j:slf4j-simple:1.7.12'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
