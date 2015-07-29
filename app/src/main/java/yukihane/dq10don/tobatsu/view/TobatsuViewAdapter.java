@@ -20,18 +20,12 @@ import yukihane.dq10don.base.view.BaseViewAdapter;
 /**
  * Created by yuki on 15/07/08.
  */
-public class TobatsuViewAdapter implements BaseViewAdapter {
+public class TobatsuViewAdapter extends BaseViewAdapter {
 
     private static final Class<?> DISPLAYABLE_TYPES[] = {String.class, TobatsuItem.class};
-    private final DataSetObservable mDataSetObservable = new DataSetObservable();
-    private final LayoutInflater inflater;
-    private final List<Class<?>> types;
-    private final List<Object> displayTargets;
 
     public TobatsuViewAdapter(LayoutInflater inflater) {
-        this.inflater = inflater;
-        types = new ArrayList<>();
-        displayTargets = new ArrayList<>();
+        super(inflater);
     }
 
     @Override
@@ -197,7 +191,7 @@ public class TobatsuViewAdapter implements BaseViewAdapter {
             NumberFormat nf = NumberFormat.getNumberInstance();
             point.setText(nf.format(obj.getPoint()));
 
-            if(position % 2 == 0) {
+            if (position % 2 == 0) {
                 v.setBackgroundColor(Color.LTGRAY);
             } else {
                 v.setBackgroundColor(Color.WHITE);
