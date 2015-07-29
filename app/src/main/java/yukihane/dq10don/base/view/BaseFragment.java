@@ -30,8 +30,8 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseFragment.class);
 
     private P presenter;
-    private A tobatsuViewAdapter;
-    private ListView tobatsuListView;
+    private A viewAdapter;
+    private ListView listView;
 
 
     @Override
@@ -49,9 +49,9 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
 
         View view = inflater.inflate(R.layout.fragment_tobatsu, container, false);
 
-        tobatsuViewAdapter = newViewAdapter(inflater);
-        tobatsuListView = (ListView) view.findViewById(R.id.tobatsuListView);
-        tobatsuListView.setAdapter(tobatsuViewAdapter);
+        viewAdapter = newViewAdapter(inflater);
+        listView = (ListView) view.findViewById(R.id.tobatsuListView);
+        listView.setAdapter(viewAdapter);
 
         Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
@@ -83,7 +83,7 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
 
     @Override
     public void tobatsuListUpdate(T list) {
-        addDisplayItems(tobatsuViewAdapter, list);
+        addDisplayItems(viewAdapter, list);
     }
 
     @Override
