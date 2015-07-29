@@ -34,23 +34,11 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
-
-    public static final String CHARACTER = "character";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
-
-    private TobatsuPresenter presenter;
-    private TobatsuViewAdapter tobatsuViewAdapter;
-    private ListView tobatsuListView;
+public class TobatsuFragment extends BaseFragment<TobatsuPresenter, TobatsuViewAdapter> implements TobatsuPresenter.View {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        CharacterDtoImpl character = getArguments().getParcelable(CHARACTER);
-        presenter = new TobatsuPresenter(this, new DbHelperFactory(getActivity()), character);
-        presenter.onCreate();
+    protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
+        return new TobatsuPresenter(this, dbHelperFactory, character);
     }
 
     @Override
