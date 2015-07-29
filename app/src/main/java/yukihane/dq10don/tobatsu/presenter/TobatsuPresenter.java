@@ -112,10 +112,8 @@ public class TobatsuPresenter {
             private TobatsuList tobatsuList;
 
             @Override
-            public void onCompleted() {
-                if (tobatsuList != null) {
-                    view.tobatsuListUpdate(tobatsuList);
-                }
+            public void onNext(TobatsuList tobatsuList) {
+                this.tobatsuList = tobatsuList;
             }
 
             @Override
@@ -133,8 +131,10 @@ public class TobatsuPresenter {
             }
 
             @Override
-            public void onNext(TobatsuList tobatsuList) {
-                this.tobatsuList = tobatsuList;
+            public void onCompleted() {
+                if (tobatsuList != null) {
+                    view.tobatsuListUpdate(tobatsuList);
+                }
             }
         });
     }
