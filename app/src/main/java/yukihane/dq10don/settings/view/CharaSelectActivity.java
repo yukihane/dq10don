@@ -2,7 +2,7 @@ package yukihane.dq10don.settings.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ import yukihane.dq10don.settings.presenter.CheckableCharacter;
 /**
  * Tweet対象を全員でなく特定のキャラクタ分のみに絞るときの設定アクティビティ.
  */
-public class CharaSelectActivity extends ActionBarActivity implements CharaSelectPresenter.View {
+public class CharaSelectActivity extends AppCompatActivity implements CharaSelectPresenter.View {
 
     private CharaSelectPresenter presenter;
 

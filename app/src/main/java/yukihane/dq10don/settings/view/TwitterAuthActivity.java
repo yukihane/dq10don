@@ -3,7 +3,7 @@ package yukihane.dq10don.settings.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +16,7 @@ import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.settings.presenter.TwitterAuthPresenter;
 
-public class TwitterAuthActivity extends ActionBarActivity implements TwitterAuthPresenter.View {
+public class TwitterAuthActivity extends AppCompatActivity implements TwitterAuthPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TwitterAuthActivity.class);
 

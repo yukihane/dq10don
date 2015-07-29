@@ -1,11 +1,8 @@
 package yukihane.dq10don.debug.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
-import android.util.AttributeSet;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +17,7 @@ import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.debug.presenter.DebugPresenter;
 
-public class DebugActivity extends ActionBarActivity implements DebugPresenter.View {
+public class DebugActivity extends AppCompatActivity implements DebugPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DebugActivity.class);
 
