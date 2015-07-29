@@ -20,7 +20,7 @@ import yukihane.dq10don.base.view.BaseViewAdapter;
 /**
  * Created by yuki on 15/07/08.
  */
-public class TobatsuViewAdapter extends BaseViewAdapter {
+public class TobatsuViewAdapter extends BaseViewAdapter<Class<?>> {
 
     private static final Class<?> DISPLAYABLE_TYPES[] = {String.class, TobatsuItem.class};
 

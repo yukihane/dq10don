@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Created by yuki on 15/07/29.
  */
-public abstract class BaseViewAdapter implements ListAdapter, SpinnerAdapter {
+public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter {
 
     private final DataSetObservable mDataSetObservable = new DataSetObservable();
     private final LayoutInflater inflater;
-    private final List<Class<?>> types;
+    private final List<T> types;
     private final List<Object> displayTargets;
 
 
@@ -26,7 +26,7 @@ public abstract class BaseViewAdapter implements ListAdapter, SpinnerAdapter {
         displayTargets = new ArrayList<>();
     }
 
-    public void addItem(Class<?> type, Object displayTarget) {
+    public void addItem(T type, Object displayTarget) {
         validate(type, displayTarget);
         types.add(type);
         displayTargets.add(displayTarget);
@@ -107,5 +107,5 @@ public abstract class BaseViewAdapter implements ListAdapter, SpinnerAdapter {
         return false;
     }
 
-    protected abstract void validate(Class<?> type, Object displayTarget);
+    protected abstract void validate(T type, Object displayTarget);
 }
