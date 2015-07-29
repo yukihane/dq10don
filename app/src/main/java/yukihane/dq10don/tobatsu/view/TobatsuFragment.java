@@ -17,10 +17,12 @@ import java.util.TimeZone;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.view.BaseFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
+import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.base.presenter.BasePresenter;
+import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 /**
@@ -39,7 +41,7 @@ public class TobatsuFragment
 
     @Override
     protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new TobatsuPresenter(this, dbHelperFactory, character);
+        return new TobatsuPresenter(this, new TobatsuServiceFactory(), dbHelperFactory, character);
     }
 
     @Override
