@@ -29,21 +29,26 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
+    <activity
+      android:name=".bosscard.view.BossCardActivity"
+      android:label="@string/title_activity_boss_card">
+      <intent-filter android:label="@string/title_activity_boss_card">
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+
+
     <activity
       android:name=".login.view.LoginActivity"
       android:label="@string/title_activity_login"
       android:parentActivityName=".sqexid.view.SqexidActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".sqexid.view.SqexidActivity"/>
     </activity>
     <activity
       android:name=".sqexid.view.SqexidActivity"
       android:label="@string/title_activity_sqexid"
       android:parentActivityName=".tobatsu.view.MainActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".tobatsu.view.MainActivity"/>
     </activity>
 
     <receiver android:name=".background.Alarm"/>
@@ -92,10 +97,7 @@
       android:name=".settings.view.CharaSelectActivity"
       android:label="@string/title_activity_chara_select">
     </activity>
-    <activity
-      android:name=".bosscard.view.BossCardActivity"
-      android:label="@string/title_activity_boss_card">
-    </activity>
+
   </application>
 
 </manifest>
