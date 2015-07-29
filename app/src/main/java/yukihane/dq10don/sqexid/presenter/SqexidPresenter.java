@@ -1,5 +1,7 @@
 package yukihane.dq10don.sqexid.presenter;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SignUpEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -117,6 +119,8 @@ public class SqexidPresenter {
 
                 AccountDao dao = AccountDao.create(dbHelper);
                 dao.persist(account);
+
+                Answers.getInstance().logSignUp(new SignUpEvent());
             } else {
                 LOGGER.debug("cancelled login process");
             }

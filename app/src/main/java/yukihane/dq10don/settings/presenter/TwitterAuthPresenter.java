@@ -2,6 +2,9 @@ package yukihane.dq10don.settings.presenter;
 
 import android.net.Uri;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +42,7 @@ public class TwitterAuthPresenter {
      * Twitterに接続する
      */
     public void connectTwitter() {
+        Answers.getInstance().logCustom(new CustomEvent("twitter auth start"));
         Observable<RequestToken> reqObservable = Observable.create(
                 (Subscriber<? super RequestToken> subscriber) -> {
                     subscriber.onStart();
@@ -96,6 +100,7 @@ public class TwitterAuthPresenter {
             String tokenSecret = accessToken.getTokenSecret();
 
             view.storeAuthInfo(userId, screenName, token, tokenSecret);
+            Answers.getInstance().logCustom(new CustomEvent("twitter auth completed"));
             view.closeActivity();
 
         }, throwable -> {
