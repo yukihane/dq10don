@@ -29,7 +29,7 @@ public class TobatsuViewAdapter extends BaseViewAdapter {
     }
 
     @Override
-    public void addItem(Class<?> type, Object displayTarget) {
+    protected void validate(Class<?> type, Object displayTarget) {
         if (type != displayTarget.getClass()) {
             throw new IllegalArgumentException("difference error type: "
                     + type + ", displayTarget: " + displayTarget.getClass());
@@ -45,83 +45,6 @@ public class TobatsuViewAdapter extends BaseViewAdapter {
         if (!isDisplayableType) {
             throw new IllegalArgumentException("type is not supported: " + type);
         }
-
-        types.add(type);
-        displayTargets.add(displayTarget);
-    }
-
-    public void clearItems() {
-        types.clear();
-        displayTargets.clear();
-    }
-
-    /**
-     * Register an observer that is called when changes happen to the data used by this adapter.
-     *
-     * @param observer the object that gets notified when the data set changes.
-     */
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-        mDataSetObservable.registerObserver(observer);
-    }
-
-    /**
-     * Unregister an observer that has previously been registered with this
-     * adapter via {@link #registerDataSetObserver}.
-     *
-     * @param observer the object to unregister.
-     */
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-        mDataSetObservable.unregisterObserver(observer);
-    }
-
-    public void notifyChanged() {
-        mDataSetObservable.notifyChanged();
-    }
-
-    /**
-     * How many items are in the data set represented by this Adapter.
-     *
-     * @return Count of items.
-     */
-    @Override
-    public int getCount() {
-        return displayTargets.size();
-    }
-
-    /**
-     * Get the data item associated with the specified position in the data set.
-     *
-     * @param position Position of the item whose data we want within the adapter's
-     *                 data set.
-     * @return The data at the specified position.
-     */
-    @Override
-    public Object getItem(int position) {
-        return displayTargets.get(position);
-    }
-
-    /**
-     * Get the row id associated with the specified position in the list.
-     *
-     * @param position The position of the item within the adapter's data set whose row id we want.
-     * @return The id of the item at the specified position.
-     */
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    /**
-     * Indicates whether the item ids are stable across changes to the
-     * underlying data.
-     *
-     * @return True if the same id always refers to the same object.
-     */
-    @Override
-    public boolean hasStableIds() {
-        return false;
     }
 
     /**
