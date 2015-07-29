@@ -36,21 +36,21 @@
       </LinearLayout>
 
       <TextView
-        android:id="@+id/issuedDateView"
+        android:id="@+id/updateDateView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="発効日"/>
     </LinearLayout>
 
     <Button
-      android:id="@+id/updateTobatsuButton"
+      android:id="@+id/updateContentsButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/reload"/>
   </LinearLayout>
 
   <ListView
-    android:id="@+id/tobatsuListView"
+    android:id="@+id/contentListView"
     android:layout_width="match_parent"
     android:layout_height="0px"
     android:layout_weight="1"/>

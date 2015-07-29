@@ -56,7 +56,7 @@ public class TobatsuFragment
 
         // 本当はリスト内にString.classデータとして表示するものだが,
         // 現状大国の1種類しか表示しないのでヘッダ部に出力する(見えやすいように)
-        TextView issuedDateView = (TextView) getView().findViewById(R.id.issuedDateView);
+        TextView issuedDateView = (TextView) getView().findViewById(R.id.updateDateView);
         issuedDateView.setText(issuedDateStr);
 
         // ポイントが大きい物順に並び替え

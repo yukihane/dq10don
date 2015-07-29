@@ -50,10 +50,10 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
         View view = inflater.inflate(R.layout.fragment_tobatsu, container, false);
 
         viewAdapter = newViewAdapter(inflater);
-        listView = (ListView) view.findViewById(R.id.tobatsuListView);
+        listView = (ListView) view.findViewById(R.id.contentListView);
         listView.setAdapter(viewAdapter);
 
-        Button updateButton = (Button) view.findViewById(R.id.updateTobatsuButton);
+        Button updateButton = (Button) view.findViewById(R.id.updateContentsButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
         return view;
