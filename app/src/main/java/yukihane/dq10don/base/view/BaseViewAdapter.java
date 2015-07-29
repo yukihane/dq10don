@@ -67,6 +67,27 @@ public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter 
     protected abstract View getView(int position, View convertView, ViewGroup parent,
                                     LayoutInflater inflater, T type, Object displayTarget);
 
+
+
+    /**
+     * Get the type of View that will be created by {@link #getView} for the specified item.
+     *
+     * @param position The position of the item within the adapter's data set whose view type we
+     *                 want.
+     * @return An integer representing the type of View. Two views should share the same type if one
+     * can be converted to the other in {@link #getView}. Note: Integers must be in the
+     * range 0 to {@link #getViewTypeCount} - 1. {@link #IGNORE_ITEM_VIEW_TYPE} can
+     * also be returned.
+     * @see #IGNORE_ITEM_VIEW_TYPE
+     */
+    @Override
+    public int getItemViewType(int position) {
+        T type = types.get(position);
+        return getItemViewType(type);
+    }
+
+    protected abstract int getItemViewType(T type);
+
     /**
      * Register an observer that is called when changes happen to the data used by this adapter.
      *

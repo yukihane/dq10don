@@ -104,28 +104,15 @@ public class TobatsuViewAdapter extends BaseViewAdapter<Class<?>> {
         return v;
     }
 
-
-    /**
-     * Get the type of View that will be created by {@link #getView} for the specified item.
-     *
-     * @param position The position of the item within the adapter's data set whose view type we
-     *                 want.
-     * @return An integer representing the type of View. Two views should share the same type if one
-     * can be converted to the other in {@link #getView}. Note: Integers must be in the
-     * range 0 to {@link #getViewTypeCount} - 1. {@link #IGNORE_ITEM_VIEW_TYPE} can
-     * also be returned.
-     * @see #IGNORE_ITEM_VIEW_TYPE
-     */
     @Override
-    public int getItemViewType(int position) {
-        Class<?> type = types.get(position);
+    public int getItemViewType(Class<?> type) {
         for (int i = 0; i < DISPLAYABLE_TYPES.length; i++) {
             if (type == DISPLAYABLE_TYPES[i]) {
                 return i;
             }
         }
 
-        throw new RuntimeException("unknown type: " + type + "(pos: " + position + ")");
+        throw new RuntimeException("unknown type: " + type);
     }
 
     /**
