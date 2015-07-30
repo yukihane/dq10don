@@ -1,7 +1,9 @@
 
 package yukihane.dq10don.communication.dto.profile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -67,9 +69,9 @@ public class ItemBasicListValueList {
     @JsonProperty("renkinCount")
     private Integer renkinCount;
     @JsonProperty("renkinList")
-    private Object renkinList;
+    private List<String> renkinList = new ArrayList<String>();
     @JsonProperty("renkinListWithP")
-    private Object renkinListWithP;
+    private List<RenkinListWithP> renkinListWithP = new ArrayList<RenkinListWithP>();
     @JsonProperty("reward")
     private Object reward;
     @JsonProperty("stackCount")
@@ -369,7 +371,7 @@ public class ItemBasicListValueList {
      *     The renkinList
      */
     @JsonProperty("renkinList")
-    public Object getRenkinList() {
+    public List<String> getRenkinList() {
         return renkinList;
     }
 
@@ -379,7 +381,7 @@ public class ItemBasicListValueList {
      *     The renkinList
      */
     @JsonProperty("renkinList")
-    public void setRenkinList(Object renkinList) {
+    public void setRenkinList(List<String> renkinList) {
         this.renkinList = renkinList;
     }
 
@@ -389,7 +391,7 @@ public class ItemBasicListValueList {
      *     The renkinListWithP
      */
     @JsonProperty("renkinListWithP")
-    public Object getRenkinListWithP() {
+    public List<RenkinListWithP> getRenkinListWithP() {
         return renkinListWithP;
     }
 
@@ -399,7 +401,7 @@ public class ItemBasicListValueList {
      *     The renkinListWithP
      */
     @JsonProperty("renkinListWithP")
-    public void setRenkinListWithP(Object renkinListWithP) {
+    public void setRenkinListWithP(List<RenkinListWithP> renkinListWithP) {
         this.renkinListWithP = renkinListWithP;
     }
 
