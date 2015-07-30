@@ -3,6 +3,7 @@ package yukihane.dq10don;
 import android.content.Context;
 
 import retrofit.RetrofitError;
+import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
 import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
@@ -59,6 +60,17 @@ public class ViewUtils {
                     default:
                         return context.getString(R.string.http_other, kind.toString());
                 }
+            default:
+                return context.getString(R.string.text_error);
+        }
+    }
+
+    public static String getErrorMsg(Context context, int errorCode, Object... formatArgs) {
+
+        switch (errorCode) {
+            case ErrorCode.REPORTED:
+                return context.getString(R.string.error_already_reported);
+            case ErrorCode.ERROR:
             default:
                 return context.getString(R.string.text_error);
         }

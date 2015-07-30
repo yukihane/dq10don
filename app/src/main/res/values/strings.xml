@@ -49,4 +49,5 @@
   <string name="pref_cat_twitter_linkage">Twitter連携</string>
   <string name="tweet_tobatsu">最高額討伐依頼を自動ツイート</string>
   <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
+  <string name="error_already_reported">報告済みです</string>
 </resources>
