@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import retrofit.RetrofitError;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.profile.StorageDto;
+import yukihane.dq10don.communication.dto.profile.StoredItemDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.exception.HappyServiceException;
 
@@ -50,5 +52,22 @@ public class HappyServiceWrapper implements HappyService {
         } catch (RetrofitError e) {
             throw new HappyServiceException("getTobatsuList error", e);
         }
+    }
+
+    @Override
+    public StorageDto getStorageList2() throws HappyServiceException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@link #getStorageList2()} で得られた持ち物の場所に入っている持ち物一覧を取得します.
+     * (おそらく)storageIdが100以上のものはこのAPIではエラーとなります.
+     *
+     * @param storageId
+     * @param storageIndex
+     */
+    @Override
+    public StoredItemDto getStoredItemList(@Path("storageId") int storageId, @Path("storageIndex") int storageIndex) throws HappyServiceException {
+        throw new UnsupportedOperationException();
     }
 }
