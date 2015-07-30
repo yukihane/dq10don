@@ -77,7 +77,7 @@ public class ItemBasicListValueList {
     @JsonProperty("targetMonster")
     private Object targetMonster;
     @JsonProperty("variousStr")
-    private Object variousStr;
+    private String variousStr;
     @JsonProperty("webItemId")
     private String webItemId;
     @JsonIgnore
@@ -469,7 +469,7 @@ public class ItemBasicListValueList {
      *     The variousStr
      */
     @JsonProperty("variousStr")
-    public Object getVariousStr() {
+    public String getVariousStr() {
         return variousStr;
     }
 
@@ -479,7 +479,7 @@ public class ItemBasicListValueList {
      *     The variousStr
      */
     @JsonProperty("variousStr")
-    public void setVariousStr(Object variousStr) {
+    public void setVariousStr(String variousStr) {
         this.variousStr = variousStr;
     }
 
