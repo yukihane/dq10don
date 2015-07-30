@@ -15,13 +15,13 @@ import java.util.List;
  * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能で
  * 使用するViewAdapterのベース.
  *
- * @param <T> 表示対象とするデータの型.
+ * @param <V> 表示対象のバリエーション型.
  */
-public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter {
+public abstract class BaseViewAdapter<V> implements ListAdapter, SpinnerAdapter {
 
     private final DataSetObservable mDataSetObservable = new DataSetObservable();
     private final LayoutInflater inflater;
-    private final List<T> types;
+    private final List<V> types;
     private final List<Object> displayTargets;
 
 
@@ -31,13 +31,13 @@ public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter 
         displayTargets = new ArrayList<>();
     }
 
-    public void addItem(T type, Object displayTarget) {
+    public void addItem(V type, Object displayTarget) {
         validate(type, displayTarget);
         types.add(type);
         displayTargets.add(displayTarget);
     }
 
-    protected abstract void validate(T type, Object displayTarget);
+    protected abstract void validate(V type, Object displayTarget);
 
     public void clearItems() {
         types.clear();
@@ -69,7 +69,7 @@ public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter 
     }
 
     protected abstract View getView(int position, View convertView, ViewGroup parent,
-                                    LayoutInflater inflater, T type, Object displayTarget);
+                                    LayoutInflater inflater, V type, Object displayTarget);
 
 
     /**
@@ -85,11 +85,11 @@ public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter 
      */
     @Override
     public int getItemViewType(int position) {
-        T type = types.get(position);
+        V type = types.get(position);
         return getItemViewType(type);
     }
 
-    protected abstract int getItemViewType(T type);
+    protected abstract int getItemViewType(V type);
 
     /**
      * Register an observer that is called when changes happen to the data used by this adapter.

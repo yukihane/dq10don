@@ -31,7 +31,7 @@ import yukihane.dq10don.exception.HappyServiceException;
  * @param <P> 対応するプレゼンターの型.
  * @param <A> 対応するViewAdapterの型.
  */
-public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<T>>
+public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<?>>
         extends Fragment implements BasePresenter.View<T> {
 
     public static final String CHARACTER = "character";
