@@ -11,6 +11,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import yukihane.dq10don.Application;
 import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.base.model.BaseService;
 import yukihane.dq10don.base.model.BaseServiceFactory;
@@ -18,6 +19,8 @@ import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.exception.AppException;
+import yukihane.dq10don.exception.ApplicationException;
+import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
 public abstract class BasePresenter<T, S extends BaseService<T>> {
@@ -120,11 +123,11 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
-                } else if (e instanceof AppException) {
-                    // TODO getMessage()じゃなくてもっとちゃんとしたい
-                    view.showMessage(e.getMessage());
+                } else if (e instanceof ApplicationException) {
+                    ApplicationException ex = (ApplicationException) e;
+                    view.showMessage(ex.getErrorCode());
                 } else {
-                    view.showMessage((HappyServiceException) null);
+                    view.showMessage(ErrorCode.ERROR);
                 }
             }
 
@@ -147,7 +150,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
         void showMessage(HappyServiceException ex);
 
-        void showMessage(String message);
+        void showMessage(int errorCode);
 
     }
 }

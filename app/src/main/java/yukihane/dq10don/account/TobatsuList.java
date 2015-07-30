@@ -14,6 +14,8 @@ import lombok.Setter;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDataList;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.exception.AppException;
+import yukihane.dq10don.exception.ApplicationException;
+import yukihane.dq10don.exception.ErrorCode;
 
 
 /**
@@ -82,9 +84,8 @@ public class TobatsuList {
             return result;
         }
 
-        // TODO 表示するメッセージについてはちゃんと設計すべき
         // クリア済みの場合にはリストは存在しませんのでこの例外が出ます.
-        throw new AppException("報告済みです");
+        throw new ApplicationException(ErrorCode.REPORTED);
     }
 
     public void addListItem(TobatsuItem item) {

@@ -19,6 +19,7 @@ import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.base.presenter.BasePresenter;
 
@@ -93,7 +94,13 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showMessage(int errorCode) {
+        LOGGER.error("error: {}", errorCode);
+        String message = ViewUtils.getErrorMsg(getActivity(), errorCode);
+        showMessage(message);
+    }
+
+    private void showMessage(String message) {
         LOGGER.error(message);
         Toast.makeText(getView().getContext(), message, Toast.LENGTH_LONG).show();
     }
