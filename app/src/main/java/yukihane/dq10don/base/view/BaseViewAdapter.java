@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuki on 15/07/29.
+ * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能で
+ * 使用するViewAdapterのベース.
+ *
+ * @param <T> 表示対象とするデータの型.
  */
 public abstract class BaseViewAdapter<T> implements ListAdapter, SpinnerAdapter {
 

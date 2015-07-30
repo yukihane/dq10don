@@ -7,7 +7,9 @@ import yukihane.dq10don.account.Character;
 import yukihane.dq10don.exception.AppException;
 
 /**
- * Created by yuki on 15/07/30.
+ * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能のサービスのベース.
+ *
+ * @param <T> 表示対象とするデータの型.
  */
 public interface BaseService<T> {
 

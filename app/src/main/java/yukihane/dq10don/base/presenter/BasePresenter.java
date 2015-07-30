@@ -23,6 +23,12 @@ import yukihane.dq10don.exception.ApplicationException;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
+/**
+ * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能のプレセンターのベース.
+ *
+ * @param <T> 表示対象とするデータの型.
+ * @param <S> 表示対象を要求するサービスの型.
+ */
 public abstract class BasePresenter<T, S extends BaseService<T>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasePresenter.class);
@@ -140,6 +146,11 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         });
     }
 
+    /**
+     * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能のView.
+     *
+     * @param <T> 表示対象とするデータの型.
+     */
     public interface View<T> {
 
         void setHeader(String sqexid, String smileUniqNo);
