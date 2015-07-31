@@ -35,10 +35,10 @@ public class MainPresenter {
     /**
      * @param firstBoot (Activityが復元されたのではなく)起動された場合にtrue.
      */
-    public void onCreate(boolean boot) {
+    public void onCreate(boolean firstBoot) {
         try {
             setAlarmIfNeeded();
-            showWelcomeDialogIfNeeded(boot);
+            showWelcomeDialogIfNeeded(firstBoot);
         } catch (SQLException e) {
             LOGGER.error("initial process error", e);
         }
