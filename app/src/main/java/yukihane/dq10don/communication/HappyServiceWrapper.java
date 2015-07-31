@@ -77,7 +77,7 @@ public class HappyServiceWrapper implements HappyService {
             @Path("storageId") int storageId, @Path("storageIndex") int storageIndex)
             throws HappyServiceException {
         try {
-            LOGGER.info("HappyService getStoredItemList");
+            LOGGER.info("HappyService getStoredItemList id: {}, index: {}", storageId, storageIndex);
             StoredItemDto res = service.getStoredItemList(storageId, storageIndex);
             if (res.getResultCode() != 0) {
                 LOGGER.error("HappyService getStoredItemList error resultCode: {}",
