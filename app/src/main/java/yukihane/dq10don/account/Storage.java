@@ -17,6 +17,10 @@ import yukihane.dq10don.communication.dto.profile.StorageListValueList;
 @DatabaseTable
 public class Storage {
 
+
+    @DatabaseField(generatedId = true, canBeNull = false)
+    private Long id;
+
     /**
      * 種別(装備欄、とか、倉庫、とか)の識別子.
      */
