@@ -40,8 +40,8 @@ import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.db.TobatsuListDao;
 import yukihane.dq10don.settings.view.PrefUtils;
-import yukihane.dq10don.tobatsu.model.TobatsuService;
-import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
+import yukihane.dq10don.tobatsu.model.TobatsuListService;
+import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
 import yukihane.dq10don.tobatsu.view.TobatsuActivity;
 
 /**
@@ -121,7 +121,7 @@ public class RoundService extends IntentService {
     }
 
     private Result executeInternal(DbHelper dbHelper, Intent intent) {
-        TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
+        TobatsuListService service = new TobatsuListServiceFactory().getService(dbHelper);
         ArrayList<String> webPcNos = intent.getStringArrayListExtra(KEY_WEBPCNO);
 
         List<String> remains = new ArrayList<>();

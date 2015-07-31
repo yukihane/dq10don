@@ -21,7 +21,7 @@ import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.view.BaseFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
+import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
 import yukihane.dq10don.tobatsu.presenter.TobatsuListPresenter;
 
 /**
@@ -40,7 +40,7 @@ public class TobatsuListFragment
 
     @Override
     protected TobatsuListPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new TobatsuListPresenter(this, new TobatsuServiceFactory(), dbHelperFactory, character);
+        return new TobatsuListPresenter(this, new TobatsuListServiceFactory(), dbHelperFactory, character);
     }
 
     @Override
