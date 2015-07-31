@@ -12,8 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import yukihane.dq10don.account.*;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.account.Storage;
+import yukihane.dq10don.account.StoredItem;
 
 /**
  * Created by yuki on 15/07/31.
@@ -108,5 +109,32 @@ public class StorageDao {
 
         storedItemDao.delete(delQuery);
         storageDao.delete(owneds);
+    }
+
+    /**
+     * characterが持っているストレージとその中のアイテムを取得します.
+     *
+     * @param webPcNo キャラクターのID.
+     */
+    public List<Storage> query(long webPcNo) throws SQLException {
+        PreparedQuery<Storage> storageQuery = storageDao.queryBuilder()
+                .where()
+                .eq("character_id", webPcNo)
+                .prepare();
+        List<Storage> storages = storageDao.query(storageQuery);
+
+        for (Storage s : storages) {
+            PreparedQuery<StoredItem> itemQuery = storedItemDao.queryBuilder()
+                    .where()
+                    .eq("storage_id", s.getId())
+                    .prepare();
+            List<StoredItem> items = storedItemDao.query(itemQuery);
+            for (StoredItem i : items) {
+                s.addStoredItem(i);
+            }
+        }
+
+
+        return storages;
     }
 }

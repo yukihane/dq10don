@@ -73,7 +73,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      */
     @Override
     public List<Storage> getTobatsuListFromDB(long webPcNo) throws SQLException {
-        throw new UnsupportedOperationException();
+        return StorageDao.create(dbHelper).query(webPcNo);
     }
 
     /**
