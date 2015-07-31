@@ -78,14 +78,14 @@ public class BossCardListServiceImpl implements BossCardListService {
 
     /**
      * サーバーから情報を取得します.
-     * このメソッドの内部ではキャラクター/アカウントがinvalid可動化は判別しないので,
-     * 必要があれば呼び出す前に判定を行ってください.
      *
      * @param webPcNo
      */
     @Override
     public List<Storage> getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
-        throw new UnsupportedOperationException();
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+        return getTobatsuListFromServer(character);
     }
 
 
