@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import lombok.Getter;
+import lombok.Setter;
 import yukihane.dq10don.communication.dto.profile.ItemBasicListValueList;
 
 /**
@@ -30,11 +31,16 @@ public class StoredItem {
     @Getter
     private String variousStr;
 
+
+    @DatabaseField(foreign = true)
+    @Setter
+    private Storage storage;
+
     public StoredItem() {
 
     }
 
-    public StoredItem(String itemUniqueNo, String itemName, String webItemId, String variousStr) {
+    private StoredItem(String itemUniqueNo, String itemName, String webItemId, String variousStr) {
         this.itemUniqueNo = itemUniqueNo;
         this.itemName = itemName;
         this.webItemId = webItemId;
