@@ -1,29 +1,29 @@
 package yukihane.dq10don.bosscard.model;
 
+import com.j256.ormlite.misc.TransactionManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.client.Response;
-import yukihane.dq10don.account.*;
+import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.account.Storage;
+import yukihane.dq10don.account.StoredItem;
 import yukihane.dq10don.communication.HappyService;
 import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication.dto.profile.ItemBasicListValueList;
 import yukihane.dq10don.communication.dto.profile.StorageDto;
 import yukihane.dq10don.communication.dto.profile.StorageListValueList;
 import yukihane.dq10don.communication.dto.profile.StoredItemDto;
-import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.StorageDao;
-import yukihane.dq10don.db.TobatsuListDao;
 import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.exception.HappyServiceException;
 
@@ -102,20 +102,29 @@ public class BossCardListServiceImpl implements BossCardListService {
         service.characterSelect(character.getWebPcNo());
 
         StorageDto dto = service.getStorageList2();
-        List<Storage> res = new ArrayList<>();
-        for (StorageListValueList slvl : dto.getStorageListValueList()) {
-            Storage s = Storage.from(slvl);
-            s.setCharacter(character);
+        StorageDao storageDao = StorageDao.create(dbHelper);
 
-            StoredItemDto sidto = service.getStoredItemList(s.getStorageId(), s.getStorageIndex());
-            for (ItemBasicListValueList iblvl : sidto.getItemBasicListValueList()) {
-                StoredItem si = StoredItem.from(iblvl);
-                s.addStoredItem(si);
+        List<Storage> res
+                = TransactionManager.callInTransaction(dbHelper.getConnectionSource(), () -> {
+
+            storageDao.delete(character);
+
+            List<Storage> storages = new ArrayList<>();
+            for (StorageListValueList slvl : dto.getStorageListValueList()) {
+                Storage s = Storage.from(slvl);
+                s.setCharacter(character);
+
+                StoredItemDto sidto = service.getStoredItemList(s.getStorageId(), s.getStorageIndex());
+                for (ItemBasicListValueList iblvl : sidto.getItemBasicListValueList()) {
+                    StoredItem si = StoredItem.from(iblvl);
+                    s.addStoredItem(si);
+                }
+
+                storages.add(s);
+                storageDao.persist(s);
             }
-
-            res.add(s);
-            StorageDao.create(dbHelper).persist(s);
-        }
+            return storages;
+        });
 
         return res;
     }
