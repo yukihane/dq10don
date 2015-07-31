@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         presenter = new MainPresenter(this, new DbHelperFactory(this));
 
         setContentView(R.layout.activity_main);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.tobatsuListPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();
 
