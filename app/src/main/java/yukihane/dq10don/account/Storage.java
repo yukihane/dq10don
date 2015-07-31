@@ -3,6 +3,7 @@ package yukihane.dq10don.account;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -52,5 +53,9 @@ public class Storage {
 
     public static Storage from(StorageListValueList dto) {
         return new Storage(dto.getStorageId(), dto.getStorageIndex(), dto.getStorageName());
+    }
+
+    public List<StoredItem> getSotredItems() {
+        return new ArrayList<>(storedItems);
     }
 }
