@@ -110,7 +110,7 @@ public class BossCardListServiceImpl implements BossCardListService {
             StoredItemDto sidto = service.getStoredItemList(s.getStorageId(), s.getStorageIndex());
             for (ItemBasicListValueList iblvl : sidto.getItemBasicListValueList()) {
                 StoredItem si = StoredItem.from(iblvl);
-                s.addItem(si);
+                s.addStoredItem(si);
             }
 
             res.add(s);

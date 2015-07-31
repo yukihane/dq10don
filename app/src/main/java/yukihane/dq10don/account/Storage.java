@@ -17,6 +17,7 @@ import yukihane.dq10don.communication.dto.profile.StorageListValueList;
 @DatabaseTable
 public class Storage {
 
+    private final List<StoredItem> storedItems = new ArrayList<>();
 
     @DatabaseField(generatedId = true, canBeNull = false)
     private Long id;
@@ -44,8 +45,6 @@ public class Storage {
     @Setter
     private Character character;
 
-    private final List<StoredItem> storedItems = new ArrayList<>();
-
     public Storage() {
     }
 
@@ -63,7 +62,7 @@ public class Storage {
         return new ArrayList<>(storedItems);
     }
 
-    public void addItem(StoredItem item) {
+    public void addStoredItem(StoredItem item) {
         storedItems.add(item);
         item.setStorage(this);
     }
