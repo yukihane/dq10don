@@ -12,7 +12,7 @@ import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 
-public class BossCardActivity extends AppCompatActivity {
+public class BossCardActivity extends AppCompatActivity implements BossCardPresenter.View {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
