@@ -20,7 +20,6 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
 /**
@@ -56,7 +55,7 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_tobatsu, container, false);
+        View view = inflater.inflate(R.layout.fragment_base, container, false);
 
         viewAdapter = newViewAdapter(inflater);
         listView = (ListView) view.findViewById(R.id.contentListView);
