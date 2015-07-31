@@ -1,6 +1,7 @@
 package yukihane.dq10don.bosscard.model;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import yukihane.dq10don.account.*;
@@ -21,7 +22,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * ただしinvalidなキャラクターはサーバーにリクエストを行わず失敗したとみなし処理します.
      */
     @Override
-    public Map<Character, Storage> getTobatsuListsFromServer() throws SQLException {
+    public Map<Character, List<Storage>> getTobatsuListsFromServer() throws SQLException {
         throw new UnsupportedOperationException();
     }
 
@@ -31,7 +32,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * @param webPcNo
      */
     @Override
-    public Storage getTobatsuListFromDB(long webPcNo) throws SQLException {
+    public List<Storage> getTobatsuListFromDB(long webPcNo) throws SQLException {
         throw new UnsupportedOperationException();
     }
 
@@ -43,7 +44,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * @param webPcNo
      */
     @Override
-    public Storage getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
+    public List<Storage> getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
         throw new UnsupportedOperationException();
     }
 }
