@@ -20,6 +20,8 @@ public class Storage {
     private final List<StoredItem> storedItems = new ArrayList<>();
 
     @DatabaseField(generatedId = true, canBeNull = false)
+    @Setter
+    @Getter
     private Long id;
 
     /**
