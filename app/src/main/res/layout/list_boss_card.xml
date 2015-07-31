@@ -10,7 +10,16 @@
     android:layout_width="0px"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:text="カード名"/>
+    android:text="カード名"
+    android:textSize="22sp"/>
+
+  <TextView
+    android:id="@+id/bossCardStorageView"
+    android:layout_width="0px"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Storage"
+    android:textSize="22sp"/>
 
   <TextView
     android:id="@+id/bossCardTimeView"
@@ -18,6 +27,7 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:gravity="right"
-    android:text="残時間"/>
+    android:text="残時間"
+    android:textSize="22sp"/>
 
 </LinearLayout>

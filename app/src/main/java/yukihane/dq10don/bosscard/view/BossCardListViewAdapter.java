@@ -37,24 +37,29 @@ public class BossCardListViewAdapter extends BaseViewAdapter<Void> {
         final View v;
 
         final TextView cardName;
+        final TextView storage;
         final TextView leftTime;
         if (convertView == null) {
             v = inflater.inflate(R.layout.list_boss_card, null);
             cardName = (TextView) v.findViewById(R.id.bossCardNameView);
+            storage = (TextView) v.findViewById(R.id.bossCardStorageView);
             leftTime = (TextView) v.findViewById(R.id.bossCardTimeView);
 
             final ViewHolder holder = new ViewHolder();
             holder.cardName = cardName;
+            holder.storage = storage;
             holder.leftTime = leftTime;
             v.setTag(holder);
         } else {
             v = convertView;
             ViewHolder holder = (ViewHolder) v.getTag();
             cardName = holder.cardName;
+            storage = holder.storage;
             leftTime = holder.leftTime;
         }
         StoredItem obj = (StoredItem) displayTarget;
         cardName.setText(obj.getItemName());
+        storage.setText(obj.getStorage().getStorageName());
 
         Matcher m = PATTERN.matcher(obj.getVariousStr());
         m.matches();
@@ -85,6 +90,7 @@ public class BossCardListViewAdapter extends BaseViewAdapter<Void> {
 
     private static class ViewHolder {
         public TextView cardName;
+        public TextView storage;
         public TextView leftTime;
     }
 }

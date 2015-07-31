@@ -34,6 +34,7 @@ public class StoredItem {
 
     @DatabaseField(foreign = true)
     @Setter
+    @Getter
     private Storage storage;
 
     public StoredItem() {
