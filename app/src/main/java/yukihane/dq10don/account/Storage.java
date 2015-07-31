@@ -7,17 +7,21 @@ import java.util.List;
 
 /**
  * 持ち物({@link StoredItem})をいれる容器.
+ * (strageId, storageIndex)が自然キーになります.
  */
 @DatabaseTable
 public class Storage {
 
-    @DatabaseField(id = true, canBeNull = false)
-    private Long id;
-
-    @DatabaseField(canBeNull = false, uniqueCombo = true)
+    /**
+     * 種別(装備欄、とか、倉庫、とか)の識別子.
+     */
+    @DatabaseField(canBeNull = false)
     private int storageId;
 
-    @DatabaseField(canBeNull = false, uniqueCombo = true)
+    /**
+     * 同一種別の中の個体識別番号.
+     */
+    @DatabaseField(canBeNull = false)
     private int storageIndex;
 
     @DatabaseField(foreign = true, canBeNull = false)
