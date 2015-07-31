@@ -44,7 +44,7 @@ public class Storage {
     @Setter
     private Character character;
 
-    private List<StoredItem> storedItems;
+    private final List<StoredItem> storedItems = new ArrayList<>();
 
     public Storage() {
     }
@@ -61,5 +61,10 @@ public class Storage {
 
     public List<StoredItem> getSotredItems() {
         return new ArrayList<>(storedItems);
+    }
+
+    public void addItem(StoredItem item) {
+        storedItems.add(item);
+        item.setStorage(this);
     }
 }
