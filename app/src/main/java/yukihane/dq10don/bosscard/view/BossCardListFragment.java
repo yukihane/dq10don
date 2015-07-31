@@ -55,7 +55,11 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
         List<StoredItem> items = new ArrayList<>();
         for (Storage s : list) {
             for (StoredItem i : s.getSotredItems()) {
-                Matcher m = p.matcher(i.getVariousStr());
+                String variousStr = i.getVariousStr();
+                if (variousStr == null) {
+                    continue;
+                }
+                Matcher m = p.matcher(variousStr);
                 if (m.matches()) {
                     items.add(i);
                 }
