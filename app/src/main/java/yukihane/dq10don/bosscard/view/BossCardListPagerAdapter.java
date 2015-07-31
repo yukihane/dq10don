@@ -15,6 +15,6 @@ public class BossCardListPagerAdapter extends BaseFragmentPagerAdapter<BossCardL
 
     @Override
     protected BossCardListFragment newFragment() {
-        return null;
+        return new BossCardListFragment();
     }
 }
