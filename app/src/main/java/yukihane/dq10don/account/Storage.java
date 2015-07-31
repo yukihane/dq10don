@@ -17,6 +17,16 @@ import yukihane.dq10don.communication.dto.profile.StorageListValueList;
 @DatabaseTable
 public class Storage {
 
+    /**
+     * ドールのstorageId
+     */
+    public static final int STORAGE_ID_DOLL = 100;
+
+    /**
+     * 送った手紙の storageId
+     */
+    public static final int STORAGE_ID_SENDMAIL = 101;
+
     private final List<StoredItem> storedItems = new ArrayList<>();
 
     @DatabaseField(generatedId = true, canBeNull = false)

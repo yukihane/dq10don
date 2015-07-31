@@ -114,10 +114,13 @@ public class BossCardListServiceImpl implements BossCardListService {
                 Storage s = Storage.from(slvl);
                 s.setCharacter(character);
 
-                StoredItemDto sidto = service.getStoredItemList(s.getStorageId(), s.getStorageIndex());
-                for (ItemBasicListValueList iblvl : sidto.getItemBasicListValueList()) {
-                    StoredItem si = StoredItem.from(iblvl);
-                    s.addStoredItem(si);
+                if (s.getStorageId() < Storage.STORAGE_ID_DOLL) {
+                    // storageId が 100以上のもの(おそらく)はまたAPIが違うので現状はスキップ
+                    StoredItemDto sidto = service.getStoredItemList(s.getStorageId(), s.getStorageIndex());
+                    for (ItemBasicListValueList iblvl : sidto.getItemBasicListValueList()) {
+                        StoredItem si = StoredItem.from(iblvl);
+                        s.addStoredItem(si);
+                    }
                 }
 
                 storages.add(s);
