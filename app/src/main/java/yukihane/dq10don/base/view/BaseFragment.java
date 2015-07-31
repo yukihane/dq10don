@@ -90,7 +90,7 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     }
 
     @Override
-    public void tobatsuListUpdate(T list) {
+    public void onListUpdated(T list) {
         addDisplayItems(viewAdapter, list);
     }
 
