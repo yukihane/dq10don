@@ -20,13 +20,13 @@ import yukihane.dq10don.db.DbHelperFactory;
 /**
  * Created by yuki on 15/07/13.
  */
-public class MainPresenter {
+public class TobatsuPresenter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainPresenter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
     private final DbHelper dbHelper;
     private View view;
 
-    public MainPresenter(View view, DbHelperFactory dbHFactory) {
+    public TobatsuPresenter(View view, DbHelperFactory dbHFactory) {
         this.view = view;
         dbHelper = dbHFactory.create();
 

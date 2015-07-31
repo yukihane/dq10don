@@ -42,7 +42,7 @@ import yukihane.dq10don.db.TobatsuListDao;
 import yukihane.dq10don.settings.view.PrefUtils;
 import yukihane.dq10don.tobatsu.model.TobatsuService;
 import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
-import yukihane.dq10don.tobatsu.view.MainActivity;
+import yukihane.dq10don.tobatsu.view.TobatsuActivity;
 
 /**
  * 登録されているアカウントの討伐情報をサーバーへリクエストし、DBを更新します.
@@ -208,7 +208,7 @@ public class RoundService extends IntentService {
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+                new Intent(this, TobatsuActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)

@@ -23,21 +23,21 @@ import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
-import yukihane.dq10don.tobatsu.presenter.MainPresenter;
+import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 
-public class MainActivity extends AppCompatActivity implements MainPresenter.View {
+public class TobatsuActivity extends AppCompatActivity implements TobatsuPresenter.View {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainActivity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuActivity.class);
 
-    private MainPresenter presenter;
+    private TobatsuPresenter presenter;
 
     private TobatsuListPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new MainPresenter(this, new DbHelperFactory(this));
+        presenter = new TobatsuPresenter(this, new DbHelperFactory(this));
 
         setContentView(R.layout.activity_main);
         ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);
