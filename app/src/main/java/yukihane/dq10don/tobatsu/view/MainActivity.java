@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     private MainPresenter presenter;
 
-    private TobatsuFragmentPagerAdapter pagerAdapter;
+    private TobatsuListPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();
 
-        pagerAdapter = new TobatsuFragmentPagerAdapter(fm);
+        pagerAdapter = new TobatsuListPagerAdapter(fm);
 
         viewPager.setAdapter(pagerAdapter);
 
