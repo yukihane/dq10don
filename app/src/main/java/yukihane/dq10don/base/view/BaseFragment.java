@@ -102,7 +102,7 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
 
     private void showMessage(String message) {
         LOGGER.error(message);
-        Toast.makeText(getView().getContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
