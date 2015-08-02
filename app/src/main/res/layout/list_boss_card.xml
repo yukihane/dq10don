@@ -5,29 +5,48 @@
   android:layout_height="match_parent"
   android:orientation="horizontal">
 
-  <TextView
-    android:id="@+id/bossCardNameView"
+  <LinearLayout
     android:layout_width="0px"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:text="カード名"
-    android:textSize="22sp"/>
+    android:layout_weight="3"
+    android:orientation="vertical">
 
-  <TextView
-    android:id="@+id/bossCardStorageView"
-    android:layout_width="0px"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:text="Storage"
-    android:textSize="22sp"/>
+    <TextView
+      android:id="@+id/bossCardNameView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="伝説の三悪魔カード"
+      android:textSize="20sp"/>
 
-  <TextView
-    android:id="@+id/bossCardTimeView"
+    <TextView
+      android:id="@+id/bossCardStorageView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="つかうもの"
+      />
+  </LinearLayout>
+
+  <LinearLayout
     android:layout_width="0px"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:gravity="right"
-    android:text="残時間"
-    android:textSize="22sp"/>
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/bossCardTimeView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="right|center"
+      android:text="500時間"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/bossCardLimitDateView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="right|center"
+      android:text="03/31 (土)"
+      />
+  </LinearLayout>
 
 </LinearLayout>
