@@ -129,7 +129,6 @@ public class TobatsuFragment extends Fragment implements TobatsuPresenter.View {
     @Override
     public void showMessage(String message) {
         LOGGER.error(message);
-        getView().getContext();
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
