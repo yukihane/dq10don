@@ -44,13 +44,19 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
 
         Pattern p = Pattern.compile("あと(\\d+)(.+)有効");
 
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd '('E')' H:mm");
-        String nowStr = sdf.format(now);
+        final String lastUpdateDateStr;
+        if (!list.isEmpty()) {
+            // storageは全部一度に取得するのでlastUpdateDate値はどれでもほぼ同じ
+            Date lastUpdateDate = list.get(0).getLastUpdateDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm");
+            lastUpdateDateStr = sdf.format(lastUpdateDate);
+        } else {
+            lastUpdateDateStr = "";
+        }
 
         TextView dateView = (TextView) getView().findViewById(R.id.updateDateView);
-        String lastUpdateStr = getString(R.string.lastUpdate) + ": ";
-        dateView.setText(lastUpdateStr + nowStr);
+        String heading = getString(R.string.lastUpdate) + ": ";
+        dateView.setText(heading + lastUpdateDateStr);
 
         List<StoredItem> items = new ArrayList<>();
         for (Storage s : list) {
