@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
@@ -52,6 +53,10 @@ public class Storage {
     @Getter
     private String storageName;
 
+    @DatabaseField
+    @Getter
+    private Date lastUpdateDate;
+
     @DatabaseField(foreign = true, canBeNull = false)
     @Getter
     @Setter
@@ -60,10 +65,11 @@ public class Storage {
     public Storage() {
     }
 
-    public Storage(int storageId, int storageIndex, String storageName) {
+    private Storage(int storageId, int storageIndex, String storageName) {
         this.storageId = storageId;
         this.storageIndex = storageIndex;
         this.storageName = storageName;
+        this.lastUpdateDate = new Date();
     }
 
     public static Storage from(StorageListValueList dto) {
