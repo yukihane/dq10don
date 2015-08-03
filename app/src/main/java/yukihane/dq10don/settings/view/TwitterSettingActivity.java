@@ -26,7 +26,7 @@ public class TwitterSettingActivity extends PreferenceActivity {
 
         // http://stackoverflow.com/questions/5169532/
         PreferenceManager prefMgr = getPreferenceManager();
-        prefMgr.setSharedPreferencesName(PrefUtils.PREF_NAME);
+        prefMgr.setSharedPreferencesName(TwitterPrefUtils.PREF_NAME);
         prefMgr.setSharedPreferencesMode(MODE_PRIVATE);
 
         addPreferencesFromResource(R.xml.pref_twitter);

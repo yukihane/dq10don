@@ -39,7 +39,7 @@ import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.db.TobatsuListDao;
-import yukihane.dq10don.settings.view.PrefUtils;
+import yukihane.dq10don.settings.view.TwitterPrefUtils;
 import yukihane.dq10don.tobatsu.model.TobatsuListService;
 import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
 import yukihane.dq10don.tobatsu.view.TobatsuActivity;
@@ -223,13 +223,13 @@ public class TobatsuRoundService extends IntentService {
     }
 
     private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {
-        PrefUtils prefUtils = new PrefUtils(this);
+        TwitterPrefUtils twitterPrefUtils = new TwitterPrefUtils(this);
 
         AccessToken accessToken = getAccessToken();
         if (accessToken == null) {
             return;
         }
-        if (!prefUtils.getTweetTobatsu()) {
+        if (!twitterPrefUtils.getTweetTobatsu()) {
             // tweetしない設定になっている
             return;
         }
@@ -240,10 +240,10 @@ public class TobatsuRoundService extends IntentService {
         }
 
         final Collection<Long> charas;
-        if (prefUtils.isTweetTobatsuAllChara()) {
+        if (twitterPrefUtils.isTweetTobatsuAllChara()) {
             charas = null;
         } else {
-            charas = prefUtils.getTobatsuTweetCharacters();
+            charas = twitterPrefUtils.getTobatsuTweetCharacters();
             if (charas.isEmpty()) {
                 // 1人もtweet対象になっていない
                 return;
@@ -270,7 +270,7 @@ public class TobatsuRoundService extends IntentService {
     }
 
     public AccessToken getAccessToken() {
-        PrefUtils pu = new PrefUtils(this);
+        TwitterPrefUtils pu = new TwitterPrefUtils(this);
         long userId = pu.getUserId();
         String token = pu.getToken();
         String tokenSecret = pu.getTokenSecret();

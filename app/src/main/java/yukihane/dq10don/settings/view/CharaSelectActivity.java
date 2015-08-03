@@ -35,7 +35,7 @@ public class CharaSelectActivity extends AppCompatActivity implements CharaSelec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chara_select);
 
-        presenter = new CharaSelectPresenter(this, new DbHelperFactory(this), new PrefUtils(this));
+        presenter = new CharaSelectPresenter(this, new DbHelperFactory(this), new TwitterPrefUtils(this));
 
         ListView mainListView = (ListView) findViewById(R.id.tobatsuTweetCharaList);
 

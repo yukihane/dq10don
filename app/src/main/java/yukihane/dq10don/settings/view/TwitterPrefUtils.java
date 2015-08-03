@@ -17,7 +17,7 @@ import yukihane.dq10don.Utils;
  * こちらのクラス</a>を参考に作成.
  * (<a href="http://qiita.com/operandoOS/items/8af20ac09a9d6acb075e">こちら</a>からのリンク)
  */
-public final class PrefUtils {
+public final class TwitterPrefUtils {
     /**
      * Preferencesの名称
      */
@@ -40,7 +40,7 @@ public final class PrefUtils {
 
     private final Context context;
 
-    public PrefUtils(Context context) {
+    public TwitterPrefUtils(Context context) {
         this.context = context;
     }
 
