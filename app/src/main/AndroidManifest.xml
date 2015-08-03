@@ -98,6 +98,10 @@
       android:label="@string/title_activity_chara_select">
     </activity>
 
+    <activity
+      android:name=".settings.view.SettingsActivity"
+      android:label="@string/title_activity_settings">
+    </activity>
   </application>
 
 </manifest>
