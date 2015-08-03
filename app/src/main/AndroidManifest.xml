@@ -53,7 +53,7 @@
 
     <receiver android:name=".background.TobatsuReceiver"/>
     <receiver
-      android:name=".background.AutoSetReceiver"
+      android:name=".background.TobatsuRestartReceiver"
       android:enabled="false">
       <intent-filter>
         <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->

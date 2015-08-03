@@ -33,7 +33,7 @@ public class TobatsuAlarm {
         LOGGER.info("TobatsuReceiver set {}", date);
 
         // 起動時にアラームをセットできるようにする
-        ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
+        ComponentName receiver = new ComponentName(context, TobatsuRestartReceiver.class);
         PackageManager pm = context.getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,
@@ -57,7 +57,7 @@ public class TobatsuAlarm {
 
 
         // 起動時に自動的にアラームをセットしない
-        ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
+        ComponentName receiver = new ComponentName(context, TobatsuRestartReceiver.class);
         PackageManager pm = context.getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,

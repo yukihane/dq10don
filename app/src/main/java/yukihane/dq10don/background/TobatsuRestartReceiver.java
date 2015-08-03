@@ -18,9 +18,9 @@ import yukihane.dq10don.db.DbHelperFactory;
 /**
  * アラームを自動再設定するためのレシーバー
  */
-public class AutoSetReceiver extends BroadcastReceiver {
+public class TobatsuRestartReceiver extends BroadcastReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AutoSetReceiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuRestartReceiver.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
