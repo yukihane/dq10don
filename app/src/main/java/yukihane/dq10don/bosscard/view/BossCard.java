@@ -42,7 +42,7 @@ public class BossCard {
 
 
     public String getLimitDateStr() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd '('E')'");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd '('E')' HH:mm");
         return sdf.format(getLimitDate().getTime());
     }
 
