@@ -36,6 +36,18 @@ public class BossCardAlarm {
         setBootReceivable(context, true);
     }
 
+    public static void cancel(Context context) {
+        PendingIntent alarmIntent = getPendingIntent(context);
+
+        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        alarmMgr.cancel(alarmIntent);
+        LOGGER.info("BossCardAlarm cancelled");
+
+        // 起動時に自動的にアラームをセットしない
+        setBootReceivable(context, false);
+    }
+
     private static void setBootReceivable(Context context, boolean enabled) {
 
         // 起動時にアラームをセットできるようにする
@@ -48,9 +60,6 @@ public class BossCardAlarm {
 
         pm.setComponentEnabledSetting(receiver, status, PackageManager.DONT_KILL_APP);
 
-    }
-
-    public static void cancel(Context context) {
     }
 
     private static PendingIntent getPendingIntent(Context context) {
