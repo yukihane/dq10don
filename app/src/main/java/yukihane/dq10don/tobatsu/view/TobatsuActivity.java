@@ -21,7 +21,7 @@ import yukihane.dq10don.background.TobatsuAlarm;
 import yukihane.dq10don.background.TobatsuRoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
-import yukihane.dq10don.settings.view.TwitterSettingActivity;
+import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
@@ -78,7 +78,7 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
             startActivity(intent);
             return true;
         } else if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, TwitterSettingActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_debug) {
