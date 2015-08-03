@@ -33,12 +33,7 @@ public class TobatsuAlarm {
         LOGGER.info("TobatsuReceiver set {}", date);
 
         // 起動時にアラームをセットできるようにする
-        ComponentName receiver = new ComponentName(context, TobatsuRestartReceiver.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+        setBootReceivable(context, true);
     }
 
     /**
@@ -55,14 +50,8 @@ public class TobatsuAlarm {
         alarmMgr.cancel(alarmIntent);
         LOGGER.info("TobatsuReceiver cancelled");
 
-
         // 起動時に自動的にアラームをセットしない
-        ComponentName receiver = new ComponentName(context, TobatsuRestartReceiver.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
+        setBootReceivable(context, false);
     }
 
     private static PendingIntent getPendingIntent(Context context, Bundle bundle) {
@@ -72,5 +61,17 @@ public class TobatsuAlarm {
         }
 
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private static void setBootReceivable(Context context, boolean enabled) {
+
+        ComponentName receiver = new ComponentName(context, TobatsuRestartReceiver.class);
+        PackageManager pm = context.getPackageManager();
+
+        int status = enabled
+                ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+
+        pm.setComponentEnabledSetting(receiver, status, PackageManager.DONT_KILL_APP);
     }
 }
