@@ -89,7 +89,7 @@
     </activity>
 
     <activity
-      android:name=".settings.view.SettingsActivity"
+      android:name=".settings.view.TwitterSettingActivity"
       android:label="@string/title_activity_settings">
     </activity>
 

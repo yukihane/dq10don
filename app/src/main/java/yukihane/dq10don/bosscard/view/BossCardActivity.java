@@ -1,7 +1,5 @@
 package yukihane.dq10don.bosscard.view;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -14,11 +12,10 @@ import java.util.List;
 
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.background.TobatsuRoundService;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
-import yukihane.dq10don.settings.view.SettingsActivity;
+import yukihane.dq10don.settings.view.TwitterSettingActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.WelcomeDialog;
 
@@ -78,7 +75,7 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
             startActivity(intent);
             return true;
         } else if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, TwitterSettingActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_debug) {
