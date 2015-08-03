@@ -18,9 +18,9 @@ import java.util.Date;
 /**
  * https://developer.android.com/training/scheduling/alarms.html を参考に作成.
  */
-public class Alarm extends WakefulBroadcastReceiver {
+public class TobatsuReceiver extends WakefulBroadcastReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Alarm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuReceiver.class);
 
 
     /**
@@ -33,7 +33,7 @@ public class Alarm extends WakefulBroadcastReceiver {
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmIntent);
         Date date = new Date(timeInMillis);
-        LOGGER.info("Alarm set {}", date);
+        LOGGER.info("TobatsuReceiver set {}", date);
 
         // 起動時にアラームをセットできるようにする
         ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
@@ -56,7 +56,7 @@ public class Alarm extends WakefulBroadcastReceiver {
         PendingIntent alarmIntent = getPendingIntent(context, null);
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmMgr.cancel(alarmIntent);
-        LOGGER.info("Alarm cancelled");
+        LOGGER.info("TobatsuReceiver cancelled");
 
 
         // 起動時に自動的にアラームをセットしない
@@ -69,7 +69,7 @@ public class Alarm extends WakefulBroadcastReceiver {
     }
 
     private static PendingIntent getPendingIntent(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, Alarm.class);
+        Intent intent = new Intent(context, TobatsuReceiver.class);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

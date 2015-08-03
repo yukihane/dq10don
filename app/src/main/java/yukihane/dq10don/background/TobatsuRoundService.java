@@ -75,7 +75,7 @@ public class TobatsuRoundService extends IntentService {
         try {
             exec(intent);
         } finally {
-            Alarm.completeWakefulIntent(intent);
+            TobatsuReceiver.completeWakefulIntent(intent);
         }
     }
 
@@ -190,13 +190,13 @@ public class TobatsuRoundService extends IntentService {
     private void setNextDateAlarm(DbHelper dbHelper) throws SQLException {
         BgServiceDao dao = BgServiceDao.create(dbHelper);
         BgService srv = dao.get();
-        Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
+        TobatsuReceiver.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     public void setRetryAlarm(Bundle bundle) {
         long now = Calendar.getInstance().getTimeInMillis();
         int offset = (10 + new Random(now).nextInt(15)) * 1000;
-        Alarm.setAlarm(getApplication(), now + offset, bundle);
+        TobatsuReceiver.setAlarm(getApplication(), now + offset, bundle);
     }
 
     // Post a notification indicating whether a doodle was found.

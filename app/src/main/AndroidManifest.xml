@@ -51,7 +51,7 @@
       android:parentActivityName=".tobatsu.view.TobatsuActivity">
     </activity>
 
-    <receiver android:name=".background.Alarm"/>
+    <receiver android:name=".background.TobatsuReceiver"/>
     <receiver
       android:name=".background.AutoSetReceiver"
       android:enabled="false">

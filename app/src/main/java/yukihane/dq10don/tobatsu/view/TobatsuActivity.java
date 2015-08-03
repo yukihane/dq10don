@@ -17,7 +17,7 @@ import java.util.List;
 
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.background.Alarm;
+import yukihane.dq10don.background.TobatsuReceiver;
 import yukihane.dq10don.background.TobatsuRoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
@@ -103,12 +103,12 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
 
     @Override
     public void setAlarm(long time) {
-        Alarm.setAlarm(getApplication(), time);
+        TobatsuReceiver.setAlarm(getApplication(), time);
     }
 
     @Override
     public void cancelAlarm() {
-        Alarm.cancelAlarm(getApplication());
+        TobatsuReceiver.cancelAlarm(getApplication());
     }
 
     @Override
