@@ -80,7 +80,7 @@ public class Alarm extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LOGGER.debug("onReceive called");
-        ComponentName component = new ComponentName(context, RoundService.class);
+        ComponentName component = new ComponentName(context, TobatsuRoundService.class);
         intent.setComponent(component);
 
         startWakefulService(context, intent);

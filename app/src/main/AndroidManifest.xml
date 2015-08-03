@@ -76,7 +76,7 @@
       </intent-filter>
     </receiver>
 
-    <service android:name=".background.RoundService"/>
+    <service android:name=".background.TobatsuRoundService"/>
 
     <activity
       android:name=".debug.view.DebugActivity"

@@ -48,7 +48,7 @@ import yukihane.dq10don.tobatsu.view.TobatsuActivity;
  * 登録されているアカウントの討伐情報をサーバーへリクエストし、DBを更新します.
  * また, ステータスバーへの通知も行います.
  */
-public class RoundService extends IntentService {
+public class TobatsuRoundService extends IntentService {
 
     public static final String KEY_WEBPCNO = "webPcNo";
     public static final String KEY_POINT = "tobatsu_point";
@@ -59,10 +59,10 @@ public class RoundService extends IntentService {
     public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoundService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuRoundService.class);
 
-    public RoundService() {
-        super("yukihane.dq10don.background.RoundService");
+    public TobatsuRoundService() {
+        super("yukihane.dq10don.background.TobatsuRoundService");
     }
 
     private String getText(TobatsuItem item) {
