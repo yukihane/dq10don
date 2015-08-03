@@ -107,6 +107,11 @@
       android:name=".settings.view.BossCardSettingActivity"
       android:label="@string/title_activity_boss_card_setting">
     </activity>
+
+    <activity
+      android:name=".settings.view.TobatsuSettingActivity"
+      android:label="@string/title_activity_tobatsu_setting">
+    </activity>
   </application>
 
 </manifest>
