@@ -3,7 +3,7 @@
   <string name="app_formal_name">日替丼 for DQX</string>
   <string name="title_activity_sqexid">ID管理</string>
   <string name="title_activity_login">アカウント登録</string>
-  <string name="title_activity_settings">Twitter設定</string>
+  <string name="title_activity_twitter_setting">Twitter設定</string>
   <string name="title_activity_twitter_auth">Twitter認証</string>
   <string name="title_activity_chara_select">対象キャラクター選択</string>
   <string name="title_activity_boss_card">ボスカ丼</string>
