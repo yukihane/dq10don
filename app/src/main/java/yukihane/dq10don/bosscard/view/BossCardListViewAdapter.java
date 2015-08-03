@@ -63,26 +63,18 @@ public class BossCardListViewAdapter extends BaseViewAdapter<Void> {
             leftTime = holder.leftTime;
             limitDate = holder.limitDate;
         }
-        StoredItem obj = (StoredItem) displayTarget;
-        cardName.setText(obj.getItemName());
-        storage.setText(obj.getStorage().getStorageName());
+        BossCard obj = (BossCard) displayTarget;
+        cardName.setText(obj.getName());
+        storage.setText(obj.getStorageName());
 
-        Matcher m = PATTERN.matcher(obj.getVariousStr());
-        m.matches();
-        int timeNum = Integer.parseInt(m.group(1));
-
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        leftTime.setText(nf.format(timeNum) + m.group(2));
-
-        if ("時間".equals(m.group(2))) {
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.HOUR, timeNum);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd '('E')'");
-            String limitDateStr = sdf.format(cal.getTime());
-            limitDate.setText(limitDateStr);
+        int leftHour = obj.getCalculatedLeftMinites() / 60;
+        if (leftHour > 0) {
+            leftTime.setText("" + leftHour + " 時間");
         } else {
-            limitDate.setText("");
+            leftTime.setText("" + obj.getCalculatedLeftMinites() + " 分");
         }
+
+        limitDate.setText(obj.getLimitDateStr());
 
         if (position % 2 == 0) {
             v.setBackgroundColor(Color.LTGRAY);

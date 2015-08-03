@@ -58,7 +58,7 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
         String heading = getString(R.string.lastUpdate) + ": ";
         dateView.setText(heading + lastUpdateDateStr);
 
-        List<StoredItem> items = new ArrayList<>();
+        List<BossCard> items = new ArrayList<>();
         for (Storage s : list) {
             for (StoredItem i : s.getSotredItems()) {
                 String variousStr = i.getVariousStr();
@@ -67,44 +67,27 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
                 }
                 Matcher m = p.matcher(variousStr);
                 if (m.matches()) {
-                    items.add(i);
+                    String numStr = m.group(1);
+                    String unit = m.group(2);
+                    int num = Integer.parseInt(numStr);
+                    if ("時間".equals(unit)) {
+                        //「残り1時間」の表示は、実際には1時間以上2時間未満のの頃時間があるので+1しておく
+                        num = (num + 1) * 60;
+                    }
+
+                    BossCard bc = new BossCard(i.getItemName(),
+                            s.getStorageName(), s.getLastUpdateDate(), num);
+
+                    items.add(bc);
                 }
             }
         }
 
-        Collections.sort(items, (StoredItem lhs, StoredItem rhs) -> {
-            Matcher lMatcher = p.matcher(lhs.getVariousStr());
-
-            final int lNum;
-            final String lUnit;
-            if (lMatcher.matches()) {
-                lNum = Integer.parseInt(lMatcher.group(1));
-                lUnit = lMatcher.group(2);
-            } else {
-                return 1;
-            }
-
-            Matcher rMatcher = p.matcher(rhs.getVariousStr());
-            final int rNum;
-            final String rUnit;
-            if (rMatcher.matches()) {
-                rNum = Integer.parseInt(rMatcher.group(1));
-                rUnit = lMatcher.group(2);
-            } else {
-                return -1;
-            }
-
-            // unit(単位)は「時間」と、あとおそらく「分」が存在する
-            if (lUnit.equals(rUnit)) {
-                return lNum - rNum;
-            }
-            if (lUnit.equals("時間")) {
-                return 1;
-            }
-            return -1;
+        Collections.sort(items, (BossCard lhs, BossCard rhs) -> {
+            return lhs.getCalculatedLeftMinites() - rhs.getCalculatedLeftMinites();
         });
 
-        for (StoredItem item : items) {
+        for (BossCard item : items) {
             viewAdapter.addItem(null, item);
         }
 
