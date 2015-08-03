@@ -3,6 +3,9 @@ package yukihane.dq10don.bosscard.view;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +30,8 @@ import yukihane.dq10don.db.DbHelperFactory;
 public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardListPresenter, BossCardListViewAdapter>
         implements BasePresenter.View<List<Storage>> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BossCardListFragment.class);
+
     @Override
     protected BossCardListViewAdapter newViewAdapter(LayoutInflater inflater) {
         return new BossCardListViewAdapter(inflater);
@@ -42,7 +47,10 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
     protected void addDisplayItems(BossCardListViewAdapter viewAdapter, List<Storage> list) {
         viewAdapter.clearItems();
 
-        Pattern p = Pattern.compile("あと(\\d+)(.+)有効");
+        // あと192時間有効
+        // あと 52分 有効
+        // 「分」の場合は半角スペースが前後に入っている
+        Pattern p = Pattern.compile("あと ?(\\d+)([^ ]+) ?有効");
 
         final String lastUpdateDateStr;
         if (!list.isEmpty()) {
@@ -70,6 +78,8 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
                     String numStr = m.group(1);
                     String unit = m.group(2);
                     int num = Integer.parseInt(numStr);
+
+                    // 「時間」意外の単位は「分」しか無いはず…
                     if ("時間".equals(unit)) {
                         //「残り1時間」の表示は、実際には1時間以上2時間未満のの頃時間があるので+1しておく
                         num = (num + 1) * 60;
@@ -78,7 +88,10 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
                     BossCard bc = new BossCard(i.getItemName(),
                             s.getStorageName(), s.getLastUpdateDate(), num);
 
+                    LOGGER.debug("{}: {} '{}'", i.getItemName(), num, unit);
                     items.add(bc);
+                } else {
+                    LOGGER.debug("NOT MATCH: {}, {}", i.getItemName(), i.getVariousStr());
                 }
             }
         }
