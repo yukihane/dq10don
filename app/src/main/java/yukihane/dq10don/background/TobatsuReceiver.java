@@ -22,61 +22,6 @@ public class TobatsuReceiver extends WakefulBroadcastReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuReceiver.class);
 
-
-    /**
-     * @param context アプリケーションコンテキスト.
-     */
-    public static void setAlarm(Context context, long timeInMillis, Bundle bundle) {
-
-        PendingIntent alarmIntent = getPendingIntent(context, bundle);
-
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmIntent);
-        Date date = new Date(timeInMillis);
-        LOGGER.info("TobatsuReceiver set {}", date);
-
-        // 起動時にアラームをセットできるようにする
-        ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
-    /**
-     * @param context アプリケーションコンテキスト.
-     */
-    public static void setAlarm(Context context, long timeInMillis) {
-        setAlarm(context, timeInMillis, null);
-    }
-
-    public static void cancelAlarm(Context context) {
-
-        PendingIntent alarmIntent = getPendingIntent(context, null);
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.cancel(alarmIntent);
-        LOGGER.info("TobatsuReceiver cancelled");
-
-
-        // 起動時に自動的にアラームをセットしない
-        ComponentName receiver = new ComponentName(context, AutoSetReceiver.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
-    private static PendingIntent getPendingIntent(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, TobatsuReceiver.class);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         LOGGER.debug("onReceive called");
