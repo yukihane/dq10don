@@ -23,6 +23,7 @@
   <string name="cancel">キャンセル</string>
   <string name="get_pin">PINコード取得</string>
   <string name="lastUpdate">最終更新</string>
+  <string name="autopilot">自動巡回</string>
   <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
   <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
@@ -55,4 +56,5 @@
   <string name="tweet_tobatsu">最高額討伐依頼を自動ツイート</string>
   <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
   <string name="error_already_reported">報告済みです</string>
+  <string name="tobatsu_autopilot_summary">毎朝6時過ぎに討伐依頼を自動チェックし更新します</string>
 </resources>
