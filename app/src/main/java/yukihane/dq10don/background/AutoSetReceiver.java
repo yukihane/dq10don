@@ -30,7 +30,7 @@ public class AutoSetReceiver extends BroadcastReceiver {
             try {
                 dbHelper = new DbHelperFactory(context).create();
                 BgServiceDao dao = BgServiceDao.create(dbHelper);
-                TobatsuReceiver.setAlarm(context.getApplicationContext(), dao.get().getNextAlarmTime());
+                TobatsuAlarm.setAlarm(context.getApplicationContext(), dao.get().getNextAlarmTime());
             } catch (SQLException e) {
                 LOGGER.error("DB error", e);
             } finally {
