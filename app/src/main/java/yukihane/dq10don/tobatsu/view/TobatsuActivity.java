@@ -22,6 +22,7 @@ import yukihane.dq10don.background.TobatsuRoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
+import yukihane.dq10don.settings.view.TobatsuPrefUtils;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
@@ -37,7 +38,7 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new TobatsuPresenter(this, new DbHelperFactory(this));
+        presenter = new TobatsuPresenter(this, new DbHelperFactory(this), new TobatsuPrefUtils(this));
 
         setContentView(R.layout.activity_main);
         ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);

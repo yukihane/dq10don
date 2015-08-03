@@ -16,6 +16,7 @@ import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.settings.view.TobatsuPrefUtils;
 
 /**
  * Created by yuki on 15/07/13.
@@ -24,12 +25,13 @@ public class TobatsuPresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
     private final DbHelper dbHelper;
+    private final TobatsuPrefUtils prefUtils;
     private View view;
 
-    public TobatsuPresenter(View view, DbHelperFactory dbHFactory) {
+    public TobatsuPresenter(View view, DbHelperFactory dbHFactory, TobatsuPrefUtils prefUtils) {
         this.view = view;
         dbHelper = dbHFactory.create();
-
+        this.prefUtils = prefUtils;
     }
 
     /**
@@ -60,6 +62,11 @@ public class TobatsuPresenter {
     }
 
     private void setAlarmIfNeeded() throws SQLException {
+
+        if (!prefUtils.isAutoPilotEnabled()) {
+            return;
+        }
+
         BgServiceDao bgDao = BgServiceDao.create(dbHelper);
         if (!bgDao.exists()) {
             // 初回起動時ならいつでも設定
