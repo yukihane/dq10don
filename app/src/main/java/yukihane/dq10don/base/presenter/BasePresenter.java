@@ -68,7 +68,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         OpenHelperManager.releaseHelper();
         serviceFactory = null;
         dbHelper = null;
-        view = null;
+        view = new NullView();
     }
 
 
@@ -163,4 +163,27 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         void showMessage(int errorCode);
 
     }
+
+    private class NullView implements View<T> {
+        @Override
+        public void setHeader(String sqexid, String smileUniqNo) {
+        }
+
+        @Override
+        public void onListUpdated(T list) {
+        }
+
+        @Override
+        public void bind(Observable<?> observable) {
+        }
+
+        @Override
+        public void showMessage(HappyServiceException ex) {
+        }
+
+        @Override
+        public void showMessage(int errorCode) {
+        }
+    }
+
 }
