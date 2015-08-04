@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <PreferenceCategory
+    android:title="@string/autopilot">
+    <CheckBoxPreference
+      android:defaultValue="true"
+      android:disableDependentsState="false"
+      android:key="autopilot"
+      android:summary="@string/boss_card_autopilot_summary"
+      android:title="@string/autopilot"/>
+
+    <CheckBoxPreference
+      android:defaultValue="true"
+      android:dependency="autopilot"
+      android:disableDependentsState="false"
+      android:key="notification"
+      android:summary="@string/limit_date_notification_summary"
+      android:title="@string/limit_date_notification"/>
+
+    <ListPreference
+      android:defaultValue="4"
+      android:dependency="notification"
+      android:entries="@array/left_time_entries"
+      android:entryValues="@array/left_time_entryvalues"
+      android:key="notification_left_time"
+      android:summary="@string/notification_left_time_summary"
+      android:title="@string/notification_left_time"
+      />
+  </PreferenceCategory>
+
+
 </PreferenceScreen>

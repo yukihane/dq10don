@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="left_time_entries">
+    <item>1日(24時間)</item>
+    <item>2日(48時間)</item>
+    <item>4日(96時間)</item>
+    <item>8日(192時間)</item>
+  </string-array>
+  <string-array name="left_time_entryvalues">
+    <item>1</item>
+    <item>2</item>
+    <item>4</item>
+    <item>8</item>
+  </string-array>
+</resources>

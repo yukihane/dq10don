@@ -57,4 +57,9 @@
   <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
   <string name="error_already_reported">報告済みです</string>
   <string name="tobatsu_autopilot_summary">毎朝6時過ぎに討伐依頼を自動チェックし更新します</string>
+  <string name="boss_card_autopilot_summary">12時間ごとにカードの残り時間を自動チェックします</string>
+  <string name="limit_date_notification">期限が近づいたら通知</string>
+  <string name="limit_date_notification_summary">期限が近づいたカードが有れば通知します</string>
+  <string name="notification_left_time_summary">設定した期間より短い有効期限のカードが有れば通知します</string>
+  <string name="notification_left_time">通知期間</string>
 </resources>
