@@ -11,11 +11,13 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Storage;
 import yukihane.dq10don.account.StoredItem;
+import yukihane.dq10don.bosscard.model.BossCard;
 
 /**
  * Created by yuki on 15/07/31.
@@ -143,9 +145,11 @@ public class StorageDao {
      * 指定の時間より短い有効期限のアイテムがあるか確認します.
      *
      * @param leftMinitesLimit 分単位で指定します.
-     * @return 存在すればtrue.
+     * @return 条件にマッチするカード情報
      */
-    public boolean existsLimitLessThan(int leftMinitesLimit) throws SQLException {
+    public List<BossCard> queryLimitLessThan(int leftMinitesLimit) throws SQLException {
+        List<BossCard> res = new ArrayList<>();
+
         List<StoredItem> items = storedItemDao.queryForAll();
         for (StoredItem i : items) {
             Integer lt = i.getLeftTime();
@@ -153,14 +157,15 @@ public class StorageDao {
                 continue;
             }
             Storage storage = storageDao.queryForId(i.getStorage().getId());
-            long limit = (lt * 60 * 1000) + storage.getLastUpdateDate().getTime();
-            long now = Calendar.getInstance().getTimeInMillis();
-            int term = leftMinitesLimit * 60 * 1000;
-            if (limit - now > 0 && limit - now < term) {
-                return true;
+            BossCard card = new BossCard(i.getItemName(), storage.getStorageName(),
+                    storage.getLastUpdateDate(), i.getLeftTime());
+            int leftMinites = card.getCalculatedLeftMinites();
+            if (0 < leftMinites && leftMinites <= leftMinitesLimit) {
+                res.add(card);
             }
         }
 
-        return false;
+        Collections.sort(res);
+        return res;
     }
 }

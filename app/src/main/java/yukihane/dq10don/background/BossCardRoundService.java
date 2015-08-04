@@ -13,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import yukihane.dq10don.R;
 import yukihane.dq10don.Utils;
+import yukihane.dq10don.bosscard.model.BossCard;
 import yukihane.dq10don.bosscard.model.BossCardListService;
 import yukihane.dq10don.bosscard.model.BossCardListServiceFactory;
 import yukihane.dq10don.bosscard.view.BossCardActivity;
@@ -72,15 +74,18 @@ public class BossCardRoundService extends IntentService {
         int leftTimeLimit = prefUtils.getLeftTimeLimit();
         int leftMinitesLimit = leftTimeLimit * 24 * 60;
         StorageDao dao = StorageDao.create(dbHelper);
-        boolean exists = dao.existsLimitLessThan(leftMinitesLimit);
-        if (exists) {
-            sendNotification();
+        List<BossCard> cards = dao.queryLimitLessThan(leftMinitesLimit);
+        if (!cards.isEmpty()) {
+            sendNotification(cards);
         }
     }
 
-    private void sendNotification() {
-        String title = getString(R.string.title_activity_boss_card);
-        String msg = getString(R.string.text_exits_limit_items);
+    private void sendNotification(List<BossCard> cards) {
+        String title = getString(R.string.text_exits_limit_items);
+        StringBuffer summary = new StringBuffer(cards.get(0).getName());
+        if (cards.size() > 1) {
+            summary.append(" ").append(getString(R.string.etc));
+        }
 
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -88,15 +93,23 @@ public class BossCardRoundService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, BossCardActivity.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setContentTitle(title)
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
-                        .setContentText(msg);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setAutoCancel(true);
+        builder.setSmallIcon(R.drawable.ic_notify);
+        builder.setTicker(title);
+        builder.setContentTitle(title);
+        builder.setContentText(summary);
 
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(Utils.BOSS_CARD_NOTIFICATION_ID, mBuilder.build());
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+        style.setBigContentTitle(title);
+        style.setSummaryText(summary);
+        for (BossCard c : cards) {
+            style.addLine(c.getName() + " " + c.getLimitDateStr());
+        }
+        builder.setStyle(style);
+
+
+        builder.setContentIntent(contentIntent);
+        mNotificationManager.notify(Utils.BOSS_CARD_NOTIFICATION_ID, builder.build());
     }
 }

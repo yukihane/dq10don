@@ -47,9 +47,6 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
 
 
         presenter.onCreate(savedInstanceState == null);
-
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(Utils.BOSS_CARD_NOTIFICATION_ID);
     }
 
     @Override
