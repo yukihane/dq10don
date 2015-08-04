@@ -64,16 +64,6 @@
               <action android:name="android.intent.action.TIME_SET"/>
         -->
       </intent-filter>
-      <intent-filter>
-        <!--
-        参考: https://chris.orr.me.uk/android-ssp-data-intent-filter/
-        sspはAndroid4.4からみたいなのでちゃんと動作するか検証が必要
-        -->
-        <data
-          android:scheme="package"
-          android:ssp="yukihane.dq10don"/>
-        <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-      </intent-filter>
     </receiver>
 
     <service android:name=".background.TobatsuRoundService"/>
