@@ -50,6 +50,10 @@ public class BossCardListServiceImpl implements BossCardListService {
         List<Account> accounts = accountDao.queryAll();
         Map<Character, List<Storage>> result = new HashMap<>();
         for (Account account : accounts) {
+            if (account.isInvalid()) {
+                continue;
+            }
+
             for (Character character : account.getCharacters()) {
                 List<Storage> storages = new ArrayList<>();
 

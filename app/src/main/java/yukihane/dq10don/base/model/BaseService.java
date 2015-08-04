@@ -26,7 +26,7 @@ public interface BaseService<T> {
 
     /**
      * サーバーから情報を取得します.
-     * このメソッドの内部ではキャラクター/アカウントがinvalid可動化は判別しないので,
+     * このメソッドの内部ではキャラクター/アカウントがinvalidかどうかは判別しないので,
      * 必要があれば呼び出す前に判定を行ってください.
      */
     T getTobatsuListFromServer(long webPcNo) throws AppException, SQLException;

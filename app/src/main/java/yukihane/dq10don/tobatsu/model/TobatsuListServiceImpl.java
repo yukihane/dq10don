@@ -41,6 +41,10 @@ public class TobatsuListServiceImpl implements TobatsuListService {
         List<Account> accounts = accountDao.queryAll();
         Map<Character, TobatsuList> result = new HashMap<>();
         for (Account account : accounts) {
+            if (account.isInvalid()) {
+                continue;
+            }
+
             for (Character character : account.getCharacters()) {
                 // TODO Rx で実装すると良い感じかも
                 TobatsuList tl = null;
