@@ -58,7 +58,7 @@ public class TobatsuPresenter {
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
-        view = null;
+        view = new NullView();
     }
 
     private void setAlarmIfNeeded() throws SQLException {
@@ -111,5 +111,23 @@ public class TobatsuPresenter {
         void cancelAlarm();
 
         void showWelcomeDialog();
+    }
+
+    private static class NullView implements View {
+        @Override
+        public void setAccounts(List<Account> accounts) {
+        }
+
+        @Override
+        public void setAlarm(long time) {
+        }
+
+        @Override
+        public void cancelAlarm() {
+        }
+
+        @Override
+        public void showWelcomeDialog() {
+        }
     }
 }

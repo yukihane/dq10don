@@ -56,7 +56,7 @@ public class BossCardPresenter {
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
-        view = null;
+        view = new NullView();
     }
 
     private void showWelcomeDialogIfNeeded(boolean boot) throws SQLException {
@@ -77,5 +77,19 @@ public class BossCardPresenter {
         void setAccounts(List<Account> accounts);
 
         void setAlarmIfNothing();
+    }
+
+    private static class NullView implements View {
+        @Override
+        public void showWelcomeDialog() {
+        }
+
+        @Override
+        public void setAccounts(List<Account> accounts) {
+        }
+
+        @Override
+        public void setAlarmIfNothing() {
+        }
     }
 }
