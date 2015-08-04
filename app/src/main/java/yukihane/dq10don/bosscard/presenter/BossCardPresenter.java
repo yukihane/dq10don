@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.background.BossCardAlarm;
-import yukihane.dq10don.bosscard.view.BossCard;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
