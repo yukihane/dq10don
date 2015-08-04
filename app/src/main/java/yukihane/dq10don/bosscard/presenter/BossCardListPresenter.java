@@ -15,9 +15,8 @@ import yukihane.dq10don.db.DbHelperFactory;
 public class BossCardListPresenter extends BasePresenter<List<Storage>, BossCardListService> {
 
     public BossCardListPresenter(
-            BasePresenter.View<List<Storage>> view,
             BaseServiceFactory<List<Storage>, BossCardListService> serviceFactory,
             DbHelperFactory dbHFactory, CharacterDto character) {
-        super(view, serviceFactory, dbHFactory, character);
+        super(serviceFactory, dbHFactory, character);
     }
 }

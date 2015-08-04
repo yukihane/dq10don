@@ -64,6 +64,8 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
         Button updateButton = (Button) view.findViewById(R.id.updateContentsButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
+        presenter.onCreateView(this);
+
         return view;
     }
 
@@ -71,6 +73,12 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onViewCreated();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onDestroyView();
     }
 
     @Override

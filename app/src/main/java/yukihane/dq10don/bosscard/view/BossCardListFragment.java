@@ -39,7 +39,7 @@ public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardLi
 
     @Override
     protected BossCardListPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new BossCardListPresenter(this, new BossCardListServiceFactory(), dbHelperFactory, character);
+        return new BossCardListPresenter(new BossCardListServiceFactory(), dbHelperFactory, character);
     }
 
 

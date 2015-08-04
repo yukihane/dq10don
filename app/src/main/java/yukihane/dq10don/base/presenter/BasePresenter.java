@@ -41,14 +41,18 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
     private BaseServiceFactory<T, S> serviceFactory;
     private DbHelper dbHelper = null;
 
-    public BasePresenter(View<T> view, BaseServiceFactory<T, S> serviceFactory, DbHelperFactory dbHFactory, CharacterDto character) {
-        this.view = view;
+    public BasePresenter(BaseServiceFactory<T, S> serviceFactory, DbHelperFactory dbHFactory, CharacterDto character) {
+        this.view = new NullView();
         this.serviceFactory = serviceFactory;
         this.dbHelper = dbHFactory.create();
         this.character = character;
     }
 
     public void onCreate() {
+    }
+
+    public void onCreateView(View<T> view) {
+        this.view = view;
     }
 
     public void onViewCreated() {
@@ -60,17 +64,19 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
     }
 
-    public void onUpdateClick() {
-        updateList(false, false);
+    public void onDestroyView() {
+        view = new NullView();
     }
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         serviceFactory = null;
         dbHelper = null;
-        view = new NullView();
     }
 
+    public void onUpdateClick() {
+        updateList(false, false);
+    }
 
     /**
      * @param useCache       true の場合, (DB上に)キャッシュが有ればそれを返します.

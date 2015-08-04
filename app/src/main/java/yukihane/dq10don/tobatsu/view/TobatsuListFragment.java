@@ -40,7 +40,7 @@ public class TobatsuListFragment
 
     @Override
     protected TobatsuListPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new TobatsuListPresenter(this, new TobatsuListServiceFactory(), dbHelperFactory, character);
+        return new TobatsuListPresenter(new TobatsuListServiceFactory(), dbHelperFactory, character);
     }
 
     @Override
