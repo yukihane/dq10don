@@ -14,7 +14,7 @@
       <fileNamePattern>${LOG_DIR}/dq10don.%d.log.txt</fileNamePattern>
 
       <!-- keep 7 days' worth of history -->
-      <maxHistory>7</maxHistory>
+      <maxHistory>2</maxHistory>
     </rollingPolicy>
   </appender>
 
