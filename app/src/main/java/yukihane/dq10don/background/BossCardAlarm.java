@@ -36,6 +36,22 @@ public class BossCardAlarm {
         setBootReceivable(context, true);
     }
 
+    /**
+     * 設定されていないのなら設定します.
+     * 既に設定が有れば何もしません.
+     */
+    public static void setIfNothing(Context context) {
+        PendingIntent intent = getPendingIntent(context, false);
+        if (intent == null) {
+            // 既に設定してある
+            LOGGER.debug("alarm already exists");
+            return;
+        }
+
+        set(context);
+    }
+
+
     public static void cancel(Context context) {
         PendingIntent alarmIntent = getPendingIntent(context);
 
@@ -63,8 +79,13 @@ public class BossCardAlarm {
     }
 
     private static PendingIntent getPendingIntent(Context context) {
+        return getPendingIntent(context, true);
+    }
+
+    private static PendingIntent getPendingIntent(Context context, boolean update) {
         Intent intent = new Intent(context, BossCardReceiver.class);
 
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int flag = update ? PendingIntent.FLAG_UPDATE_CURRENT : PendingIntent.FLAG_NO_CREATE;
+        return PendingIntent.getBroadcast(context, 0, intent, flag);
     }
 }

@@ -9,9 +9,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.background.BossCardAlarm;
+import yukihane.dq10don.bosscard.view.BossCard;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.settings.view.BossCardPrefUtils;
 
 public class BossCardPresenter {
 
@@ -19,10 +22,12 @@ public class BossCardPresenter {
 
     private View view;
     private DbHelper dbHelper;
+    private BossCardPrefUtils prefUtils;
 
-    public BossCardPresenter(View view, DbHelperFactory dbHelperFactory) {
+    public BossCardPresenter(View view, DbHelperFactory dbHelperFactory, BossCardPrefUtils prefUtils) {
         this.view = view;
         this.dbHelper = dbHelperFactory.create();
+        this.prefUtils = prefUtils;
     }
 
     /**
@@ -30,6 +35,9 @@ public class BossCardPresenter {
      */
     public void onCreate(boolean firstBoot) {
         try {
+            if (prefUtils.isAutoPilotEnabled()) {
+                view.setAlarmIfNothing();
+            }
             showWelcomeDialogIfNeeded(firstBoot);
         } catch (SQLException e) {
             LOGGER.error("initial process error", e);
@@ -67,5 +75,7 @@ public class BossCardPresenter {
         void showWelcomeDialog();
 
         void setAccounts(List<Account> accounts);
+
+        void setAlarmIfNothing();
     }
 }

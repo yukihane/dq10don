@@ -15,9 +15,11 @@ import java.util.List;
 import yukihane.dq10don.R;
 import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.background.BossCardAlarm;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
+import yukihane.dq10don.settings.view.BossCardPrefUtils;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.WelcomeDialog;
@@ -32,7 +34,7 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new BossCardPresenter(this, new DbHelperFactory(this));
+        presenter = new BossCardPresenter(this, new DbHelperFactory(this), new BossCardPrefUtils(this));
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);
@@ -93,6 +95,11 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
     @Override
     public void setAccounts(List<Account> accounts) {
         pagerAdapter.setAccounts(accounts);
+    }
+
+    @Override
+    public void setAlarmIfNothing() {
+        BossCardAlarm.setIfNothing(getApplicationContext());
     }
 
     @Override
