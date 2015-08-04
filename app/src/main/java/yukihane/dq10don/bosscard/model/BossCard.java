@@ -11,7 +11,7 @@ import lombok.Getter;
 /**
  * Created by yuki on 15/08/03.
  */
-public class BossCard {
+public class BossCard implements Comparable<BossCard> {
 
     @Getter
     private final String name;
@@ -52,5 +52,20 @@ public class BossCard {
         limitDate.setTime(lastUpdateDate);
         limitDate.add(Calendar.MINUTE, leftMinutes);
         return limitDate;
+    }
+
+    @Override
+    public int compareTo(BossCard another) {
+        return getCalculatedLeftMinites() - another.getCalculatedLeftMinites();
+    }
+
+    @Override
+    public String toString() {
+        return "BossCard{" +
+                "name='" + name + '\'' +
+                ", storageName='" + storageName + '\'' +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", leftMinutes=" + leftMinutes +
+                '}';
     }
 }
