@@ -30,6 +30,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
@@ -56,7 +57,6 @@ public class TobatsuRoundService extends IntentService {
     public static final String KEY_RETRY = "tobatsu_retry";
     public static final String KEY_EXISTS_INVALID = "tobatsu_invalid";
     public static final String KEY_ISSUED_DATE = "tobatsu_issued_date";
-    public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuRoundService.class);
@@ -219,7 +219,7 @@ public class TobatsuRoundService extends IntentService {
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(TOBATSU_NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(Utils.TOBATSU_NOTIFICATION_ID, mBuilder.build());
     }
 
     private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {

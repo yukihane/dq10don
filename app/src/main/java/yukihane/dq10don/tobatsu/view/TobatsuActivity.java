@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.TobatsuAlarm;
-import yukihane.dq10don.background.TobatsuRoundService;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
@@ -53,7 +53,7 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
         presenter.onCreate(savedInstanceState == null);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(TobatsuRoundService.TOBATSU_NOTIFICATION_ID);
+        mNotificationManager.cancel(Utils.TOBATSU_NOTIFICATION_ID);
 
     }
 
