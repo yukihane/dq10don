@@ -211,16 +211,15 @@ public class TobatsuRoundService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, TobatsuActivity.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notify)
-                        .setContentTitle(title)
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg))
-                        .setContentText(msg);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.ic_notify);
+        builder.setContentTitle(title);
+        builder.setContentText(msg);
+        builder.setTicker(title);
+        builder.setAutoCancel(true);
 
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(Utils.TOBATSU_NOTIFICATION_ID, mBuilder.build());
+        builder.setContentIntent(contentIntent);
+        mNotificationManager.notify(Utils.TOBATSU_NOTIFICATION_ID, builder.build());
     }
 
     private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {

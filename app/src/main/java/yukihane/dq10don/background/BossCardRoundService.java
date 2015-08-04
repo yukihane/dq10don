@@ -104,7 +104,7 @@ public class BossCardRoundService extends IntentService {
         style.setBigContentTitle(title);
         style.setSummaryText(summary);
         for (BossCard c : cards) {
-            style.addLine(c.getName() + " " + c.getLimitDateStr());
+            style.addLine(c.getLimitDateStr() + " " + c.getName());
         }
         builder.setStyle(style);
 

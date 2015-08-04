@@ -1,7 +1,5 @@
 package yukihane.dq10don.tobatsu.view;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import yukihane.dq10don.R;
-import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.TobatsuAlarm;
 import yukihane.dq10don.db.DbHelperFactory;
@@ -51,10 +48,6 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
 
 
         presenter.onCreate(savedInstanceState == null);
-
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(Utils.TOBATSU_NOTIFICATION_ID);
-
     }
 
     @Override
