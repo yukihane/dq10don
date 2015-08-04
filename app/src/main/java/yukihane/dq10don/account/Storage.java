@@ -84,4 +84,16 @@ public class Storage {
         storedItems.add(item);
         item.setStorage(this);
     }
+
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "id=" + id +
+                ", storageId=" + storageId +
+                ", storageIndex=" + storageIndex +
+                ", storageName='" + storageName + '\'' +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", character=" + character +
+                '}';
+    }
 }

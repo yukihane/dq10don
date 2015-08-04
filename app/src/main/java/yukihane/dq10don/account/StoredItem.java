@@ -86,4 +86,14 @@ public class StoredItem {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "StoredItem{" +
+                "itemUniqueNo='" + itemUniqueNo + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", webItemId='" + webItemId + '\'' +
+                ", variousStr='" + variousStr + '\'' +
+                '}';
+    }
 }
