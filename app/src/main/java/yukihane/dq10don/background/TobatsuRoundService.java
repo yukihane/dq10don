@@ -235,7 +235,7 @@ public class TobatsuRoundService extends IntentService {
         }
         if (res.getMaxPoint() <= 0 || res.getIssuedDate() == null) {
             // 今回取得できていない
-            LOGGER.info("no tweet for tobatsu request error");
+            LOGGER.info("no tweet for tobatsu request error: {}", res);
             return;
         }
 
@@ -314,6 +314,17 @@ public class TobatsuRoundService extends IntentService {
 
         public ArrayList<String> getRemains() {
             return new ArrayList<>(remains);
+        }
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "remains=" + remains +
+                    ", maxPoint=" + maxPoint +
+                    ", text='" + text + '\'' +
+                    ", issuedDate='" + issuedDate + '\'' +
+                    ", existsInvalid=" + existsInvalid +
+                    '}';
         }
     }
 }
