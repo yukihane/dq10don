@@ -37,6 +37,7 @@ public class BossCardRoundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        LOGGER.info("boss card round service start");
         try {
             exec(intent);
         } finally {

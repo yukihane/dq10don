@@ -72,6 +72,7 @@ public class TobatsuRoundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        LOGGER.info("tobatsu round service start");
         try {
             exec(intent);
         } finally {
