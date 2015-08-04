@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.settings.view.TobatsuPrefUtils;
 
 /**
  * アラームを自動再設定するためのレシーバー
@@ -25,7 +26,14 @@ public class TobatsuRestartReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LOGGER.info("onReceive called {}", intent.getAction());
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+
+        TobatsuPrefUtils prefUtils = new TobatsuPrefUtils(context);
+        if (!prefUtils.isAutoPilotEnabled()) {
+            return;
+        }
+
+        String action = intent.getAction();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             DbHelper dbHelper = null;
             try {
                 dbHelper = new DbHelperFactory(context).create();
