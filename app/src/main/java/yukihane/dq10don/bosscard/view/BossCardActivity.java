@@ -1,5 +1,7 @@
 package yukihane.dq10don.bosscard.view;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
@@ -43,8 +46,8 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
 
         presenter.onCreate(savedInstanceState == null);
 
-//        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationManager.cancel(TobatsuRoundService.TOBATSU_NOTIFICATION_ID);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(Utils.BOSS_CARD_NOTIFICATION_ID);
     }
 
     @Override
