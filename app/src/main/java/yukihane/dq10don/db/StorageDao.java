@@ -152,7 +152,8 @@ public class StorageDao {
             if (lt == null) {
                 continue;
             }
-            long limit = (lt * 60 * 1000) + i.getStorage().getLastUpdateDate().getTime();
+            Storage storage = storageDao.queryForId(i.getStorage().getId());
+            long limit = (lt * 60 * 1000) + storage.getLastUpdateDate().getTime();
             long now = Calendar.getInstance().getTimeInMillis();
             int term = leftMinitesLimit * 60 * 1000;
             if (limit - now > 0 && limit - now < term) {
