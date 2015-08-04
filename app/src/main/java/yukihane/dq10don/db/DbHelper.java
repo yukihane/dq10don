@@ -34,18 +34,22 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         LOGGER.info("MyDatabaseHelper.onCreate()");
+
+        db.beginTransaction();
         try {
-            TableUtils.createTable(connectionSource, BgService.class);
-            TableUtils.createTable(connectionSource, Account.class);
-            TableUtils.createTable(connectionSource, Character.class);
-            TableUtils.createTable(connectionSource, TobatsuList.class);
-            TableUtils.createTable(connectionSource, TobatsuItem.class);
+            createBgService(db, connectionSource);
+            createAccount(db, connectionSource);
+            createCharacter(db, connectionSource);
+            createTobatsuList(db, connectionSource);
+            createTobatsuItem(db, connectionSource);
 
             // ver.3
-            TableUtils.createTable(connectionSource, Storage.class);
-            TableUtils.createTable(connectionSource, StoredItem.class);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            createStorage(db, connectionSource);
+            createStoredItem(db, connectionSource);
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
     }
 
@@ -63,6 +67,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             Dao<Character, Long> characterDao = getDao(Character.class);
 
             if (oldVersion < 2) {
+                // ver1はリリースしていないので実質ここは通らない
+
                 db.execSQL("PRAGMA foreign_keys=OFF");
 
                 String newAccount = "CREATE TABLE `new_account`"
@@ -96,8 +102,32 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
             }
 
-            if(oldVersion < 3) {
-                // TODO migration
+            if (oldVersion < 3) {
+                db.execSQL("PRAGMA foreign_keys=OFF");
+
+                // ver2の頃に作ったテーブルは外部制約がはられていないのでここで追加する
+                // character
+                String newCharacter = "CREATE TABLE `new_character` (`account_id` VARCHAR NOT NULL , `characterName` VARCHAR NOT NULL , `smileUniqNo` VARCHAR NOT NULL , `lastTobatsuResultCode` INTEGER NOT NULL , `webPcNo` BIGINT NOT NULL , PRIMARY KEY (`webPcNo`), FOREIGN KEY (`account_id`) REFERENCES `account`(`sqexid`));";
+                db.execSQL(newCharacter);
+
+                String newCharacterInsert = "INSERT INTO new_character SELECT * FROM character;";
+                db.execSQL(newCharacterInsert);
+
+                db.execSQL("DROP TABLE character;");
+                db.execSQL("ALTER TABLE new_character RENAME TO character;");
+
+                // tobatsuitem
+                db.execSQL("CREATE TABLE `new_tobatsuitem` (`area` VARCHAR , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `list_id` BIGINT , `monsterName` VARCHAR , `count` INTEGER , `point` INTEGER, FOREIGN KEY(`list_id`) REFERENCES `tobatsulist`(`id`) );");
+                db.execSQL("INSERT INTO new_tobatsuitem(`area`, `id`, `list_id`, `monsterName`, `count`, `point`) SELECT `area`, `id`, `list_id`, `monsterName`, `count`, `point` FROM tobatsuitem;");
+                db.execSQL("DROP TABLE tobatsuitem;");
+                db.execSQL("ALTER TABLE new_tobatsuitem RENAME TO tobatsuitem;");
+
+
+                // 今回追加したテーブル
+                createStorage(db, connectionSource);
+                createStoredItem(db, connectionSource);
+
+                db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
             }
 
             db.setTransactionSuccessful();
@@ -109,5 +139,33 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             db.execSQL("PRAGMA foreign_keys=ON;");
             LOGGER.info("END migration");
         }
+    }
+
+    private void createBgService(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `bgservice` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `seed` BIGINT );");
+    }
+
+    private void createAccount(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `account` (`sessionId` VARCHAR , `sqexid` VARCHAR NOT NULL , `invalid` SMALLINT NOT NULL , PRIMARY KEY (`sqexid`) );");
+    }
+
+    private void createCharacter(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `character` (`account_id` VARCHAR NOT NULL , `characterName` VARCHAR NOT NULL , `smileUniqNo` VARCHAR NOT NULL , `lastTobatsuResultCode` INTEGER NOT NULL , `webPcNo` BIGINT NOT NULL , PRIMARY KEY (`webPcNo`), FOREIGN KEY (`account_id`) REFERENCES `account`(`sqexid`));");
+    }
+
+    private void createTobatsuList(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `tobatsulist` (`character_id` BIGINT , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `issuedDate` VARCHAR , `countySize` INTEGER , UNIQUE (`character_id`,`issuedDate`,`countySize`) );");
+    }
+
+    private void createTobatsuItem(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `tobatsuitem` (`area` VARCHAR , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `list_id` BIGINT , `monsterName` VARCHAR , `count` INTEGER , `point` INTEGER, FOREIGN KEY(`list_id`) REFERENCES `tobatsulist`(`id`) );");
+    }
+
+    private void createStorage(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
+    }
+
+    private void createStoredItem(SQLiteDatabase db, ConnectionSource connectionSource) {
+        db.execSQL("CREATE TABLE `storeditem` (`itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , PRIMARY KEY (`itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 }
