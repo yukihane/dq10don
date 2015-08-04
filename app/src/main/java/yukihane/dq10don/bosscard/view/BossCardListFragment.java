@@ -20,6 +20,7 @@ import yukihane.dq10don.account.StoredItem;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.view.BaseFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
+import yukihane.dq10don.bosscard.model.BossCard;
 import yukihane.dq10don.bosscard.model.BossCardListServiceFactory;
 import yukihane.dq10don.bosscard.presenter.BossCardListPresenter;
 import yukihane.dq10don.db.DbHelperFactory;

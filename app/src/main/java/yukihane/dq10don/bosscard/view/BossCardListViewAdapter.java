@@ -6,15 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import yukihane.dq10don.R;
-import yukihane.dq10don.account.StoredItem;
 import yukihane.dq10don.base.view.BaseViewAdapter;
+import yukihane.dq10don.bosscard.model.BossCard;
 
 /**
  * Created by yuki on 15/07/31.

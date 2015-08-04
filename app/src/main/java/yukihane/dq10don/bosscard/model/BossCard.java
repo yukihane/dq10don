@@ -1,4 +1,4 @@
-package yukihane.dq10don.bosscard.view;
+package yukihane.dq10don.bosscard.model;
 
 import android.support.annotation.NonNull;
 
