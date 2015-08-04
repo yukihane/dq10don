@@ -65,8 +65,18 @@
         -->
       </intent-filter>
     </receiver>
-
     <service android:name=".background.TobatsuRoundService"/>
+
+    <receiver android:name=".background.BossCardReceiver"/>
+    <receiver
+      android:name=".background.BossCardRestartReceiver"
+      android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+      </intent-filter>
+    </receiver>
+    <service android:name=".background.BossCardRoundService"/>
+
 
     <activity
       android:name=".debug.view.DebugActivity"
