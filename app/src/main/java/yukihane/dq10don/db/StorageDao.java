@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import yukihane.dq10don.account.Character;
@@ -136,5 +137,29 @@ public class StorageDao {
 
 
         return storages;
+    }
+
+    /**
+     * 指定の時間より短い有効期限のアイテムがあるか確認します.
+     *
+     * @param leftMinitesLimit 分単位で指定します.
+     * @return 存在すればtrue.
+     */
+    public boolean existsLimitLessThan(int leftMinitesLimit) throws SQLException {
+        List<StoredItem> items = storedItemDao.queryForAll();
+        for (StoredItem i : items) {
+            Integer lt = i.getLeftTime();
+            if (lt == null) {
+                continue;
+            }
+            long limit = (lt * 60 * 1000) + i.getStorage().getLastUpdateDate().getTime();
+            long now = Calendar.getInstance().getTimeInMillis();
+            int term = leftMinitesLimit * 60 * 1000;
+            if (limit - now > 0 && limit - now < term) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
