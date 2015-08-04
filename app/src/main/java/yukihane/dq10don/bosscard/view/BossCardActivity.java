@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.view;
+package yukihane.dq10don.bosscard.view;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,41 +10,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.background.Alarm;
-import yukihane.dq10don.background.RoundService;
+import yukihane.dq10don.background.BossCardAlarm;
+import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
+import yukihane.dq10don.settings.view.BossCardPrefUtils;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
-import yukihane.dq10don.tobatsu.presenter.MainPresenter;
+import yukihane.dq10don.tobatsu.view.WelcomeDialog;
 
+public class BossCardActivity extends AppCompatActivity implements BossCardPresenter.View {
 
-public class MainActivity extends AppCompatActivity implements MainPresenter.View {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainActivity.class);
-
-    private MainPresenter presenter;
-
-    private TobatsuFragmentPagerAdapter pagerAdapter;
+    private BossCardPresenter presenter;
+    private BossCardListPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new MainPresenter(this, new DbHelperFactory(this));
-
         setContentView(R.layout.activity_main);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.tobatsuListPager);
+
+        presenter = new BossCardPresenter(this, new DbHelperFactory(this), new BossCardPrefUtils(this));
+
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();
 
-        pagerAdapter = new TobatsuFragmentPagerAdapter(fm);
+        pagerAdapter = new BossCardListPagerAdapter(fm);
 
         viewPager.setAdapter(pagerAdapter);
 
@@ -52,14 +49,19 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         presenter.onCreate(savedInstanceState == null);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(RoundService.TOBATSU_NOTIFICATION_ID);
-
+        mNotificationManager.cancel(Utils.BOSS_CARD_NOTIFICATION_ID);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         presenter.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override
@@ -91,28 +93,18 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
-    }
-
-    @Override
     public void setAccounts(List<Account> accounts) {
         pagerAdapter.setAccounts(accounts);
     }
 
     @Override
-    public void setAlarm(long time) {
-        Alarm.setAlarm(getApplication(), time);
-    }
-
-    @Override
-    public void cancelAlarm() {
-        Alarm.cancelAlarm(getApplication());
+    public void setAlarmIfNothing() {
+        BossCardAlarm.setIfNothing(getApplicationContext());
     }
 
     @Override
     public void showWelcomeDialog() {
         new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
     }
+
 }

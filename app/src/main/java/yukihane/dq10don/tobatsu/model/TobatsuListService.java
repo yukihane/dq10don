@@ -12,5 +12,5 @@ import yukihane.dq10don.exception.HappyServiceException;
 /**
  * 討伐リスト情報を取得するためのサービス.
  */
-public interface TobatsuService extends BaseService<TobatsuList> {
+public interface TobatsuListService extends BaseService<TobatsuList> {
 }

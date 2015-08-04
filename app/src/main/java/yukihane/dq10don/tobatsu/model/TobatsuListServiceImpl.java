@@ -25,13 +25,13 @@ import yukihane.dq10don.exception.HappyServiceException;
 /**
  * Created by yuki on 15/07/18.
  */
-public class TobatsuServiceImpl implements TobatsuService {
+public class TobatsuListServiceImpl implements TobatsuListService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuListServiceImpl.class);
 
     private final DbHelper dbHelper;
 
-    public TobatsuServiceImpl(DbHelper dbHelper) {
+    public TobatsuListServiceImpl(DbHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 

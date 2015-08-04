@@ -16,11 +16,11 @@ import yukihane.dq10don.base.view.BaseViewAdapter;
 /**
  * Created by yuki on 15/07/08.
  */
-public class TobatsuViewAdapter extends BaseViewAdapter<Class<?>> {
+public class TobatsuListViewAdapter extends BaseViewAdapter<Class<?>> {
 
     private static final Class<?> DISPLAYABLE_TYPES[] = {String.class, TobatsuItem.class};
 
-    public TobatsuViewAdapter(LayoutInflater inflater) {
+    public TobatsuListViewAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 

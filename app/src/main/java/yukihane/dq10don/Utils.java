@@ -14,6 +14,10 @@ import java.util.Collection;
 public class Utils {
     public static final int RESULTCODE_OK = 0;
 
+    public static final int TOBATSU_NOTIFICATION_ID = 1;
+    public static final int BOSS_CARD_NOTIFICATION_ID = 2;
+
+
     private Utils() {
     }
 

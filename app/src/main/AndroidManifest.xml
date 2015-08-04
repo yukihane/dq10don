@@ -15,7 +15,7 @@
     android:label="@string/app_formal_name"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".tobatsu.view.MainActivity"
+      android:name=".tobatsu.view.TobatsuActivity"
       android:label="@string/app_name">
       <!--
       本来はこのintent-filterのlabelがラウンチャー(ホーム)にアプリ名として表示されるはずだが
@@ -29,26 +29,31 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
+    <activity
+      android:name=".bosscard.view.BossCardActivity"
+      android:label="@string/title_activity_boss_card">
+      <intent-filter android:label="@string/title_activity_boss_card">
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+
+
     <activity
       android:name=".login.view.LoginActivity"
       android:label="@string/title_activity_login"
       android:parentActivityName=".sqexid.view.SqexidActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".sqexid.view.SqexidActivity"/>
     </activity>
     <activity
       android:name=".sqexid.view.SqexidActivity"
       android:label="@string/title_activity_sqexid"
-      android:parentActivityName=".tobatsu.view.MainActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".tobatsu.view.MainActivity"/>
+      android:parentActivityName=".tobatsu.view.TobatsuActivity">
     </activity>
 
-    <receiver android:name=".background.Alarm"></receiver>
+    <receiver android:name=".background.TobatsuReceiver"/>
     <receiver
-      android:name=".background.AutoSetReceiver"
+      android:name=".background.TobatsuRestartReceiver"
       android:enabled="false">
       <intent-filter>
         <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->
@@ -59,19 +64,19 @@
               <action android:name="android.intent.action.TIME_SET"/>
         -->
       </intent-filter>
+    </receiver>
+    <service android:name=".background.TobatsuRoundService"/>
+
+    <receiver android:name=".background.BossCardReceiver"/>
+    <receiver
+      android:name=".background.BossCardRestartReceiver"
+      android:enabled="false">
       <intent-filter>
-        <!--
-        参考: https://chris.orr.me.uk/android-ssp-data-intent-filter/
-        sspはAndroid4.4からみたいなのでちゃんと動作するか検証が必要
-        -->
-        <data
-          android:scheme="package"
-          android:ssp="yukihane.dq10don"/>
-        <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
       </intent-filter>
     </receiver>
+    <service android:name=".background.BossCardRoundService"/>
 
-    <service android:name=".background.RoundService"/>
 
     <activity
       android:name=".debug.view.DebugActivity"
@@ -84,8 +89,8 @@
     </activity>
 
     <activity
-      android:name=".settings.view.SettingsActivity"
-      android:label="@string/title_activity_settings">
+      android:name=".settings.view.TwitterSettingActivity"
+      android:label="@string/title_activity_twitter_setting">
     </activity>
 
     <activity
@@ -93,6 +98,20 @@
       android:label="@string/title_activity_chara_select">
     </activity>
 
+    <activity
+      android:name=".settings.view.SettingsActivity"
+      android:label="@string/title_activity_settings">
+    </activity>
+
+    <activity
+      android:name=".settings.view.BossCardSettingActivity"
+      android:label="@string/title_activity_boss_card_setting">
+    </activity>
+
+    <activity
+      android:name=".settings.view.TobatsuSettingActivity"
+      android:label="@string/title_activity_tobatsu_setting">
+    </activity>
   </application>
 
 </manifest>

@@ -11,8 +11,7 @@
     android:id="@+id/action_settings"
     android:orderInCategory="102"
     android:title="@string/title_activity_settings"
-    android:icon="@drawable/ic_twitter"
-    app:showAsAction="ifRoom|withText"/>
+    app:showAsAction="ifRoom"/>
   <item
     android:id="@+id/action_debug"
     android:orderInCategory="104"

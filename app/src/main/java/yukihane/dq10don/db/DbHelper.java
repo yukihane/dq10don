@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
+import yukihane.dq10don.account.Storage;
+import yukihane.dq10don.account.StoredItem;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
 
@@ -23,7 +25,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
     private static final String DATABASE_NAME = "dq10don.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,6 +40,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Character.class);
             TableUtils.createTable(connectionSource, TobatsuList.class);
             TableUtils.createTable(connectionSource, TobatsuItem.class);
+
+            // ver.3
+            TableUtils.createTable(connectionSource, Storage.class);
+            TableUtils.createTable(connectionSource, StoredItem.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -88,6 +94,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                 db.execSQL("ALTER TABLE new_character RENAME TO character;");
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
+            }
+
+            if(oldVersion < 3) {
+                // TODO migration
             }
 
             db.setTransactionSuccessful();

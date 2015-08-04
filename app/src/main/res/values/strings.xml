@@ -3,9 +3,13 @@
   <string name="app_formal_name">日替丼 for DQX</string>
   <string name="title_activity_sqexid">ID管理</string>
   <string name="title_activity_login">アカウント登録</string>
-  <string name="title_activity_settings">Twitter設定</string>
+  <string name="title_activity_settings">設定</string>
+  <string name="title_activity_tobatsu_setting">討伐設定</string>
+  <string name="title_activity_boss_card_setting">ボスカード設定</string>
+  <string name="title_activity_twitter_setting">Twitter設定</string>
   <string name="title_activity_twitter_auth">Twitter認証</string>
   <string name="title_activity_chara_select">対象キャラクター選択</string>
+  <string name="title_activity_boss_card">ボスカー丼</string>
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
@@ -18,6 +22,8 @@
   <string name="yes">はい</string>
   <string name="cancel">キャンセル</string>
   <string name="get_pin">PINコード取得</string>
+  <string name="lastUpdate">最終更新</string>
+  <string name="autopilot">自動巡回</string>
   <string name="text_notification_header">%1$s Pの討伐依頼があります</string>
   <string name="text_notification">%1$s[%2$d匹]@%3$s</string>
   <string name="text_notification_error">取得に失敗したキャラクターがあります</string>
@@ -50,4 +56,11 @@
   <string name="tweet_tobatsu">最高額討伐依頼を自動ツイート</string>
   <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
   <string name="error_already_reported">報告済みです</string>
+  <string name="tobatsu_autopilot_summary">毎朝6時過ぎに討伐依頼を自動チェックし更新します</string>
+  <string name="boss_card_autopilot_summary">12時間ごとにカードの残り時間を自動チェックします</string>
+  <string name="limit_date_notification">期限が近づいたら通知</string>
+  <string name="limit_date_notification_summary">期限が近づいたカードが有れば通知します</string>
+  <string name="notification_left_time_summary">設定した期間より短い有効期限のカードが有れば通知します</string>
+  <string name="notification_left_time">通知期間</string>
+  <string name="text_exits_limit_items">期限の近いアイテムが存在します</string>
 </resources>

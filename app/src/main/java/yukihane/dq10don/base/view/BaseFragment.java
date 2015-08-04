@@ -18,12 +18,19 @@ import rx.Observable;
 import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
 import yukihane.dq10don.ViewUtils;
-import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.ErrorCode;
-import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.base.presenter.BasePresenter;
+import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.exception.HappyServiceException;
 
-public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseViewAdapter>
+/**
+ * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能の
+ * Viewの実装ベース.
+ *
+ * @param <T> 表示対象とするデータの型.
+ * @param <P> 対応するプレゼンターの型.
+ * @param <A> 対応するViewAdapterの型.
+ */
+public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<?>>
         extends Fragment implements BasePresenter.View<T> {
 
     public static final String CHARACTER = "character";
@@ -48,7 +55,7 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_tobatsu, container, false);
+        View view = inflater.inflate(R.layout.fragment_base, container, false);
 
         viewAdapter = newViewAdapter(inflater);
         listView = (ListView) view.findViewById(R.id.contentListView);
@@ -83,7 +90,7 @@ public abstract class BaseFragment<T, P extends BasePresenter, A extends BaseVie
     }
 
     @Override
-    public void tobatsuListUpdate(T list) {
+    public void onListUpdated(T list) {
         addDisplayItems(viewAdapter, list);
     }
 

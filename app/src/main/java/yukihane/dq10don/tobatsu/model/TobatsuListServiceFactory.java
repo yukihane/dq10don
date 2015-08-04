@@ -7,10 +7,10 @@ import yukihane.dq10don.db.DbHelper;
 /**
  * Created by yuki on 15/07/18.
  */
-public class TobatsuServiceFactory implements BaseServiceFactory<TobatsuList, TobatsuService> {
+public class TobatsuListServiceFactory implements BaseServiceFactory<TobatsuList, TobatsuListService> {
 
     @Override
-    public TobatsuService getService(DbHelper dbHelper) {
-        return new TobatsuServiceImpl(dbHelper);
+    public TobatsuListService getService(DbHelper dbHelper) {
+        return new TobatsuListServiceImpl(dbHelper);
     }
 }

@@ -11,7 +11,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import yukihane.dq10don.Application;
 import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.base.model.BaseService;
 import yukihane.dq10don.base.model.BaseServiceFactory;
@@ -23,6 +22,12 @@ import yukihane.dq10don.exception.ApplicationException;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
+/**
+ * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能のプレセンターのベース.
+ *
+ * @param <T> 表示対象とするデータの型.
+ * @param <S> 表示対象を要求するサービスの型.
+ */
 public abstract class BasePresenter<T, S extends BaseService<T>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasePresenter.class);
@@ -110,16 +115,16 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         view.bind(observable);
 
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<T>() {
-            private T tobatsuList;
+            private T resultList;
 
             @Override
-            public void onNext(T tobatsuList) {
-                this.tobatsuList = tobatsuList;
+            public void onNext(T list) {
+                this.resultList = list;
             }
 
             @Override
             public void onError(Throwable e) {
-                LOGGER.error("tobatsu list query error", e);
+                LOGGER.error("list query error", e);
                 if (e instanceof HappyServiceException) {
                     HappyServiceException ex = (HappyServiceException) e;
                     view.showMessage(ex);
@@ -133,18 +138,23 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
             @Override
             public void onCompleted() {
-                if (tobatsuList != null) {
-                    view.tobatsuListUpdate(tobatsuList);
+                if (resultList != null) {
+                    view.onListUpdated(resultList);
                 }
             }
         });
     }
 
+    /**
+     * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能のView.
+     *
+     * @param <T> 表示対象とするデータの型.
+     */
     public interface View<T> {
 
         void setHeader(String sqexid, String smileUniqNo);
 
-        void tobatsuListUpdate(T list);
+        void onListUpdated(T list);
 
         void bind(Observable<?> observable);
 

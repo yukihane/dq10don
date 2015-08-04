@@ -20,32 +20,31 @@ import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.view.BaseFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
-import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
-import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
+import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
+import yukihane.dq10don.tobatsu.presenter.TobatsuListPresenter;
 
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuFragment
-        extends BaseFragment<TobatsuList, TobatsuPresenter, TobatsuViewAdapter>
+public class TobatsuListFragment
+        extends BaseFragment<TobatsuList, TobatsuListPresenter, TobatsuListViewAdapter>
         implements BasePresenter.View<TobatsuList> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuFragment.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuListFragment.class);
 
     @Override
-    protected TobatsuViewAdapter newViewAdapter(LayoutInflater inflater) {
-        return new TobatsuViewAdapter(inflater);
+    protected TobatsuListViewAdapter newViewAdapter(LayoutInflater inflater) {
+        return new TobatsuListViewAdapter(inflater);
     }
 
     @Override
-    protected TobatsuPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
-        return new TobatsuPresenter(this, new TobatsuServiceFactory(), dbHelperFactory, character);
+    protected TobatsuListPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
+        return new TobatsuListPresenter(this, new TobatsuListServiceFactory(), dbHelperFactory, character);
     }
 
     @Override
-    protected void addDisplayItems(TobatsuViewAdapter tobatsuViewAdapter, TobatsuList list) {
+    protected void addDisplayItems(TobatsuListViewAdapter tobatsuViewAdapter, TobatsuList list) {
         tobatsuViewAdapter.clearItems();
 
         long issuedDateNum = Long.parseLong(list.getIssuedDate());

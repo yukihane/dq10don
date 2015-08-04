@@ -30,6 +30,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.TobatsuItem;
@@ -39,16 +40,16 @@ import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.db.TobatsuListDao;
-import yukihane.dq10don.settings.view.PrefUtils;
-import yukihane.dq10don.tobatsu.model.TobatsuService;
-import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
-import yukihane.dq10don.tobatsu.view.MainActivity;
+import yukihane.dq10don.settings.view.TwitterPrefUtils;
+import yukihane.dq10don.tobatsu.model.TobatsuListService;
+import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
+import yukihane.dq10don.tobatsu.view.TobatsuActivity;
 
 /**
  * 登録されているアカウントの討伐情報をサーバーへリクエストし、DBを更新します.
  * また, ステータスバーへの通知も行います.
  */
-public class RoundService extends IntentService {
+public class TobatsuRoundService extends IntentService {
 
     public static final String KEY_WEBPCNO = "webPcNo";
     public static final String KEY_POINT = "tobatsu_point";
@@ -56,13 +57,12 @@ public class RoundService extends IntentService {
     public static final String KEY_RETRY = "tobatsu_retry";
     public static final String KEY_EXISTS_INVALID = "tobatsu_invalid";
     public static final String KEY_ISSUED_DATE = "tobatsu_issued_date";
-    public static final int TOBATSU_NOTIFICATION_ID = 1;
     private static final int MAX_RETRY = 5;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoundService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuRoundService.class);
 
-    public RoundService() {
-        super("yukihane.dq10don.background.RoundService");
+    public TobatsuRoundService() {
+        super("yukihane.dq10don.background.TobatsuRoundService");
     }
 
     private String getText(TobatsuItem item) {
@@ -75,7 +75,7 @@ public class RoundService extends IntentService {
         try {
             exec(intent);
         } finally {
-            Alarm.completeWakefulIntent(intent);
+            TobatsuReceiver.completeWakefulIntent(intent);
         }
     }
 
@@ -121,7 +121,7 @@ public class RoundService extends IntentService {
     }
 
     private Result executeInternal(DbHelper dbHelper, Intent intent) {
-        TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
+        TobatsuListService service = new TobatsuListServiceFactory().getService(dbHelper);
         ArrayList<String> webPcNos = intent.getStringArrayListExtra(KEY_WEBPCNO);
 
         List<String> remains = new ArrayList<>();
@@ -190,13 +190,13 @@ public class RoundService extends IntentService {
     private void setNextDateAlarm(DbHelper dbHelper) throws SQLException {
         BgServiceDao dao = BgServiceDao.create(dbHelper);
         BgService srv = dao.get();
-        Alarm.setAlarm(getApplication(), srv.getNextAlarmTime());
+        TobatsuAlarm.setAlarm(getApplication(), srv.getNextAlarmTime());
     }
 
     public void setRetryAlarm(Bundle bundle) {
         long now = Calendar.getInstance().getTimeInMillis();
         int offset = (10 + new Random(now).nextInt(15)) * 1000;
-        Alarm.setAlarm(getApplication(), now + offset, bundle);
+        TobatsuAlarm.setAlarm(getApplication(), now + offset, bundle);
     }
 
     // Post a notification indicating whether a doodle was found.
@@ -208,7 +208,7 @@ public class RoundService extends IntentService {
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+                new Intent(this, TobatsuActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -219,17 +219,17 @@ public class RoundService extends IntentService {
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(TOBATSU_NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(Utils.TOBATSU_NOTIFICATION_ID, mBuilder.build());
     }
 
     private void sendTwitterIfNeeded(DbHelper dbHelper, Result res) throws SQLException {
-        PrefUtils prefUtils = new PrefUtils(this);
+        TwitterPrefUtils twitterPrefUtils = new TwitterPrefUtils(this);
 
         AccessToken accessToken = getAccessToken();
         if (accessToken == null) {
             return;
         }
-        if (!prefUtils.getTweetTobatsu()) {
+        if (!twitterPrefUtils.getTweetTobatsu()) {
             // tweetしない設定になっている
             return;
         }
@@ -240,10 +240,10 @@ public class RoundService extends IntentService {
         }
 
         final Collection<Long> charas;
-        if (prefUtils.isTweetTobatsuAllChara()) {
+        if (twitterPrefUtils.isTweetTobatsuAllChara()) {
             charas = null;
         } else {
-            charas = prefUtils.getTobatsuTweetCharacters();
+            charas = twitterPrefUtils.getTobatsuTweetCharacters();
             if (charas.isEmpty()) {
                 // 1人もtweet対象になっていない
                 return;
@@ -270,7 +270,7 @@ public class RoundService extends IntentService {
     }
 
     public AccessToken getAccessToken() {
-        PrefUtils pu = new PrefUtils(this);
+        TwitterPrefUtils pu = new TwitterPrefUtils(this);
         long userId = pu.getUserId();
         String token = pu.getToken();
         String tokenSecret = pu.getTokenSecret();
