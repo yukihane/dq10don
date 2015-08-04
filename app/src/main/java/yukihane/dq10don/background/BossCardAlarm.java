@@ -42,7 +42,7 @@ public class BossCardAlarm {
      */
     public static void setIfNothing(Context context) {
         PendingIntent intent = getPendingIntent(context, false);
-        if (intent == null) {
+        if (intent != null) {
             // 既に設定してある
             LOGGER.debug("alarm already exists");
             return;
