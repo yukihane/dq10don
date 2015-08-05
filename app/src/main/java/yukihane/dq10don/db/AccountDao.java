@@ -40,9 +40,6 @@ public class AccountDao {
         TransactionManager.callInTransaction(accountDao.getConnectionSource(), () ->
         {
             accountDao.createOrUpdate(account);
-            DeleteBuilder<Character, Long> builder = characterDao.deleteBuilder();
-            String stmt = builder.where().eq("account_id", account.getSqexid()).getStatement();
-            LOGGER.info("delete stmt: {}", stmt);
 
             for (Character c : account.getCharacters()) {
                 characterDao.createOrUpdate(c);
