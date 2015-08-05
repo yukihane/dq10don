@@ -3,6 +3,7 @@ package yukihane.dq10don;
 import android.content.Context;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
@@ -49,7 +50,8 @@ public class ViewUtils {
                 RetrofitError.Kind kind = re.getKind();
                 switch (kind) {
                     case HTTP:
-                        int status = re.getResponse().getStatus();
+                        Response resp = re.getResponse();
+                        int status = (resp != null) ? resp.getStatus() : -1;
                         switch (status) {
                             case 401:
                                 return context.getString(R.string.http_401);
