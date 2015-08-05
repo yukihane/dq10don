@@ -3,6 +3,7 @@ package yukihane.dq10don.db;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
@@ -35,14 +37,19 @@ public class AccountDao {
     }
 
     public void persist(Account account) throws SQLException {
-        accountDao.createOrUpdate(account);
-        DeleteBuilder<Character, Long> builder = characterDao.deleteBuilder();
-        String stmt = builder.where().eq("account_id", account.getSqexid()).getStatement();
-        LOGGER.info("delete stmt: {}", stmt);
 
-        for (Character c : account.getCharacters()) {
-            characterDao.createOrUpdate(c);
-        }
+        TransactionManager.callInTransaction(accountDao.getConnectionSource(), () ->
+        {
+            accountDao.createOrUpdate(account);
+            DeleteBuilder<Character, Long> builder = characterDao.deleteBuilder();
+            String stmt = builder.where().eq("account_id", account.getSqexid()).getStatement();
+            LOGGER.info("delete stmt: {}", stmt);
+
+            for (Character c : account.getCharacters()) {
+                characterDao.createOrUpdate(c);
+            }
+            return null;
+        });
     }
 
     /**
