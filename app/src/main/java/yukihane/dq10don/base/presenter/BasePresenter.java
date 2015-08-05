@@ -115,8 +115,9 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 subscriber.onNext(tl);
             } catch (AppException | SQLException e) {
                 subscriber.onError(e);
+            } finally {
+                subscriber.onCompleted();
             }
-            subscriber.onCompleted();
         }).subscribeOn(DonSchedulers.happyServer());
 
 
