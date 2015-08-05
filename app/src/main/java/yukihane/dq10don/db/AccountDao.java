@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
@@ -76,8 +75,23 @@ public class AccountDao {
         return accounts;
     }
 
-    public void deleteById(String userId) throws SQLException {
-        accountDao.deleteById(userId);
+    /**
+     * アカウントと紐づくキャラクターを削除します.
+     *
+     * @param sqexid アカウントのID
+     * @throws SQLException
+     */
+    public void deleteById(String sqexid) throws SQLException {
+
+        TransactionManager.callInTransaction(accountDao.getConnectionSource(), () -> {
+            DeleteBuilder<Character, Long> builder = characterDao.deleteBuilder();
+            builder.where().eq("account_id", sqexid);
+            characterDao.delete(builder.prepare());
+
+            accountDao.deleteById(sqexid);
+
+            return null;
+        });
     }
 
     /**
