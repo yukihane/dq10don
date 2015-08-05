@@ -3,6 +3,7 @@ package yukihane.dq10don.db;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -102,15 +103,19 @@ public class TobatsuListDao {
 
         LOGGER.debug("persist TobatsuList: {}", obj);
 
-        TobatsuList savedList = deleteItems(obj);
-        if (savedList != null) {
-            obj.setId(savedList.getId());
-        }
+        TransactionManager.callInTransaction(tobatsuListDao.getConnectionSource(), () -> {
+            TobatsuList savedList = deleteItems(obj);
+            if (savedList != null) {
+                obj.setId(savedList.getId());
+            }
 
-        tobatsuListDao.createOrUpdate(obj);
-        for (TobatsuItem ti : obj.getListItems()) {
-            tobatsuItemDao.create(ti);
-        }
+            tobatsuListDao.createOrUpdate(obj);
+            for (TobatsuItem ti : obj.getListItems()) {
+                tobatsuItemDao.create(ti);
+            }
+
+            return null;
+        });
     }
 
     /**

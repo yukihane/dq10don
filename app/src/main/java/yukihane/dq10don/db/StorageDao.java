@@ -1,6 +1,7 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,19 +39,23 @@ public class StorageDao {
     }
 
 
-    public void persist(Storage obj) throws SQLException {
+    public void persist(final Storage obj) throws SQLException {
 
         LOGGER.debug("persist Storage: {}", obj);
 
-        Storage savedList = deleteItems(obj);
-        if (savedList != null) {
-            obj.setId(savedList.getId());
-        }
+        TransactionManager.callInTransaction(storageDao.getConnectionSource(), () -> {
+            Storage savedList = deleteItems(obj);
+            if (savedList != null) {
+                obj.setId(savedList.getId());
+            }
 
-        storageDao.createOrUpdate(obj);
-        for (StoredItem i : obj.getSotredItems()) {
-            storedItemDao.create(i);
-        }
+            storageDao.createOrUpdate(obj);
+            for (StoredItem i : obj.getSotredItems()) {
+                storedItemDao.create(i);
+            }
+
+            return null;
+        });
     }
 
     /**
@@ -93,25 +97,30 @@ public class StorageDao {
      * @param character 削除対象のstorageを所有しているcharacter
      */
     public void delete(Character character) throws SQLException {
-        PreparedQuery<Storage> query = storageDao.queryBuilder()
-                .where()
-                .eq("character_id", character.getWebPcNo())
-                .prepare();
 
-        List<Storage> owneds = storageDao.query(query);
-        if (owneds.isEmpty()) {
-            return;
-        }
-        List<Long> ownedIds = new ArrayList<>(owneds.size());
-        for (Storage s : owneds) {
-            ownedIds.add(s.getId());
-        }
-        DeleteBuilder<StoredItem, String> builder = storedItemDao.deleteBuilder();
-        builder.where().in("storage_id", ownedIds);
-        PreparedDelete<StoredItem> delQuery = builder.prepare();
+        TransactionManager.callInTransaction(storageDao.getConnectionSource(), () -> {
+            PreparedQuery<Storage> query = storageDao.queryBuilder()
+                    .where()
+                    .eq("character_id", character.getWebPcNo())
+                    .prepare();
 
-        storedItemDao.delete(delQuery);
-        storageDao.delete(owneds);
+            List<Storage> owneds = storageDao.query(query);
+            if (owneds.isEmpty()) {
+                return null;
+            }
+            List<Long> ownedIds = new ArrayList<>(owneds.size());
+            for (Storage s : owneds) {
+                ownedIds.add(s.getId());
+            }
+            DeleteBuilder<StoredItem, String> builder = storedItemDao.deleteBuilder();
+            builder.where().in("storage_id", ownedIds);
+            PreparedDelete<StoredItem> delQuery = builder.prepare();
+
+            storedItemDao.delete(delQuery);
+            storageDao.delete(owneds);
+
+            return null;
+        });
     }
 
     /**
@@ -142,10 +151,11 @@ public class StorageDao {
     }
 
     /**
-     * 指定の時間より短い有効期限のアイテムがあるか確認します.
+     * 指定の時間より短い有効期限のアイテムを取得します.
+     * 期限切れは対象外です.
      *
      * @param leftMinitesLimit 分単位で指定します.
-     * @return 条件にマッチするカード情報
+     * @return 条件にマッチするアイテム
      */
     public List<BossCard> queryLimitLessThan(int leftMinitesLimit) throws SQLException {
         List<BossCard> res = new ArrayList<>();
