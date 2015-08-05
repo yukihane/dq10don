@@ -107,16 +107,16 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                     AccountDao dao = AccountDao.create(dbHelper);
                     yukihane.dq10don.account.Character c = dao.findCharacterByWebPcNo(character.getWebPcNo());
                     if (c.isTobatsuInvalid()) {
+                        subscriber.onCompleted();
                         return;
                     }
                 }
 
                 T tl = service.getTobatsuListFromServer(character.getWebPcNo());
                 subscriber.onNext(tl);
+                subscriber.onCompleted();
             } catch (AppException | SQLException e) {
                 subscriber.onError(e);
-            } finally {
-                subscriber.onCompleted();
             }
         }).subscribeOn(DonSchedulers.happyServer());
 
@@ -143,6 +143,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 } else {
                     view.showMessage(ErrorCode.ERROR);
                 }
+                view.setLoadingState(false);
             }
 
             @Override
