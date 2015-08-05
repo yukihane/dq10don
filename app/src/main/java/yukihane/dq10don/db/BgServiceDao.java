@@ -1,10 +1,12 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import yukihane.dq10don.account.BgService;
 
@@ -24,13 +26,18 @@ public class BgServiceDao {
     }
 
     private void persist(BgService bgService) throws SQLException {
-        // レコード数は常に1なので, 一旦全削除して今回分をinsertする
-        TableUtils.clearTable(bgServiceDao.getConnectionSource(), BgService.class);
-        bgServiceDao.create(bgService);
+        TransactionManager.callInTransaction(bgServiceDao.getConnectionSource(), () -> {
+            // レコード数は常に1なので, 一旦全削除して今回分をinsertする
+            TableUtils.clearTable(bgServiceDao.getConnectionSource(), BgService.class);
+            bgServiceDao.create(bgService);
+
+            return null;
+        });
     }
 
     /**
      * レコードが存在するかどうかを返します(起動処理時, これは初回起動かどうかの判別のみに用います).
+     *
      * @return レコードが存在していればtrue.
      * @throws SQLException
      */
