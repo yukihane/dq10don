@@ -10,7 +10,7 @@ import yukihane.dq10don.login.model.UserIdGetter;
  * Created by yuki on 15/07/14.
  */
 public class LoginPresenter {
-    private static final Logger logger = LoggerFactory.getLogger(LoginPresenter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginPresenter.class);
     private static final String OAUTH_URL = "https://secure.square-enix.com/oauth/oa/";
 
 
@@ -41,10 +41,10 @@ public class LoginPresenter {
         JsonLogin parser = new JsonLogin(res -> {
             if (res != null) {
                 view.loginSuccess(res, usedUserId);
-                logger.info("login success");
+                LOGGER.info("login success");
             } else {
                 view.loginFail();
-                logger.error("login information read error.");
+                LOGGER.error("login information read error.");
             }
         });
 
