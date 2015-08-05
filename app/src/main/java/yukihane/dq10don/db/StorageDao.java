@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -152,10 +151,11 @@ public class StorageDao {
     }
 
     /**
-     * 指定の時間より短い有効期限のアイテムがあるか確認します.
+     * 指定の時間より短い有効期限のアイテムを取得します.
+     * 期限切れは対象外です.
      *
      * @param leftMinitesLimit 分単位で指定します.
-     * @return 条件にマッチするカード情報
+     * @return 条件にマッチするアイテム
      */
     public List<BossCard> queryLimitLessThan(int leftMinitesLimit) throws SQLException {
         List<BossCard> res = new ArrayList<>();
