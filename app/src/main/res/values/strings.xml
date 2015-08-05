@@ -17,6 +17,7 @@
   <string name="relogin">再ログイン</string>
   <string name="remove">削除</string>
   <string name="reload">更新</string>
+  <string name="loading">ロード中</string>
   <string name="execute">実行</string>
   <string name="ok">OK</string>
   <string name="yes">はい</string>

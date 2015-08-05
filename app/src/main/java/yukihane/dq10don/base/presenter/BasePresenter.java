@@ -86,6 +86,8 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
      */
     private void updateList(boolean useCache, boolean useInvalidFlag) {
 
+        view.setLoadingState(true);
+
         Observable<T> observable
                 = Observable.create((Subscriber<? super T> subscriber) -> {
             subscriber.onStart();
@@ -147,6 +149,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 if (resultList != null) {
                     view.onListUpdated(resultList);
                 }
+                view.setLoadingState(false);
             }
         });
     }
@@ -168,6 +171,13 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
         void showMessage(int errorCode);
 
+        /**
+         * ロード中(作業中)状態とそうでない状態を切り替えます.
+         *
+         * @param loading ロード中状態に切り替えるのであればtrue.
+         *                非ロード中であればfalse.
+         */
+        void setLoadingState(boolean loading);
     }
 
     private class NullView implements View<T> {
@@ -189,6 +199,10 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
         @Override
         public void showMessage(int errorCode) {
+        }
+
+        @Override
+        public void setLoadingState(boolean load) {
         }
     }
 

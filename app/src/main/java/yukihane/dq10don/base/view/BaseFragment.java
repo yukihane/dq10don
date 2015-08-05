@@ -98,6 +98,17 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     }
 
     @Override
+    public void setLoadingState(boolean loading) {
+        Button updateButton = (Button) getView().findViewById(R.id.updateContentsButton);
+        if(loading) {
+            updateButton.setText(R.string.loading);
+        } else {
+            updateButton.setText(R.string.reload);
+        }
+        updateButton.setEnabled(!loading);
+    }
+
+    @Override
     public void onListUpdated(T list) {
         addDisplayItems(viewAdapter, list);
     }
