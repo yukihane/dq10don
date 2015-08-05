@@ -1,6 +1,7 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -39,19 +40,23 @@ public class StorageDao {
     }
 
 
-    public void persist(Storage obj) throws SQLException {
+    public void persist(final Storage obj) throws SQLException {
 
         LOGGER.debug("persist Storage: {}", obj);
 
-        Storage savedList = deleteItems(obj);
-        if (savedList != null) {
-            obj.setId(savedList.getId());
-        }
+        TransactionManager.callInTransaction(storageDao.getConnectionSource(), () -> {
+            Storage savedList = deleteItems(obj);
+            if (savedList != null) {
+                obj.setId(savedList.getId());
+            }
 
-        storageDao.createOrUpdate(obj);
-        for (StoredItem i : obj.getSotredItems()) {
-            storedItemDao.create(i);
-        }
+            storageDao.createOrUpdate(obj);
+            for (StoredItem i : obj.getSotredItems()) {
+                storedItemDao.create(i);
+            }
+
+            return null;
+        });
     }
 
     /**
