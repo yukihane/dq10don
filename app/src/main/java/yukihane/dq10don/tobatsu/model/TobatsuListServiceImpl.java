@@ -98,33 +98,18 @@ public class TobatsuListServiceImpl implements TobatsuListService {
      * DBを見ずに直接サーバーに情報をリクエストします.
      * 結果はDBに永続化します.
      */
-    private TobatsuList getTobatsuListFromServer(Character character) throws SQLException, AppException {
+    private TobatsuList getTobatsuListFromServer(Character character)
+            throws SQLException, AppException {
         try {
-            String sessionId = character.getAccount().getSessionId();
-            LOGGER.info("update target character: {}", character);
-            HappyService service = HappyServiceFactory.getService(sessionId);
-            service.characterSelect(character.getWebPcNo());
-            TobatsuDto dto = service.getTobatsuList();
 
-            AccountDao dao = AccountDao.create(dbHelper);
-            character.setLastTobatsuResultCode(dto.getResultCode());
-            dao.persist(character);
+            return getTobatsuListFromServerInternal(character);
 
-            Account account = character.getAccount();
-            account.setInvalid(false);
-            dao.updateAccountOnly(account);
-
-
-            // 現状は大国のみを対象とする
-            TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
-            res.setCharacter(character);
-            TobatsuListDao.create(dbHelper).persist(res);
-            return res;
         } catch (HappyServiceException e) {
             if (e.getType() == HappyServiceException.Type.HTTP) {
                 // ネットワーク未接続の場合は response が null
                 Response response = e.getCause().getResponse();
                 if (response != null && response.getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    // 未認証のエラーで帰ってきたら account に印をつける
                     Account account = character.getAccount();
                     account.setInvalid(true);
                     AccountDao dao = AccountDao.create(dbHelper);
@@ -136,5 +121,30 @@ public class TobatsuListServiceImpl implements TobatsuListService {
             }
             throw e;
         }
+    }
+
+    private TobatsuList getTobatsuListFromServerInternal(Character character)
+            throws SQLException, AppException {
+
+        String sessionId = character.getAccount().getSessionId();
+        LOGGER.info("update target character: {}", character);
+        HappyService service = HappyServiceFactory.getService(sessionId);
+        service.characterSelect(character.getWebPcNo());
+        TobatsuDto dto = service.getTobatsuList();
+
+        AccountDao dao = AccountDao.create(dbHelper);
+        character.setLastTobatsuResultCode(dto.getResultCode());
+        dao.persist(character);
+
+        Account account = character.getAccount();
+        account.setInvalid(false);
+        dao.updateAccountOnly(account);
+
+
+        // 現状は大国のみを対象とする
+        TobatsuList res = TobatsuList.from(dto, TobatsuList.COUNTY_SIZE_TAIKOKU);
+        res.setCharacter(character);
+        TobatsuListDao.create(dbHelper).persist(res);
+        return res;
     }
 }
