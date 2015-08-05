@@ -52,16 +52,16 @@
   <string name="pincode">PINコード</string>
   <string name="auth">認証</string>
   <string name="pref_cat_twitter_auth">Twitter認証</string>
-  <string name="pref_cat_twitter_linkage">Twitter連携</string>
-  <string name="tweet_tobatsu">最高額討伐依頼を自動ツイート</string>
-  <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼をtweetします。</string>
+  <string name="pref_cat_twitter_linkage_tobatsu">Twitter連携 - 討伐依頼</string>
+  <string name="tweet_tobatsu">討伐依頼をツイート</string>
+  <string name="tweet_tobatsu_summary">毎朝討伐依頼を取得した後、最高額依頼を自動でツイートします</string>
   <string name="error_already_reported">報告済みです</string>
   <string name="tobatsu_autopilot_summary">毎朝6時過ぎに討伐依頼を自動チェックし更新します</string>
   <string name="boss_card_autopilot_summary">12時間ごとにカードの残り時間を自動チェックします</string>
-  <string name="limit_date_notification">期限が近づいたら通知</string>
-  <string name="limit_date_notification_summary">期限が近づいたカードが有れば通知します</string>
+  <string name="limit_date_notification">近期限を通知</string>
+  <string name="limit_date_notification_summary">自動巡回時、期限が近づいたアイテムが有れば通知します</string>
   <string name="notification_left_time_summary">設定した期間より短い有効期限のカードが有れば通知します</string>
-  <string name="notification_left_time">通知期間</string>
+  <string name="notification_left_time">通知期限</string>
   <string name="text_exits_limit_items">期限の近いアイテムがあります</string>
   <string name="etc">等</string>
 </resources>

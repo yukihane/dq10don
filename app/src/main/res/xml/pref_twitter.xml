@@ -13,7 +13,7 @@
   </PreferenceCategory>
 
   <PreferenceCategory
-    android:title="@string/pref_cat_twitter_linkage">
+    android:title="@string/pref_cat_twitter_linkage_tobatsu">
     <CheckBoxPreference
       android:defaultValue="true"
       android:disableDependentsState="false"
