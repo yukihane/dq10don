@@ -98,25 +98,30 @@ public class StorageDao {
      * @param character 削除対象のstorageを所有しているcharacter
      */
     public void delete(Character character) throws SQLException {
-        PreparedQuery<Storage> query = storageDao.queryBuilder()
-                .where()
-                .eq("character_id", character.getWebPcNo())
-                .prepare();
 
-        List<Storage> owneds = storageDao.query(query);
-        if (owneds.isEmpty()) {
-            return;
-        }
-        List<Long> ownedIds = new ArrayList<>(owneds.size());
-        for (Storage s : owneds) {
-            ownedIds.add(s.getId());
-        }
-        DeleteBuilder<StoredItem, String> builder = storedItemDao.deleteBuilder();
-        builder.where().in("storage_id", ownedIds);
-        PreparedDelete<StoredItem> delQuery = builder.prepare();
+        TransactionManager.callInTransaction(storageDao.getConnectionSource(), () -> {
+            PreparedQuery<Storage> query = storageDao.queryBuilder()
+                    .where()
+                    .eq("character_id", character.getWebPcNo())
+                    .prepare();
 
-        storedItemDao.delete(delQuery);
-        storageDao.delete(owneds);
+            List<Storage> owneds = storageDao.query(query);
+            if (owneds.isEmpty()) {
+                return null;
+            }
+            List<Long> ownedIds = new ArrayList<>(owneds.size());
+            for (Storage s : owneds) {
+                ownedIds.add(s.getId());
+            }
+            DeleteBuilder<StoredItem, String> builder = storedItemDao.deleteBuilder();
+            builder.where().in("storage_id", ownedIds);
+            PreparedDelete<StoredItem> delQuery = builder.prepare();
+
+            storedItemDao.delete(delQuery);
+            storageDao.delete(owneds);
+
+            return null;
+        });
     }
 
     /**
