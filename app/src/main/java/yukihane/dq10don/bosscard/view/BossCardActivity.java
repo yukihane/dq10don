@@ -7,7 +7,6 @@ import yukihane.dq10don.base.view.BaseActivity;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.settings.view.BossCardPrefUtils;
-import yukihane.dq10don.main.view.WelcomeDialog;
 
 public class BossCardActivity extends BaseActivity<BossCardPresenter, BossCardListPagerAdapter> implements BossCardPresenter.View {
 
@@ -25,10 +24,4 @@ public class BossCardActivity extends BaseActivity<BossCardPresenter, BossCardLi
     public void setAlarmIfNothing() {
         BossCardAlarm.setIfNothing(getApplicationContext());
     }
-
-    @Override
-    public void showWelcomeDialog() {
-        new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
-    }
-
 }

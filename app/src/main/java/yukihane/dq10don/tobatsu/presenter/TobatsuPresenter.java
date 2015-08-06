@@ -42,7 +42,6 @@ public class TobatsuPresenter implements BaseActivityPresenter {
     public void onCreate(boolean firstBoot) {
         try {
             setAlarmIfNeeded();
-            showWelcomeDialogIfNeeded(firstBoot);
         } catch (SQLException e) {
             LOGGER.error("initial process error", e);
         }
@@ -96,24 +95,11 @@ public class TobatsuPresenter implements BaseActivityPresenter {
         }
     }
 
-    private void showWelcomeDialogIfNeeded(boolean boot) throws SQLException {
-        if (!boot) {
-            return;
-        }
-
-        AccountDao dao = AccountDao.create(dbHelper);
-        if (!dao.exists()) {
-            view.showWelcomeDialog();
-        }
-    }
-
     public interface View extends BaseActivityPresenter.View {
 
         void setAlarm(long time);
 
         void cancelAlarm();
-
-        void showWelcomeDialog();
     }
 
     private static class NullView implements View {
@@ -127,10 +113,6 @@ public class TobatsuPresenter implements BaseActivityPresenter {
 
         @Override
         public void cancelAlarm() {
-        }
-
-        @Override
-        public void showWelcomeDialog() {
         }
     }
 }

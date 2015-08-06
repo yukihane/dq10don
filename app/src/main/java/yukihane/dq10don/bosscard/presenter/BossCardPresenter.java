@@ -34,13 +34,8 @@ public class BossCardPresenter implements BaseActivityPresenter {
      */
     @Override
     public void onCreate(boolean firstBoot) {
-        try {
-            if (prefUtils.isAutoPilotEnabled()) {
-                view.setAlarmIfNothing();
-            }
-            showWelcomeDialogIfNeeded(firstBoot);
-        } catch (SQLException e) {
-            LOGGER.error("initial process error", e);
+        if (prefUtils.isAutoPilotEnabled()) {
+            view.setAlarmIfNothing();
         }
     }
 
@@ -61,29 +56,11 @@ public class BossCardPresenter implements BaseActivityPresenter {
         view = new NullView();
     }
 
-    private void showWelcomeDialogIfNeeded(boolean boot) throws SQLException {
-        if (!boot) {
-            return;
-        }
-
-        AccountDao dao = AccountDao.create(dbHelper);
-        if (!dao.exists()) {
-            view.showWelcomeDialog();
-        }
-    }
-
     public interface View extends BaseActivityPresenter.View {
-
-        void showWelcomeDialog();
-
         void setAlarmIfNothing();
     }
 
     private static class NullView implements View {
-        @Override
-        public void showWelcomeDialog() {
-        }
-
         @Override
         public void setAccounts(List<Account> accounts) {
         }
