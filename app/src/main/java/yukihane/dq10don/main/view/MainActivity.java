@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.bosscard.view.BossCardActivity;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
+import yukihane.dq10don.tobatsu.view.TobatsuActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +20,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View tobatsu = findViewById(R.id.launchTobatsuButton);
+        tobatsu.setOnClickListener((v) -> {
+            Intent intent = new Intent(this, TobatsuActivity.class);
+            startActivity(intent);
+        });
+
+        View bossCard = findViewById(R.id.launchBossCardButton);
+        bossCard.setOnClickListener((v) -> {
+            Intent intent = new Intent(this, BossCardActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
