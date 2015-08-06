@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.base.presenter.BaseActivityPresenter;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
@@ -21,7 +22,7 @@ import yukihane.dq10don.settings.view.TobatsuPrefUtils;
 /**
  * Created by yuki on 15/07/13.
  */
-public class TobatsuPresenter {
+public class TobatsuPresenter implements BaseActivityPresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
     private final DbHelper dbHelper;
@@ -37,6 +38,7 @@ public class TobatsuPresenter {
     /**
      * @param firstBoot (Activityが復元されたのではなく)起動された場合にtrue.
      */
+    @Override
     public void onCreate(boolean firstBoot) {
         try {
             setAlarmIfNeeded();
@@ -46,6 +48,7 @@ public class TobatsuPresenter {
         }
     }
 
+    @Override
     public void onStart() {
         try {
             AccountDao dao = AccountDao.create(dbHelper);
@@ -56,6 +59,7 @@ public class TobatsuPresenter {
         }
     }
 
+    @Override
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         view = new NullView();
@@ -103,8 +107,7 @@ public class TobatsuPresenter {
         }
     }
 
-    public interface View {
-        void setAccounts(List<Account> accounts);
+    public interface View extends BaseActivityPresenter.View {
 
         void setAlarm(long time);
 

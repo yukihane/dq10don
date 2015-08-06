@@ -9,12 +9,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 import yukihane.dq10don.account.Account;
+import yukihane.dq10don.base.presenter.BaseActivityPresenter;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.settings.view.BossCardPrefUtils;
 
-public class BossCardPresenter {
+public class BossCardPresenter implements BaseActivityPresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BossCardPresenter.class);
 
@@ -31,6 +32,7 @@ public class BossCardPresenter {
     /**
      * @param firstBoot (Activityが復元されたのではなく)起動された場合にtrue.
      */
+    @Override
     public void onCreate(boolean firstBoot) {
         try {
             if (prefUtils.isAutoPilotEnabled()) {
@@ -42,6 +44,7 @@ public class BossCardPresenter {
         }
     }
 
+    @Override
     public void onStart() {
         try {
             AccountDao dao = AccountDao.create(dbHelper);
@@ -52,6 +55,7 @@ public class BossCardPresenter {
         }
     }
 
+    @Override
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         view = new NullView();
@@ -68,11 +72,9 @@ public class BossCardPresenter {
         }
     }
 
-    public interface View {
+    public interface View extends BaseActivityPresenter.View {
 
         void showWelcomeDialog();
-
-        void setAccounts(List<Account> accounts);
 
         void setAlarmIfNothing();
     }
