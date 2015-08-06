@@ -37,7 +37,7 @@ public class TobatsuActivity extends AppCompatActivity implements TobatsuPresent
         super.onCreate(savedInstanceState);
         presenter = new TobatsuPresenter(this, new DbHelperFactory(this), new TobatsuPrefUtils(this));
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_base);
         ViewPager viewPager = (ViewPager) findViewById(R.id.baseListPager);
         viewPager.setOffscreenPageLimit(3);
         FragmentManager fm = getSupportFragmentManager();

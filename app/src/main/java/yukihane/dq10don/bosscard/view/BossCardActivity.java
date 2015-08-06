@@ -1,7 +1,5 @@
 package yukihane.dq10don.bosscard.view;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +11,6 @@ import android.view.MenuItem;
 import java.util.List;
 
 import yukihane.dq10don.R;
-import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.BossCardAlarm;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
@@ -32,7 +29,7 @@ public class BossCardActivity extends AppCompatActivity implements BossCardPrese
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_base);
 
         presenter = new BossCardPresenter(this, new DbHelperFactory(this), new BossCardPrefUtils(this));
 
