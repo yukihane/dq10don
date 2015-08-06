@@ -5,6 +5,7 @@
   <string name="title_activity_login">アカウント登録</string>
   <string name="title_activity_settings">設定</string>
   <string name="title_activity_tobatsu_setting">討伐設定</string>
+  <string name="title_activity_tobatsu">日替わり討伐依頼</string>
   <string name="title_activity_boss_card_setting">ボスカード設定</string>
   <string name="title_activity_twitter_setting">Twitter設定</string>
   <string name="title_activity_twitter_auth">Twitter認証</string>
