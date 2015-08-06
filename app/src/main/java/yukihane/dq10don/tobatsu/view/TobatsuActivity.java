@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +15,7 @@ import java.util.List;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.TobatsuAlarm;
+import yukihane.dq10don.base.view.BaseActivity;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
 import yukihane.dq10don.settings.view.SettingsActivity;
@@ -24,7 +24,7 @@ import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.presenter.TobatsuPresenter;
 
 
-public class TobatsuActivity extends AppCompatActivity implements TobatsuPresenter.View {
+public class TobatsuActivity extends BaseActivity implements TobatsuPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuActivity.class);
 

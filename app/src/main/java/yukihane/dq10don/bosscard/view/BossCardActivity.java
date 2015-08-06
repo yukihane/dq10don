@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +12,7 @@ import java.util.List;
 import yukihane.dq10don.R;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.background.BossCardAlarm;
+import yukihane.dq10don.base.view.BaseActivity;
 import yukihane.dq10don.bosscard.presenter.BossCardPresenter;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
@@ -21,7 +21,7 @@ import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.WelcomeDialog;
 
-public class BossCardActivity extends AppCompatActivity implements BossCardPresenter.View {
+public class BossCardActivity extends BaseActivity implements BossCardPresenter.View {
 
     private BossCardPresenter presenter;
     private BossCardListPagerAdapter pagerAdapter;
