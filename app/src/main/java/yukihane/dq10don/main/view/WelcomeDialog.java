@@ -1,4 +1,4 @@
-package yukihane.dq10don.tobatsu.view;
+package yukihane.dq10don.main.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
