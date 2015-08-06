@@ -7,14 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.android.view.ViewObservable;
@@ -29,6 +31,9 @@ public class SqexidActivity extends AppCompatActivity
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SqexidActivity.class);
 
+    private static final String KEY_SQEXID = "sqexid";
+    private static final String KEY_DESCRIPTION = "description";
+
     private SqexidPresenter presenter;
 
     @Override
@@ -41,7 +46,8 @@ public class SqexidActivity extends AppCompatActivity
         getSqexidListView().setOnItemClickListener(
                 (AdapterView<?> parent, View view, int position, long id) -> {
                     ListView lv = (ListView) parent;
-                    String userId = (String) lv.getItemAtPosition(position);
+                    Map<String, String> data = (Map<String, String>) lv.getItemAtPosition(position);
+                    String userId = data.get(KEY_SQEXID);
                     OpeDialog df = new OpeDialog();
                     df.setUserId(userId);
                     df.show(getSupportFragmentManager(), "OpeDialog");
@@ -79,11 +85,21 @@ public class SqexidActivity extends AppCompatActivity
 
     @Override
     public void displayAccount(List<Account> accounts) {
-        List<String> names = new ArrayList<>(accounts.size());
-        for (Account a : accounts) {
-            names.add(a.getSqexid());
+
+        List<Map<String, String>> data = new ArrayList<>(accounts.size());
+        for (Account account : accounts) {
+            Map<String, String> acMap = new HashMap<>(2);
+            acMap.put(KEY_SQEXID, account.getSqexid());
+            if (account.isInvalid()) {
+                acMap.put(KEY_DESCRIPTION, getString(R.string.http_401));
+            }
+
+            data.add(acMap);
         }
-        displayAccountStr(names);
+        String[] from = {KEY_SQEXID, KEY_DESCRIPTION};
+        int[] to = {android.R.id.text1, android.R.id.text2};
+        SimpleAdapter adpt = new SimpleAdapter(this, data, android.R.layout.simple_list_item_2, from, to);
+        getSqexidListView().setAdapter(adpt);
     }
 
     @Override
@@ -108,11 +124,6 @@ public class SqexidActivity extends AppCompatActivity
         presenter.onActivityResult(sqexid, json);
 
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void displayAccountStr(List<String> names) {
-        ArrayAdapter<String> adpt = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
-        getSqexidListView().setAdapter(adpt);
     }
 
     private ListView getSqexidListView() {

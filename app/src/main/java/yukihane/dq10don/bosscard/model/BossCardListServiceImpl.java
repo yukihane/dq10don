@@ -5,12 +5,14 @@ import com.j256.ormlite.misc.TransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit.client.Response;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Storage;
@@ -98,6 +100,28 @@ public class BossCardListServiceImpl implements BossCardListService {
      * 結果はDBに永続化します.
      */
     private List<Storage> getTobatsuListFromServer(Character character)
+            throws HappyServiceException, SQLException {
+        try {
+
+            return getTobatsuListFromServerInternal(character);
+
+        } catch (HappyServiceException e) {
+            if (e.getType() == HappyServiceException.Type.HTTP) {
+                // ネットワーク未接続の場合は response が null
+                Response response = e.getCause().getResponse();
+                if (response != null && response.getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    // 未認証のエラーで帰ってきたら account に印をつける
+                    Account account = character.getAccount();
+                    account.setInvalid(true);
+                    AccountDao dao = AccountDao.create(dbHelper);
+                    dao.updateAccountOnly(account);
+                }
+            }
+            throw e;
+        }
+    }
+
+    private List<Storage> getTobatsuListFromServerInternal(Character character)
             throws HappyServiceException, SQLException {
 
         String sessionId = character.getAccount().getSessionId();
