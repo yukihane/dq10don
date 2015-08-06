@@ -110,7 +110,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                 String newCharacter = "CREATE TABLE `new_character` (`account_id` VARCHAR NOT NULL , `characterName` VARCHAR NOT NULL , `smileUniqNo` VARCHAR NOT NULL , `lastTobatsuResultCode` INTEGER NOT NULL , `webPcNo` BIGINT NOT NULL , PRIMARY KEY (`webPcNo`), FOREIGN KEY (`account_id`) REFERENCES `account`(`sqexid`));";
                 db.execSQL(newCharacter);
 
-                String newCharacterInsert = "INSERT INTO new_character SELECT * FROM character;";
+                String newCharacterInsert = "INSERT INTO new_character (`account_id`, `characterName`, `smileUniqNo`, `lastTobatsuResultCode`, `webPcNo`) SELECT `account_id`, `characterName`, `smileUniqNo`, `lastTobatsuResultCode`, `webPcNo` FROM character;";
                 db.execSQL(newCharacterInsert);
 
                 db.execSQL("DROP TABLE character;");
