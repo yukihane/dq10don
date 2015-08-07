@@ -81,7 +81,7 @@ public class TwitterAuthActivity extends AppCompatActivity implements TwitterAut
 
     @Override
     public void storeAuthInfo(long userId, String screenName, String token, String tokenSecret) {
-        new PrefUtils(this).storeAuthInfo(userId, screenName, token, tokenSecret);
+        new TwitterPrefUtils(this).storeAuthInfo(userId, screenName, token, tokenSecret);
     }
 
     @Override

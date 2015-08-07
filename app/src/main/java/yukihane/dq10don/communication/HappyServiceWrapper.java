@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import retrofit.RetrofitError;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.profile.StorageDto;
+import yukihane.dq10don.communication.dto.profile.StoredItemDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
 import yukihane.dq10don.exception.HappyServiceException;
 
@@ -28,7 +30,8 @@ public class HappyServiceWrapper implements HappyService {
             LOGGER.info("HappyService characterSelect webPcNo: {}", webPcNo);
             CharaSelectDto res = service.characterSelect(webPcNo);
             if (res.getResultCode() != 0) {
-                LOGGER.error("HappyService characterSelect error webPcNo: {}, resultCode: {}", webPcNo, res.getResultCode());
+                LOGGER.error("HappyService characterSelect error webPcNo: {}, resultCode: {}",
+                        webPcNo, res.getResultCode());
                 throw new HappyServiceException(res.getResultCode());
             }
             return res;
@@ -43,7 +46,42 @@ public class HappyServiceWrapper implements HappyService {
             LOGGER.info("HappyService getTobatsuList");
             TobatsuDto res = service.getTobatsuList();
             if (res.getResultCode() != 0) {
-                LOGGER.error("HappyService getTobatsuList error resultCode: {}", res.getResultCode());
+                LOGGER.error("HappyService getTobatsuList error resultCode: {}",
+                        res.getResultCode());
+                throw new HappyServiceException(res.getResultCode());
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("getTobatsuList error", e);
+        }
+    }
+
+    @Override
+    public StorageDto getStorageList2() throws HappyServiceException {
+        try {
+            LOGGER.info("HappyService getStorageList2");
+            StorageDto res = service.getStorageList2();
+            if (res.getResultCode() != 0) {
+                LOGGER.error("HappyService getStorageList2 error resultCode: {}",
+                        res.getResultCode());
+                throw new HappyServiceException(res.getResultCode());
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("getTobatsuList error", e);
+        }
+    }
+
+    @Override
+    public StoredItemDto getStoredItemList(
+            @Path("storageId") int storageId, @Path("storageIndex") int storageIndex)
+            throws HappyServiceException {
+        try {
+            LOGGER.info("HappyService getStoredItemList id: {}, index: {}", storageId, storageIndex);
+            StoredItemDto res = service.getStoredItemList(storageId, storageIndex);
+            if (res.getResultCode() != 0) {
+                LOGGER.error("HappyService getStoredItemList error resultCode: {}",
+                        res.getResultCode());
                 throw new HappyServiceException(res.getResultCode());
             }
             return res;

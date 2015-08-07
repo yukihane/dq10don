@@ -2,7 +2,21 @@ package yukihane.dq10don;
 
 import android.content.Context;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
+
 import retrofit.RetrofitError;
+import retrofit.client.Response;
+import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
 import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
@@ -15,6 +29,12 @@ import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSU_SLOW
  * Created by yuki on 15/07/22.
  */
 public class ViewUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewUtils.class);
+
+    private static final String ADMOB_PROPERTIES_FILE = "assets/admob.properties";
+    private static final String KEY_ADUNITID = "adUnitId";
+
     private ViewUtils() {
     }
 
@@ -48,7 +68,8 @@ public class ViewUtils {
                 RetrofitError.Kind kind = re.getKind();
                 switch (kind) {
                     case HTTP:
-                        int status = re.getResponse().getStatus();
+                        Response resp = re.getResponse();
+                        int status = (resp != null) ? resp.getStatus() : -1;
                         switch (status) {
                             case 401:
                                 return context.getString(R.string.http_401);
@@ -62,5 +83,58 @@ public class ViewUtils {
             default:
                 return context.getString(R.string.text_error);
         }
+    }
+
+    public static String getErrorMsg(Context context, int errorCode, Object... formatArgs) {
+
+        switch (errorCode) {
+            case ErrorCode.REPORTED:
+                return context.getString(R.string.error_already_reported);
+            case ErrorCode.ERROR:
+            default:
+                return context.getString(R.string.text_error);
+        }
+    }
+
+
+    public static AdView createAdView(Context context) {
+        AdView adView = new AdView(context);
+
+        URL adprops = ViewUtils.class.getClassLoader().getResource(ADMOB_PROPERTIES_FILE);
+        InputStream is = null;
+        try {
+            is = adprops.openStream();
+            Properties props = new Properties();
+            props.load(is);
+            String adUnitId = props.getProperty(KEY_ADUNITID);
+            LOGGER.debug("addUnitId: {}", adUnitId);
+            adView.setAdUnitId(adUnitId);
+        } catch (IOException e) {
+            LOGGER.error("admob.properties error", e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        adView.setAdSize(AdSize.SMART_BANNER);
+
+        return adView;
+    }
+
+    public static AdRequest.Builder createAdRequestBuilder() {
+        AdRequest.Builder builder = new AdRequest.Builder();
+        builder.addKeyword("ドラゴンクエスト")
+                .addKeyword("DQX")
+                .addKeyword("WiiU")
+                .addKeyword("3DS")
+                .addKeyword("任天堂")
+                .addKeyword("スクウェア・エニックス");
+
+        return builder;
     }
 }

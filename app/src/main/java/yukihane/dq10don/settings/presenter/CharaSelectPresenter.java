@@ -20,21 +20,21 @@ import rx.schedulers.Schedulers;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.settings.view.PrefUtils;
+import yukihane.dq10don.settings.view.TwitterPrefUtils;
 
 public class CharaSelectPresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CharaSelectPresenter.class);
 
     private DbHelper dbHelper;
-    private PrefUtils prefUtils;
+    private TwitterPrefUtils twitterPrefUtils;
     private View view;
     private ArrayList<CheckableCharacter> checkableCharacters;
 
-    public CharaSelectPresenter(View view, DbHelperFactory dbHelperFactory, PrefUtils prefUtils) {
+    public CharaSelectPresenter(View view, DbHelperFactory dbHelperFactory, TwitterPrefUtils twitterPrefUtils) {
         this.view = view;
         this.dbHelper = dbHelperFactory.create();
-        this.prefUtils = prefUtils;
+        this.twitterPrefUtils = twitterPrefUtils;
     }
 
     public void onCreate() {
@@ -57,7 +57,7 @@ public class CharaSelectPresenter {
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<Character>>() {
             @Override
             public void call(List<Character> characters) {
-                Collection<Long> checked = prefUtils.getTobatsuTweetCharacters();
+                Collection<Long> checked = twitterPrefUtils.getTobatsuTweetCharacters();
                 checkableCharacters = new ArrayList<>(characters.size());
                 for (Character c : characters) {
                     long webPcNo = c.getWebPcNo();
@@ -91,7 +91,7 @@ public class CharaSelectPresenter {
                 checkedNos.add(c.getWebPcNo());
             }
         }
-        prefUtils.setTobatsuTweetCharacters(checkedNos);
+        twitterPrefUtils.setTobatsuTweetCharacters(checkedNos);
         LOGGER.debug("check status changed: {} to {} ({})",
                 changed.getCharacterName(), checked, checkedNos.size());
     }

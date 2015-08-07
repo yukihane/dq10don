@@ -1,9 +1,9 @@
 package yukihane.dq10don.exception;
 
 /**
- * Created by yuki on 15/07/25.
+ * アプリケーションで発生させる例外のベースクラス.
  */
-public class AppException extends Exception {
+public abstract class AppException extends Exception {
 
     public AppException() {
     }

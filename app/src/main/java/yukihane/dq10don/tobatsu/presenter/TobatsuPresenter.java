@@ -6,148 +6,113 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import yukihane.dq10don.DonSchedulers;
-import yukihane.dq10don.account.Character;
-import yukihane.dq10don.account.TobatsuList;
+import yukihane.dq10don.account.Account;
+import yukihane.dq10don.base.presenter.BaseActivityPresenter;
 import yukihane.dq10don.db.AccountDao;
+import yukihane.dq10don.db.BgServiceDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.AppException;
-import yukihane.dq10don.exception.HappyServiceException;
-import yukihane.dq10don.tobatsu.model.TobatsuService;
-import yukihane.dq10don.tobatsu.model.TobatsuServiceFactory;
+import yukihane.dq10don.settings.view.TobatsuPrefUtils;
 
 /**
- * Created by yuki on 15/07/15.
+ * Created by yuki on 15/07/13.
  */
-public class TobatsuPresenter {
+public class TobatsuPresenter implements BaseActivityPresenter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuPresenter.class);
+    private final DbHelper dbHelper;
+    private final TobatsuPrefUtils prefUtils;
+    private View view;
+
+    public TobatsuPresenter(View view, DbHelperFactory dbHFactory, TobatsuPrefUtils prefUtils) {
+        this.view = view;
+        dbHelper = dbHFactory.create();
+        this.prefUtils = prefUtils;
+    }
 
     /**
-     * このインスタンスが表示対象としているキャラクター
+     * @param firstBoot (Activityが復元されたのではなく)起動された場合にtrue.
      */
-    private final CharacterDto character;
-
-    private View view = null;
-    private DbHelper dbHelper = null;
-
-    public TobatsuPresenter(View view, DbHelperFactory dbHFactory, CharacterDto character) {
-        this.view = view;
-        this.dbHelper = dbHFactory.create();
-        this.character = character;
+    @Override
+    public void onCreate(boolean firstBoot) {
+        try {
+            setAlarmIfNeeded();
+        } catch (SQLException e) {
+            LOGGER.error("initial process error", e);
+        }
     }
 
-    public void onCreate() {
+    @Override
+    public void onStart() {
+        try {
+            AccountDao dao = AccountDao.create(dbHelper);
+            List<Account> accounts = dao.queryAll();
+            view.setAccounts(accounts);
+        } catch (SQLException e) {
+            LOGGER.error("account load error", e);
+        }
     }
 
-    public void onViewCreated() {
-        String sqexid = character.getSqexid();
-        String smileUniqNo = character.getSmileUniqNo();
-        view.setHeader(sqexid, smileUniqNo);
-
-        updateList(true, true);
-
-    }
-
-
-    public void onUpdateClick() {
-        updateList(false, false);
-    }
-
+    @Override
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
-        dbHelper = null;
-        view = null;
+        view = new NullView();
     }
 
-    /**
-     * @param useCache       true の場合, (DB上に)キャッシュが有ればそれを返します.
-     *                       false の場合, DBデータの有無にかかわらずサーバへリクエストします.
-     * @param useInvalidFlag 対象キャラクターのinvalid状況にかかわらず,
-     *                       (必要に応じて)サーバーリクエストを行うならfalse.
-     */
-    private void updateList(boolean useCache, boolean useInvalidFlag) {
+    private void setAlarmIfNeeded() throws SQLException {
 
-        Observable<TobatsuList> observable
-                = Observable.create((Subscriber<? super TobatsuList> subscriber) -> {
-            subscriber.onStart();
+        if (!prefUtils.isAutoPilotEnabled()) {
+            return;
+        }
 
-            TobatsuService service = new TobatsuServiceFactory().getService(dbHelper);
-            try {
-                if (useCache) {
-                    TobatsuList tl = service.getTobatsuListFromDB(character.getWebPcNo());
-                    if (tl != null) {
-                        subscriber.onNext(tl);
-                        subscriber.onCompleted();
-                        return;
-                    }
-                }
-
-                if (useInvalidFlag) {
-                    AccountDao dao = AccountDao.create(dbHelper);
-                    Character c = dao.findCharacterByWebPcNo(character.getWebPcNo());
-                    if (c.isTobatsuInvalid()) {
-                        return;
-                    }
-                }
-
-                TobatsuList tl = service.getTobatsuListFromServer(character.getWebPcNo());
-                subscriber.onNext(tl);
-            } catch (AppException | SQLException e) {
-                subscriber.onError(e);
+        BgServiceDao bgDao = BgServiceDao.create(dbHelper);
+        if (!bgDao.exists()) {
+            // 初回起動時ならいつでも設定
+            LOGGER.info("first time launch");
+            view.setAlarm(bgDao.get().getNextAlarmTime());
+        } else {
+            // きわどい時刻(5:50-6:59)でなければ再設定する
+            // (もしかしたらアラームが解除されているかもしれないので).
+            // 5:55 以降だとアラームは翌日にセットされてしまう.
+            // 6時になったばかりだと今日の処理を実行中の可能性がある.
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.JAPAN);
+            int h = cal.get(Calendar.HOUR_OF_DAY);
+            int m = cal.get(Calendar.MINUTE);
+            if (h == 6 || (h == 5 && m >= 50)) {
+                // きわどい時間なのでアラーム再セットしない
+                LOGGER.info("not reset alarm");
+                return;
             }
-            subscriber.onCompleted();
-        }).subscribeOn(DonSchedulers.happyServer());
+            LOGGER.debug("reset alarm");
+            view.cancelAlarm();
+            view.setAlarm(bgDao.get().getNextAlarmTime());
 
-
-        view.bind(observable);
-
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<TobatsuList>() {
-            private TobatsuList tobatsuList;
-
-            @Override
-            public void onNext(TobatsuList tobatsuList) {
-                this.tobatsuList = tobatsuList;
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                LOGGER.error("tobatsu list query error", e);
-                if (e instanceof HappyServiceException) {
-                    HappyServiceException ex = (HappyServiceException) e;
-                    view.showMessage(ex);
-                } else if (e instanceof AppException) {
-                    // TODO getMessage()じゃなくてもっとちゃんとしたい
-                    view.showMessage(e.getMessage());
-                } else {
-                    view.showMessage((HappyServiceException) null);
-                }
-            }
-
-            @Override
-            public void onCompleted() {
-                if (tobatsuList != null) {
-                    view.tobatsuListUpdate(tobatsuList);
-                }
-            }
-        });
+        }
     }
 
-    public interface View {
-        void bind(Observable<?> observable);
+    public interface View extends BaseActivityPresenter.View {
 
-        void tobatsuListUpdate(yukihane.dq10don.account.TobatsuList list);
+        void setAlarm(long time);
 
-        void setHeader(String sqexid, String smileUniqNo);
+        void cancelAlarm();
+    }
 
-        void showMessage(HappyServiceException ex);
+    private static class NullView implements View {
+        @Override
+        public void setAccounts(List<Account> accounts) {
+        }
 
-        void showMessage(String message);
+        @Override
+        public void setAlarm(long time) {
+        }
+
+        @Override
+        public void cancelAlarm() {
+        }
     }
 }

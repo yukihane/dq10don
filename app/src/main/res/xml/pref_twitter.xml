@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
   <PreferenceCategory
@@ -12,7 +13,7 @@
   </PreferenceCategory>
 
   <PreferenceCategory
-    android:title="@string/pref_cat_twitter_linkage">
+    android:title="@string/pref_cat_twitter_linkage_tobatsu">
     <CheckBoxPreference
       android:defaultValue="true"
       android:disableDependentsState="false"
