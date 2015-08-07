@@ -38,22 +38,19 @@ public class TobatsuSettingActivity extends PreferenceActivity {
         dbHelper = new DbHelperFactory(this).create();
 
         Preference autoPilot = findPreference(TobatsuPrefUtils.AUTO_PILOT);
-        autoPilot.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                boolean autoPilot = (boolean) newValue;
-                if (autoPilot) {
-                    try {
-                        BgServiceDao dao = BgServiceDao.create(dbHelper);
-                        TobatsuAlarm.setAlarm(getApplicationContext(), dao.get().getNextAlarmTime());
-                    } catch (SQLException e) {
-                        LOGGER.error("db error", e);
-                    }
-                } else {
-                    TobatsuAlarm.cancelAlarm(getApplicationContext());
+        autoPilot.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean v = (boolean) newValue;
+            if (v) {
+                try {
+                    BgServiceDao dao = BgServiceDao.create(dbHelper);
+                    TobatsuAlarm.setAlarm(getApplicationContext(), dao.get().getNextAlarmTime());
+                } catch (SQLException e) {
+                    LOGGER.error("db error", e);
                 }
-                return true;
+            } else {
+                TobatsuAlarm.cancelAlarm(getApplicationContext());
             }
+            return true;
         });
     }
 
