@@ -1,12 +1,17 @@
 package yukihane.dq10don.base.view;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.base.presenter.BaseActivityPresenter;
 import yukihane.dq10don.debug.view.DebugActivity;
@@ -47,6 +53,12 @@ public abstract class BaseActivity<P extends BaseActivityPresenter, A extends Ba
 
         viewPager.setAdapter(pagerAdapter);
 
+        AdView adView = ViewUtils.createAdView(this);
+        ViewGroup adLayout = (ViewGroup) findViewById(R.id.adViewLayout);
+        adLayout.addView(adView);
+
+        AdRequest.Builder adBuilder = ViewUtils.createAdRequestBuilder();
+        adView.loadAd(adBuilder.build());
 
         presenter.onCreate(savedInstanceState == null);
     }
