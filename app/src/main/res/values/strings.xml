@@ -1,6 +1,6 @@
 <resources>
-  <string name="app_name">丼</string>
-  <string name="app_formal_name">丼 for DQX</string>
+  <string name="app_name">日替丼</string>
+  <string name="app_formal_name">日替丼 for DQX</string>
   <string name="title_activity_sqexid">ID管理</string>
   <string name="title_activity_login">アカウント登録</string>
   <string name="title_activity_settings">設定</string>
