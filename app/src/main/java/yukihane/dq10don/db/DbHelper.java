@@ -25,7 +25,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
     private static final String DATABASE_NAME = "dq10don.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -128,6 +128,14 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                 createStoredItem(db, connectionSource);
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
+            }
+
+            if (oldVersion < 4) {
+                db.execSQL("CREATE TABLE `new_storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
+                db.execSQL("INSERT INTO `new_storeditem` (`itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId`) "
+                        + "SELECT `itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId` FROM  `storeditem`;");
+                db.execSQL("DROP TABLE storeditem;");
+                db.execSQL("ALTER TABLE new_storeditem RENAME TO storeditem;");
             }
 
             db.setTransactionSuccessful();
