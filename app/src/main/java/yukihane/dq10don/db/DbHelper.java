@@ -37,9 +37,9 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             createTobatsuList(db, connectionSource);
             createTobatsuItem(db, connectionSource);
 
-            // ver.3
+            // ver.3 & ver4
             createStorage(db, connectionSource);
-            createStoredItemOld(db, connectionSource);
+            createStoredItem(db);
 
             db.setTransactionSuccessful();
         } finally {
@@ -119,12 +119,13 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
                 // 今回追加したテーブル
                 createStorage(db, connectionSource);
-                createStoredItemOld(db, connectionSource);
+                createStoredItem(db);
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
             }
 
-            if (oldVersion < 4) {
+            if (oldVersion == 3) {
+                // ver3 の頃作成したstoreditem は PK が間違っているので修正
                 db.execSQL("CREATE TABLE `new_storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
                 db.execSQL("INSERT INTO `new_storeditem` (`itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId`) "
                         + "SELECT `itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId` FROM  `storeditem`;");
@@ -167,7 +168,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
     }
 
-    private void createStoredItemOld(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `storeditem` (`itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , PRIMARY KEY (`itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
+    private static void createStoredItem(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 }
