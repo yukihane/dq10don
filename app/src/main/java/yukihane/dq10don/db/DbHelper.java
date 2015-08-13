@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
-import yukihane.dq10don.account.Storage;
-import yukihane.dq10don.account.StoredItem;
-import yukihane.dq10don.account.TobatsuItem;
-import yukihane.dq10don.account.TobatsuList;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
 
@@ -45,7 +39,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
             // ver.3
             createStorage(db, connectionSource);
-            createStoredItem(db, connectionSource);
+            createStoredItemOld(db, connectionSource);
 
             db.setTransactionSuccessful();
         } finally {
@@ -125,7 +119,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
                 // 今回追加したテーブル
                 createStorage(db, connectionSource);
-                createStoredItem(db, connectionSource);
+                createStoredItemOld(db, connectionSource);
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
             }
@@ -173,7 +167,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
     }
 
-    private void createStoredItem(SQLiteDatabase db, ConnectionSource connectionSource) {
+    private void createStoredItemOld(SQLiteDatabase db, ConnectionSource connectionSource) {
         db.execSQL("CREATE TABLE `storeditem` (`itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , PRIMARY KEY (`itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 }
