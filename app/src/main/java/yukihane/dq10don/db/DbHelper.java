@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +13,13 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 import yukihane.dq10don.account.Account;
-import yukihane.dq10don.account.BgService;
 import yukihane.dq10don.account.Character;
-import yukihane.dq10don.account.Storage;
-import yukihane.dq10don.account.StoredItem;
-import yukihane.dq10don.account.TobatsuItem;
-import yukihane.dq10don.account.TobatsuList;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
     private static final String DATABASE_NAME = "dq10don.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,9 +37,9 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             createTobatsuList(db, connectionSource);
             createTobatsuItem(db, connectionSource);
 
-            // ver.3
+            // ver.3 & ver4
             createStorage(db, connectionSource);
-            createStoredItem(db, connectionSource);
+            createStoredItem(db);
 
             db.setTransactionSuccessful();
         } finally {
@@ -125,9 +119,18 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
                 // 今回追加したテーブル
                 createStorage(db, connectionSource);
-                createStoredItem(db, connectionSource);
+                createStoredItem(db);
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
+            }
+
+            if (oldVersion == 3) {
+                // ver3 の頃作成したstoreditem は PK が間違っているので修正
+                db.execSQL("CREATE TABLE `new_storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
+                db.execSQL("INSERT INTO `new_storeditem` (`itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId`) "
+                        + "SELECT `itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId` FROM  `storeditem`;");
+                db.execSQL("DROP TABLE storeditem;");
+                db.execSQL("ALTER TABLE new_storeditem RENAME TO storeditem;");
             }
 
             db.setTransactionSuccessful();
@@ -165,7 +168,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
     }
 
-    private void createStoredItem(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `storeditem` (`itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , PRIMARY KEY (`itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
+    private static void createStoredItem(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 }
