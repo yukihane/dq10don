@@ -23,7 +23,10 @@ public class StoredItem {
     // 「分」の場合は半角スペースが前後に入っている
     private static final Pattern LEFT_TIME_PATTERN = Pattern.compile("あと ?(\\d+)([^ ]+) ?有効");
 
-    @DatabaseField(id = true, canBeNull = false)
+    @DatabaseField(generatedId = true, canBeNull = false)
+    private Long id;
+
+    @DatabaseField(canBeNull = false, uniqueCombo = true)
     private String itemUniqueNo;
 
     @DatabaseField(canBeNull = false)
@@ -41,7 +44,7 @@ public class StoredItem {
     private String variousStr;
 
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, uniqueCombo = true)
     @Setter
     @Getter
     private Storage storage;
