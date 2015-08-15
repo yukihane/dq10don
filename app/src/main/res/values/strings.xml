@@ -67,4 +67,6 @@
   <string name="notification_left_time">通知期限</string>
   <string name="text_exits_limit_items">期限の近いアイテムがあります</string>
   <string name="etc">等</string>
+  <string name="agree">同意する</string>
+  <string name="disagree">同意しない</string>
 </resources>
