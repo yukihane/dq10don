@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.tos.model.TosPrefUtils;
+import yukihane.dq10don.tos.presenter.TosPresenter;
 
 /**
  * Created by yuki on 15/08/06.
@@ -22,32 +24,46 @@ public class MainPresenter {
 
     private View view;
     private DbHelper dbHelper;
+    private TosPrefUtils prefUtils;
 
-    public MainPresenter(View view, DbHelperFactory dbHFactory) {
+    public MainPresenter(View view, DbHelperFactory dbHFactory, TosPrefUtils prefUtils) {
         this.view = view;
         this.dbHelper = dbHFactory.create();
+        this.prefUtils = prefUtils;
     }
 
     public void onCreate(boolean firstBoot) {
-        try {
-            showWelcomeDialogIfNeeded(firstBoot);
-        } catch (SQLException e) {
-            LOGGER.error("welcome dialog open error", e);
+
+        if (notYetAgreed()) {
+            if (firstBoot) {
+                view.startTos();
+            } else {
+                LOGGER.info("disagreed, exit");
+                view.endApplication();
+            }
+        } else {
+
+            try {
+                showWelcomeDialogIfNeeded();
+            } catch (SQLException e) {
+                LOGGER.error("welcome dialog open error", e);
+            }
         }
+    }
+
+    private boolean notYetAgreed() {
+        return prefUtils.getAgreedVersion() < TosPresenter.CURRENT_TOS_VERSION;
     }
 
     public void onDestroy() {
         OpenHelperManager.releaseHelper();
         view = NULL_VIEW;
         dbHelper = null;
+        prefUtils = null;
     }
 
 
-    private void showWelcomeDialogIfNeeded(boolean boot) throws SQLException {
-        if (!boot) {
-            return;
-        }
-
+    private void showWelcomeDialogIfNeeded() throws SQLException {
         AccountDao dao = AccountDao.create(dbHelper);
         if (!dao.exists()) {
             view.showWelcomeDialog();
@@ -56,11 +72,23 @@ public class MainPresenter {
 
     public interface View {
         void showWelcomeDialog();
+
+        void startTos();
+
+        void endApplication();
     }
 
     private static final class NullView implements View {
         @Override
         public void showWelcomeDialog() {
+        }
+
+        @Override
+        public void startTos() {
+        }
+
+        @Override
+        public void endApplication() {
         }
     }
 
