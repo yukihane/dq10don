@@ -15,8 +15,12 @@ import yukihane.dq10don.main.presenter.MainPresenter;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.TobatsuActivity;
+import yukihane.dq10don.tos.view.TosActivity;
+import yukihane.dq10don.tos.view.TosPrefUtilsImpl;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
+
+    private static final int REQCODE_TOS = 0;
 
     private MainPresenter presenter;
 
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this, new DbHelperFactory(this));
+        presenter = new MainPresenter(this, new DbHelperFactory(this), new TosPrefUtilsImpl(this));
 
         View tobatsu = findViewById(R.id.launchTobatsuButton);
         tobatsu.setOnClickListener((v) -> {
@@ -79,5 +83,26 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void showWelcomeDialog() {
         new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
+    }
+
+    @Override
+    public void startTos() {
+        Intent intent = new Intent(this, TosActivity.class);
+        startActivityForResult(intent, REQCODE_TOS);
+    }
+
+    @Override
+    public void endApplication() {
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQCODE_TOS) {
+            throw new RuntimeException("unexpected request code: " + requestCode);
+        }
+        if (resultCode != RESULT_OK) {
+            finish();
+        }
     }
 }

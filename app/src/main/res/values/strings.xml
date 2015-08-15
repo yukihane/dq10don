@@ -11,6 +11,7 @@
   <string name="title_activity_twitter_auth">Twitter認証</string>
   <string name="title_activity_chara_select">対象キャラクター選択</string>
   <string name="title_activity_boss_card">ボスカード</string>
+  <string name="title_activity_tos">利用規約</string>
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
@@ -66,4 +67,6 @@
   <string name="notification_left_time">通知期限</string>
   <string name="text_exits_limit_items">期限の近いアイテムがあります</string>
   <string name="etc">等</string>
+  <string name="agree">同意する</string>
+  <string name="disagree">同意しない</string>
 </resources>

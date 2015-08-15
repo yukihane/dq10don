@@ -118,6 +118,10 @@
       android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
       android:theme="@android:style/Theme.Translucent"/>
 
+    <activity
+      android:name=".tos.view.TosActivity"
+      android:label="@string/title_activity_tos">
+    </activity>
   </application>
 
 </manifest>
