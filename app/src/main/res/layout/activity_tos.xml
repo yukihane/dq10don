@@ -23,17 +23,19 @@
     android:orientation="horizontal">
 
     <Button
-      android:text="@string/agree"
       android:id="@+id/tosAgreeButton"
       android:layout_width="0px"
       android:layout_height="wrap_content"
-      android:layout_weight="1"/>
+      android:layout_weight="1"
+      android:enabled="false"
+      android:text="@string/agree"/>
 
     <Button
-      android:text="@string/disagree"
       android:id="@+id/tosDiscardButton"
       android:layout_width="0px"
       android:layout_height="wrap_content"
-      android:layout_weight="1"/>
+      android:layout_weight="1"
+      android:enabled="false"
+      android:text="@string/disagree"/>
   </LinearLayout>
 </LinearLayout>
