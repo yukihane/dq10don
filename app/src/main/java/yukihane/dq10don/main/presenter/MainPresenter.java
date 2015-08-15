@@ -1,5 +1,7 @@
 package yukihane.dq10don.main.presenter;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,7 @@ public class MainPresenter {
     }
 
     public void onDestroy() {
+        OpenHelperManager.releaseHelper();
         view = NULL_VIEW;
         dbHelper = null;
     }
