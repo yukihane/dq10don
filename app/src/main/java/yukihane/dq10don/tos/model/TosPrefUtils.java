@@ -5,6 +5,8 @@ package yukihane.dq10don.tos.model;
  */
 public interface TosPrefUtils {
 
+    int getCurrentVersion();
+
     int getAgreedVersion();
 
     void setAgreedVersion(int version);

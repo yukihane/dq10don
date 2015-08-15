@@ -18,7 +18,6 @@ public class TosPresenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(TosPresenter.class);
     private static final NullView NULL_VIEW = new NullView();
     private static final String LS = System.getProperty("line.separator");
-    public static final int CURRENT_TOS_VERSION = 1;
 
     private View view;
     private TosPrefUtils prefUtils;
@@ -64,7 +63,8 @@ public class TosPresenter {
     }
 
     public void onAgree() {
-        prefUtils.setAgreedVersion(CURRENT_TOS_VERSION);
+        int currentVersion = prefUtils.getCurrentVersion();
+        prefUtils.setAgreedVersion(currentVersion);
     }
 
     public interface View {

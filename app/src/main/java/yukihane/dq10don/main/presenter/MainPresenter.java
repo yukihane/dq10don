@@ -11,7 +11,6 @@ import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.tos.model.TosPrefUtils;
-import yukihane.dq10don.tos.presenter.TosPresenter;
 
 /**
  * Created by yuki on 15/08/06.
@@ -52,7 +51,7 @@ public class MainPresenter {
     }
 
     private boolean notYetAgreed() {
-        return prefUtils.getAgreedVersion() < TosPresenter.CURRENT_TOS_VERSION;
+        return prefUtils.getAgreedVersion() < prefUtils.getCurrentVersion();
     }
 
     public void onDestroy() {

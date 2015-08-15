@@ -10,6 +10,8 @@ import yukihane.dq10don.tos.model.TosPrefUtils;
  */
 public class TosPrefUtilsImpl implements TosPrefUtils {
 
+    private static final int CURRENT_TOS_VERSION = 1;
+
     private static final String PREF_NAME = "tos";
 
     private static final String AGREED_VERSION = "agreedVersion";
@@ -20,10 +22,17 @@ public class TosPrefUtilsImpl implements TosPrefUtils {
         this.context = context;
     }
 
+    @Override
+    public int getCurrentVersion() {
+        return CURRENT_TOS_VERSION;
+    }
+
+    @Override
     public int getAgreedVersion() {
         return getPrefs().getInt(AGREED_VERSION, 0);
     }
 
+    @Override
     public void setAgreedVersion(int version) {
         getPrefs().edit().putInt(AGREED_VERSION, version).commit();
     }
