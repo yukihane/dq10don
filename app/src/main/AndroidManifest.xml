@@ -133,6 +133,11 @@
       android:name=".tos.view.TosActivity"
       android:label="@string/title_activity_tos">
     </activity>
+
+    <activity
+      android:name=".farm.view.FarmActivity"
+      android:label="@string/title_activity_farm">
+    </activity>
   </application>
 
 </manifest>
