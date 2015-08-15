@@ -39,20 +39,20 @@ public class TosPresenter {
 
         BufferedReader reader = null;
         try {
-            URL res = view.getClass().getResource("/assets/tos.txt");
-            File file = new File(res.toURI());
-            reader = new BufferedReader(new FileReader(file));
+            URL res = TosPresenter.class.getClassLoader().getResource("assets/tos.txt");
+            reader = new BufferedReader(new InputStreamReader(res.openStream()));
             StringBuilder sb = new StringBuilder();
 
             String str = reader.readLine();
             while (str != null) {
                 sb.append(str).append(LS);
+                str = reader.readLine();
             }
 
             view.displayTos(sb.toString());
             view.enableButtons();
 
-        } catch (URISyntaxException | IOException e) {
+        } catch (IOException e) {
             LOGGER.error("terms of service display error", e);
         } finally {
             if (reader != null) {
@@ -69,6 +69,10 @@ public class TosPresenter {
         OpenHelperManager.releaseHelper();
         view = NULL_VIEW;
         dbHelper = null;
+    }
+
+    public void onAgree() {
+        // TODO 同意したことを永続化
     }
 
     public interface View {
