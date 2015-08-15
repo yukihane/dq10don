@@ -11,6 +11,7 @@
   <string name="title_activity_twitter_auth">Twitter認証</string>
   <string name="title_activity_chara_select">対象キャラクター選択</string>
   <string name="title_activity_boss_card">ボスカード</string>
+  <string name="title_activity_tos">利用規約</string>
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
