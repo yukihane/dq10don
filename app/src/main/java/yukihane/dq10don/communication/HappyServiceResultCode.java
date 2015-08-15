@@ -11,6 +11,11 @@ public final class HappyServiceResultCode {
      * ログイン中であり処理ができない.
      */
     public static final int INGAME = 106;
+
+    /**
+     * [finish]現在のプレイ環境では　この機能は\n使用制限されています。\n正式なプレイ環境となれば\nこの機能も　お使いいただけます。
+     */
+    public static final int TRIAL_RESTRICTED = 113;
     /**
      * モーモンバザーを設置していない.
      */
