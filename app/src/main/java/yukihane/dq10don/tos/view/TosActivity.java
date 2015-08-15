@@ -40,7 +40,19 @@ public class TosActivity extends AppCompatActivity implements TosPresenter.View 
 
     @Override
     public void enableButtons() {
-        findViewById(R.id.tosAgreeButton).setEnabled(true);
-        findViewById(R.id.tosDiscardButton).setEnabled(true);
+        View agreeButton = findViewById(R.id.tosAgreeButton);
+        agreeButton.setEnabled(true);
+        agreeButton.setOnClickListener((v) -> {
+            presenter.onAgree();
+            setResult(RESULT_OK);
+            finish();
+        });
+
+        View disagreeButton = findViewById(R.id.tosDiscardButton);
+        disagreeButton.setEnabled(true);
+        disagreeButton.setOnClickListener((v) -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
     }
 }
