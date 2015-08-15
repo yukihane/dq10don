@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import yukihane.dq10don.R;
-import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.tos.presenter.TosPresenter;
 
 /**
@@ -22,7 +21,7 @@ public class TosActivity extends AppCompatActivity implements TosPresenter.View 
         setContentView(R.layout.activity_tos);
 
 
-        presenter = new TosPresenter(this, new DbHelperFactory(this));
+        presenter = new TosPresenter(this, new TosPrefUtilsImpl(this));
         presenter.onCreate();
     }
 

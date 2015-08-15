@@ -1,22 +1,14 @@
 package yukihane.dq10don.tos.presenter;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.net.URL;
 
-import yukihane.dq10don.db.DbHelper;
-import yukihane.dq10don.db.DbHelperFactory;
+import yukihane.dq10don.tos.model.TosPrefUtils;
 
 /**
  * Created by yuki on 2015/08/15.
@@ -26,13 +18,14 @@ public class TosPresenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(TosPresenter.class);
     private static final NullView NULL_VIEW = new NullView();
     private static final String LS = System.getProperty("line.separator");
+    public static final int CURRENT_TOS_VERSION = 1;
 
     private View view;
-    private DbHelper dbHelper;
+    private TosPrefUtils prefUtils;
 
-    public TosPresenter(View view, DbHelperFactory dbHelperFactory) {
+    public TosPresenter(View view, TosPrefUtils prefUtils) {
         this.view = view;
-        this.dbHelper = dbHelperFactory.create();
+        this.prefUtils = prefUtils;
     }
 
     public void onCreate() {
@@ -66,13 +59,12 @@ public class TosPresenter {
     }
 
     public void onDestroy() {
-        OpenHelperManager.releaseHelper();
         view = NULL_VIEW;
-        dbHelper = null;
+        prefUtils = null;
     }
 
     public void onAgree() {
-        // TODO 同意したことを永続化
+        prefUtils.setAgreedVersion(CURRENT_TOS_VERSION);
     }
 
     public interface View {
