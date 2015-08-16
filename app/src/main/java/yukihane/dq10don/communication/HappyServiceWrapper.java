@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import retrofit.RetrofitError;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.farm.FarmLoginDto;
 import yukihane.dq10don.communication.dto.profile.StorageDto;
 import yukihane.dq10don.communication.dto.profile.StoredItemDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
@@ -87,6 +88,16 @@ public class HappyServiceWrapper implements HappyService {
             return res;
         } catch (RetrofitError e) {
             throw new HappyServiceException("getTobatsuList error", e);
+        }
+    }
+
+    @Override
+    public FarmLoginDto farmLogin() throws HappyServiceException {
+        try {
+            FarmLoginDto res = service.farmLogin();
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("farmLogin error", e);
         }
     }
 }
