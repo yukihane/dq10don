@@ -43,7 +43,9 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
     }
-
+    lintOptions {
+        abortOnError false
+    }
 }
 
 apply from: 'build.workaround-missing-resource.gradle'
