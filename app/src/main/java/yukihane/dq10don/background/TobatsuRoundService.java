@@ -135,7 +135,7 @@ public class TobatsuRoundService extends IntentService {
             try {
                 // webPcNosが設定されていない場合は, 初回要求であり、
                 // 全キャラクター分の討伐リストを取得する
-                Map<Character, TobatsuList> lists = service.getTobatsuListsFromServer();
+                Map<Character, TobatsuList> lists = service.getContentsFromServer();
 
                 Set<Character> cs = lists.keySet();
                 for (Character c : cs) {
@@ -166,7 +166,7 @@ public class TobatsuRoundService extends IntentService {
                 try {
                     AccountDao accountDao = AccountDao.create(dbHelper);
                     c = accountDao.findCharacterByWebPcNo(webPcNo);
-                    TobatsuList l = service.getTobatsuListFromServer(webPcNo);
+                    TobatsuList l = service.getContentFromServer(webPcNo);
                     for (TobatsuItem ti : l.getListItems()) {
                         if (ti.getPoint() > maxPoint) {
                             maxPoint = ti.getPoint();

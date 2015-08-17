@@ -53,7 +53,7 @@ public class BossCardRoundService extends IntentService {
         try {
             dbHelper = new DbHelperFactory(this).create();
             BossCardListService service = new BossCardListServiceFactory().getService(dbHelper);
-            service.getTobatsuListsFromServer();
+            service.getContentsFromServer();
             notifyIfNeed(dbHelper);
 
         } catch (SQLException e) {

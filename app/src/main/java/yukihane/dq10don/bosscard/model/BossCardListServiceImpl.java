@@ -47,7 +47,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * ただしinvalidなキャラクターはサーバーにリクエストを行わず失敗したとみなし処理します.
      */
     @Override
-    public Map<Character, List<Storage>> getTobatsuListsFromServer() throws SQLException {
+    public Map<Character, List<Storage>> getContentsFromServer() throws SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         List<Account> accounts = accountDao.queryAll();
         Map<Character, List<Storage>> result = new HashMap<>();
@@ -78,7 +78,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * @param webPcNo
      */
     @Override
-    public List<Storage> getTobatsuListFromDB(long webPcNo) throws SQLException {
+    public List<Storage> getContentFromDB(long webPcNo) throws SQLException {
         return StorageDao.create(dbHelper).query(webPcNo);
     }
 
@@ -88,7 +88,7 @@ public class BossCardListServiceImpl implements BossCardListService {
      * @param webPcNo
      */
     @Override
-    public List<Storage> getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
+    public List<Storage> getContentFromServer(long webPcNo) throws AppException, SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
         return getTobatsuListFromServer(character);

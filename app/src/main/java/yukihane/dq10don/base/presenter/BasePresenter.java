@@ -95,7 +95,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
             BaseService<T> service = serviceFactory.getService(dbHelper);
             try {
                 if (useCache) {
-                    T tl = service.getTobatsuListFromDB(character.getWebPcNo());
+                    T tl = service.getContentFromDB(character.getWebPcNo());
                     if (tl != null) {
                         subscriber.onNext(tl);
                         subscriber.onCompleted();
@@ -112,7 +112,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                     }
                 }
 
-                T tl = service.getTobatsuListFromServer(character.getWebPcNo());
+                T tl = service.getContentFromServer(character.getWebPcNo());
                 subscriber.onNext(tl);
                 subscriber.onCompleted();
             } catch (AppException | SQLException e) {
