@@ -57,6 +57,9 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
+        View contentView = inflater.inflate(R.layout.base_content_list, null);
+        ((ViewGroup) view.findViewById(R.id.contentPlace)).addView(contentView);
+
         viewAdapter = newViewAdapter(inflater);
         listView = (ListView) view.findViewById(R.id.contentListView);
         listView.setAdapter(viewAdapter);
@@ -100,7 +103,7 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     @Override
     public void setLoadingState(boolean loading) {
         Button updateButton = (Button) getView().findViewById(R.id.updateContentsButton);
-        if(loading) {
+        if (loading) {
             updateButton.setText(R.string.loading);
         } else {
             updateButton.setText(R.string.reload);
