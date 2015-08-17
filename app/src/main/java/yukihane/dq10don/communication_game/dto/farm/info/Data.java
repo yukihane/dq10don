@@ -26,7 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "isFriendBlueBox",
     "grassList",
     "roulette",
-    "medal"
+    "medal",
+    "treasureboxList"
 })
 public class Data {
 
@@ -52,6 +53,8 @@ public class Data {
     private Roulette roulette;
     @JsonProperty("medal")
     private Integer medal;
+    @JsonProperty("treasureboxList")
+    private List<TreasureboxList> treasureboxList = new ArrayList<TreasureboxList>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -273,6 +276,26 @@ public class Data {
     @JsonProperty("medal")
     public void setMedal(Integer medal) {
         this.medal = medal;
+    }
+
+    /**
+     * 
+     * @return
+     *     The treasureboxList
+     */
+    @JsonProperty("treasureboxList")
+    public List<TreasureboxList> getTreasureboxList() {
+        return treasureboxList;
+    }
+
+    /**
+     * 
+     * @param treasureboxList
+     *     The treasureboxList
+     */
+    @JsonProperty("treasureboxList")
+    public void setTreasureboxList(List<TreasureboxList> treasureboxList) {
+        this.treasureboxList = treasureboxList;
     }
 
     @JsonAnyGetter
