@@ -1,17 +1,18 @@
 package yukihane.dq10don.farm.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentManager;
 
-import yukihane.dq10don.R;
+import yukihane.dq10don.base.view.BaseActivity;
+import yukihane.dq10don.farm.presenter.FarmPresenter;
 
-public class FarmActivity extends AppCompatActivity {
+public class FarmActivity extends BaseActivity<FarmPresenter, FarmListPagerAdapter> implements FarmPresenter.View {
+    @Override
+    protected FarmPresenter newPresenter() {
+        return new FarmPresenter();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_farm);
+    protected FarmListPagerAdapter newPagerAdapter(FragmentManager fm) {
+        return new FarmListPagerAdapter(fm);
     }
 }
