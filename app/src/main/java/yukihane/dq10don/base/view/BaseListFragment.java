@@ -31,84 +31,29 @@ import yukihane.dq10don.exception.HappyServiceException;
  * @param <A> 対応するViewAdapterの型.
  */
 public abstract class BaseListFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<?>>
-        extends Fragment implements BasePresenter.View<T> {
-
-    public static final String CHARACTER = "character";
+        extends BaseFragment<T, P> implements BasePresenter.View<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseListFragment.class);
 
-    private P presenter;
     private A viewAdapter;
     private ListView listView;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        CharacterDtoImpl character = getArguments().getParcelable(CHARACTER);
-        presenter = newPresenter(new DbHelperFactory(getActivity()), character);
-        presenter.onCreate();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_base, container, false);
-
-        View contentView = inflater.inflate(R.layout.base_content_list, null);
-        ((ViewGroup) view.findViewById(R.id.contentPlace)).addView(contentView);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         viewAdapter = newViewAdapter(inflater);
         listView = (ListView) view.findViewById(R.id.contentListView);
         listView.setAdapter(viewAdapter);
 
-        Button updateButton = (Button) view.findViewById(R.id.updateContentsButton);
-        updateButton.setOnClickListener(v -> presenter.onUpdateClick());
-
-        presenter.onCreateView(this);
-
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.onViewCreated();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
-    }
-
-
-    @Override
-    public void setHeader(String sqexid, String smileUniqNo) {
-        TextView sqexidView = (TextView) getView().findViewById(R.id.accountNameView);
-        sqexidView.setText(sqexid);
-
-        TextView smileUniqNoView = (TextView) getView().findViewById(R.id.smileUniqNoView);
-        smileUniqNoView.setText(smileUniqNo);
-    }
-
-    @Override
-    public void setLoadingState(boolean loading) {
-        Button updateButton = (Button) getView().findViewById(R.id.updateContentsButton);
-        if (loading) {
-            updateButton.setText(R.string.loading);
-        } else {
-            updateButton.setText(R.string.reload);
-        }
-        updateButton.setEnabled(!loading);
+    protected int getContentResId() {
+        return R.layout.base_content_list;
     }
 
     @Override
@@ -116,33 +61,7 @@ public abstract class BaseListFragment<T, P extends BasePresenter<T, ?>, A exten
         addDisplayItems(viewAdapter, list);
     }
 
-    @Override
-    public void showMessage(HappyServiceException ex) {
-        String text = ViewUtils.getHappyServiceErrorMsg(getActivity(), ex);
-        showMessage(text);
-    }
-
-    @Override
-    public void showMessage(int errorCode) {
-        LOGGER.error("error: {}", errorCode);
-        String message = ViewUtils.getErrorMsg(getActivity(), errorCode);
-        showMessage(message);
-    }
-
-    private void showMessage(String message) {
-        LOGGER.error(message);
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void bind(Observable<?> observable) {
-        AppObservable.bindSupportFragment(this, observable);
-    }
-
     protected abstract void addDisplayItems(A viewAdapter, T list);
 
     protected abstract A newViewAdapter(LayoutInflater inflater);
-
-    protected abstract P newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character);
-
 }
