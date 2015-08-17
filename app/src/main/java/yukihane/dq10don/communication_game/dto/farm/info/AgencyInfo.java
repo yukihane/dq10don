@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "agencyStatus",
     "freeRentalshipCount",
+    "nearLimitDt",
     "questEntryCount",
     "nextSailoutDt",
     "ungetCount"
@@ -26,6 +27,8 @@ public class AgencyInfo {
     private String agencyStatus;
     @JsonProperty("freeRentalshipCount")
     private Integer freeRentalshipCount;
+    @JsonProperty("nearLimitDt")
+    private String nearLimitDt;
     @JsonProperty("questEntryCount")
     private Integer questEntryCount;
     @JsonProperty("nextSailoutDt")
@@ -73,6 +76,26 @@ public class AgencyInfo {
     @JsonProperty("freeRentalshipCount")
     public void setFreeRentalshipCount(Integer freeRentalshipCount) {
         this.freeRentalshipCount = freeRentalshipCount;
+    }
+
+    /**
+     * 
+     * @return
+     *     The nearLimitDt
+     */
+    @JsonProperty("nearLimitDt")
+    public String getNearLimitDt() {
+        return nearLimitDt;
+    }
+
+    /**
+     * 
+     * @param nearLimitDt
+     *     The nearLimitDt
+     */
+    @JsonProperty("nearLimitDt")
+    public void setNearLimitDt(String nearLimitDt) {
+        this.nearLimitDt = nearLimitDt;
     }
 
     /**
