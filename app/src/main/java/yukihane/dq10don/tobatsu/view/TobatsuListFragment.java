@@ -18,7 +18,7 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.base.presenter.BasePresenter;
-import yukihane.dq10don.base.view.BaseFragment;
+import yukihane.dq10don.base.view.BaseListFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
@@ -28,7 +28,7 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuListPresenter;
  * Created by yuki on 15/07/15.
  */
 public class TobatsuListFragment
-        extends BaseFragment<TobatsuList, TobatsuListPresenter, TobatsuListViewAdapter>
+        extends BaseListFragment<TobatsuList, TobatsuListPresenter, TobatsuListViewAdapter>
         implements BasePresenter.View<TobatsuList> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuListFragment.class);

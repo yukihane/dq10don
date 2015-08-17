@@ -18,7 +18,7 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.account.Storage;
 import yukihane.dq10don.account.StoredItem;
 import yukihane.dq10don.base.presenter.BasePresenter;
-import yukihane.dq10don.base.view.BaseFragment;
+import yukihane.dq10don.base.view.BaseListFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.bosscard.model.BossCard;
 import yukihane.dq10don.bosscard.model.BossCardListServiceFactory;
@@ -28,7 +28,7 @@ import yukihane.dq10don.db.DbHelperFactory;
 /**
  * Created by yuki on 15/07/31.
  */
-public class BossCardListFragment extends BaseFragment<List<Storage>, BossCardListPresenter, BossCardListViewAdapter>
+public class BossCardListFragment extends BaseListFragment<List<Storage>, BossCardListPresenter, BossCardListViewAdapter>
         implements BasePresenter.View<List<Storage>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BossCardListFragment.class);
