@@ -1,7 +1,7 @@
 package yukihane.dq10don.communication_game;
 
 import retrofit.http.POST;
-import yukihane.dq10don.communication_game.dto.game.GameInfoDto;
+import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.game.MowGrassDto;
 import yukihane.dq10don.communication_game.dto.game.OpenAllTresureBoxDto;
 import yukihane.dq10don.communication_game.dto.game.ServerTimeDto;
