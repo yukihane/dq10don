@@ -17,7 +17,7 @@ import yukihane.dq10don.account.Character;
 import static yukihane.dq10don.base.view.BaseFragment.CHARACTER;
 
 
-public abstract class BaseFragmentPagerAdapter<F extends BaseFragment> extends FragmentPagerAdapter {
+public abstract class BaseFragmentPagerAdapter<F extends Fragment> extends FragmentPagerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseFragmentPagerAdapter.class);
 
