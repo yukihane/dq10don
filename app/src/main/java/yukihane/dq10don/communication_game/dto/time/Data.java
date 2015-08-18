@@ -14,56 +14,33 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "resultCode",
-    "data"
+    "time"
 })
-public class ServerTimeDto {
+public class Data {
 
-    @JsonProperty("resultCode")
-    private String resultCode;
-    @JsonProperty("data")
-    private Data data;
+    @JsonProperty("time")
+    private String time;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The resultCode
+     *     The time
      */
-    @JsonProperty("resultCode")
-    public String getResultCode() {
-        return resultCode;
+    @JsonProperty("time")
+    public String getTime() {
+        return time;
     }
 
     /**
      * 
-     * @param resultCode
-     *     The resultCode
+     * @param time
+     *     The time
      */
-    @JsonProperty("resultCode")
-    public void setResultCode(String resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    /**
-     * 
-     * @return
-     *     The data
-     */
-    @JsonProperty("data")
-    public Data getData() {
-        return data;
-    }
-
-    /**
-     * 
-     * @param data
-     *     The data
-     */
-    @JsonProperty("data")
-    public void setData(Data data) {
-        this.data = data;
+    @JsonProperty("time")
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @JsonAnyGetter
