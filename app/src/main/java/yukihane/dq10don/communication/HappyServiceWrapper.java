@@ -94,7 +94,12 @@ public class HappyServiceWrapper implements HappyService {
     @Override
     public FarmLoginDto farmLogin() throws HappyServiceException {
         try {
+            LOGGER.info("HappyService farmLogin");
             FarmLoginDto res = service.farmLogin();
+            if (res.getResultCode() != 0) {
+                LOGGER.error("HappyService farmLogin error resultCode: {}", res.getResultCode());
+                throw new HappyServiceException(res.getResultCode());
+            }
             return res;
         } catch (RetrofitError e) {
             throw new HappyServiceException("farmLogin error", e);
