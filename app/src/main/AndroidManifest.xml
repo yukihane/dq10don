@@ -25,6 +25,12 @@
       android:name=".main.view.MainActivity"
       android:label="@string/app_name">
 
+      <!--
+      本来はこのintent-filterのlabelがラウンチャー(ホーム)にアプリ名として表示されるはずだが
+      API Level21以降は不具合で activity の label がアプリ名として表示される。
+      そのため、activity と intent-filterのlabelは同じものにしておくのが無難
+      https://code.google.com/p/android/issues/detail?id=179153
+       -->
       <intent-filter android:label="@string/app_name">
         <action android:name="android.intent.action.MAIN"/>
 
@@ -61,6 +67,11 @@
       <intent-filter>
         <!-- http://andante.in/i/android%E3%82%A2%E3%83%97%E3%83%AAtips/alarmmanager%E3%82%92%E4%BD%BF%E3%81%86%E5%A0%B4%E5%90%88%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/ -->
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        <!-- 時刻を直接指定して実行するので時間変更系は気にしなくても良いはず
+              <action android:name="android.intent.action.DATE_CHANGED"/>
+              <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+              <action android:name="android.intent.action.TIME_SET"/>
+        -->
       </intent-filter>
     </receiver>
 
