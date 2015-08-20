@@ -30,7 +30,7 @@ public class GameLoginTest {
         String sessionId = "Here sessionId";
         HttpUtil httpUtil = new HttpUtil(false);
         httpUtil.setSessionId(sessionId);
-        httpUtil.characterselect("Here webPcNo");
+        httpUtil.characterselect(0L/* Here webPcNo */);
         String res = httpUtil.get("https://happy.dqx.jp/capi/farm/login");
         LOGGER.info("login: {}", res);
 
