@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import retrofit.RetrofitError;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
-import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
-import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTresureBoxDto;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 import yukihane.dq10don.exception.HappyServiceException;
@@ -19,9 +17,9 @@ public class GameServiceWrapper implements GameService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameServiceWrapper.class);
     private static final String RESULT_SUCCESS = "0";
 
-    private final GameService service;
+    private final RetrofitGameService service;
 
-    public GameServiceWrapper(GameService service) {
+    public GameServiceWrapper(RetrofitGameService service) {
         this.service = service;
     }
 

@@ -11,7 +11,7 @@ import yukihane.dq10don.exception.HappyServiceException;
 /**
  * Created by yuki on 2015/08/15.
  */
-public interface GameService {
+public interface RetrofitGameService {
 
     @POST("/member/login")
     GameLoginDto login() throws HappyServiceException;
