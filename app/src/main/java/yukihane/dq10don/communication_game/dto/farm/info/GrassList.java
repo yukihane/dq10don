@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class GrassList {
 
     @JsonProperty("grassTicket")
-    private Integer grassTicket;
+    private Long grassTicket;
     @JsonProperty("itemId")
     private String itemId;
     @JsonProperty("count")
@@ -35,7 +35,7 @@ public class GrassList {
      *     The grassTicket
      */
     @JsonProperty("grassTicket")
-    public Integer getGrassTicket() {
+    public Long getGrassTicket() {
         return grassTicket;
     }
 
@@ -45,7 +45,7 @@ public class GrassList {
      *     The grassTicket
      */
     @JsonProperty("grassTicket")
-    public void setGrassTicket(Integer grassTicket) {
+    public void setGrassTicket(Long grassTicket) {
         this.grassTicket = grassTicket;
     }
 

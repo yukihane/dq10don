@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class TreasureboxList {
 
     @JsonProperty("ticketNo")
-    private Integer ticketNo;
+    private Long ticketNo;
     @JsonProperty("expiredDt")
     private String expiredDt;
     @JsonProperty("type")
@@ -35,7 +35,7 @@ public class TreasureboxList {
      *     The ticketNo
      */
     @JsonProperty("ticketNo")
-    public Integer getTicketNo() {
+    public Long getTicketNo() {
         return ticketNo;
     }
 
@@ -45,7 +45,7 @@ public class TreasureboxList {
      *     The ticketNo
      */
     @JsonProperty("ticketNo")
-    public void setTicketNo(Integer ticketNo) {
+    public void setTicketNo(Long ticketNo) {
         this.ticketNo = ticketNo;
     }
 
