@@ -24,6 +24,7 @@ public class Farm {
 
     private final List<FarmBox> farmBoxes = new ArrayList<>();
 
+    @Getter
     @DatabaseField(generatedId = true, canBeNull = false)
     private Long id;
 
