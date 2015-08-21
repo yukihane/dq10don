@@ -53,6 +53,21 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         db.execSQL("CREATE TABLE `storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 
+    private static void createFarmGrass(SQLiteDatabase db) {
+        String stmt = "CREATE TABLE `farmgrass` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `farm_id` BIGINT NOT NULL , `itemId` VARCHAR NOT NULL , `count` INTEGER NOT NULL , `grassTicket` BIGINT NOT NULL , FOREIGN KEY(`farm_id`) REFERENCES `farm`(`id`) );";
+        db.execSQL(stmt);
+    }
+
+    private static void createFarmBox(SQLiteDatabase db) {
+        String stmt = "CREATE TABLE `farmbox` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `expiredDt` VARCHAR NOT NULL , `farm_id` BIGINT NOT NULL , `type` VARCHAR NOT NULL , `ticketNo` BIGINT NOT NULL , FOREIGN KEY(`farm_id`) REFERENCES `farm`(`id`) );";
+        db.execSQL(stmt);
+    }
+
+    private static void createFarm(SQLiteDatabase db) {
+        String stmt = "CREATE TABLE `farm` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `agencyStatus` VARCHAR , `character_id` BIGINT NOT NULL , `lastUpdateDate` VARCHAR NOT NULL , `nearLimitDt` VARCHAR , `nextSailoutDt` VARCHAR , `isFriendBlueBox` SMALLINT NOT NULL );";
+        db.execSQL(stmt);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         LOGGER.info("MyDatabaseHelper.onCreate()");
@@ -65,9 +80,14 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             createTobatsuList(db);
             createTobatsuItem(db);
 
-            // ver.3 & ver4
+            // v3 & v4
             createStorage(db);
             createStoredItem(db);
+
+            // v5
+            createFarmGrass(db);
+            createFarmBox(db);
+            createFarm(db);
 
             db.setTransactionSuccessful();
         } finally {
@@ -159,6 +179,12 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
                         + "SELECT `itemName`, `itemUniqueNo`, `storage_id`, `variousStr`, `webItemId` FROM  `storeditem`;");
                 db.execSQL("DROP TABLE storeditem;");
                 db.execSQL("ALTER TABLE new_storeditem RENAME TO storeditem;");
+            }
+
+            if(oldVersion < 5) {
+                createFarmGrass(db);
+                createFarmBox(db);
+                createFarm(db);
             }
 
             db.setTransactionSuccessful();
