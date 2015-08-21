@@ -1,4 +1,4 @@
-package yukihane.dq10don.communication;
+package yukihane.dq10don.communication_game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.MediaType;
@@ -11,11 +11,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 
-import yukihane.dq10don.communication.dto.login.LoginDto;
 import yukihane.dq10don.communication.utils.HttpUtil;
+import yukihane.dq10don.communication.utils.SessionProperties;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 
 /**
@@ -27,10 +26,12 @@ public class GameLoginTest {
 
     @Test
     public void testGameLogin() {
-        String sessionId = "Here sessionId";
+        SessionProperties sessionProp = new SessionProperties();
+
+        String sessionId = sessionProp.getSessionId();
         HttpUtil httpUtil = new HttpUtil(false);
         httpUtil.setSessionId(sessionId);
-        httpUtil.characterselect(0L/* Here webPcNo */);
+        httpUtil.characterselect(sessionProp.getWebPcNo());
         String res = httpUtil.get("https://happy.dqx.jp/capi/farm/login");
         LOGGER.info("login: {}", res);
 
@@ -64,7 +65,7 @@ public class GameLoginTest {
             body = response.body().string();
             LOGGER.info("getinfo: {}", body);
 
-            requestBody =  RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "data={}&");
+            requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "data={}&");
             req = new Request.Builder()
                     .url("https://game.happy.dqx.jp/api/common/getservertime")
                     .header(HttpUtil.HEADER_SESSION, sessionId)
