@@ -24,8 +24,11 @@ public class Farm {
 
     private final List<FarmBox> farmBoxes = new ArrayList<>();
 
+    @DatabaseField(generatedId = true, canBeNull = false)
+    private Long id;
+
     @Getter
-    @DatabaseField(id = true, foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private Character character;
 
     @Getter
