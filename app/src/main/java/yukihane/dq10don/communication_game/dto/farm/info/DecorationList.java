@@ -27,7 +27,7 @@ public class DecorationList {
     @JsonProperty("seqno")
     private Integer seqno;
     @JsonProperty("webpcno")
-    private Integer webpcno;
+    private Long webpcno;
     @JsonProperty("itemId")
     private String itemId;
     @JsonProperty("positionX")
@@ -67,7 +67,7 @@ public class DecorationList {
      *     The webpcno
      */
     @JsonProperty("webpcno")
-    public Integer getWebpcno() {
+    public Long getWebpcno() {
         return webpcno;
     }
 
@@ -77,7 +77,7 @@ public class DecorationList {
      *     The webpcno
      */
     @JsonProperty("webpcno")
-    public void setWebpcno(Integer webpcno) {
+    public void setWebpcno(Long webpcno) {
         this.webpcno = webpcno;
     }
 
