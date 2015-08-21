@@ -1,14 +1,11 @@
 package yukihane.dq10don.communication.utils;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
 import lombok.Getter;
-
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * session.propertiesの情報を読み込みます.
