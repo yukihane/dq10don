@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import yukihane.dq10don.communication.utils.SessionProperties;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
@@ -30,21 +31,16 @@ public class GameServiceWrapperTest {
 
     private static String sessionId;
 
-    private GameServiceWrapper service;
+    private GameService service;
 
     @BeforeClass
     public static void beforeClass() throws IOException {
-        InputStream propStream = GameServiceWrapperTest.class.getClassLoader().getResourceAsStream("session.properties");
-        Properties sessionInfo = new Properties();
-        sessionInfo.load(new InputStreamReader(propStream));
-
-        sessionId = sessionInfo.getProperty("sessionId", "");
-        assertNotEquals("", sessionId);
+        sessionId = new SessionProperties().getSessionId();
     }
 
     @Before
     public void setUp() throws HappyServiceException {
-        service = new GameServiceWrapper(sessionId);
+        service = GameServiceFactory.getService(sessionId);
         GameLoginDto res = service.login();
         assertEquals(SUCCESS, res.getResultCode());
     }
