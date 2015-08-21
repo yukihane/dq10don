@@ -1,4 +1,3 @@
-
 package yukihane.dq10don.farm.model;
 
 import yukihane.dq10don.account.Farm;
@@ -13,6 +12,6 @@ import yukihane.dq10don.tobatsu.model.TobatsuListService;
 public class FarmListServiceFactory implements BaseServiceFactory<Farm, FarmListService> {
     @Override
     public FarmListService getService(DbHelper dbHelper) {
-        return null;
+        return new FarmListServiceImpl();
     }
 }
