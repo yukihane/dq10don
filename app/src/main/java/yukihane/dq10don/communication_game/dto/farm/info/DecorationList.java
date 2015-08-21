@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class DecorationList {
 
     @JsonProperty("seqno")
-    private Integer seqno;
+    private Long seqno;
     @JsonProperty("webpcno")
     private Long webpcno;
     @JsonProperty("itemId")
@@ -47,7 +47,7 @@ public class DecorationList {
      *     The seqno
      */
     @JsonProperty("seqno")
-    public Integer getSeqno() {
+    public Long getSeqno() {
         return seqno;
     }
 
@@ -57,7 +57,7 @@ public class DecorationList {
      *     The seqno
      */
     @JsonProperty("seqno")
-    public void setSeqno(Integer seqno) {
+    public void setSeqno(Long seqno) {
         this.seqno = seqno;
     }
 
