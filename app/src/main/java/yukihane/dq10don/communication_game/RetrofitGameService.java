@@ -1,5 +1,8 @@
 package yukihane.dq10don.communication_game;
 
+import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
@@ -13,14 +16,17 @@ import yukihane.dq10don.exception.HappyServiceException;
  */
 public interface RetrofitGameService {
 
+    @FormUrlEncoded
     @POST("/member/login")
-    GameLoginDto login() throws HappyServiceException;
+    GameLoginDto login(@Field("data") String data) throws HappyServiceException;
 
+    @FormUrlEncoded
     @POST("/farm/getinfo")
-    GameInfoDto getInfo() throws HappyServiceException;
+    GameInfoDto getInfo(@Field("data") String data) throws HappyServiceException;
 
+    @FormUrlEncoded
     @POST("/common/getservertime")
-    ServerTimeDto getServerTime() throws HappyServiceException;
+    ServerTimeDto getServerTime(@Field("data") String data) throws HappyServiceException;
 
     // TODO 未実装
 //    @POST("/farm/openalltresurebox")
