@@ -11,7 +11,7 @@ import lombok.Getter;
 import static org.junit.Assert.assertNotEquals;
 
 /**
- * Created by yuki on 15/08/21.
+ * session.propertiesの情報を読み込みます.
  */
 public class SessionProperties {
 
