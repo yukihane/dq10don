@@ -25,20 +25,48 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    private static void createBgService(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `bgservice` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `seed` BIGINT );");
+    }
+
+    private static void createAccount(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `account` (`sessionId` VARCHAR , `sqexid` VARCHAR NOT NULL , `invalid` SMALLINT NOT NULL , PRIMARY KEY (`sqexid`) );");
+    }
+
+    private static void createCharacter(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `character` (`account_id` VARCHAR NOT NULL , `characterName` VARCHAR NOT NULL , `smileUniqNo` VARCHAR NOT NULL , `lastTobatsuResultCode` INTEGER NOT NULL , `webPcNo` BIGINT NOT NULL , PRIMARY KEY (`webPcNo`), FOREIGN KEY (`account_id`) REFERENCES `account`(`sqexid`));");
+    }
+
+    private static void createTobatsuList(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `tobatsulist` (`character_id` BIGINT , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `issuedDate` VARCHAR , `countySize` INTEGER , UNIQUE (`character_id`,`issuedDate`,`countySize`) );");
+    }
+
+    private static void createTobatsuItem(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `tobatsuitem` (`area` VARCHAR , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `list_id` BIGINT , `monsterName` VARCHAR , `count` INTEGER , `point` INTEGER, FOREIGN KEY(`list_id`) REFERENCES `tobatsulist`(`id`) );");
+    }
+
+    private static void createStorage(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
+    }
+
+    private static void createStoredItem(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE `storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         LOGGER.info("MyDatabaseHelper.onCreate()");
 
         db.beginTransaction();
         try {
-            createBgService(db, connectionSource);
-            createAccount(db, connectionSource);
-            createCharacter(db, connectionSource);
-            createTobatsuList(db, connectionSource);
-            createTobatsuItem(db, connectionSource);
+            createBgService(db);
+            createAccount(db);
+            createCharacter(db);
+            createTobatsuList(db);
+            createTobatsuItem(db);
 
             // ver.3 & ver4
-            createStorage(db, connectionSource);
+            createStorage(db);
             createStoredItem(db);
 
             db.setTransactionSuccessful();
@@ -118,7 +146,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
 
                 // 今回追加したテーブル
-                createStorage(db, connectionSource);
+                createStorage(db);
                 createStoredItem(db);
 
                 db.rawQuery("PRAGMA foreign_key_check;", new String[]{});
@@ -142,33 +170,5 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             db.execSQL("PRAGMA foreign_keys=ON;");
             LOGGER.info("END migration");
         }
-    }
-
-    private void createBgService(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `bgservice` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `seed` BIGINT );");
-    }
-
-    private void createAccount(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `account` (`sessionId` VARCHAR , `sqexid` VARCHAR NOT NULL , `invalid` SMALLINT NOT NULL , PRIMARY KEY (`sqexid`) );");
-    }
-
-    private void createCharacter(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `character` (`account_id` VARCHAR NOT NULL , `characterName` VARCHAR NOT NULL , `smileUniqNo` VARCHAR NOT NULL , `lastTobatsuResultCode` INTEGER NOT NULL , `webPcNo` BIGINT NOT NULL , PRIMARY KEY (`webPcNo`), FOREIGN KEY (`account_id`) REFERENCES `account`(`sqexid`));");
-    }
-
-    private void createTobatsuList(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `tobatsulist` (`character_id` BIGINT , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `issuedDate` VARCHAR , `countySize` INTEGER , UNIQUE (`character_id`,`issuedDate`,`countySize`) );");
-    }
-
-    private void createTobatsuItem(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `tobatsuitem` (`area` VARCHAR , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `list_id` BIGINT , `monsterName` VARCHAR , `count` INTEGER , `point` INTEGER, FOREIGN KEY(`list_id`) REFERENCES `tobatsulist`(`id`) );");
-    }
-
-    private void createStorage(SQLiteDatabase db, ConnectionSource connectionSource) {
-        db.execSQL("CREATE TABLE `storage` (`character_id` BIGINT NOT NULL , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `lastUpdateDate` VARCHAR , `storageName` VARCHAR , `storageId` INTEGER NOT NULL , `storageIndex` INTEGER NOT NULL, UNIQUE (`character_id`,`storageId`,`storageIndex`) );");
-    }
-
-    private static void createStoredItem(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE `storeditem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `itemName` VARCHAR NOT NULL , `itemUniqueNo` VARCHAR NOT NULL , `storage_id` BIGINT , `variousStr` VARCHAR , `webItemId` VARCHAR , UNIQUE (`storage_id`, `itemUniqueNo`), FOREIGN KEY(`storage_id`) REFERENCES `storage`(`id`));");
     }
 }
