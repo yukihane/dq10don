@@ -51,6 +51,11 @@
     </activity>
 
     <activity
+      android:name=".farm.view.FarmActivity"
+      android:label="@string/title_activity_farm">
+    </activity>
+
+    <activity
       android:name=".login.view.LoginActivity"
       android:label="@string/title_activity_login"
       android:parentActivityName=".sqexid.view.SqexidActivity">
@@ -132,11 +137,6 @@
     <activity
       android:name=".tos.view.TosActivity"
       android:label="@string/title_activity_tos">
-    </activity>
-
-    <activity
-      android:name=".farm.view.FarmActivity"
-      android:label="@string/title_activity_farm">
     </activity>
   </application>
 
