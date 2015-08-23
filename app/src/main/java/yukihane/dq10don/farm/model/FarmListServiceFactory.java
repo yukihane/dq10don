@@ -12,6 +12,6 @@ import yukihane.dq10don.tobatsu.model.TobatsuListService;
 public class FarmListServiceFactory implements BaseServiceFactory<Farm, FarmListService> {
     @Override
     public FarmListService getService(DbHelper dbHelper) {
-        return new FarmListServiceImpl();
+        return new FarmListServiceImpl(dbHelper);
     }
 }
