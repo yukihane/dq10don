@@ -1,12 +1,18 @@
 package yukihane.dq10don;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -17,6 +23,8 @@ public class Utils {
 
     public static final int TOBATSU_NOTIFICATION_ID = 1;
     public static final int BOSS_CARD_NOTIFICATION_ID = 2;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
 
     private static final TimeZone TIMEZONE_JAPAN = TimeZone.getTimeZone("Asia/Tokyo");
 
@@ -72,8 +80,24 @@ public class Utils {
         return sb.toString();
     }
 
-
     public static TimeZone getJapenTimeZone() {
         return TIMEZONE_JAPAN;
+    }
+
+    /**
+     * 2015-08-18 21:27:06 型の日付時刻文字列をDate型に変換します.
+     */
+    public static Date parseDate(String dateText) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(getJapenTimeZone());
+
+        try {
+            return sdf.parse(dateText);
+        } catch (ParseException e) {
+            // 発生しないはず
+            LOGGER.error("date/time parse error: " + dateText, e);
+            return null;
+        }
     }
 }
