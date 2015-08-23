@@ -1,6 +1,9 @@
 package yukihane.dq10don.db;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 
 import java.sql.SQLException;
@@ -9,8 +12,6 @@ import java.util.List;
 import yukihane.dq10don.account.Farm;
 import yukihane.dq10don.account.FarmBox;
 import yukihane.dq10don.account.FarmGrass;
-import yukihane.dq10don.account.Storage;
-import yukihane.dq10don.account.StoredItem;
 
 /**
  * Created by yuki on 15/08/21.
@@ -67,5 +68,56 @@ public class FarmDao {
         }
 
         return farm;
+    }
+
+    /**
+     * Farmを保存します.
+     */
+    public void persist(Farm farm) throws SQLException {
+
+        TransactionManager.callInTransaction(farmDao.getConnectionSource(), () -> {
+
+            PreparedQuery<Farm> query = farmDao.queryBuilder()
+                    .where()
+                    .eq("character_id", farm.getCharacter())
+                    .prepare();
+
+            List<Farm> saveds = farmDao.query(query);
+            if (!saveds.isEmpty()) {
+
+                // ユニークキー指定なので存在するならば必ず1個
+                assert (saveds.size() == 1);
+                Farm saved = saveds.get(0);
+
+                deleteGrasses(saved);
+                deleteBoxes(saved);
+
+                farm.setId(saved.getId());
+            }
+
+            farmDao.createOrUpdate(farm);
+            for (FarmGrass g : farm.getFarmGrasses()) {
+                farmGrassDao.create(g);
+            }
+            for (FarmBox b : farm.getFarmBoxes()) {
+                farmBoxDao.create(b);
+            }
+
+            return null;
+        });
+    }
+
+    private void deleteGrasses(Farm farm) throws SQLException {
+        DeleteBuilder<FarmGrass, Long> builder = farmGrassDao.deleteBuilder();
+        builder.where().eq("farm_id", farm);
+        PreparedDelete<FarmGrass> query = builder.prepare();
+        farmGrassDao.delete(query);
+    }
+
+    private void deleteBoxes(Farm farm) throws SQLException {
+        DeleteBuilder<FarmBox, Long> builder = farmBoxDao.deleteBuilder();
+        builder.where().eq("farm_id", farm);
+        PreparedDelete<FarmBox> query = builder.prepare();
+        farmBoxDao.delete(query);
     }
 }
