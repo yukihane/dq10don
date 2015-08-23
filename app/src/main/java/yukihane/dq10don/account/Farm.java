@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import yukihane.dq10don.communication_game.dto.farm.info.AgencyInfo;
 import yukihane.dq10don.communication_game.dto.farm.info.Data;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
@@ -24,12 +25,14 @@ public class Farm {
 
     private final List<FarmBox> farmBoxes = new ArrayList<>();
 
+    @Setter
     @Getter
     @DatabaseField(generatedId = true, canBeNull = false)
     private Long id;
 
+    @Setter
     @Getter
-    @DatabaseField(foreign = true, canBeNull = false)
+    @DatabaseField(foreign = true, unique = true, canBeNull = false)
     private Character character;
 
     @Getter
@@ -91,5 +94,13 @@ public class Farm {
     public void addBox(FarmBox obj) {
         farmBoxes.add(obj);
         obj.setFarm(this);
+    }
+
+    public List<FarmGrass> getFarmGrasses() {
+        return new ArrayList<>(farmGrasses);
+    }
+
+    public List<FarmBox> getFarmBoxes() {
+        return new ArrayList<>(farmBoxes);
     }
 }
