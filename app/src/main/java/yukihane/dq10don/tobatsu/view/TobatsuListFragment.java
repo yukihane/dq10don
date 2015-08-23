@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
 import yukihane.dq10don.base.presenter.BasePresenter;
@@ -51,7 +51,7 @@ public class TobatsuListFragment
         Date issuedDate = new Date(issuedDateNum);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm", Locale.JAPAN);
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        sdf.setTimeZone(Utils.getJapenTimeZone());
 
         String issuedDateStr = sdf.format(issuedDate);
 

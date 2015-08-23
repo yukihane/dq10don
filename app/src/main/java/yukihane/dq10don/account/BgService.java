@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
-import java.util.TimeZone;
 
 import lombok.Getter;
 import lombok.Setter;
+import yukihane.dq10don.Utils;
 
 @DatabaseTable
 public class BgService {
@@ -48,7 +48,7 @@ public class BgService {
     public long getNextAlarmTime() {
         int delay = getDelay();
 
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.JAPAN);
+        Calendar cal = Calendar.getInstance(Utils.getJapenTimeZone(), Locale.JAPAN);
         int h = cal.get(Calendar.HOUR_OF_DAY);
         int m = cal.get(Calendar.MINUTE);
         if (h >= 6 || (h == 5 && m >= 55)) {

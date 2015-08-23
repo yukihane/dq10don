@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.base.presenter.BaseActivityPresenter;
 import yukihane.dq10don.db.AccountDao;
@@ -80,7 +80,7 @@ public class TobatsuPresenter implements BaseActivityPresenter {
             // (もしかしたらアラームが解除されているかもしれないので).
             // 5:55 以降だとアラームは翌日にセットされてしまう.
             // 6時になったばかりだと今日の処理を実行中の可能性がある.
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"), Locale.JAPAN);
+            Calendar cal = Calendar.getInstance(Utils.getJapenTimeZone(), Locale.JAPAN);
             int h = cal.get(Calendar.HOUR_OF_DAY);
             int m = cal.get(Calendar.MINUTE);
             if (h == 6 || (h == 5 && m >= 50)) {

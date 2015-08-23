@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.TimeZone;
 
 /**
  * Created by yuki on 15/07/08.
@@ -17,6 +18,7 @@ public class Utils {
     public static final int TOBATSU_NOTIFICATION_ID = 1;
     public static final int BOSS_CARD_NOTIFICATION_ID = 2;
 
+    private static final TimeZone TIMEZONE_JAPAN = TimeZone.getTimeZone("Asia/Tokyo");
 
     private Utils() {
     }
@@ -68,5 +70,10 @@ public class Utils {
             sb.append(item);
         }
         return sb.toString();
+    }
+
+
+    public static TimeZone getJapenTimeZone() {
+        return TIMEZONE_JAPAN;
     }
 }
