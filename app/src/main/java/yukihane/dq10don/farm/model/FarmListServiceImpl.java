@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import retrofit.client.Response;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Farm;
@@ -16,6 +17,7 @@ import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication_game.GameService;
 import yukihane.dq10don.communication_game.GameServiceFactory;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
+import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
 import yukihane.dq10don.db.FarmDao;
@@ -94,6 +96,10 @@ public class FarmListServiceImpl implements FarmListService {
         GameInfoDto gameInfoDto = gameService.getInfo();
         Farm farm = Farm.from(gameInfoDto);
         farm.setCharacter(character);
+
+        ServerTimeDto timeDto = gameService.getServerTime();
+        String serverTimeStr = timeDto.getData().getTime();
+        farm.setLastUpdateDate(Utils.parseDate(serverTimeStr));
 
         FarmDao.create(dbHelper).persist(farm);
 

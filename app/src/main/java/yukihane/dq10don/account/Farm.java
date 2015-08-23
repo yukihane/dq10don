@@ -51,6 +51,7 @@ public class Farm {
     @DatabaseField(canBeNull = false)
     private boolean isFriendBlueBox;
 
+    @Setter
     @Getter
     @DatabaseField(canBeNull = false)
     private Date lastUpdateDate;
