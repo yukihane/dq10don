@@ -70,4 +70,9 @@
   <string name="etc">等</string>
   <string name="agree">同意する</string>
   <string name="disagree">同意しない</string>
+  <string name="text_farm_nextSailoutDt">次回船旅</string>
+  <string name="text_farm_nearLimitDt">船旅報酬</string>
+  <string name="text_farm_isFriendBlueBox">青宝箱</string>
+  <string name="text_farm_treasureboxList">宝箱</string>
+  <string name="text_farm_grassList">雑草</string>
 </resources>

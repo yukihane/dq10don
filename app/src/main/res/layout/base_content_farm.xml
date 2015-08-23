@@ -5,4 +5,114 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
+  <!-- 船旅 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_nextSailoutDt"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/nextSailoutDt"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textSize="20sp"/>
+  </LinearLayout>
+
+
+  <!-- 船旅報酬 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_nearLimitDt"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/nearLimitDt"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textSize="20sp"/>
+  </LinearLayout>
+
+
+  <!-- 青宝箱 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_isFriendBlueBox"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/isFriendBlueBox"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textSize="20sp"/>
+  </LinearLayout>
+
+
+  <!-- 宝箱 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_treasureboxList"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/treasureboxList"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textSize="20sp"/>
+  </LinearLayout>
+
+
+  <!-- 雑草 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_grassList"
+      android:textSize="20sp"/>
+
+    <TextView
+      android:id="@+id/grassList"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textSize="20sp"/>
+  </LinearLayout>
+
+
 </LinearLayout>
