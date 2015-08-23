@@ -19,7 +19,7 @@
       android:textSize="20sp"/>
 
     <TextView
-      android:id="@+id/nextSailoutDt"
+      android:id="@+id/farmNextSailoutDt"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -41,7 +41,7 @@
       android:textSize="20sp"/>
 
     <TextView
-      android:id="@+id/nearLimitDt"
+      android:id="@+id/farmNearLimitDt"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -63,7 +63,7 @@
       android:textSize="20sp"/>
 
     <TextView
-      android:id="@+id/isFriendBlueBox"
+      android:id="@+id/farmIsFriendBlueBox"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -85,7 +85,7 @@
       android:textSize="20sp"/>
 
     <TextView
-      android:id="@+id/treasureboxList"
+      android:id="@+id/farmTreasureboxList"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -107,7 +107,7 @@
       android:textSize="20sp"/>
 
     <TextView
-      android:id="@+id/grassList"
+      android:id="@+id/farmGrassList"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="1"
