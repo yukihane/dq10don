@@ -23,7 +23,7 @@ public class FarmListFragment extends BaseFragment<Farm, FarmListPresenter> {
     }
 
     @Override
-    public void onListUpdated(Farm list) {
+    public void onDataUpdated(Farm list) {
         // TODO コンテンツ更新
     }
 }
