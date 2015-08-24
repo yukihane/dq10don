@@ -77,4 +77,7 @@
   <string name="text_farm_isFriendBlueBox">青宝箱</string>
   <string name="text_farm_treasureboxList">宝箱</string>
   <string name="text_farm_grassList">雑草</string>
+  <string name="unanchorable">[可]</string>
+  <string name="exist">有</string>
+  <string name="nonexist">無</string>
 </resources>
