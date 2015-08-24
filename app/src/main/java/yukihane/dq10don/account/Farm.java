@@ -51,6 +51,13 @@ public class Farm {
     @DatabaseField
     private String agencyStatus;
 
+    /**
+     * 船旅報酬の未取得件数.
+     */
+    @Getter
+    @DatabaseField(canBeNull = false)
+    private int ungetCount;
+
     @Getter
     @DatabaseField
     private String nearLimitDt;
@@ -58,6 +65,13 @@ public class Farm {
     @Getter
     @DatabaseField(canBeNull = false)
     private boolean isFriendBlueBox;
+
+    /**
+     * 得られた情報以上に宝箱がある場合はtrue(と思われる)
+     */
+    @Getter
+    @DatabaseField(canBeNull = false)
+    private boolean moreRebirthTreasureBox;
 
     @Setter
     @Getter
@@ -68,17 +82,21 @@ public class Farm {
     public Farm() {
     }
 
-    public Farm(String nextSailoutDt, String agencyStatus, String nearLimitDt, boolean isFriendBlueBox) {
+    public Farm(String nextSailoutDt, String agencyStatus, Integer ungetCount, String nearLimitDt,
+                boolean isFriendBlueBox, boolean moreRebirthTreasureBox) {
         this.nextSailoutDt = nextSailoutDt;
         this.agencyStatus = agencyStatus;
+        this.ungetCount = (ungetCount == null) ? 0 : ungetCount.intValue();
         this.nearLimitDt = nearLimitDt;
         this.isFriendBlueBox = isFriendBlueBox;
+        this.moreRebirthTreasureBox = moreRebirthTreasureBox;
     }
 
     public static Farm from(GameInfoDto dto) {
         Data data = dto.getData();
         AgencyInfo ai = data.getAgencyInfo();
-        Farm res = new Farm(ai.getNextSailoutDt(), ai.getAgencyStatus(), ai.getNearLimitDt(), data.getIsFriendBlueBox());
+        Farm res = new Farm(ai.getNextSailoutDt(), ai.getAgencyStatus(), ai.getUngetCount(),
+                ai.getNearLimitDt(), data.getIsFriendBlueBox(), data.getMoreRebirthTreasureBox());
 
         List<GrassList> grasses = data.getGrassList();
         for (GrassList g : grasses) {

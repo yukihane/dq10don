@@ -63,7 +63,7 @@ public class FarmListFragment extends BaseFragment<
     @Override
     public void onDataUpdated(Farm data) {
         SimpleDateFormat ysdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm");
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd '('E')' H:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
 
         // 最終更新時刻
         String lastUpdateDateStr = ysdf.format(data.getLastUpdateDate());
@@ -82,7 +82,7 @@ public class FarmListFragment extends BaseFragment<
         // デフォルトのテキスト色
         ColorStateList textColors = updateDateView.getTextColors();
         if (data.isUnanchorable()) {
-            nextSailoutDtText += getText(R.string.unanchorable);
+            nextSailoutDtText += " " + getText(R.string.unanchorable);
             textColors = ColorStateList.valueOf(Color.BLUE);
         }
         TextView nextSailoutDtView = (TextView) getView().findViewById(R.id.farmNextSailoutDt);
@@ -93,9 +93,10 @@ public class FarmListFragment extends BaseFragment<
         String nearLimitDt = data.getNearLimitDt();
         String nearLimitDtText;
         if (nearLimitDt == null || nearLimitDt.isEmpty()) {
-            nearLimitDtText = "";
+            nearLimitDtText = getString(R.string.nonexist);
         } else {
-            nearLimitDtText = sdf.format(Utils.parseDate(nearLimitDt));
+            nearLimitDtText = sdf.format(Utils.parseDate(nearLimitDt))
+                    + " [" + data.getUngetCount() + getString(R.string.text_unit) + "]";
         }
         TextView nearLimitDtView = (TextView) getView().findViewById(R.id.farmNearLimitDt);
         nearLimitDtView.setText(nearLimitDtText);
@@ -111,8 +112,10 @@ public class FarmListFragment extends BaseFragment<
         if (farmBoxNearestLimit == null) {
             treasureboxListText = getString(R.string.nonexist);
         } else {
+            String unit = getString(R.string.text_unit);
+            String over = (data.isMoreRebirthTreasureBox()) ? getString(R.string.text_over) : "";
             treasureboxListText = sdf.format(farmBoxNearestLimit)
-                    + " (" + data.getFarmBoxSize() + ")";
+                    + " [" + data.getFarmBoxSize() + unit + over + "]";
         }
         TextView treasureboxListView = (TextView) getView().findViewById(R.id.farmTreasureboxList);
         treasureboxListView.setText(treasureboxListText);
