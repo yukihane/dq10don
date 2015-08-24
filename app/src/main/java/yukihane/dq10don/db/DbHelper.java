@@ -85,9 +85,9 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             createStoredItem(db);
 
             // v5
+            createFarm(db);
             createFarmGrass(db);
             createFarmBox(db);
-            createFarm(db);
 
             db.setTransactionSuccessful();
         } finally {
@@ -182,9 +182,9 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             }
 
             if(oldVersion < 5) {
+                createFarm(db);
                 createFarmGrass(db);
                 createFarmBox(db);
-                createFarm(db);
             }
 
             db.setTransactionSuccessful();
