@@ -77,6 +77,18 @@ public class GameLoginTest {
             body = response.body().string();
             LOGGER.info("getservertime: {}", body);
 
+            requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "data={grassTicketList:[656541964,656541965,656541966,655909817]}&");
+            req = new Request.Builder()
+                    .url("https://game.happy.dqx.jp/api/farm/mowgrass")
+                    .header(HttpUtil.HEADER_SESSION, sessionId)
+                    .header(HttpUtil.HEADER_FARMTOKEN, farmToken)
+                    .header(HttpUtil.HEADER_CASINOTOKEN, farmToken)
+                    .post(requestBody)
+                    .build();
+            response = client.newCall(req).execute();
+            body = response.body().string();
+            LOGGER.info("mowgrass: {}", body);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
