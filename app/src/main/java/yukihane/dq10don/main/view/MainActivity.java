@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         presenter = new MainPresenter(this, new DbHelperFactory(this), new TosPrefUtilsImpl(this));
 
+        View sqexid = findViewById(R.id.launchSqexidButton);
+        sqexid.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SqexidActivity.class);
+            startActivity(intent);
+        });
+
         View tobatsu = findViewById(R.id.launchTobatsuButton);
         tobatsu.setOnClickListener((v) -> {
             Intent intent = new Intent(this, TobatsuActivity.class);

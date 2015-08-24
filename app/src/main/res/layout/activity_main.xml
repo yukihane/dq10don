@@ -7,15 +7,23 @@
   >
 
   <Button
-    android:id="@+id/launchTobatsuButton"
-    android:layout_width="wrap_content"
+    android:id="@+id/launchSqexidButton"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:text="@string/title_activity_sqexid"
+    />
+
+  <Button
+    android:id="@+id/launchTobatsuButton"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="40dp"
     android:text="@string/title_activity_tobatsu"
     />
 
   <Button
     android:id="@+id/launchBossCardButton"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
     android:text="@string/title_activity_boss_card"
@@ -23,7 +31,7 @@
 
   <Button
     android:id="@+id/launchFarmButton"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
     android:text="@string/title_activity_farm"
