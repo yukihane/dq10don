@@ -107,7 +107,7 @@ public class FarmDao {
         });
     }
 
-    private void deleteGrasses(Farm farm) throws SQLException {
+    public void deleteGrasses(Farm farm) throws SQLException {
         DeleteBuilder<FarmGrass, Long> builder = farmGrassDao.deleteBuilder();
         builder.where().eq("farm_id", farm);
         PreparedDelete<FarmGrass> query = builder.prepare();
