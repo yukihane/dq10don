@@ -101,17 +101,32 @@
 
     <TextView
       android:layout_width="0px"
-      android:layout_height="wrap_content"
+      android:layout_height="fill_parent"
       android:layout_weight="1"
+      android:gravity="center_vertical"
       android:text="@string/text_farm_grassList"
       android:textSize="18sp"/>
 
-    <TextView
-      android:id="@+id/farmGrassList"
+    <LinearLayout
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="2"
-      android:textSize="18sp"/>
+      android:orientation="horizontal">
+
+      <TextView
+        android:id="@+id/farmGrassList"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textSize="18sp"/>
+
+      <Button
+        android:id="@+id/farmMowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_farm_mow"/>
+    </LinearLayout>
   </LinearLayout>
 
 
