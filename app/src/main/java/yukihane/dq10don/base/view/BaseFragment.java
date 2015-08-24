@@ -38,6 +38,9 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>>
 
     private P presenter;
 
+    protected final P getPresenter() {
+        return presenter;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -37,6 +37,8 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
      */
     private final CharacterDto character;
 
+    private T displayTarget = null;
+
     private View<T> view = null;
     private BaseServiceFactory<T, S> serviceFactory;
     private DbHelper dbHelper = null;
@@ -78,6 +80,18 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         updateList(false, false);
     }
 
+    protected final CharacterDto getCharacter() {
+        return character;
+    }
+
+    protected final T getDisplayTarget() {
+        return displayTarget;
+    }
+
+    protected final S getService() {
+        return serviceFactory.getService(dbHelper);
+    }
+
     /**
      * @param useCache       true の場合, (DB上に)キャッシュが有ればそれを返します.
      *                       false の場合, DBデータの有無にかかわらずサーバへリクエストします.
@@ -92,7 +106,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 = Observable.create((Subscriber<? super T> subscriber) -> {
             subscriber.onStart();
 
-            BaseService<T> service = serviceFactory.getService(dbHelper);
+            BaseService<T> service = getService();
             try {
                 if (useCache) {
                     T tl = service.getContentFromDB(character.getWebPcNo());
@@ -149,6 +163,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
             @Override
             public void onCompleted() {
                 if (data != null) {
+                    displayTarget = data;
                     view.onDataUpdated(data);
                 }
                 view.setLoadingState(false);
