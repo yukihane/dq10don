@@ -113,16 +113,6 @@ public class Farm {
         return res;
     }
 
-    /**
-     * 出航可能(船旅可能)ならtrue
-     */
-    public boolean isUnanchorable() {
-        if (AGENCY_RE.equals(agencyStatus)) {
-            return true;
-        }
-        return false;
-    }
-
     public void addGrass(FarmGrass obj) {
         farmGrasses.add(obj);
         obj.setFarm(this);

@@ -73,17 +73,17 @@ public class FarmListFragment extends BaseFragment<
         // 船旅
         String nextSailoutDt = data.getNextSailoutDt();
         String nextSailoutDtText;
+        // デフォルトのテキスト色
+        ColorStateList textColors = updateDateView.getTextColors();
         if (nextSailoutDt == null || nextSailoutDt.isEmpty()) {
             nextSailoutDtText = "";
         } else {
-            nextSailoutDtText = sdf.format(Utils.parseDate(nextSailoutDt));
-        }
-
-        // デフォルトのテキスト色
-        ColorStateList textColors = updateDateView.getTextColors();
-        if (data.isUnanchorable()) {
-            nextSailoutDtText += " " + getText(R.string.unanchorable);
-            textColors = ColorStateList.valueOf(Color.BLUE);
+            Date date = Utils.parseDate(nextSailoutDt);
+            nextSailoutDtText = sdf.format(date);
+            if (date.compareTo(data.getLastUpdateDate()) <= 0) {
+                nextSailoutDtText += " " + getText(R.string.unanchorable);
+                textColors = ColorStateList.valueOf(Color.BLUE);
+            }
         }
         TextView nextSailoutDtView = (TextView) getView().findViewById(R.id.farmNextSailoutDt);
         nextSailoutDtView.setText(nextSailoutDtText);
