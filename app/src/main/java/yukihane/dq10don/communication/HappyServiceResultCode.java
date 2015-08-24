@@ -29,6 +29,11 @@ public final class HappyServiceResultCode {
      */
     public static final int TOBATSUQUEST_NEVER_ACCEPTED = 22002;
 
+    /**
+     * 現在　メンテナンスをおこなっております。\n\n2015年8月24日(月) 2:00より10:00頃まで\n\n申し訳ありませんが　しばらくお待ちください。\n
+     */
+    public static final int OUT_OF_SERVICE = 99999;
+
     private HappyServiceResultCode() {
     }
 }
