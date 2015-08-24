@@ -14,56 +14,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "resultCode",
-    "data"
+    "count",
+    "itemId"
 })
-public class MowGrassDto {
+public class ItemList {
 
-    @JsonProperty("resultCode")
-    private String resultCode;
-    @JsonProperty("data")
-    private Data data;
+    @JsonProperty("count")
+    private Integer count;
+    @JsonProperty("itemId")
+    private String itemId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The resultCode
+     *     The count
      */
-    @JsonProperty("resultCode")
-    public String getResultCode() {
-        return resultCode;
+    @JsonProperty("count")
+    public Integer getCount() {
+        return count;
     }
 
     /**
      * 
-     * @param resultCode
-     *     The resultCode
+     * @param count
+     *     The count
      */
-    @JsonProperty("resultCode")
-    public void setResultCode(String resultCode) {
-        this.resultCode = resultCode;
+    @JsonProperty("count")
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     /**
      * 
      * @return
-     *     The data
+     *     The itemId
      */
-    @JsonProperty("data")
-    public Data getData() {
-        return data;
+    @JsonProperty("itemId")
+    public String getItemId() {
+        return itemId;
     }
 
     /**
      * 
-     * @param data
-     *     The data
+     * @param itemId
+     *     The itemId
      */
-    @JsonProperty("data")
-    public void setData(Data data) {
-        this.data = data;
+    @JsonProperty("itemId")
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     @JsonAnyGetter
