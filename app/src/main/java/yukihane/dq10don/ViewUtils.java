@@ -19,7 +19,7 @@ import retrofit.client.Response;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
-import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
+import static yukihane.dq10don.communication.HappyServiceResultCode.*;
 import static yukihane.dq10don.communication.HappyServiceResultCode.INGAME;
 import static yukihane.dq10don.communication.HappyServiceResultCode.NORMAL;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSUQUEST_NEVER_ACCEPTED;
@@ -52,6 +52,8 @@ public class ViewUtils {
                         return "";
                     case INGAME:
                         return context.getString(R.string.happy_106);
+                    case TRIAL_RESTRICTED:
+                        return context.getString(R.string.happy_113);
                     case HOUSEBAZAAR_UNSET:
                         return context.getString(R.string.happy_12009);
                     case TOBATSU_SLOW_SERVICE:
@@ -59,6 +61,8 @@ public class ViewUtils {
                     case TOBATSUQUEST_NEVER_ACCEPTED:
                         // 討伐が受けられるようになるクエストをこなしていない
                         return context.getString(R.string.happy_22002);
+                    case OUT_OF_SERVICE:
+                        return context.getString(R.string.happy_99999);
                     default:
                         return context.getString(R.string.happy_unknown, resultCode);
                 }
