@@ -4,11 +4,13 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.communication_game.dto.farm.info.AgencyInfo;
 import yukihane.dq10don.communication_game.dto.farm.info.Data;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
@@ -20,6 +22,10 @@ import yukihane.dq10don.communication_game.dto.farm.info.TreasureboxList;
  */
 @DatabaseTable
 public class Farm {
+
+    private static final String AGENCY_PR = "PR";
+    private static final String AGENCY_RE = "RE";
+
 
     private final List<FarmGrass> farmGrasses = new ArrayList<>();
 
@@ -39,7 +45,9 @@ public class Farm {
     @DatabaseField
     private String nextSailoutDt;
 
-    @Getter
+    /**
+     * RE: 出航可能, PR: 準備中(?)
+     */
     @DatabaseField
     private String agencyStatus;
 
@@ -87,6 +95,16 @@ public class Farm {
         return res;
     }
 
+    /**
+     * 出航可能(船旅可能)ならtrue
+     */
+    public boolean isUnanchorable() {
+        if (AGENCY_RE.equals(agencyStatus)) {
+            return true;
+        }
+        return false;
+    }
+
     public void addGrass(FarmGrass obj) {
         farmGrasses.add(obj);
         obj.setFarm(this);
@@ -101,7 +119,28 @@ public class Farm {
         return new ArrayList<>(farmGrasses);
     }
 
+    public int getFarmGrassSize() {
+        return farmGrasses.size();
+    }
+
     public List<FarmBox> getFarmBoxes() {
         return new ArrayList<>(farmBoxes);
+    }
+
+    public int getFarmBoxSize() {
+        return farmBoxes.size();
+    }
+
+    /**
+     * @return 牧場にある宝箱のうち、最も近い期限. 無ければnull.
+     */
+    public Date getFarmBoxNearestLimit() {
+        if (farmBoxes.isEmpty()) {
+            return null;
+        }
+        List<FarmBox> list = new ArrayList<>(farmBoxes);
+        Collections.sort(list);
+        String dt = list.get(0).getExpiredDt();
+        return Utils.parseDate(dt);
     }
 }
