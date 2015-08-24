@@ -1,5 +1,6 @@
 # 個人情報が含まれるファイル
 /app/src/test/resources/real_session.json
+/app/src/test/resources/session.properties
 /app/fabric.properties
 /app/src/main/resources/twitter4j.properties
 

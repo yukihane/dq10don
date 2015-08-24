@@ -26,6 +26,8 @@ import yukihane.dq10don.communication.dto.login.LoginDto;
 public class HttpUtil {
 
     public static final String HEADER_SESSION = "X-Smile-3DS-SESSIONID";
+    public static final String HEADER_FARMTOKEN = "x-smile-3ds-farmtoken";
+    public static final String HEADER_CASINOTOKEN = "x-smile-3ds-casinotoken";
     public static final String ENDPOINT = "https://happy.dqx.jp/capi";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtil.class);

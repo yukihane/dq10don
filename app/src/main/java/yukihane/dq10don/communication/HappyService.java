@@ -3,6 +3,7 @@ package yukihane.dq10don.communication;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import yukihane.dq10don.communication.dto.CharaSelectDto;
+import yukihane.dq10don.communication.dto.farm.FarmLoginDto;
 import yukihane.dq10don.communication.dto.profile.StorageDto;
 import yukihane.dq10don.communication.dto.profile.StoredItemDto;
 import yukihane.dq10don.communication.dto.tobatsu.TobatsuDto;
@@ -45,5 +46,9 @@ public interface HappyService {
 //    @GET("/profile/doll/{dollNo}/")
     // storageIdが101のものは送った手紙
 //    @GET("/profile/postoffice/sendmailhist/")
+
+    @GET("/farm/login")
+    FarmLoginDto farmLogin() throws HappyServiceException;
+
 
 }

@@ -57,7 +57,7 @@ public abstract class BaseListFragment<T, P extends BasePresenter<T, ?>, A exten
     }
 
     @Override
-    public void onListUpdated(T list) {
+    public void onDataUpdated(T list) {
         addDisplayItems(viewAdapter, list);
     }
 

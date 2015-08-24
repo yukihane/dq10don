@@ -51,6 +51,7 @@ public class TobatsuListFragment
         Date issuedDate = new Date(issuedDateNum);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm", Locale.JAPAN);
+        // 更新時刻は日本の午前6時なのでタイムゾーンを日本に固定する
         sdf.setTimeZone(Utils.getJapenTimeZone());
 
         String issuedDateStr = sdf.format(issuedDate);

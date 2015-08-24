@@ -124,11 +124,11 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         view.bind(observable);
 
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<T>() {
-            private T resultList;
+            private T data;
 
             @Override
-            public void onNext(T list) {
-                this.resultList = list;
+            public void onNext(T data) {
+                this.data = data;
             }
 
             @Override
@@ -148,8 +148,8 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
             @Override
             public void onCompleted() {
-                if (resultList != null) {
-                    view.onListUpdated(resultList);
+                if (data != null) {
+                    view.onDataUpdated(data);
                 }
                 view.setLoadingState(false);
             }
@@ -165,7 +165,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
         void setHeader(String sqexid, String smileUniqNo);
 
-        void onListUpdated(T list);
+        void onDataUpdated(T list);
 
         void bind(Observable<?> observable);
 
@@ -188,7 +188,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         }
 
         @Override
-        public void onListUpdated(T list) {
+        public void onDataUpdated(T list) {
         }
 
         @Override

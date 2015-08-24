@@ -11,6 +11,7 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.bosscard.view.BossCardActivity;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
+import yukihane.dq10don.farm.view.FarmActivity;
 import yukihane.dq10don.main.presenter.MainPresenter;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         View bossCard = findViewById(R.id.launchBossCardButton);
         bossCard.setOnClickListener((v) -> {
             Intent intent = new Intent(this, BossCardActivity.class);
+            startActivity(intent);
+        });
+
+        View farm = findViewById(R.id.launchFarmButton);
+        farm.setOnClickListener((v) -> {
+            Intent intent = new Intent(this, FarmActivity.class);
             startActivity(intent);
         });
 
