@@ -28,10 +28,12 @@ public interface RetrofitGameService {
     @POST("/common/getservertime")
     ServerTimeDto getServerTime(@Field("data") String data) throws HappyServiceException;
 
+
+    @FormUrlEncoded
+    @POST("/farm/mowgrass")
+    MowGrassDto mowGrass(@Field("data") String data) throws HappyServiceException;
+
     // TODO 未実装
 //    @POST("/farm/openalltresurebox")
 //    OpenAllTresureBoxDto openAllTresureBox() throws HappyServiceException;
-//
-//    @POST("/farm/mowgrass")
-//    MowGrassDto mowGrass() throws HappyServiceException;
 }

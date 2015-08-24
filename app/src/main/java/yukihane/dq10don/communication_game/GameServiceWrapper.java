@@ -1,20 +1,27 @@
 package yukihane.dq10don.communication_game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Getter;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.OkClient;
 import retrofit.converter.JacksonConverter;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
+import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
 import yukihane.dq10don.communication_game.dto.login.Data;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
+import yukihane.dq10don.exception.ApplicationException;
 import yukihane.dq10don.exception.HappyServiceException;
 
 import static yukihane.dq10don.communication_game.Constants.GAMESERVICE_ENDPOINT;
@@ -56,6 +63,13 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
             if (!RESULT_SUCCESS.equals(res.getResultCode())) {
                 LOGGER.error("GameService login error resultCode: {}",
                         res.getResultCode());
+                int resultCode;
+                try {
+                    resultCode = Integer.parseInt(res.getResultCode());
+                } catch (NumberFormatException e) {
+                    resultCode = -1;
+                }
+                throw new HappyServiceException(resultCode);
             }
             Data data = res.getData();
             if (data != null) {
@@ -75,6 +89,13 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
             if (!RESULT_SUCCESS.equals(res.getResultCode())) {
                 LOGGER.error("GameService getInfo error resultCode: {}",
                         res.getResultCode());
+                int resultCode;
+                try {
+                    resultCode = Integer.parseInt(res.getResultCode());
+                } catch (NumberFormatException e) {
+                    resultCode = -1;
+                }
+                throw new HappyServiceException(resultCode);
             }
             return res;
         } catch (RetrofitError e) {
@@ -90,10 +111,44 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
             if (!RESULT_SUCCESS.equals(res.getResultCode())) {
                 LOGGER.error("GameService getServerTime error resultCode: {}",
                         res.getResultCode());
+                int resultCode;
+                try {
+                    resultCode = Integer.parseInt(res.getResultCode());
+                } catch (NumberFormatException e) {
+                    resultCode = -1;
+                }
+                throw new HappyServiceException(resultCode);
             }
             return res;
         } catch (RetrofitError e) {
             throw new HappyServiceException("getServerTime error", e);
+        }
+    }
+
+    @Override
+    public MowGrassDto mowGrass(List<Long> tickets) throws HappyServiceException {
+        MowGrassParam param = new MowGrassParam();
+        param.grassTicketList.addAll(tickets);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String grassTicketList = mapper.writeValueAsString(param);
+            MowGrassDto res = service.mowGrass(grassTicketList);
+            if (!RESULT_SUCCESS.equals(res.getResultCode())) {
+                LOGGER.error("GameService mowGrass error resultCode: {}",
+                        res.getResultCode());
+                int resultCode;
+                try {
+                    resultCode = Integer.parseInt(res.getResultCode());
+                } catch (NumberFormatException e) {
+                    resultCode = -1;
+                }
+                throw new HappyServiceException(resultCode);
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("mowGrass error", e);
+        } catch (JsonProcessingException e) {
+            throw new HappyServiceException(-1);
         }
     }
 
@@ -109,5 +164,10 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
             request.addHeader(HEADER_FARMTOKEN, token);
             request.addHeader(HEADER_CASINOTOKEN, token);
         }
+    }
+
+    private static class MowGrassParam {
+        @Getter
+        private List<Long> grassTicketList = new ArrayList<>();
     }
 }

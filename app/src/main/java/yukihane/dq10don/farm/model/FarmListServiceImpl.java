@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.HttpURLConnection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import retrofit.client.Response;
@@ -17,6 +18,7 @@ import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication_game.GameService;
 import yukihane.dq10don.communication_game.GameServiceFactory;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
+import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
@@ -53,6 +55,24 @@ public class FarmListServiceImpl implements FarmListService {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
         return getContentFromServer(character);
+    }
+
+    @Override
+    public int mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+
+        String sessionId = character.getAccount().getSessionId();
+        LOGGER.info("update target character: {}", character);
+        HappyService service = HappyServiceFactory.getService(sessionId);
+        service.characterSelect(character.getWebPcNo());
+        service.farmLogin();
+
+        GameService gameService = GameServiceFactory.getService(sessionId);
+        gameService.login();
+
+        MowGrassDto mowGrassDto = gameService.mowGrass(tickets);
+        return mowGrassDto.getData().getItemList().size();
     }
 
     /**
@@ -105,5 +125,4 @@ public class FarmListServiceImpl implements FarmListService {
 
         return farm;
     }
-
 }
