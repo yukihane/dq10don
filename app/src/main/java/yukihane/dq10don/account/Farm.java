@@ -46,7 +46,7 @@ public class Farm {
     private String nextSailoutDt;
 
     /**
-     * RE: 出航可能, PR: 準備中(?)
+     * RE: 出航可能, PR: 船旅中(?)
      */
     @DatabaseField
     private String agencyStatus;
