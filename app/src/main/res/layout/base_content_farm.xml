@@ -5,6 +5,28 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
+  <!-- 宝箱 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/text_farm_treasureboxList"
+      android:textSize="18sp"/>
+
+    <TextView
+      android:id="@+id/farmTreasureboxList"
+      android:layout_width="0px"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"
+      android:textSize="18sp"/>
+  </LinearLayout>
+
+
   <!-- 船旅 -->
   <LinearLayout
     android:layout_width="match_parent"
@@ -64,28 +86,6 @@
 
     <TextView
       android:id="@+id/farmIsFriendBlueBox"
-      android:layout_width="0px"
-      android:layout_height="wrap_content"
-      android:layout_weight="2"
-      android:textSize="18sp"/>
-  </LinearLayout>
-
-
-  <!-- 宝箱 -->
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-      android:layout_width="0px"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:text="@string/text_farm_treasureboxList"
-      android:textSize="18sp"/>
-
-    <TextView
-      android:id="@+id/farmTreasureboxList"
       android:layout_width="0px"
       android:layout_height="wrap_content"
       android:layout_weight="2"
