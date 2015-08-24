@@ -12,7 +12,7 @@ import yukihane.dq10don.communication_game.dto.farm.info.TreasureboxList;
  * モンスター牧場の宝箱.
  */
 @DatabaseTable
-public class FarmBox {
+public class FarmBox implements Comparable<FarmBox> {
 
     @DatabaseField(generatedId = true, canBeNull = false)
     private Long id;
@@ -45,5 +45,10 @@ public class FarmBox {
 
     public static FarmBox from(TreasureboxList dto) {
         return new FarmBox(dto.getTicketNo(), dto.getExpiredDt(), dto.getType());
+    }
+
+    @Override
+    public int compareTo(FarmBox farmBox) {
+        return this.getExpiredDt().compareTo(farmBox.getExpiredDt());
     }
 }
