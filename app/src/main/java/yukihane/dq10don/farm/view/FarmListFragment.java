@@ -2,7 +2,14 @@ package yukihane.dq10don.farm.view;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +45,19 @@ public class FarmListFragment extends BaseFragment<
     @Override
     protected FarmListPresenter newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character) {
         return new FarmListPresenter(new FarmListServiceFactory(), dbHelperFactory, character);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        Button mowButton = (Button) view.findViewById(R.id.farmMowButton);
+        mowButton.setOnClickListener(v -> {
+            getPresenter().mowGrasses();
+        });
+
+        return view;
     }
 
     @Override
@@ -102,5 +122,24 @@ public class FarmListFragment extends BaseFragment<
         TextView grassListView = (TextView) getView().findViewById(R.id.farmGrassList);
         grassListView.setText(grassListText);
 
+    }
+
+    @Override
+    public void setLoadingState(boolean loading) {
+        super.setLoadingState(loading);
+
+        Button mowButton = (Button) getView().findViewById(R.id.farmMowButton);
+        mowButton.setEnabled(!loading);
+    }
+
+    /**
+     * 草が刈られた
+     *
+     * @param num 刈られた草の数
+     */
+    @Override
+    public void onGrassMowed(int num) {
+        String text = getString(R.string.mowed, num);
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 }
