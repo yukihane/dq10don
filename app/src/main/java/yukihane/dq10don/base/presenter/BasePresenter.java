@@ -80,6 +80,10 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         updateList(false, false);
     }
 
+    protected final View<T> getView() {
+        return view;
+    }
+
     protected final CharacterDto getCharacter() {
         return character;
     }
