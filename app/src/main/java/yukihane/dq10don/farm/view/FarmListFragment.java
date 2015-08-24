@@ -111,8 +111,9 @@ public class FarmListFragment extends BaseFragment<
         if (farmBoxNearestLimit == null) {
             treasureboxListText = getString(R.string.nonexist);
         } else {
+            String unit = getString(R.string.text_unit);
             treasureboxListText = sdf.format(farmBoxNearestLimit)
-                    + " (" + data.getFarmBoxSize() + ")";
+                    + " [" + data.getFarmBoxSize() + unit + "]";
         }
         TextView treasureboxListView = (TextView) getView().findViewById(R.id.farmTreasureboxList);
         treasureboxListView.setText(treasureboxListText);
