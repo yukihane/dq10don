@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +26,13 @@ import yukihane.dq10don.exception.HappyServiceException;
  * Viewの実装ベース.
  *
  * @param <T> 表示対象とするデータの型.
+ * @param <V> 自身が実装するView型.
  * @param <P> 対応するプレゼンターの型.
  */
-public abstract class BaseFragment<T, P extends BasePresenter<T, ?>>
+public abstract class BaseFragment<
+        T,
+        V extends BasePresenter.View<T>,
+        P extends BasePresenter<T, V, ?>>
         extends Fragment implements BasePresenter.View<T> {
 
     public static final String CHARACTER = "character";
@@ -64,10 +67,12 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>>
         Button updateButton = (Button) view.findViewById(R.id.updateContentsButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
-        presenter.onCreateView(this);
+        presenter.onCreateView(getSelf());
 
         return view;
     }
+
+    protected abstract V getSelf();
 
     protected abstract int getContentResId();
 

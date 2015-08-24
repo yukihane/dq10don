@@ -2,25 +2,16 @@ package yukihane.dq10don.base.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rx.Observable;
-import rx.android.app.AppObservable;
 import yukihane.dq10don.R;
-import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.base.presenter.BasePresenter;
-import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.exception.HappyServiceException;
 
 /**
  * サービスへ表示対象を要求し, キャラクターごとに結果をキャラクターごとに表示する機能の
@@ -30,8 +21,12 @@ import yukihane.dq10don.exception.HappyServiceException;
  * @param <P> 対応するプレゼンターの型.
  * @param <A> 対応するViewAdapterの型.
  */
-public abstract class BaseListFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<?>>
-        extends BaseFragment<T, P> implements BasePresenter.View<T> {
+public abstract class BaseListFragment<
+        T,
+        V extends BasePresenter.View<T>,
+        P extends BasePresenter<T, V, ?>,
+        A extends BaseViewAdapter<?>>
+        extends BaseFragment<T, V, P> implements BasePresenter.View<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseListFragment.class);
 

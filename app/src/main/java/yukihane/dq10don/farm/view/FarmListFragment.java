@@ -19,7 +19,17 @@ import yukihane.dq10don.farm.presenter.FarmListPresenter;
 /**
  * Created by yuki on 2015/08/17.
  */
-public class FarmListFragment extends BaseFragment<Farm, FarmListPresenter> {
+public class FarmListFragment extends BaseFragment<
+        Farm,
+        FarmListPresenter.View,
+        FarmListPresenter>
+        implements FarmListPresenter.View {
+
+    @Override
+    protected FarmListPresenter.View getSelf() {
+        return this;
+    }
+
     @Override
     protected int getContentResId() {
         return R.layout.base_content_farm;
