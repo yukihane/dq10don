@@ -64,7 +64,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private static void createFarm(SQLiteDatabase db) {
-        String stmt = "CREATE TABLE `farm` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `agencyStatus` VARCHAR , `character_id` BIGINT NOT NULL , `lastUpdateDate` VARCHAR NOT NULL , `nearLimitDt` VARCHAR , `nextSailoutDt` VARCHAR , `isFriendBlueBox` SMALLINT NOT NULL , UNIQUE(`character_id`) );";
+        String stmt = "CREATE TABLE `farm` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `agencyStatus` VARCHAR , `character_id` BIGINT NOT NULL , `lastUpdateDate` VARCHAR NOT NULL , `nearLimitDt` VARCHAR , `nextSailoutDt` VARCHAR , `isFriendBlueBox` SMALLINT NOT NULL , `moreRebirthTreasureBox` SMALLINT NOT NULL , UNIQUE(`character_id`) );";
         db.execSQL(stmt);
     }
 
