@@ -98,6 +98,10 @@ public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extend
         return serviceFactory.getService(dbHelper);
     }
 
+    protected final DbHelper getDbHelper() {
+        return dbHelper;
+    }
+
     /**
      * @param useCache       true の場合, (DB上に)キャッシュが有ればそれを返します.
      *                       false の場合, DBデータの有無にかかわらずサーバへリクエストします.
