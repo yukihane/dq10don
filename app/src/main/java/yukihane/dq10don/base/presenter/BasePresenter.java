@@ -82,7 +82,7 @@ public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extend
         updateList(false, false);
     }
 
-    protected final View<T> getView() {
+    protected final V getView() {
         return view;
     }
 
