@@ -1,6 +1,9 @@
 package yukihane.dq10don;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -12,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 import retrofit.RetrofitError;
@@ -19,11 +23,13 @@ import retrofit.client.Response;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
-import static yukihane.dq10don.communication.HappyServiceResultCode.*;
+import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
 import static yukihane.dq10don.communication.HappyServiceResultCode.INGAME;
 import static yukihane.dq10don.communication.HappyServiceResultCode.NORMAL;
+import static yukihane.dq10don.communication.HappyServiceResultCode.OUT_OF_SERVICE;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSUQUEST_NEVER_ACCEPTED;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSU_SLOW_SERVICE;
+import static yukihane.dq10don.communication.HappyServiceResultCode.TRIAL_RESTRICTED;
 
 /**
  * Created by yuki on 15/07/22.
@@ -36,6 +42,29 @@ public class ViewUtils {
     private static final String KEY_ADUNITID = "adUnitId";
 
     private ViewUtils() {
+    }
+
+
+    /**
+     * 超便利ツールを起動するためのintentを生成します.
+     * 実際に起動できるかどうかは事前に {@link #isDqxToolsInstalled(Context)} で調べる必要が有ります.
+     *
+     * @return 起動用intent
+     */
+    public static Intent createDqxToolsIntent() {
+        Intent intent = new Intent();
+        intent.setClassName("com.square_enix.dqxtools", "com.square_enix.dqxtools_core.MainActivity");
+        return intent;
+    }
+
+    /**
+     * @return 超便利ツールがインストールされていればtrue.
+     */
+    public static boolean isDqxToolsInstalled(Context context) {
+        Intent intent = createDqxToolsIntent();
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        return activities.size() > 0;
     }
 
     public static String getHappyServiceErrorMsg(Context context, HappyServiceException ex) {
