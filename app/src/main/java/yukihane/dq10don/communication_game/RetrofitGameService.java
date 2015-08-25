@@ -33,7 +33,7 @@ public interface RetrofitGameService {
     @POST("/farm/mowgrass")
     MowGrassDto mowGrass(@Field("data") String data) throws HappyServiceException;
 
-    // TODO 未実装
-//    @POST("/farm/openalltresurebox")
-//    OpenAllTresureBoxDto openAllTresureBox() throws HappyServiceException;
+    @FormUrlEncoded
+    @POST("/farm/openalltresurebox")
+    OpenAllTresureBoxDto openAllTresureBox(@Field("data") String data) throws HappyServiceException;
 }
