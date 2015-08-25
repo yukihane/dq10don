@@ -5,14 +5,17 @@ import org.slf4j.LoggerFactory;
 
 import java.net.HttpURLConnection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit.client.Response;
+import rx.Observable;
 import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Farm;
+import yukihane.dq10don.account.FarmGrass;
 import yukihane.dq10don.communication.HappyService;
 import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication_game.GameService;
@@ -62,8 +65,36 @@ public class FarmListServiceImpl implements FarmListService {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
 
+        return getMowResult(character, tickets);
+    }
+
+    @Override
+    public MowResult mowAllGrasses(long webPcNo) throws SQLException, AppException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+
+        Farm farm = FarmDao.create(dbHelper).query(webPcNo);
+        if (farm == null) {
+            return MowResult.EMPTY;
+        }
+        List<FarmGrass> grasses = farm.getFarmGrasses();
+        if (grasses.isEmpty()) {
+            return MowResult.EMPTY;
+        }
+
+        List<Long> tickets = new ArrayList<>(grasses.size());
+        Observable.from(grasses)
+                .map(grass -> grass.getGrassTicket())
+                .subscribe(ticket -> {
+                    tickets.add(ticket);
+                });
+
+        return getMowResult(character, tickets);
+    }
+
+    private MowResult getMowResult(Character character, List<Long> tickets) throws HappyServiceException {
         String sessionId = character.getAccount().getSessionId();
-        LOGGER.info("update target character: {}", character);
+        LOGGER.info("mowGrasses target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);
         service.characterSelect(character.getWebPcNo());
         service.farmLogin();
