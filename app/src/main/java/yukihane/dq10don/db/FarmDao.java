@@ -107,7 +107,17 @@ public class FarmDao {
         });
     }
 
-    public void deleteGrasses(Farm farm) throws SQLException {
+    /**
+     * 牧場の雑草永続化データを削除します.
+     */
+    public void deleteGrasses(long webPcNo) throws SQLException {
+        Farm farm = query(webPcNo);
+        if (farm != null) {
+            deleteGrasses(farm);
+        }
+    }
+
+    private void deleteGrasses(Farm farm) throws SQLException {
         DeleteBuilder<FarmGrass, Long> builder = farmGrassDao.deleteBuilder();
         builder.where().eq("farm_id", farm);
         PreparedDelete<FarmGrass> query = builder.prepare();

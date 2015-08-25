@@ -61,14 +61,6 @@ public class FarmListServiceImpl implements FarmListService {
     }
 
     @Override
-    public MowResult mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException {
-        AccountDao accountDao = AccountDao.create(dbHelper);
-        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
-
-        return getMowResult(character, tickets);
-    }
-
-    @Override
     public MowResult mowAllGrasses(long webPcNo) throws SQLException, AppException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
@@ -89,10 +81,10 @@ public class FarmListServiceImpl implements FarmListService {
                     tickets.add(ticket);
                 });
 
-        return getMowResult(character, tickets);
+        return mowGrasses(character, tickets);
     }
 
-    private MowResult getMowResult(Character character, List<Long> tickets) throws HappyServiceException {
+    private MowResult mowGrasses(Character character, List<Long> tickets) throws HappyServiceException {
         String sessionId = character.getAccount().getSessionId();
         LOGGER.info("mowGrasses target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);

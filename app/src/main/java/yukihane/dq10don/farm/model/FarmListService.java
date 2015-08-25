@@ -11,8 +11,5 @@ import yukihane.dq10don.exception.AppException;
  * モンスター牧場情報を取得するサービス
  */
 public interface FarmListService extends BaseService<Farm> {
-
-    MowResult mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException;
-
     MowResult mowAllGrasses(long webPcNo) throws SQLException, AppException;
 }

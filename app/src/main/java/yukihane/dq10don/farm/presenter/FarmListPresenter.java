@@ -49,23 +49,6 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
     public void mowGrasses() {
 
-        Farm farm = getDisplayTarget();
-        if (farm == null) {
-            return;
-        }
-
-        List<FarmGrass> grasses = farm.getFarmGrasses();
-        if (grasses.isEmpty()) {
-            return;
-        }
-
-        List<Long> tickets = new ArrayList<>(grasses.size());
-        Observable.from(grasses)
-                .map(grass -> grass.getGrassTicket())
-                .subscribe(ticket -> {
-                    tickets.add(ticket);
-                });
-
         getView().setLoadingState(true);
 
         Observable<MowResult> observable
@@ -75,11 +58,11 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
             FarmListService service = getService();
             try {
 
-                MowResult res = service.mowGrasses(getCharacter().getWebPcNo(), tickets);
+                MowResult res = service.mowAllGrasses(getCharacter().getWebPcNo());
                 FarmDao farmDao = FarmDao.create(getDbHelper());
 
                 // 刈り終わったのでデータベースから削除しておく
-                farmDao.deleteGrasses(farm);
+                farmDao.deleteGrasses(getCharacter().getWebPcNo());
 
                 subscriber.onNext(res);
                 subscriber.onCompleted();
