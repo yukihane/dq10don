@@ -24,6 +24,7 @@ import yukihane.dq10don.exception.ApplicationException;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.farm.model.FarmListService;
+import yukihane.dq10don.farm.model.MowResult;
 
 /**
  * Created by yuki on 2015/08/17.
@@ -67,14 +68,14 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
         getView().setLoadingState(true);
 
-        Observable<Integer> observable
-                = Observable.create((Subscriber<? super Integer> subscriber) -> {
+        Observable<MowResult> observable
+                = Observable.create((Subscriber<? super MowResult> subscriber) -> {
             subscriber.onStart();
 
             FarmListService service = getService();
             try {
 
-                int res = service.mowGrasses(getCharacter().getWebPcNo(), tickets);
+                MowResult res = service.mowGrasses(getCharacter().getWebPcNo(), tickets);
                 FarmDao farmDao = FarmDao.create(getDbHelper());
 
                 // 刈り終わったのでデータベースから削除しておく
@@ -90,11 +91,11 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
         getView().bind(observable);
 
-        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-            private Integer data;
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<MowResult>() {
+            private MowResult data;
 
             @Override
-            public void onNext(Integer data) {
+            public void onNext(MowResult data) {
                 this.data = data;
             }
 
@@ -116,7 +117,7 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
             @Override
             public void onCompleted() {
                 if (data != null) {
-                    getView().onGrassMowed(data.intValue());
+                    getView().onGrassMowed(data);
                 }
                 getView().setLoadingState(false);
             }
@@ -127,9 +128,9 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
         /**
          * 草が刈られた
          *
-         * @param num 刈られた草の数
+         * @param res 刈った草から得られたもの
          */
-        void onGrassMowed(int num);
+        void onGrassMowed(MowResult res);
     }
 
     private static class NullView implements View {
@@ -158,7 +159,7 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
         }
 
         @Override
-        public void onGrassMowed(int num) {
+        public void onGrassMowed(MowResult res) {
         }
     }
 }
