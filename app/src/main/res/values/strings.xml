@@ -16,6 +16,7 @@
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
+  <string name="action_dqxtools">超便利ツール起動</string>
   <string name="add">追加</string>
   <string name="relogin">再ログイン</string>
   <string name="remove">削除</string>
