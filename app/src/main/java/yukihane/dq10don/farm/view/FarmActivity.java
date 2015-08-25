@@ -26,7 +26,7 @@ public class FarmActivity extends BaseActivity<FarmPresenter, FarmListPagerAdapt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        if (ViewUtils.isDqxToolsInstalled(this)) {
+        if (ViewUtils.createDqxToolsIntent(this) != null) {
             getMenuInflater().inflate(R.menu.menu_farm, menu);
             return true;
         }

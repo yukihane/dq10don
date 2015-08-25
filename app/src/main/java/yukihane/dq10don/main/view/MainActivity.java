@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         });
 
         View dqxTools = findViewById(R.id.launchDqxToolsButton);
-        if (ViewUtils.isDqxToolsInstalled(this)) {
+        Intent dqxToolsIntent = ViewUtils.createDqxToolsIntent(this);
+        if (dqxToolsIntent != null) {
             dqxTools.setOnClickListener(v -> {
-                Intent intent = ViewUtils.createDqxToolsIntent(this);
-                startActivity(intent);
+                startActivity(dqxToolsIntent);
             });
         } else {
             dqxTools.setEnabled(false);

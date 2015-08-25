@@ -47,27 +47,11 @@ public class ViewUtils {
 
     /**
      * 超便利ツールを起動するためのintentを生成します.
-     * 実際に起動できるかどうかは事前に {@link #isDqxToolsInstalled(Context)} で調べる必要が有ります.
-     *
-     * @return 起動用intent
+     * インストールされていなければnullが返ります.
      */
     public static Intent createDqxToolsIntent(Context context) {
         PackageManager pm = context.getPackageManager();
         return pm.getLaunchIntentForPackage("com.square_enix.dqxtools");
-
-//        Intent intent = new Intent();
-//        intent.setClassName("com.square_enix.dqxtools", "com.square_enix.dqxtools.MainActivity");
-//        return intent;
-    }
-
-    /**
-     * @return 超便利ツールがインストールされていればtrue.
-     */
-    public static boolean isDqxToolsInstalled(Context context) {
-        Intent intent = createDqxToolsIntent(context);
-        PackageManager packageManager = context.getPackageManager();
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-        return activities.size() > 0;
     }
 
     public static String getHappyServiceErrorMsg(Context context, HappyServiceException ex) {
