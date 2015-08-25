@@ -21,6 +21,7 @@ import yukihane.dq10don.base.view.BaseFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.farm.model.FarmListServiceFactory;
+import yukihane.dq10don.farm.model.MowResult;
 import yukihane.dq10don.farm.presenter.FarmListPresenter;
 
 /**
@@ -135,14 +136,10 @@ public class FarmListFragment extends BaseFragment<
         mowButton.setEnabled(!loading);
     }
 
-    /**
-     * 草が刈られた
-     *
-     * @param num 刈られた草の数
-     */
     @Override
-    public void onGrassMowed(int num) {
-        String text = getString(R.string.mowed, num);
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    public void onGrassMowed(MowResult res) {
+        String text = getString(R.string.mowed,
+                res.getMedalCount(), res.getExpCount(), res.getOtherCount());
+        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     }
 }
