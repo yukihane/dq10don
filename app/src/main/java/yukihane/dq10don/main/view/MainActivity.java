@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.ViewUtils;
 import yukihane.dq10don.bosscard.view.BossCardActivity;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
@@ -55,6 +56,16 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             Intent intent = new Intent(this, FarmActivity.class);
             startActivity(intent);
         });
+
+        View dqxTools = findViewById(R.id.launchDqxToolsButton);
+        if (ViewUtils.isDqxToolsInstalled(this)) {
+            dqxTools.setOnClickListener(v -> {
+                Intent intent = ViewUtils.createDqxToolsIntent(this);
+                startActivity(intent);
+            });
+        } else {
+            dqxTools.setEnabled(false);
+        }
 
         presenter.onCreate(savedInstanceState == null);
     }
