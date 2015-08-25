@@ -18,10 +18,10 @@ import retrofit.client.OkClient;
 import retrofit.converter.JacksonConverter;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
+import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTreasureBoxDto;
 import yukihane.dq10don.communication_game.dto.login.Data;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
-import yukihane.dq10don.exception.ApplicationException;
 import yukihane.dq10don.exception.HappyServiceException;
 
 import static yukihane.dq10don.communication_game.Constants.GAMESERVICE_ENDPOINT;
@@ -152,6 +152,33 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
         }
     }
 
+    @Override
+    public OpenAllTreasureBoxDto openAllTreasureBox(List<TreasureboxTicket> tickets) throws HappyServiceException {
+        OpenAllTreasureBoxParam param = new OpenAllTreasureBoxParam();
+        param.treasureboxTicketList.addAll(tickets);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String treasureboxTicketList = mapper.writeValueAsString(param);
+            OpenAllTreasureBoxDto res = service.openAllTresureBox(treasureboxTicketList);
+            if (!RESULT_SUCCESS.equals(res.getResultCode())) {
+                LOGGER.error("GameService openAllTreasureBox error resultCode: {}",
+                        res.getResultCode());
+                int resultCode;
+                try {
+                    resultCode = Integer.parseInt(res.getResultCode());
+                } catch (NumberFormatException e) {
+                    resultCode = -1;
+                }
+                throw new HappyServiceException(resultCode);
+            }
+            return res;
+        } catch (RetrofitError e) {
+            throw new HappyServiceException("openAllTreasureBox error", e);
+        } catch (JsonProcessingException e) {
+            throw new HappyServiceException(-1);
+        }
+    }
+
     /**
      * Called for every request. Add data using methods on the supplied {@link RequestFacade}.
      *
@@ -169,5 +196,10 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
     private static class MowGrassParam {
         @Getter
         private List<Long> grassTicketList = new ArrayList<>();
+    }
+
+    private static class OpenAllTreasureBoxParam {
+        @Getter
+        private List<TreasureboxTicket> treasureboxTicketList = new ArrayList<>();
     }
 }

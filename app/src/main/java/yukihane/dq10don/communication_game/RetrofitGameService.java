@@ -5,7 +5,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
-import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTresureBoxDto;
+import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTreasureBoxDto;
 import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 
@@ -33,5 +33,5 @@ public interface RetrofitGameService {
 
     @FormUrlEncoded
     @POST("/farm/openalltresurebox")
-    OpenAllTresureBoxDto openAllTresureBox(@Field("data") String data);
+    OpenAllTreasureBoxDto openAllTresureBox(@Field("data") String data);
 }
