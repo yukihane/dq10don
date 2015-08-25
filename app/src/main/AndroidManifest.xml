@@ -52,7 +52,8 @@
 
     <activity
       android:name=".farm.view.FarmActivity"
-      android:label="@string/title_activity_farm">
+      android:label="@string/title_activity_farm"
+      android:parentActivityName=".main.view.MainActivity">
     </activity>
 
     <activity
@@ -62,7 +63,8 @@
     </activity>
     <activity
       android:name=".sqexid.view.SqexidActivity"
-      android:label="@string/title_activity_sqexid">
+      android:label="@string/title_activity_sqexid"
+      android:parentActivityName=".main.view.MainActivity">
     </activity>
 
     <receiver android:name=".background.TobatsuReceiver"/>
