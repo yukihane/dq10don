@@ -58,7 +58,7 @@ public class FarmListServiceImpl implements FarmListService {
     }
 
     @Override
-    public int mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException {
+    public MowResult mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
 
@@ -72,7 +72,7 @@ public class FarmListServiceImpl implements FarmListService {
         gameService.login();
 
         MowGrassDto mowGrassDto = gameService.mowGrass(tickets);
-        return mowGrassDto.getData().getItemList().size();
+        return MowResult.from(mowGrassDto.getData().getItemList());
     }
 
     /**

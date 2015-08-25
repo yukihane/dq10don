@@ -12,5 +12,5 @@ import yukihane.dq10don.exception.AppException;
  */
 public interface FarmListService extends BaseService<Farm> {
 
-    int mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException;
+    MowResult mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException;
 }
