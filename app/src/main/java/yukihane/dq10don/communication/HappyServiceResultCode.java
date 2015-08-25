@@ -11,6 +11,11 @@ public final class HappyServiceResultCode {
      * ログイン中であり処理ができない.
      */
     public static final int INGAME = 106;
+
+    /**
+     * [finish]現在のプレイ環境では　この機能は\n使用制限されています。\n正式なプレイ環境となれば\nこの機能も　お使いいただけます。
+     */
+    public static final int TRIAL_RESTRICTED = 113;
     /**
      * モーモンバザーを設置していない.
      */
@@ -23,6 +28,11 @@ public final class HappyServiceResultCode {
      * 討伐が受注できるまで進めていない
      */
     public static final int TOBATSUQUEST_NEVER_ACCEPTED = 22002;
+
+    /**
+     * 現在　メンテナンスをおこなっております。\n\n2015年8月24日(月) 2:00より10:00頃まで\n\n申し訳ありませんが　しばらくお待ちください。\n
+     */
+    public static final int OUT_OF_SERVICE = 99999;
 
     private HappyServiceResultCode() {
     }

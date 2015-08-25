@@ -11,12 +11,17 @@ import yukihane.dq10don.R;
 import yukihane.dq10don.bosscard.view.BossCardActivity;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.debug.view.DebugActivity;
+import yukihane.dq10don.farm.view.FarmActivity;
 import yukihane.dq10don.main.presenter.MainPresenter;
 import yukihane.dq10don.settings.view.SettingsActivity;
 import yukihane.dq10don.sqexid.view.SqexidActivity;
 import yukihane.dq10don.tobatsu.view.TobatsuActivity;
+import yukihane.dq10don.tos.view.TosActivity;
+import yukihane.dq10don.tos.view.TosPrefUtilsImpl;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
+
+    private static final int REQCODE_TOS = 0;
 
     private MainPresenter presenter;
 
@@ -25,7 +30,13 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this, new DbHelperFactory(this));
+        presenter = new MainPresenter(this, new DbHelperFactory(this), new TosPrefUtilsImpl(this));
+
+        View sqexid = findViewById(R.id.launchSqexidButton);
+        sqexid.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SqexidActivity.class);
+            startActivity(intent);
+        });
 
         View tobatsu = findViewById(R.id.launchTobatsuButton);
         tobatsu.setOnClickListener((v) -> {
@@ -36,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         View bossCard = findViewById(R.id.launchBossCardButton);
         bossCard.setOnClickListener((v) -> {
             Intent intent = new Intent(this, BossCardActivity.class);
+            startActivity(intent);
+        });
+
+        View farm = findViewById(R.id.launchFarmButton);
+        farm.setOnClickListener((v) -> {
+            Intent intent = new Intent(this, FarmActivity.class);
             startActivity(intent);
         });
 
@@ -79,5 +96,26 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void showWelcomeDialog() {
         new WelcomeDialog().show(getSupportFragmentManager(), "WelcomeDialog");
+    }
+
+    @Override
+    public void startTos() {
+        Intent intent = new Intent(this, TosActivity.class);
+        startActivityForResult(intent, REQCODE_TOS);
+    }
+
+    @Override
+    public void endApplication() {
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQCODE_TOS) {
+            throw new RuntimeException("unexpected request code: " + requestCode);
+        }
+        if (resultCode != RESULT_OK) {
+            finish();
+        }
     }
 }

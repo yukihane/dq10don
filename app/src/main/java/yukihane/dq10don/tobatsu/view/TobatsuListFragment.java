@@ -12,13 +12,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import yukihane.dq10don.R;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.TobatsuItem;
 import yukihane.dq10don.account.TobatsuList;
-import yukihane.dq10don.base.presenter.BasePresenter;
-import yukihane.dq10don.base.view.BaseFragment;
+import yukihane.dq10don.base.view.BaseListFragment;
 import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.tobatsu.model.TobatsuListServiceFactory;
@@ -27,15 +26,23 @@ import yukihane.dq10don.tobatsu.presenter.TobatsuListPresenter;
 /**
  * Created by yuki on 15/07/15.
  */
-public class TobatsuListFragment
-        extends BaseFragment<TobatsuList, TobatsuListPresenter, TobatsuListViewAdapter>
-        implements BasePresenter.View<TobatsuList> {
+public class TobatsuListFragment extends BaseListFragment<
+        TobatsuList,
+        TobatsuListPresenter.View,
+        TobatsuListPresenter,
+        TobatsuListViewAdapter>
+        implements TobatsuListPresenter.View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TobatsuListFragment.class);
 
     @Override
     protected TobatsuListViewAdapter newViewAdapter(LayoutInflater inflater) {
         return new TobatsuListViewAdapter(inflater);
+    }
+
+    @Override
+    protected TobatsuListPresenter.View getSelf() {
+        return this;
     }
 
     @Override
@@ -51,7 +58,8 @@ public class TobatsuListFragment
         Date issuedDate = new Date(issuedDateNum);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd '('E')' H:mm", Locale.JAPAN);
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        // 更新時刻は日本の午前6時なのでタイムゾーンを日本に固定する
+        sdf.setTimeZone(Utils.getJapenTimeZone());
 
         String issuedDateStr = sdf.format(issuedDate);
 

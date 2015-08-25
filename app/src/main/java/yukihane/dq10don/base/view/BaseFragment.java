@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +26,13 @@ import yukihane.dq10don.exception.HappyServiceException;
  * Viewの実装ベース.
  *
  * @param <T> 表示対象とするデータの型.
+ * @param <V> 自身が実装するView型.
  * @param <P> 対応するプレゼンターの型.
- * @param <A> 対応するViewAdapterの型.
  */
-public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends BaseViewAdapter<?>>
+public abstract class BaseFragment<
+        T,
+        V extends BasePresenter.View<T>,
+        P extends BasePresenter<T, V, ?>>
         extends Fragment implements BasePresenter.View<T> {
 
     public static final String CHARACTER = "character";
@@ -38,9 +40,10 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseFragment.class);
 
     private P presenter;
-    private A viewAdapter;
-    private ListView listView;
 
+    protected final P getPresenter() {
+        return presenter;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,17 +60,21 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
-        viewAdapter = newViewAdapter(inflater);
-        listView = (ListView) view.findViewById(R.id.contentListView);
-        listView.setAdapter(viewAdapter);
+        int contentResId = getContentResId();
+        View contentView = inflater.inflate(contentResId, null);
+        ((ViewGroup) view.findViewById(R.id.contentPlace)).addView(contentView);
 
         Button updateButton = (Button) view.findViewById(R.id.updateContentsButton);
         updateButton.setOnClickListener(v -> presenter.onUpdateClick());
 
-        presenter.onCreateView(this);
+        presenter.onCreateView(getSelf());
 
         return view;
     }
+
+    protected abstract V getSelf();
+
+    protected abstract int getContentResId();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -100,17 +107,12 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     @Override
     public void setLoadingState(boolean loading) {
         Button updateButton = (Button) getView().findViewById(R.id.updateContentsButton);
-        if(loading) {
+        if (loading) {
             updateButton.setText(R.string.loading);
         } else {
             updateButton.setText(R.string.reload);
         }
         updateButton.setEnabled(!loading);
-    }
-
-    @Override
-    public void onListUpdated(T list) {
-        addDisplayItems(viewAdapter, list);
     }
 
     @Override
@@ -135,10 +137,6 @@ public abstract class BaseFragment<T, P extends BasePresenter<T, ?>, A extends B
     public void bind(Observable<?> observable) {
         AppObservable.bindSupportFragment(this, observable);
     }
-
-    protected abstract void addDisplayItems(A viewAdapter, T list);
-
-    protected abstract A newViewAdapter(LayoutInflater inflater);
 
     protected abstract P newPresenter(DbHelperFactory dbHelperFactory, CharacterDtoImpl character);
 

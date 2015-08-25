@@ -28,7 +28,7 @@ import yukihane.dq10don.exception.HappyServiceException;
  * @param <T> 表示対象とするデータの型.
  * @param <S> 表示対象を要求するサービスの型.
  */
-public abstract class BasePresenter<T, S extends BaseService<T>> {
+public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extends BaseService<T>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasePresenter.class);
 
@@ -37,21 +37,25 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
      */
     private final CharacterDto character;
 
-    private View<T> view = null;
+    private T displayTarget = null;
+
+    private V view = null;
     private BaseServiceFactory<T, S> serviceFactory;
     private DbHelper dbHelper = null;
 
     public BasePresenter(BaseServiceFactory<T, S> serviceFactory, DbHelperFactory dbHFactory, CharacterDto character) {
-        this.view = new NullView();
+        this.view = getNullView();
         this.serviceFactory = serviceFactory;
         this.dbHelper = dbHFactory.create();
         this.character = character;
     }
 
+    protected abstract V getNullView();
+
     public void onCreate() {
     }
 
-    public void onCreateView(View<T> view) {
+    public void onCreateView(V view) {
         this.view = view;
     }
 
@@ -65,7 +69,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
     }
 
     public void onDestroyView() {
-        view = new NullView();
+        view = getNullView();
     }
 
     public void onDestroy() {
@@ -76,6 +80,26 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
     public void onUpdateClick() {
         updateList(false, false);
+    }
+
+    protected final V getView() {
+        return view;
+    }
+
+    protected final CharacterDto getCharacter() {
+        return character;
+    }
+
+    protected final T getDisplayTarget() {
+        return displayTarget;
+    }
+
+    protected final S getService() {
+        return serviceFactory.getService(dbHelper);
+    }
+
+    protected final DbHelper getDbHelper() {
+        return dbHelper;
     }
 
     /**
@@ -92,10 +116,10 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                 = Observable.create((Subscriber<? super T> subscriber) -> {
             subscriber.onStart();
 
-            BaseService<T> service = serviceFactory.getService(dbHelper);
+            BaseService<T> service = getService();
             try {
                 if (useCache) {
-                    T tl = service.getTobatsuListFromDB(character.getWebPcNo());
+                    T tl = service.getContentFromDB(character.getWebPcNo());
                     if (tl != null) {
                         subscriber.onNext(tl);
                         subscriber.onCompleted();
@@ -112,7 +136,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
                     }
                 }
 
-                T tl = service.getTobatsuListFromServer(character.getWebPcNo());
+                T tl = service.getContentFromServer(character.getWebPcNo());
                 subscriber.onNext(tl);
                 subscriber.onCompleted();
             } catch (AppException | SQLException e) {
@@ -124,11 +148,11 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
         view.bind(observable);
 
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<T>() {
-            private T resultList;
+            private T data;
 
             @Override
-            public void onNext(T list) {
-                this.resultList = list;
+            public void onNext(T data) {
+                this.data = data;
             }
 
             @Override
@@ -148,8 +172,9 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
             @Override
             public void onCompleted() {
-                if (resultList != null) {
-                    view.onListUpdated(resultList);
+                if (data != null) {
+                    displayTarget = data;
+                    view.onDataUpdated(data);
                 }
                 view.setLoadingState(false);
             }
@@ -165,7 +190,7 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
 
         void setHeader(String sqexid, String smileUniqNo);
 
-        void onListUpdated(T list);
+        void onDataUpdated(T list);
 
         void bind(Observable<?> observable);
 
@@ -181,31 +206,4 @@ public abstract class BasePresenter<T, S extends BaseService<T>> {
          */
         void setLoadingState(boolean loading);
     }
-
-    private class NullView implements View<T> {
-        @Override
-        public void setHeader(String sqexid, String smileUniqNo) {
-        }
-
-        @Override
-        public void onListUpdated(T list) {
-        }
-
-        @Override
-        public void bind(Observable<?> observable) {
-        }
-
-        @Override
-        public void showMessage(HappyServiceException ex) {
-        }
-
-        @Override
-        public void showMessage(int errorCode) {
-        }
-
-        @Override
-        public void setLoadingState(boolean load) {
-        }
-    }
-
 }

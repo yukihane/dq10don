@@ -110,6 +110,11 @@ public class SqexidActivity extends AppCompatActivity
     }
 
     @Override
+    public void showGuidance() {
+        new GuidanceDialog().show(getSupportFragmentManager(), "GuidanceDialog");
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         final String sqexid;

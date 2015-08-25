@@ -49,9 +49,11 @@
       android:text="@string/reload"/>
   </LinearLayout>
 
-  <ListView
-    android:id="@+id/contentListView"
+  <LinearLayout
+    android:id="@+id/contentPlace"
     android:layout_width="match_parent"
     android:layout_height="0px"
-    android:layout_weight="1"/>
+    android:layout_weight="1"
+    android:orientation="vertical">
+  </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,8 @@
   <string name="title_activity_twitter_auth">Twitter認証</string>
   <string name="title_activity_chara_select">対象キャラクター選択</string>
   <string name="title_activity_boss_card">ボスカード</string>
+  <string name="title_activity_farm">モンスター牧場</string>
+  <string name="title_activity_tos">利用規約</string>
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
@@ -43,13 +45,16 @@
   <string name="text_empty_pin">PINコードを入力してください</string>
   <string name="text_auth_failed">認証失敗しました</string>
   <string name="happy_106">ログイン中は処理できません</string>
+  <string name="happy_113">体験版では使用不可です</string>
   <string name="happy_12009">モーモンバザーを設置していません</string>
   <string name="happy_22001">しばらくしてから再実行してください</string>
   <string name="happy_22002">討伐受注不可キャラです</string>
+  <string name="happy_99999">メンテナンス中です</string>
   <string name="happy_unknown">エラーが発生しました(%1$d)</string>
   <string name="http_401">再ログインが必要です</string>
   <string name="http_other">ネットワークエラー(%1$s)</string>
   <string name="text_welcome">ようこそ！メニューから\nID管理 -> 追加\nを選択し、ログインすれば\n処理が始まります</string>
+  <string name="text_guidance_add_account">メニューから「追加」を選択し\nログインすれば処理が始まります</string>
   <string name="completed_exportfile">エクスポート完了しました</string>
   <string name="pincode">PINコード</string>
   <string name="auth">認証</string>
@@ -66,4 +71,18 @@
   <string name="notification_left_time">通知期限</string>
   <string name="text_exits_limit_items">期限の近いアイテムがあります</string>
   <string name="etc">等</string>
+  <string name="agree">同意する</string>
+  <string name="disagree">同意しない</string>
+  <string name="text_farm_nextSailoutDt">次回船旅</string>
+  <string name="text_farm_nearLimitDt">船旅報酬</string>
+  <string name="text_farm_isFriendBlueBox">青宝箱</string>
+  <string name="text_farm_treasureboxList">宝箱</string>
+  <string name="text_farm_grassList">雑草</string>
+  <string name="unanchorable">[可]</string>
+  <string name="exist">有</string>
+  <string name="nonexist">無</string>
+  <string name="text_farm_mow">刈草</string>
+  <string name="mowed">メダル %1$d個, 経験値 %2$d, その他 %3$d\nを取得しました</string>
+  <string name="text_unit">個</string>
+  <string name="text_over">以上</string>
 </resources>

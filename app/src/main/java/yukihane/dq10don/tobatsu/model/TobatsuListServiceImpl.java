@@ -36,7 +36,7 @@ public class TobatsuListServiceImpl implements TobatsuListService {
     }
 
     @Override
-    public Map<Character, TobatsuList> getTobatsuListsFromServer() throws SQLException {
+    public Map<Character, TobatsuList> getContentsFromServer() throws SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         List<Account> accounts = accountDao.queryAll();
         Map<Character, TobatsuList> result = new HashMap<>();
@@ -64,7 +64,7 @@ public class TobatsuListServiceImpl implements TobatsuListService {
     }
 
     @Override
-    public TobatsuList getTobatsuListFromDB(long webPcNo) throws SQLException {
+    public TobatsuList getContentFromDB(long webPcNo) throws SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
         return getTobatsuListFromDB(character);
@@ -77,7 +77,7 @@ public class TobatsuListServiceImpl implements TobatsuListService {
      * @param webPcNo
      */
     @Override
-    public TobatsuList getTobatsuListFromServer(long webPcNo) throws AppException, SQLException {
+    public TobatsuList getContentFromServer(long webPcNo) throws AppException, SQLException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
         return getTobatsuListFromServer(character);

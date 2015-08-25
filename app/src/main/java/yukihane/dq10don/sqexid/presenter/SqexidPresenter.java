@@ -72,6 +72,9 @@ public class SqexidPresenter {
             @Override
             public void onCompleted() {
                 view.displayAccount(results);
+                if(results.isEmpty()) {
+                    view.showGuidance();
+                }
             }
 
             @Override
@@ -138,5 +141,7 @@ public class SqexidPresenter {
         void displayAccount(List<Account> accounts);
 
         void showLogin(String userId);
+
+        void showGuidance();
     }
 }

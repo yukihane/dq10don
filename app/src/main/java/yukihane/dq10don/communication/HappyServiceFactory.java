@@ -7,13 +7,14 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.JacksonConverter;
 
+import static yukihane.dq10don.communication.Constants.HAPPYSERVICE_ENDPOINT;
+import static yukihane.dq10don.communication.Constants.HEADER_SESSION;
+
 /**
  * Created by yuki on 15/07/07.
  */
 public class HappyServiceFactory {
 
-    private static final String ENDPOINT = "https://happy.dqx.jp/capi";
-    private static final String HEADER_SESSION = "X-Smile-3DS-SESSIONID";
 
     private HappyServiceFactory() {
     }
@@ -24,7 +25,7 @@ public class HappyServiceFactory {
         }
 
         RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint(ENDPOINT)
+                .setEndpoint(HAPPYSERVICE_ENDPOINT)
                 .setConverter(new JacksonConverter(new ObjectMapper()))
                 .setClient(new OkClient(new OkHttpClient()))
                 .setRequestInterceptor(request -> request.addHeader(HEADER_SESSION, sessionId));
