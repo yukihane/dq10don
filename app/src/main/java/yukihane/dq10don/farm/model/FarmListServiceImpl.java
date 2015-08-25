@@ -15,13 +15,16 @@ import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Farm;
+import yukihane.dq10don.account.FarmBox;
 import yukihane.dq10don.account.FarmGrass;
 import yukihane.dq10don.communication.HappyService;
 import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication_game.GameService;
 import yukihane.dq10don.communication_game.GameServiceFactory;
+import yukihane.dq10don.communication_game.TreasureboxTicket;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
+import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTreasureBoxDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
@@ -96,6 +99,46 @@ public class FarmListServiceImpl implements FarmListService {
 
         MowGrassDto mowGrassDto = gameService.mowGrass(tickets);
         return MowResult.from(mowGrassDto.getData().getItemList());
+    }
+
+    @Override
+    public List<String> openAllTreasureBox(long webPcNo) throws SQLException, HappyServiceException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+
+        Farm farm = FarmDao.create(dbHelper).query(webPcNo);
+        if (farm == null) {
+            return new ArrayList<>(0);
+        }
+
+        List<FarmBox> boxes = farm.getFarmBoxes();
+        if (boxes.isEmpty()) {
+            return new ArrayList<>(0);
+        }
+
+        List<TreasureboxTicket> tickets = new ArrayList<>(boxes.size());
+        Observable.from(boxes)
+                .map(box -> TreasureboxTicket.from(box, webPcNo, character.getCharacterName()))
+                .subscribe(ticket -> tickets.add(ticket));
+
+
+        String sessionId = character.getAccount().getSessionId();
+        LOGGER.info("openAllTreasureBox target character: {}", character);
+        HappyService service = HappyServiceFactory.getService(sessionId);
+        service.characterSelect(character.getWebPcNo());
+        service.farmLogin();
+
+        GameService gameService = GameServiceFactory.getService(sessionId);
+        gameService.login();
+
+        OpenAllTreasureBoxDto dto = gameService.openAllTreasureBox(tickets);
+        List<String> messages = new ArrayList<>();
+        Observable.from(dto.getData().getSuccessList())
+                .map(succ -> succ.getMessageText())
+                .subscribe(text -> messages.add(text));
+        // TODO 失敗したものについても手当する必要がある
+
+        return messages;
     }
 
     /**
