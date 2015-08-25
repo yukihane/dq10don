@@ -40,7 +40,7 @@ public class FarmActivity extends BaseActivity<FarmPresenter, FarmListPagerAdapt
         int id = item.getItemId();
 
         if (id == R.id.action_dqxtools) {
-            Intent intent = ViewUtils.createDqxToolsIntent();
+            Intent intent = ViewUtils.createDqxToolsIntent(this);
             startActivity(intent);
             return true;
         }
