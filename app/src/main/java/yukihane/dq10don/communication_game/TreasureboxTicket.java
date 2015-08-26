@@ -19,17 +19,17 @@ public class TreasureboxTicket {
 
     @Getter
     @Setter
-    private String myNickName;
+    private String myNickname;
 
     @Getter
     @Setter
-    private String ownerNickName;
+    private String ownerNickname;
 
     public TreasureboxTicket(long ticketNo, long webPcNo, String name) {
         this.treasureboxTicket = ticketNo;
         this.ownerWebpcno = webPcNo;
-        this.myNickName = name;
-        this.ownerNickName = name;
+        this.myNickname = name;
+        this.ownerNickname = name;
     }
 
     public static TreasureboxTicket from(FarmBox box, long webPcNo, String name) {
