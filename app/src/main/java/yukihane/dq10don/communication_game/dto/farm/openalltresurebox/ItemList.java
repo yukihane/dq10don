@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "count",
+    "iconUrl",
     "name",
     "itemId"
 })
@@ -22,6 +23,8 @@ public class ItemList {
 
     @JsonProperty("count")
     private Integer count;
+    @JsonProperty("iconUrl")
+    private String iconUrl;
     @JsonProperty("name")
     private String name;
     @JsonProperty("itemId")
@@ -47,6 +50,26 @@ public class ItemList {
     @JsonProperty("count")
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    /**
+     * 
+     * @return
+     *     The iconUrl
+     */
+    @JsonProperty("iconUrl")
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    /**
+     * 
+     * @param iconUrl
+     *     The iconUrl
+     */
+    @JsonProperty("iconUrl")
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     /**
