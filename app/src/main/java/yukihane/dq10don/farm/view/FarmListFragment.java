@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -133,8 +132,8 @@ public class FarmListFragment extends BaseFragment<
     public void setLoadingState(boolean loading) {
         super.setLoadingState(loading);
 
-        Button mowButton = (Button) getView().findViewById(R.id.farmMowButton);
-        mowButton.setEnabled(!loading);
+        getView().findViewById(R.id.farmMowButton).setEnabled(!loading);
+        getView().findViewById(R.id.farmOpenBoxButton).setEnabled(!loading);
     }
 
     @Override
