@@ -133,7 +133,11 @@ public class FarmListServiceImpl implements FarmListService {
 
         OpenAllTreasureBoxDto dto = gameService.openAllTreasureBox(tickets);
 
+        Observable.from(dto.getData().getSuccessList())
+                .forEach(succ -> LOGGER.info("open box success: {}", succ));
+
         // 失敗したものについてログ出力(エラーコードの全貌が分からない)
+        // 40000: パラメータ誤り
         // 42302: 既に開けた宝箱に対して要求を行った
         Observable.from(dto.getData().getFailList())
                 .forEach(failList -> LOGGER.info("open box error: {}", failList));
