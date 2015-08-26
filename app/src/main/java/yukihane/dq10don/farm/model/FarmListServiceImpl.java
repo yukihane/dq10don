@@ -139,6 +139,7 @@ public class FarmListServiceImpl implements FarmListService {
         // 失敗したものについてログ出力(エラーコードの全貌が分からない)
         // 40000: パラメータ誤り
         // 42302: 既に開けた宝箱に対して要求を行った
+        // 44015: 倉庫がいっぱい
         Observable.from(dto.getData().getFailList())
                 .forEach(failList -> LOGGER.info("open box error: {}", failList));
 
