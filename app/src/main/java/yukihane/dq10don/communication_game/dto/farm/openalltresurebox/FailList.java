@@ -25,7 +25,7 @@ public class FailList {
     @JsonProperty("type")
     private String type;
     @JsonProperty("treasureboxTicket")
-    private Integer treasureboxTicket;
+    private Long treasureboxTicket;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -75,7 +75,7 @@ public class FailList {
      *     The treasureboxTicket
      */
     @JsonProperty("treasureboxTicket")
-    public Integer getTreasureboxTicket() {
+    public Long getTreasureboxTicket() {
         return treasureboxTicket;
     }
 
@@ -85,7 +85,7 @@ public class FailList {
      *     The treasureboxTicket
      */
     @JsonProperty("treasureboxTicket")
-    public void setTreasureboxTicket(Integer treasureboxTicket) {
+    public void setTreasureboxTicket(Long treasureboxTicket) {
         this.treasureboxTicket = treasureboxTicket;
     }
 
