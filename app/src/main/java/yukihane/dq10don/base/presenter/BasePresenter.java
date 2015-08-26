@@ -157,17 +157,7 @@ public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extend
 
             @Override
             public void onError(Throwable e) {
-                LOGGER.error("list query error", e);
-                if (e instanceof HappyServiceException) {
-                    HappyServiceException ex = (HappyServiceException) e;
-                    view.showMessage(ex);
-                } else if (e instanceof ApplicationException) {
-                    ApplicationException ex = (ApplicationException) e;
-                    view.showMessage(ex.getErrorCode());
-                } else {
-                    view.showMessage(ErrorCode.ERROR);
-                }
-                view.setLoadingState(false);
+                handleServiceError(e);
             }
 
             @Override
@@ -179,6 +169,20 @@ public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extend
                 view.setLoadingState(false);
             }
         });
+    }
+
+    protected final void handleServiceError(Throwable e) {
+        LOGGER.error("list query error", e);
+        if (e instanceof HappyServiceException) {
+            HappyServiceException ex = (HappyServiceException) e;
+            view.showMessage(ex);
+        } else if (e instanceof ApplicationException) {
+            ApplicationException ex = (ApplicationException) e;
+            view.showMessage(ex.getErrorCode());
+        } else {
+            view.showMessage(ErrorCode.ERROR);
+        }
+        view.setLoadingState(false);
     }
 
     /**
