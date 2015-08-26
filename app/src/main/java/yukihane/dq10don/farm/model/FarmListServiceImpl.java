@@ -102,7 +102,7 @@ public class FarmListServiceImpl implements FarmListService {
     }
 
     @Override
-    public List<String> openAllTreasureBox(long webPcNo) throws SQLException, HappyServiceException {
+    public OpenBoxResult openAllTreasureBox(long webPcNo) throws SQLException, HappyServiceException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
 

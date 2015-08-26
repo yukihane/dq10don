@@ -13,5 +13,5 @@ import yukihane.dq10don.exception.AppException;
 public interface FarmListService extends BaseService<Farm> {
     MowResult mowAllGrasses(long webPcNo) throws SQLException, AppException;
 
-    List<String> openAllTreasureBox(long webPcNo) throws SQLException, AppException;
+    OpenBoxResult openAllTreasureBox(long webPcNo) throws SQLException, AppException;
 }
