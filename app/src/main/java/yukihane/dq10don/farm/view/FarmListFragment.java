@@ -53,10 +53,11 @@ public class FarmListFragment extends BaseFragment<
                              @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        Button mowButton = (Button) view.findViewById(R.id.farmMowButton);
-        mowButton.setOnClickListener(v -> {
-            getPresenter().mowGrasses();
-        });
+        View mowButton = view.findViewById(R.id.farmMowButton);
+        mowButton.setOnClickListener(v -> getPresenter().mowGrasses());
+
+        View openBoxButton = view.findViewById(R.id.farmOpenBoxButton);
+        openBoxButton.setOnClickListener(v -> getPresenter().openBoxes());
 
         return view;
     }

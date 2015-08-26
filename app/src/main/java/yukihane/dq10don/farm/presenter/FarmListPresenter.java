@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -13,7 +11,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.account.Farm;
-import yukihane.dq10don.account.FarmGrass;
 import yukihane.dq10don.base.model.BaseServiceFactory;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.presenter.CharacterDto;
@@ -105,6 +102,9 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
                 getView().setLoadingState(false);
             }
         });
+    }
+
+    public void openBoxes() {
     }
 
     public interface View extends BasePresenter.View<Farm> {
