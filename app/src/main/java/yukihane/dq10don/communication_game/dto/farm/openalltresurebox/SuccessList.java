@@ -130,6 +130,7 @@ public class SuccessList {
                 "treasureboxTicket=" + treasureboxTicket +
                 ", type='" + type + '\'' +
                 ", messageText='" + messageText + '\'' +
+                ", itemList=" + itemList +
                 '}';
     }
 }
