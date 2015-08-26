@@ -24,7 +24,7 @@ public class Data {
     @JsonProperty("successList")
     private List<SuccessList> successList = new ArrayList<SuccessList>();
     @JsonProperty("failList")
-    private List<Object> failList = new ArrayList<Object>();
+    private List<FailList> failList = new ArrayList<FailList>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -54,7 +54,7 @@ public class Data {
      *     The failList
      */
     @JsonProperty("failList")
-    public List<Object> getFailList() {
+    public List<FailList> getFailList() {
         return failList;
     }
 
@@ -64,7 +64,7 @@ public class Data {
      *     The failList
      */
     @JsonProperty("failList")
-    public void setFailList(List<Object> failList) {
+    public void setFailList(List<FailList> failList) {
         this.failList = failList;
     }
 
