@@ -1,4 +1,5 @@
 # 個人情報が含まれるファイル
+/app/src/test/resources/openalltreasurebox_request.txt
 /app/src/test/resources/real_session.json
 /app/src/test/resources/session.properties
 /app/fabric.properties
