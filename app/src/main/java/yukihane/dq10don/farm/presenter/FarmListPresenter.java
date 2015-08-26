@@ -17,8 +17,6 @@ import yukihane.dq10don.base.presenter.CharacterDto;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.db.FarmDao;
 import yukihane.dq10don.exception.AppException;
-import yukihane.dq10don.exception.ApplicationException;
-import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.farm.model.FarmListService;
 import yukihane.dq10don.farm.model.MowResult;
@@ -81,17 +79,7 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
             @Override
             public void onError(Throwable e) {
-                LOGGER.error("list query error", e);
-                if (e instanceof HappyServiceException) {
-                    HappyServiceException ex = (HappyServiceException) e;
-                    getView().showMessage(ex);
-                } else if (e instanceof ApplicationException) {
-                    ApplicationException ex = (ApplicationException) e;
-                    getView().showMessage(ex.getErrorCode());
-                } else {
-                    getView().showMessage(ErrorCode.ERROR);
-                }
-                getView().setLoadingState(false);
+                handleServiceError(e);
             }
 
             @Override
