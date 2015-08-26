@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import yukihane.dq10don.R;
@@ -21,7 +25,12 @@ import yukihane.dq10don.base.view.CharacterDtoImpl;
 import yukihane.dq10don.db.DbHelperFactory;
 import yukihane.dq10don.farm.model.FarmListServiceFactory;
 import yukihane.dq10don.farm.model.MowResult;
+import yukihane.dq10don.farm.model.OpenBoxResult;
 import yukihane.dq10don.farm.presenter.FarmListPresenter;
+
+import static yukihane.dq10don.farm.view.OpenBoxResultDialog.FAIL_COUNT;
+import static yukihane.dq10don.farm.view.OpenBoxResultDialog.SUCCESS_COUNT;
+import static yukihane.dq10don.farm.view.OpenBoxResultDialog.SUCCESS_MESSAGES;
 
 /**
  * Created by yuki on 2015/08/17.
@@ -31,6 +40,8 @@ public class FarmListFragment extends BaseFragment<
         FarmListPresenter.View,
         FarmListPresenter>
         implements FarmListPresenter.View {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FarmListFragment.class);
 
     @Override
     protected FarmListPresenter.View getSelf() {
@@ -141,5 +152,25 @@ public class FarmListFragment extends BaseFragment<
         String text = getString(R.string.mowed,
                 res.getMedalCount(), res.getExpCount(), res.getOtherCount());
         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 宝箱が開けられた.
+     *
+     * @param res
+     */
+    @Override
+    public void onBoxOpened(OpenBoxResult res) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(SUCCESS_COUNT, res.getSuccessCount());
+        bundle.putInt(FAIL_COUNT, res.getFailCount());
+        bundle.putStringArrayList(SUCCESS_MESSAGES, new ArrayList<>(res.getSuccessMessages()));
+        for (String m : res.getSuccessMessages()) {
+            LOGGER.debug("message: {}", m);
+        }
+
+        OpenBoxResultDialog dialog = new OpenBoxResultDialog();
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), "OpenBoxResultDialog");
     }
 }
