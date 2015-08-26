@@ -117,6 +117,25 @@ public class FarmDao {
         }
     }
 
+    /**
+     * 指定されたticketの宝箱情報を削除します.
+     *
+     * @param webPcNo 対象ユーザ
+     * @param tickets 削除対象宝箱のticket番号
+     */
+    public void deleteBoxes(long webPcNo, List<Long> tickets) throws SQLException {
+        Farm farm = query(webPcNo);
+        if (farm == null) {
+            return;
+        }
+
+        DeleteBuilder<FarmBox, Long> builder = farmBoxDao.deleteBuilder();
+        builder.where().eq("farm_id", farm)
+                .and().in("ticketNo", tickets);
+        PreparedDelete<FarmBox> query = builder.prepare();
+        farmBoxDao.delete(query);
+    }
+
     private void deleteGrasses(Farm farm) throws SQLException {
         DeleteBuilder<FarmGrass, Long> builder = farmGrassDao.deleteBuilder();
         builder.where().eq("farm_id", farm);
