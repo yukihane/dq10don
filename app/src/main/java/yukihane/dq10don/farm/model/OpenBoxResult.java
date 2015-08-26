@@ -2,10 +2,14 @@ package yukihane.dq10don.farm.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import lombok.Getter;
 import rx.Observable;
+import yukihane.dq10don.Utils;
 import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.Data;
+import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.ItemList;
 
 /**
  * Created by yuki on 15/08/26.
@@ -40,7 +44,32 @@ public class OpenBoxResult {
         List<Long> tickets = new ArrayList<>();
         Observable.from(data.getSuccessList())
                 .forEach(succ -> {
-                    messages.add(succ.getMessageText());
+                    // 赤箱にはメッセージがない
+                    // プレセント箱にはある
+                    final String msg;
+                    String containedMsg = succ.getMessageText();
+                    if (containedMsg == null || containedMsg.isEmpty() || containedMsg.equals("null")) {
+                        Map<String, Integer> gainedItems = new TreeMap<>();
+                        for (ItemList i : succ.getItemList()) {
+                            Integer count = gainedItems.get(i.getName());
+                            if (count == null) {
+                                count = i.getCount();
+                            } else {
+                                count += i.getCount();
+                            }
+                            gainedItems.put(i.getName(), count);
+                        }
+
+                        List<String> items = new ArrayList<>();
+                        for (String name : gainedItems.keySet()) {
+                            items.add(name + " " + gainedItems.get(name));
+                        }
+                        String itemText = Utils.join(", ", items);
+                        msg = "[" + itemText + "]";
+                    } else {
+                        msg = succ.getMessageText();
+                    }
+                    messages.add(msg);
                     tickets.add(succ.getTreasureboxTicket());
                 });
 
