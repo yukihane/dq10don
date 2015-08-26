@@ -108,12 +108,12 @@ public class FarmListServiceImpl implements FarmListService {
 
         Farm farm = FarmDao.create(dbHelper).query(webPcNo);
         if (farm == null) {
-            return new ArrayList<>(0);
+            return OpenBoxResult.EMPTY;
         }
 
         List<FarmBox> boxes = farm.getFarmBoxes();
         if (boxes.isEmpty()) {
-            return new ArrayList<>(0);
+            return OpenBoxResult.EMPTY;
         }
 
         List<TreasureboxTicket> tickets = new ArrayList<>(boxes.size());
@@ -132,13 +132,13 @@ public class FarmListServiceImpl implements FarmListService {
         gameService.login();
 
         OpenAllTreasureBoxDto dto = gameService.openAllTreasureBox(tickets);
-        List<String> messages = new ArrayList<>();
-        Observable.from(dto.getData().getSuccessList())
-                .map(succ -> succ.getMessageText())
-                .subscribe(text -> messages.add(text));
-        // TODO 失敗したものについても手当する必要がある
 
-        return messages;
+        // 失敗したものについてログ出力(エラーコードの全貌が分からない)
+        // 42302: 既に開けた宝箱に対して要求を行った
+        Observable.from(dto.getData().getFailList())
+                .forEach(failList -> LOGGER.info("open box error: {}", failList));
+
+        return OpenBoxResult.from(dto.getData());
     }
 
     /**
