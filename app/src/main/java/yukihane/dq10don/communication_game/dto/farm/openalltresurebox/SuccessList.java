@@ -124,4 +124,12 @@ public class SuccessList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "SuccessList{" +
+                "treasureboxTicket=" + treasureboxTicket +
+                ", type='" + type + '\'' +
+                ", messageText='" + messageText + '\'' +
+                '}';
+    }
 }
