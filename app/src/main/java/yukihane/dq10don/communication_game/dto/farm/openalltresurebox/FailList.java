@@ -99,4 +99,12 @@ public class FailList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "FailList{" +
+                "treasureboxTicket=" + treasureboxTicket +
+                ", type='" + type + '\'' +
+                ", errorCode='" + errorCode + '\'' +
+                '}';
+    }
 }
