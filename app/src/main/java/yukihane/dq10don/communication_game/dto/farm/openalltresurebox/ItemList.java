@@ -122,4 +122,12 @@ public class ItemList {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "ItemList{" +
+                "name='" + name + '\'' +
+                ", itemId='" + itemId + '\'' +
+                ", count=" + count +
+                '}';
+    }
 }
