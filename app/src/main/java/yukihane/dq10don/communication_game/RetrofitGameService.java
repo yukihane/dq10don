@@ -32,6 +32,6 @@ public interface RetrofitGameService {
     MowGrassDto mowGrass(@Field("data") String data);
 
     @FormUrlEncoded
-    @POST("/farm/openalltresurebox")
-    OpenAllTreasureBoxDto openAllTresureBox(@Field("data") String data);
+    @POST("/farm/openalltreasurebox")
+    OpenAllTreasureBoxDto openAllTreasureBox(@Field("data") String data);
 }

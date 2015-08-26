@@ -159,7 +159,8 @@ public class GameServiceWrapper implements GameService, RequestInterceptor {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String treasureboxTicketList = mapper.writeValueAsString(param);
-            OpenAllTreasureBoxDto res = service.openAllTresureBox(treasureboxTicketList);
+            LOGGER.debug("send treasureboxTicketList: {}", treasureboxTicketList);
+            OpenAllTreasureBoxDto res = service.openAllTreasureBox(treasureboxTicketList);
             if (!RESULT_SUCCESS.equals(res.getResultCode())) {
                 LOGGER.error("GameService openAllTreasureBox error resultCode: {}",
                         res.getResultCode());
