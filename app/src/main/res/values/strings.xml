@@ -84,7 +84,7 @@
   <string name="nonexist">無</string>
   <string name="text_farm_open_box">開箱</string>
   <string name="text_farm_mow">刈草</string>
-  <string name="mowed">メダル %1$d個, 経験値 %2$d, その他 %3$d\nを取得しました</string>
+  <string name="mowed">コイン %1$d個, 経験値 %2$d, その他 %3$d\nを取得しました</string>
   <string name="text_unit">個</string>
   <string name="text_over">以上</string>
   <string name="text_openbox_summary">成功 %1$d件, 失敗 %2$d件</string>
