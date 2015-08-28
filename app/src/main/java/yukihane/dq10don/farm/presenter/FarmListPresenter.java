@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -16,7 +15,6 @@ import yukihane.dq10don.base.model.BaseServiceFactory;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.presenter.CharacterDto;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.db.FarmDao;
 import yukihane.dq10don.exception.AppException;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.farm.model.FarmListService;
@@ -56,10 +54,6 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
             try {
 
                 MowResult res = service.mowAllGrasses(getCharacter().getWebPcNo());
-                FarmDao farmDao = FarmDao.create(getDbHelper());
-
-                // 刈り終わったのでデータベースから削除しておく
-                farmDao.deleteGrasses(getCharacter().getWebPcNo());
 
                 subscriber.onNext(res);
                 subscriber.onCompleted();
@@ -90,6 +84,8 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
                     getView().onGrassMowed(data);
                 }
                 getView().setLoadingState(false);
+
+                updateList(false, false);
             }
         });
     }
@@ -106,14 +102,6 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
             try {
 
                 OpenBoxResult res = service.openAllTreasureBox(getCharacter().getWebPcNo());
-
-                List<Long> successTickets = res.getSuccessTickets();
-                if (!successTickets.isEmpty()) {
-                    FarmDao farmDao = FarmDao.create(getDbHelper());
-
-                    // 正常に開け終わった宝箱をDBから削除
-                    farmDao.deleteBoxes(getCharacter().getWebPcNo(), res.getSuccessTickets());
-                }
 
                 subscriber.onNext(res);
                 subscriber.onCompleted();
@@ -144,6 +132,8 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
                     getView().onBoxOpened(data);
                 }
                 getView().setLoadingState(false);
+
+                updateList(false, false);
             }
         });
     }

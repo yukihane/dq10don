@@ -108,7 +108,7 @@ public abstract class BasePresenter<T, V extends BasePresenter.View<T>, S extend
      * @param useInvalidFlag 対象キャラクターのinvalid状況にかかわらず,
      *                       (必要に応じて)サーバーリクエストを行うならfalse.
      */
-    private void updateList(boolean useCache, boolean useInvalidFlag) {
+    protected final void updateList(boolean useCache, boolean useInvalidFlag) {
 
         view.setLoadingState(true);
 
