@@ -26,6 +26,7 @@ import yukihane.dq10don.exception.HappyServiceException;
 import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
 import static yukihane.dq10don.communication.HappyServiceResultCode.INGAME;
 import static yukihane.dq10don.communication.HappyServiceResultCode.NORMAL;
+import static yukihane.dq10don.communication.HappyServiceResultCode.NO_SUCH_CHARACTER;
 import static yukihane.dq10don.communication.HappyServiceResultCode.OUT_OF_SERVICE;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSUQUEST_NEVER_ACCEPTED;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSU_SLOW_SERVICE;
@@ -70,6 +71,8 @@ public class ViewUtils {
                         return context.getString(R.string.happy_106);
                     case TRIAL_RESTRICTED:
                         return context.getString(R.string.happy_113);
+                    case NO_SUCH_CHARACTER:
+                        return context.getString(R.string.happy_1005);
                     case HOUSEBAZAAR_UNSET:
                         return context.getString(R.string.happy_12009);
                     case TOBATSU_SLOW_SERVICE:
