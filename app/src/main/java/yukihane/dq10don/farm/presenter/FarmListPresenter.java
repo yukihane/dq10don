@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -13,18 +11,15 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import yukihane.dq10don.DonSchedulers;
 import yukihane.dq10don.account.Farm;
-import yukihane.dq10don.account.FarmGrass;
 import yukihane.dq10don.base.model.BaseServiceFactory;
 import yukihane.dq10don.base.presenter.BasePresenter;
 import yukihane.dq10don.base.presenter.CharacterDto;
 import yukihane.dq10don.db.DbHelperFactory;
-import yukihane.dq10don.db.FarmDao;
 import yukihane.dq10don.exception.AppException;
-import yukihane.dq10don.exception.ApplicationException;
-import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 import yukihane.dq10don.farm.model.FarmListService;
 import yukihane.dq10don.farm.model.MowResult;
+import yukihane.dq10don.farm.model.OpenBoxResult;
 
 /**
  * Created by yuki on 2015/08/17.
@@ -49,23 +44,6 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
     public void mowGrasses() {
 
-        Farm farm = getDisplayTarget();
-        if (farm == null) {
-            return;
-        }
-
-        List<FarmGrass> grasses = farm.getFarmGrasses();
-        if (grasses.isEmpty()) {
-            return;
-        }
-
-        List<Long> tickets = new ArrayList<>(grasses.size());
-        Observable.from(grasses)
-                .map(grass -> grass.getGrassTicket())
-                .subscribe(ticket -> {
-                    tickets.add(ticket);
-                });
-
         getView().setLoadingState(true);
 
         Observable<MowResult> observable
@@ -75,11 +53,7 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
             FarmListService service = getService();
             try {
 
-                MowResult res = service.mowGrasses(getCharacter().getWebPcNo(), tickets);
-                FarmDao farmDao = FarmDao.create(getDbHelper());
-
-                // 刈り終わったのでデータベースから削除しておく
-                farmDao.deleteGrasses(farm);
+                MowResult res = service.mowAllGrasses(getCharacter().getWebPcNo());
 
                 subscriber.onNext(res);
                 subscriber.onCompleted();
@@ -101,17 +75,7 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
             @Override
             public void onError(Throwable e) {
-                LOGGER.error("list query error", e);
-                if (e instanceof HappyServiceException) {
-                    HappyServiceException ex = (HappyServiceException) e;
-                    getView().showMessage(ex);
-                } else if (e instanceof ApplicationException) {
-                    ApplicationException ex = (ApplicationException) e;
-                    getView().showMessage(ex.getErrorCode());
-                } else {
-                    getView().showMessage(ErrorCode.ERROR);
-                }
-                getView().setLoadingState(false);
+                handleServiceError(e);
             }
 
             @Override
@@ -120,17 +84,72 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
                     getView().onGrassMowed(data);
                 }
                 getView().setLoadingState(false);
+
+                updateList(false, false);
+            }
+        });
+    }
+
+    public void openBoxes() {
+
+        getView().setLoadingState(true);
+
+        Observable<OpenBoxResult> observable
+                = Observable.create((Subscriber<? super OpenBoxResult> subscriber) -> {
+            subscriber.onStart();
+
+            FarmListService service = getService();
+            try {
+
+                OpenBoxResult res = service.openAllTreasureBox(getCharacter().getWebPcNo());
+
+                subscriber.onNext(res);
+                subscriber.onCompleted();
+            } catch (AppException | SQLException e) {
+                subscriber.onError(e);
+            }
+        }).subscribeOn(DonSchedulers.happyServer());
+
+
+        getView().bind(observable);
+
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<OpenBoxResult>() {
+            private OpenBoxResult data;
+
+            @Override
+            public void onNext(OpenBoxResult data) {
+                this.data = data;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                handleServiceError(e);
+            }
+
+            @Override
+            public void onCompleted() {
+                if (data != null && data != OpenBoxResult.EMPTY) {
+                    getView().onBoxOpened(data);
+                }
+                getView().setLoadingState(false);
+
+                updateList(false, false);
             }
         });
     }
 
     public interface View extends BasePresenter.View<Farm> {
         /**
-         * 草が刈られた
+         * 草が刈られた.
          *
          * @param res 刈った草から得られたもの
          */
         void onGrassMowed(MowResult res);
+
+        /**
+         * 宝箱が開けられた.
+         */
+        void onBoxOpened(OpenBoxResult res);
     }
 
     private static class NullView implements View {
@@ -160,6 +179,10 @@ public class FarmListPresenter extends BasePresenter<Farm, FarmListPresenter.Vie
 
         @Override
         public void onGrassMowed(MowResult res) {
+        }
+
+        @Override
+        public void onBoxOpened(OpenBoxResult res) {
         }
     }
 }

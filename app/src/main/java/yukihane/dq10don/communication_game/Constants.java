@@ -9,6 +9,14 @@ public final class Constants {
     public static final String HEADER_CASINOTOKEN = "x-smile-3ds-casinotoken";
     public static final String RESULT_SUCCESS = "0";
 
+
+    public static final String ID_MEDAL = "1_medal";
+    public static final String ID_EXP = "exp";
+    public static final String ID_FUKUBIKI = "2390";
+
+    public static final String BOXTYPE_PRESENT = "present";
+    public static final String BOXTYPE_RED = "red";
+
     private Constants() {
     }
 

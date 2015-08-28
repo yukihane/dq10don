@@ -16,6 +16,12 @@ public final class HappyServiceResultCode {
      * [finish]現在のプレイ環境では　この機能は\n使用制限されています。\n正式なプレイ環境となれば\nこの機能も　お使いいただけます。
      */
     public static final int TRIAL_RESTRICTED = 113;
+
+    /**
+     * 引っ越ししたキャラクターに対して発生したので, おそらく該当キャラが存在しない場合のエラーコード.
+     * 本アプリとしては再ログイン処理を行ってキャラ一覧を更新する必要がある.
+     */
+    public static final int NO_SUCH_CHARACTER = 1005;
     /**
      * モーモンバザーを設置していない.
      */

@@ -1,6 +1,9 @@
 package yukihane.dq10don;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -12,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 import retrofit.RetrofitError;
@@ -19,11 +23,14 @@ import retrofit.client.Response;
 import yukihane.dq10don.exception.ErrorCode;
 import yukihane.dq10don.exception.HappyServiceException;
 
-import static yukihane.dq10don.communication.HappyServiceResultCode.*;
+import static yukihane.dq10don.communication.HappyServiceResultCode.HOUSEBAZAAR_UNSET;
 import static yukihane.dq10don.communication.HappyServiceResultCode.INGAME;
 import static yukihane.dq10don.communication.HappyServiceResultCode.NORMAL;
+import static yukihane.dq10don.communication.HappyServiceResultCode.NO_SUCH_CHARACTER;
+import static yukihane.dq10don.communication.HappyServiceResultCode.OUT_OF_SERVICE;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSUQUEST_NEVER_ACCEPTED;
 import static yukihane.dq10don.communication.HappyServiceResultCode.TOBATSU_SLOW_SERVICE;
+import static yukihane.dq10don.communication.HappyServiceResultCode.TRIAL_RESTRICTED;
 
 /**
  * Created by yuki on 15/07/22.
@@ -36,6 +43,16 @@ public class ViewUtils {
     private static final String KEY_ADUNITID = "adUnitId";
 
     private ViewUtils() {
+    }
+
+
+    /**
+     * 超便利ツールを起動するためのintentを生成します.
+     * インストールされていなければnullが返ります.
+     */
+    public static Intent createDqxToolsIntent(Context context) {
+        PackageManager pm = context.getPackageManager();
+        return pm.getLaunchIntentForPackage("com.square_enix.dqxtools");
     }
 
     public static String getHappyServiceErrorMsg(Context context, HappyServiceException ex) {
@@ -54,6 +71,8 @@ public class ViewUtils {
                         return context.getString(R.string.happy_106);
                     case TRIAL_RESTRICTED:
                         return context.getString(R.string.happy_113);
+                    case NO_SUCH_CHARACTER:
+                        return context.getString(R.string.happy_1005);
                     case HOUSEBAZAAR_UNSET:
                         return context.getString(R.string.happy_12009);
                     case TOBATSU_SLOW_SERVICE:

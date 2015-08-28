@@ -16,6 +16,7 @@
   <string name="title_activity_debug">デバッグ</string>
   <string name="action_exportlog">ログをエクスポート</string>
   <string name="action_tokenapp">トークン起動</string>
+  <string name="action_dqxtools">超便利ツール起動</string>
   <string name="add">追加</string>
   <string name="relogin">再ログイン</string>
   <string name="remove">削除</string>
@@ -46,6 +47,7 @@
   <string name="text_auth_failed">認証失敗しました</string>
   <string name="happy_106">ログイン中は処理できません</string>
   <string name="happy_113">体験版では使用不可です</string>
+  <string name="happy_1005">ID管理画面で再ログインを行ってください</string>
   <string name="happy_12009">モーモンバザーを設置していません</string>
   <string name="happy_22001">しばらくしてから再実行してください</string>
   <string name="happy_22002">討伐受注不可キャラです</string>
@@ -81,8 +83,10 @@
   <string name="unanchorable">[可]</string>
   <string name="exist">有</string>
   <string name="nonexist">無</string>
+  <string name="text_farm_open_box">開箱</string>
   <string name="text_farm_mow">刈草</string>
-  <string name="mowed">メダル %1$d個, 経験値 %2$d, その他 %3$d\nを取得しました</string>
+  <string name="mowed">コイン %1$d個, 経験値 %2$d, その他 %3$d\nを取得しました</string>
   <string name="text_unit">個</string>
   <string name="text_over">以上</string>
+  <string name="text_openbox_summary">成功 %1$d件, 失敗 %2$d件</string>
 </resources>

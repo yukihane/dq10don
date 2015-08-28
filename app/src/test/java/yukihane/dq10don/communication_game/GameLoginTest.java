@@ -7,11 +7,15 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import yukihane.dq10don.communication.utils.HttpUtil;
 import yukihane.dq10don.communication.utils.SessionProperties;
@@ -23,6 +27,22 @@ import yukihane.dq10don.communication_game.dto.login.GameLoginDto;
 public class GameLoginTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameLoginTest.class);
+
+    private static String OPENBOX_REQUEST;
+
+    @BeforeClass
+    public static void readResourcesFromFile() throws IOException {
+        InputStream boxRequest = GameLoginTest.class.getClassLoader()
+                .getResourceAsStream("openalltreasurebox_request.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(boxRequest, "UTF-8"));
+            OPENBOX_REQUEST = reader.readLine();
+        } finally {
+            if (boxRequest != null) {
+                boxRequest.close();
+            }
+        }
+    }
 
     @Test
     public void testGameLogin() {
@@ -88,6 +108,19 @@ public class GameLoginTest {
             response = client.newCall(req).execute();
             body = response.body().string();
             LOGGER.info("mowgrass: {}", body);
+
+            requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"),
+                    OPENBOX_REQUEST);
+            req = new Request.Builder()
+                    .url("https://game.happy.dqx.jp/api/farm/openalltreasurebox")
+                    .header(HttpUtil.HEADER_SESSION, sessionId)
+                    .header(HttpUtil.HEADER_FARMTOKEN, farmToken)
+                    .header(HttpUtil.HEADER_CASINOTOKEN, farmToken)
+                    .post(requestBody)
+                    .build();
+            response = client.newCall(req).execute();
+            body = response.body().string();
+            LOGGER.info("openalltreasurebox: {}", body);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

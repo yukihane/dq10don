@@ -5,20 +5,26 @@ import org.slf4j.LoggerFactory;
 
 import java.net.HttpURLConnection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit.client.Response;
+import rx.Observable;
 import yukihane.dq10don.Utils;
 import yukihane.dq10don.account.Account;
 import yukihane.dq10don.account.Character;
 import yukihane.dq10don.account.Farm;
+import yukihane.dq10don.account.FarmBox;
+import yukihane.dq10don.account.FarmGrass;
 import yukihane.dq10don.communication.HappyService;
 import yukihane.dq10don.communication.HappyServiceFactory;
 import yukihane.dq10don.communication_game.GameService;
 import yukihane.dq10don.communication_game.GameServiceFactory;
+import yukihane.dq10don.communication_game.TreasureboxTicket;
 import yukihane.dq10don.communication_game.dto.farm.info.GameInfoDto;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.MowGrassDto;
+import yukihane.dq10don.communication_game.dto.farm.openalltresurebox.OpenAllTreasureBoxDto;
 import yukihane.dq10don.communication_game.dto.time.ServerTimeDto;
 import yukihane.dq10don.db.AccountDao;
 import yukihane.dq10don.db.DbHelper;
@@ -58,12 +64,32 @@ public class FarmListServiceImpl implements FarmListService {
     }
 
     @Override
-    public MowResult mowGrasses(long webPcNo, List<Long> tickets) throws SQLException, AppException {
+    public MowResult mowAllGrasses(long webPcNo) throws SQLException, AppException {
         AccountDao accountDao = AccountDao.create(dbHelper);
         Character character = accountDao.findCharacterByWebPcNo(webPcNo);
 
+        Farm farm = FarmDao.create(dbHelper).query(webPcNo);
+        if (farm == null) {
+            return MowResult.EMPTY;
+        }
+        List<FarmGrass> grasses = farm.getFarmGrasses();
+        if (grasses.isEmpty()) {
+            return MowResult.EMPTY;
+        }
+
+        List<Long> tickets = new ArrayList<>(grasses.size());
+        Observable.from(grasses)
+                .map(grass -> grass.getGrassTicket())
+                .subscribe(ticket -> {
+                    tickets.add(ticket);
+                });
+
+        return mowGrasses(character, tickets);
+    }
+
+    private MowResult mowGrasses(Character character, List<Long> tickets) throws HappyServiceException {
         String sessionId = character.getAccount().getSessionId();
-        LOGGER.info("update target character: {}", character);
+        LOGGER.info("mowGrasses target character: {}", character);
         HappyService service = HappyServiceFactory.getService(sessionId);
         service.characterSelect(character.getWebPcNo());
         service.farmLogin();
@@ -73,6 +99,51 @@ public class FarmListServiceImpl implements FarmListService {
 
         MowGrassDto mowGrassDto = gameService.mowGrass(tickets);
         return MowResult.from(mowGrassDto.getData().getItemList());
+    }
+
+    @Override
+    public OpenBoxResult openAllTreasureBox(long webPcNo) throws SQLException, HappyServiceException {
+        AccountDao accountDao = AccountDao.create(dbHelper);
+        Character character = accountDao.findCharacterByWebPcNo(webPcNo);
+
+        Farm farm = FarmDao.create(dbHelper).query(webPcNo);
+        if (farm == null) {
+            return OpenBoxResult.EMPTY;
+        }
+
+        List<FarmBox> boxes = farm.getFarmBoxes();
+        if (boxes.isEmpty()) {
+            return OpenBoxResult.EMPTY;
+        }
+
+        List<TreasureboxTicket> tickets = new ArrayList<>(boxes.size());
+        Observable.from(boxes)
+                .map(box -> TreasureboxTicket.from(box, webPcNo, character.getCharacterName()))
+                .subscribe(ticket -> tickets.add(ticket));
+
+
+        String sessionId = character.getAccount().getSessionId();
+        LOGGER.info("openAllTreasureBox target character: {}", character);
+        HappyService service = HappyServiceFactory.getService(sessionId);
+        service.characterSelect(character.getWebPcNo());
+        service.farmLogin();
+
+        GameService gameService = GameServiceFactory.getService(sessionId);
+        gameService.login();
+
+        OpenAllTreasureBoxDto dto = gameService.openAllTreasureBox(tickets);
+
+        Observable.from(dto.getData().getSuccessList())
+                .forEach(succ -> LOGGER.info("open box success: {}", succ));
+
+        // 失敗したものについてログ出力(エラーコードの全貌が分からない)
+        // 40000: パラメータ誤り
+        // 42302: 既に開けた宝箱に対して要求を行った
+        // 44015: 倉庫がいっぱい
+        Observable.from(dto.getData().getFailList())
+                .forEach(failList -> LOGGER.info("open box error: {}", failList));
+
+        return OpenBoxResult.from(dto.getData());
     }
 
     /**

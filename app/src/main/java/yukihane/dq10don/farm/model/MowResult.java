@@ -8,15 +8,17 @@ import java.util.List;
 import lombok.Getter;
 import yukihane.dq10don.communication_game.dto.farm.mowgrass.ItemList;
 
+import static yukihane.dq10don.communication_game.Constants.ID_EXP;
+import static yukihane.dq10don.communication_game.Constants.ID_MEDAL;
+
 /**
  * Created by yuki on 15/08/25.
  */
 public class MowResult {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MowResult.class);
+    public static final MowResult EMPTY = new MowResult(0, 0, 0);
 
-    private static final String ID_MEDAL = "1_medal";
-    private static final String ID_EXP = "exp";
+    private static final Logger LOGGER = LoggerFactory.getLogger(MowResult.class);
 
     @Getter
     private final int medalCount;
@@ -25,7 +27,7 @@ public class MowResult {
     @Getter
     private final int otherCount;
 
-    private MowResult(int medalCount, int expCount, int otherCount) {
+    MowResult(int medalCount, int expCount, int otherCount) {
         this.medalCount = medalCount;
         this.expCount = expCount;
         this.otherCount = otherCount;
