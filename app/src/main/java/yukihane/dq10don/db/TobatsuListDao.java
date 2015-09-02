@@ -154,6 +154,10 @@ public class TobatsuListDao {
         }
     }
 
+    /**
+     * @param issuedDate この発効日の最高額依頼を求める.
+     * @param webPcNos   nullの場合は全員が対象で, 空の場合は対象なしになることに注意.
+     */
     public TobatsuItem max(String issuedDate, Collection<Long> webPcNos) throws SQLException {
         if (webPcNos != null && webPcNos.isEmpty()) {
             return null;
