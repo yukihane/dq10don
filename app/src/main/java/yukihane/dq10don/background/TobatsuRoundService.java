@@ -93,6 +93,7 @@ public class TobatsuRoundService extends IntentService {
                 Bundle bundle = new Bundle();
                 bundle.putInt(KEY_RETRY, retry + 1);
                 bundle.putInt(KEY_POINT, res.getMaxPoint());
+                bundle.putString(KEY_ISSUED_DATE, res.getIssuedDate());
                 bundle.putString(KEY_TEXT, res.getText());
                 bundle.putStringArrayList(KEY_WEBPCNO, res.getRemains());
                 setRetryAlarm(bundle);
