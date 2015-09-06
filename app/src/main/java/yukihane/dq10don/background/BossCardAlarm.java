@@ -6,13 +6,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by yuki on 15/08/03.
@@ -26,8 +24,9 @@ public class BossCardAlarm {
 
         AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        // 初回は5分後, 以後半日(12時間)ごとにチェックする.
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR, 12);
+        cal.add(Calendar.MINUTE, 5);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_HALF_DAY, alarmIntent);
