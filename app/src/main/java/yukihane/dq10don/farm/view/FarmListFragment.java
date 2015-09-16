@@ -85,8 +85,11 @@ public class FarmListFragment extends BaseFragment<
         // 船旅
         String nextSailoutDt = data.getNextSailoutDt();
         String nextSailoutDtText;
-        // デフォルトのテキスト色
-        ColorStateList textColors = updateDateView.getTextColors();
+
+        final ColorStateList defTextColors = updateDateView.getTextColors();
+        final ColorStateList highlightColors = ColorStateList.valueOf(Color.BLUE);
+
+        ColorStateList textColors = defTextColors;
         if (nextSailoutDt == null || nextSailoutDt.isEmpty()) {
             nextSailoutDtText = "";
         } else {
@@ -94,7 +97,7 @@ public class FarmListFragment extends BaseFragment<
             nextSailoutDtText = sdf.format(date);
             if (date.compareTo(data.getLastUpdateDate()) <= 0) {
                 nextSailoutDtText += " " + getText(R.string.unanchorable);
-                textColors = ColorStateList.valueOf(Color.BLUE);
+                textColors = highlightColors;
             }
         }
         TextView nextSailoutDtView = (TextView) getView().findViewById(R.id.farmNextSailoutDt);
@@ -117,6 +120,8 @@ public class FarmListFragment extends BaseFragment<
         int isFriendBlueBoxId = data.isFriendBlueBox() ? R.string.exist : R.string.nonexist;
         TextView isFriendBlueBoxView = (TextView) getView().findViewById(R.id.farmIsFriendBlueBox);
         isFriendBlueBoxView.setText(getString(isFriendBlueBoxId));
+        textColors = data.isFriendBlueBox() ? highlightColors : defTextColors;
+        isFriendBlueBoxView.setTextColor(textColors);
 
         // 宝箱
         Date farmBoxNearestLimit = data.getFarmBoxNearestLimit();
