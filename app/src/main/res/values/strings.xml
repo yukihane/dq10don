@@ -1,4 +1,5 @@
 <resources>
+  <string name="version">3.1.3</string>
   <string name="app_name">日替丼</string>
   <string name="app_formal_name">日替丼 for DQX</string>
   <string name="title_activity_sqexid">ID管理</string>

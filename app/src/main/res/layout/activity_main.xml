@@ -6,6 +6,12 @@
   android:orientation="vertical"
   >
 
+  <TextView
+    android:id="@+id/versionTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/version"/>
+
   <Button
     android:id="@+id/launchSqexidButton"
     android:layout_width="fill_parent"
