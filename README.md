@@ -24,3 +24,8 @@
 * test case は管理対象外のファイルが多く基本的に正常実行できません。また他者管理サーバへリモートアクセスするテストケースもあります。ビルドの際にはtestディレクトリ以下を削除してしまってください。
 * [Fabric](https://fabric.io/)及び[Twitter(Twitter4J経由)](https://dev.twitter.com/)のアクセス用トークンはリポジトリ管理していません。正しく動作させるには該当箇所を削除するか、自身のトークンを設定する必要があるでしょう。
 
+
+### ギャラリー:
+
+|<img src="https://github.com/yukihane/dq10don/wiki/images/01tobatsu.png" width="256x"/>| <img src="https://github.com/yukihane/dq10don/wiki/images/03farm.png" width="256x"/>|
+|<img src="https://github.com/yukihane/dq10don/wiki/images/02bosscard.png" width="256x"/>| <img src="https://github.com/yukihane/dq10don/wiki/images/02bosscard-notification.png" width="256x"/>|
