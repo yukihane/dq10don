@@ -1,8 +1,6 @@
 日替丼 for DQX
 ================
 
-[Install from Google Play Store](https://play.google.com/store/apps/details?id=yukihane.dq10don)
-
 日替わり討伐依頼(大国)を毎朝チェックし最高額の依頼を通知する、ドラゴンクエストXユーザーのための非公式アプリケーションです。
 
 機能:
