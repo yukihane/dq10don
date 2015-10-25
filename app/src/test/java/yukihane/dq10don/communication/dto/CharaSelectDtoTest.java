@@ -37,14 +37,14 @@ public class CharaSelectDtoTest {
     @Test
     public void testCreateSuccess() throws IOException {
         CharaSelectDto res = mapper.readValue(successFile, CharaSelectDto.class);
-        assertEquals(0, res.getResultCode());
+        assertEquals(0, res.getResultCode().intValue());
         assertEquals("hogeHoge", res.getEncWebPcNo());
     }
 
     @Test
     public void testCreateFail() throws IOException {
         CharaSelectDto res = mapper.readValue(failFile, CharaSelectDto.class);
-        assertEquals(100, res.getResultCode());
+        assertEquals(100, res.getResultCode().intValue());
         assertNull(res.getEncWebPcNo());
     }
 }

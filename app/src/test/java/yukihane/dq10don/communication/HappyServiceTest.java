@@ -23,7 +23,7 @@ public class HappyServiceTest {
         HttpUtil util = new HttpUtil();
         service = HappyServiceFactory.getService(util.getSessionId());
         CharaSelectDto sel = service.characterSelect(util.getLoginInfo().getCharacterList().get(0).getWebPcNo());
-        assertEquals(0, sel.getResultCode());
+        assertEquals(0, sel.getResultCode().intValue());
     }
 
     @Test
