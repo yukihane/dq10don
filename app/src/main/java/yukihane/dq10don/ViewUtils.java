@@ -39,7 +39,6 @@ public class ViewUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewUtils.class);
 
-    private static final String ADMOB_PROPERTIES_FILE = "assets/admob.properties";
     private static final String KEY_ADUNITID = "adUnitId";
 
     private ViewUtils() {
@@ -117,47 +116,5 @@ public class ViewUtils {
             default:
                 return context.getString(R.string.text_error);
         }
-    }
-
-
-    public static AdView createAdView(Context context) {
-        AdView adView = new AdView(context);
-
-        URL adprops = ViewUtils.class.getClassLoader().getResource(ADMOB_PROPERTIES_FILE);
-        InputStream is = null;
-        try {
-            is = adprops.openStream();
-            Properties props = new Properties();
-            props.load(is);
-            String adUnitId = props.getProperty(KEY_ADUNITID);
-            LOGGER.debug("addUnitId: {}", adUnitId);
-            adView.setAdUnitId(adUnitId);
-        } catch (IOException e) {
-            LOGGER.error("admob.properties error", e);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        adView.setAdSize(AdSize.SMART_BANNER);
-
-        return adView;
-    }
-
-    public static AdRequest.Builder createAdRequestBuilder() {
-        AdRequest.Builder builder = new AdRequest.Builder();
-        builder.addKeyword("ドラゴンクエスト")
-                .addKeyword("DQX")
-                .addKeyword("WiiU")
-                .addKeyword("3DS")
-                .addKeyword("任天堂")
-                .addKeyword("スクウェア・エニックス");
-
-        return builder;
     }
 }

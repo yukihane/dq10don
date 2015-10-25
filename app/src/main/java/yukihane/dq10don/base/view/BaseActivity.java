@@ -53,13 +53,6 @@ public abstract class BaseActivity<P extends BaseActivityPresenter, A extends Ba
 
         viewPager.setAdapter(pagerAdapter);
 
-        AdView adView = ViewUtils.createAdView(this);
-        ViewGroup adLayout = (ViewGroup) findViewById(R.id.adViewLayout);
-        adLayout.addView(adView);
-
-        AdRequest.Builder adBuilder = ViewUtils.createAdRequestBuilder();
-        adView.loadAd(adBuilder.build());
-
         presenter.onCreate(savedInstanceState == null);
     }
 
